@@ -1,0 +1,62 @@
+parameters:
+- name: armPath
+  type: string 
+  default: "."
+- name: subscriptionId
+  type: string 
+  default: "00000000-0000-0000-0000-000000000000"
+- name: subscriptionService
+  type: string 
+  default: 'COMPANY-PRODUCT-001'
+- name: rgName
+  type: string 
+  default: 'rg-PRODUCT-001'
+- name: rgLocation
+  type: string 
+  default: "West US 3"
+- name: rgEnvironment
+  type: string 
+  default: 'Development'
+- name: cogName
+  type: string 
+  default: "cog-PRODUCT-ENVIRONMENT-001"
+- name: cogSku
+  type: string 
+  default: "S0" #standard
+- name: cogtextName
+  type: string
+  default: "cogtext-PRODUCT-ENVIRONMENT-001"
+- name: cogtextSku
+  type: string 
+  default: "F0" #standard
+
+steps:
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Validate ${{ parameters.cogName }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/cog-cognitiveservices.json"        
+        csmParametersFile: "${{ parameters.armPath }}/cog-cognitiveservices.parameters.json"        
+        deploymentMode: "Incremental"
+        overrideParameters: -name "${{ parameters.cogName }}" -sku "${{ parameters.cogSku }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Validate ${{ parameters.cogtextName }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/cogtext-textanalytics.json"        
+        csmParametersFile: "${{ parameters.armPath }}/cogtext-textanalytics.parameters.json"        
+        deploymentMode: "Incremental"
+        overrideParameters: -name "${{ parameters.cogtextName }}" -sku "${{ parameters.cogtextSku }}"

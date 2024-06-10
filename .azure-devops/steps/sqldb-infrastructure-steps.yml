@@ -1,0 +1,67 @@
+parameters:
+  - name: armPath
+    type: string 
+    default: "."
+  - name: subscriptionId
+    type: string 
+    default: "00000000-0000-0000-0000-000000000000"
+  - name: subscriptionService
+    type: string 
+    default: 'COMPANY-PRODUCT-001'
+  - name: rgName
+    type: string 
+    default: 'rg-PRODUCT-001'
+  - name: rgLocation
+    type: string 
+    default: "West US 3"
+  - name: sqlName
+    type: string 
+    default: "sql-PRODUCT-ENVIRONMENT-001"
+  - name: sqlUser
+    type: string 
+    default: "LocalAdmin"
+  - name: sqlPassword
+    type: string 
+  - name: sqldbName
+    type: string 
+    default: "sqldb-PRODUCT-ENVIRONMENT-001"
+  - name: sqldbSku
+    type: string 
+    default: "Basic"
+  - name: startIpAddress
+    type: string 
+    default: "0.0.0.0"
+  - name: endIpAddress
+    type: string 
+    default: "0.0.0.0"
+
+steps:
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Validate ${{ parameters.sqldbName }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/sqldb-sqldatabase.json"
+        csmParametersFile: "${{ parameters.armPath }}/sqldb-sqldatabase.parameters.json"
+        deploymentMode: "Validation"
+        overrideParameters: -name "${{ parameters.sqldbName }}" -sku "${{ parameters.sqldbSku }}" -adminLogin "${{ parameters.sqlUser }}" -adminPassword "${{ parameters.sqlPassword }}" -sqlName "${{ parameters.sqlName }}" -location "${{ parameters.rgLocation }}" -startIpAddress "${{ parameters.startIpAddress }}"  -endIpAddress "${{ parameters.endIpAddress }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Deploy ${{ parameters.sqldbName }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/sqldb-sqldatabase.json"
+        csmParametersFile: "${{ parameters.armPath }}/sqldb-sqldatabase.parameters.json"
+        deploymentMode: "Incremental"
+        overrideParameters: -name "${{ parameters.sqldbName }}" -sku "${{ parameters.sqldbSku }}" -adminLogin "${{ parameters.sqlUser }}" -adminPassword "${{ parameters.sqlPassword }}" -sqlName "${{ parameters.sqlName }}" -location "${{ parameters.rgLocation }}" -startIpAddress "${{ parameters.startIpAddress }}"  -endIpAddress "${{ parameters.endIpAddress }}"

@@ -1,0 +1,106 @@
+parameters:
+  - name: artifactsPath
+    type: string 
+    default: "."
+  - name: buildConfiguration
+    type: string 
+    default: "Release"
+  - name: dbContext 
+    type: string 
+  - name: dotnetVersion 
+    type: string 
+    default: "7.x"
+  - name: dotnetEfVersion
+    type: string 
+    default: "7.0.14"
+  - name: nugetPathFile
+    type: string 
+    default: ".nuget/NuGet.config"
+  - name: srcPath
+    type: string 
+    default: "."
+  - name: srcProjectMask
+    type: string 
+    default: "*.csproj"
+  - name: scriptsPath 
+    type: string 
+    default: "../scripts"
+  - name: sqldbFile
+    type: string 
+    default: "migration.sql"
+  - name: sqldbName
+    type: string 
+    default: "sqldb-PRODUCT-ENVIRONMENT-001"
+  - name: sqlName
+    type: string 
+    default: "sql-PRODUCT-ENVIRONMENT-001"
+  - name: sqlUser
+    type: string 
+    default: "LocalAdmin"
+  - name: sqlPassword
+    type: string
+  - name: efStartupPath
+    type: string 
+    default: "."
+  - name: subscriptionService
+    type: string 
+    default: 'COMPANY-PRODUCT-001'
+  - name: efTargetPath
+    type: string 
+    default: "."
+
+steps:
+  - task: UseDotNet@2
+    displayName: 'use .net ${{ parameters.dotnetVersion }}'
+    inputs:
+      packageType: 'sdk'
+      version: ${{ parameters.dotnetVersion }}
+      includePreviewVersions: true   
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: 'restore'
+      projects: |
+        ${{ parameters.srcPath }}/**/${{ parameters.srcProjectMask }}
+      feedsToUse: config
+      nugetConfigPath: ${{ parameters.nugetPathFile }}
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      projects: |
+        ${{ parameters.srcPath }}/**/${{ parameters.srcProjectMask }}
+      arguments: '--configuration ${{ parameters.buildConfiguration }}'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet tool install dotnet-ef'
+    inputs:
+      command: custom
+      custom: tool
+      arguments: 'install --global dotnet-ef --version ${{ parameters.dotnetEfVersion }}'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet ef migrations script'
+    inputs:
+      command: custom
+      custom: ef
+      arguments: 'migrations script -i -o ${{ parameters.artifactsPath }}/${{ parameters.sqldbFile }} -p ${{ parameters.efTargetPath }} -s ${{ parameters.efStartupPath }} -c ${{ parameters.dbContext }}' 
+
+  - task: SqlAzureDacpacDeployment@1
+    displayName: 'deploy SQL script'
+    inputs:
+      azureSubscription: '${{ parameters.subscriptionService }}'
+      deployType: 'SqlTask'
+      ServerName: '${{ parameters.sqlName }}.database.windows.net'
+      DatabaseName: '${{ parameters.sqldbName }}'
+      SqlUsername: '${{ parameters.sqlUser }}'
+      SqlPassword: '${{ parameters.sqlPassword }}'
+      SqlFile: '${{ parameters.artifactsPath }}/${{ parameters.sqldbFile }}'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      pathToPublish: '${{ parameters.artifactsPath }}'
+      artifactName: drop

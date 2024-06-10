@@ -1,0 +1,147 @@
+parameters:
+  - name: armPath
+    type: string 
+    default: "."
+  - name: subscriptionId
+    type: string 
+  - name: subscriptionService
+    type: string 
+  - name: rgName
+    type: string 
+  - name: rgLocation
+    type: string 
+  - name: appiName
+    type: string 
+  - name: kvName
+    type: string 
+  - name: stName
+    type: string 
+  - name: workLocation
+    type: string 
+  - name: workName
+    type: string 
+  - name: workResourceGroupName
+    type: string 
+  - name: workSubscriptionId
+    type: string 
+
+steps:
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Validate ${{ parameters.stName  }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/st-storageaccount.json"
+        csmParametersFile: "${{ parameters.armPath }}/st-storageaccount.parameters.json"
+        deploymentMode: "Validation"
+        overrideParameters: -name "${{ parameters.stName  }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Deploy ${{ parameters.stName  }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/st-storageaccount.json"
+        csmParametersFile: "${{ parameters.armPath }}/st-storageaccount.parameters.json"
+        deploymentMode: "Incremental"
+        overrideParameters: -name "${{ parameters.stName  }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Validate ${{ parameters.workName  }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.workSubscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.workResourceGroupName }}"
+        location: "${{ parameters.workLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/work-loganalyticsworkspace.json"
+        csmParametersFile: "${{ parameters.armPath }}/work-loganalyticsworkspace.parameters.json"
+        deploymentMode: "Validation"
+        overrideParameters: -name "${{ parameters.workName  }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Deploy ${{ parameters.workName  }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.workSubscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.workResourceGroupName }}"
+        location: "${{ parameters.workLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/work-loganalyticsworkspace.json"
+        csmParametersFile: "${{ parameters.armPath }}/work-loganalyticsworkspace.parameters.json"
+        deploymentMode: "Incremental"
+        overrideParameters: -name "${{ parameters.workName  }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Validate ${{ parameters.appiName }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/appi-applicationinsights.json"
+        csmParametersFile: "${{ parameters.armPath }}/appi-applicationinsights.parameters.json"
+        deploymentMode: "Validation"
+        overrideParameters: -name "${{ parameters.appiName }}" -workName "${{ parameters.workName }}" -workResourceGroupName "${{ parameters.workResourceGroupName }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Deploy ${{ parameters.appiName }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/appi-applicationinsights.json"
+        csmParametersFile: "${{ parameters.armPath }}/appi-applicationinsights.parameters.json"
+        deploymentMode: "Incremental"
+        overrideParameters: -name "${{ parameters.appiName }}" -workName "${{ parameters.workName }}" -workResourceGroupName "${{ parameters.workResourceGroupName }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Validate ${{ parameters.kvName  }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/kv-keyvault.json"
+        csmParametersFile: "${{ parameters.armPath }}/kv-keyvault.parameters.json"
+        deploymentMode: "Validation"
+        overrideParameters: -name "${{ parameters.kvName  }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Deploy ${{ parameters.kvName  }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/kv-keyvault.json"
+        csmParametersFile: "${{ parameters.armPath }}/kv-keyvault.parameters.json"
+        deploymentMode: "Incremental"
+        overrideParameters: -name "${{ parameters.kvName  }}"

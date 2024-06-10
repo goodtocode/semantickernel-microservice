@@ -1,0 +1,35 @@
+parameters:
+  - name: artifactsPath
+    type: string 
+    default: "."
+  - name: srcPath
+    type: string 
+    default: "."
+  - name: scriptsPath
+    type: string 
+    default: "../scripts"
+
+steps:
+  - task: NodeTool@0
+    displayName: Install Node.js
+    inputs:
+      versionSpec: '17.x'
+
+  - task: Npm@1
+    displayName: 'npm install'
+    inputs:
+      command: 'install'
+      workingDir: '${{ parameters.srcPath }}'
+
+  - task: Npm@1
+    displayName: 'npm run test'
+    inputs:
+      command: 'custom'
+      customCommand: 'run test'
+      workingDir: '${{ parameters.srcPath }}'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      pathToPublish: '${{ parameters.artifactsPath }}'
+      artifactName: drop

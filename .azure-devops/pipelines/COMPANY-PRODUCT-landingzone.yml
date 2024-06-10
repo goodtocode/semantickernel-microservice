@@ -1,0 +1,85 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*'
+  paths:
+    include:
+    - .azure/*
+
+pr:
+  branches:
+    exclude:
+    - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: subscriptionService
+    type: string 
+    default: "AZURE_DEVOPS_SERVICE_CONNECTION"
+
+variables:
+  - template: ../variables/common.yml
+      
+stages:
+  - stage: development
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+    variables:
+      - template: ../variables/development.yml
+
+    jobs:
+      - job: deploy_landing_zone
+        steps:
+          - template: ../steps/landingzone-infrastructure-steps.yml
+            parameters:
+              armPath: '$(armPath)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+              rgName: '$(rgName)'
+              rgLocation: '$(rgLocation)'
+              appiName: '$(appiName)'
+              kvName: '$(kvName)'
+              stName: '$(stName)'
+              workLocation: '$(rgLocation)'
+              workName: '$(workName)'
+              workResourceGroupName: '$(workResourceGroupName)'
+              workSubscriptionId: '$(subscriptionId)'
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: '${{ parameters.subscriptionService }}'
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az keyvault set-policy --name '$(kvName)' --object-id $(objectId) --secret-permissions get list
+
+  - stage: production
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    variables:
+      - template: ../variables/production.yml
+
+    jobs:
+      - job: deploy_landing_zone
+        steps:
+          - template: ../steps/landingzone-infrastructure-steps.yml
+            parameters:
+              armPath: '$(armPath)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+              rgName: '$(rgName)'
+              rgLocation: '$(rgLocation)'
+              appiName: '$(appiName)'
+              kvName: '$(kvName)'
+              stName: '$(stName)'
+              workLocation: '$(rgLocation)'
+              workName: '$(workName)'
+              workResourceGroupName: '$(workResourceGroupName)'
+              workSubscriptionId: '$(subscriptionId)'
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: '${{ parameters.subscriptionService }}'
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az keyvault set-policy --name '$(kvName)' --object-id $(objectId) --secret-permissions get list

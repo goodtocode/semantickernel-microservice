@@ -1,0 +1,36 @@
+<VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Microservices Quick-Start</Name>
+    <Description>GoodToCode Microservice template contains a simple microservice solution and pre-setup projects. Built with DDD on the SOLID porinciple.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>MyCo.Microservice</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectCollection>
+      <ProjectTemplateLink ProjectName="Microservice.Abstractions" CopyParameters="true">
+        Microservices.Core\MyTemplate.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="Microservice.Api" CopyParameters="true">
+        Microservices.Api\MyTemplate.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="Microservice.Application" CopyParameters="true">
+        Microservices.Application\MyTemplate.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="Microservice.Domain" CopyParameters="true">
+        Microservices.Domain\MyTemplate.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="Microservice.Persistence" CopyParameters="true">
+        Microservices.Infrastructure\MyTemplate.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="Microservice.Tests" CopyParameters="true">
+        Microservices.Tests\MyTemplate.vstemplate
+      </ProjectTemplateLink>
+    </ProjectCollection>
+  </TemplateContent>
+</VSTemplate>

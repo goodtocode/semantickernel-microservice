@@ -1,0 +1,51 @@
+parameters:
+  - name: artifactsPath
+    type: string 
+    default: "."
+  - name: srcPath
+    type: string 
+    default: "."
+  - name: srcProject
+    type: string 
+    default: "*.csproj"
+  - name: srcSolution
+    type: string 
+    default: "*.sln"
+  - name: nugetId
+    type: string 
+    default: "Nuget-Feed-GUID"
+  - name: nugetPathFile
+    type: string 
+    default: ".nuget/NuGet.config"
+  - name: buildConfiguration
+    type: string 
+    default: "Release"
+  - name: scriptsPath
+    type: string 
+    default: "../scripts"
+
+steps:
+  - task: NuGetCommand@2
+    displayName: 'nuget restore'
+    inputs:
+      command: 'restore'
+      feedsToUse: select
+      vstsFeed: '${{ parameters.nugetId }}'
+      restoreSolution: ${{ parameters.srcPath }}/**/${{ parameters.srcSolution }}
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: 'restore'
+      projects: |
+        ${{ parameters.srcPath }}/**/${{ parameters.srcProject }}
+      feedsToUse: config
+      nugetConfigPath: ${{ parameters.nugetPathFile }}
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      projects: |
+        ${{ parameters.srcPath }}/**/${{ parameters.srcProject }}
+      arguments: '--configuration ${{ parameters.buildConfiguration }}'

@@ -1,0 +1,30 @@
+parameters:
+- name: arguments
+  type: string
+  default: '--overwrite true'
+- name: containerName
+  type: string
+- name: filePath
+  type: string 
+  default: '.'
+- name: fileMask
+  type: string 
+  default: '*'
+- name: stName
+  type: string
+- name: subscriptionId
+  type: string
+- name: subscriptionService
+  type: string
+
+steps:
+  - task: AzureFileCopy@4
+    displayName: 'copy files to ${{ parameters.containerName }}'
+    inputs:
+      sourcePath: '${{ parameters.filePath }}/${{ parameters.fileMask }}'
+      azureSubscription: '${{ parameters.subscriptionId }}'
+      connectedServiceNameARM: '${{ parameters.subscriptionService }}'
+      destination: 'azureBlob'
+      storage: '${{ parameters.stName }}'
+      containerName: '${{ parameters.containerName }}'
+      additionalArgumentsForBlobCopy: '${{ parameters.arguments }}'

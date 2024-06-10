@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "GoodToCode",
+  "classifications": [ "Console" ],
+  "name": "GoodToCode Semantic Kernel v1",
+  "defaultName": "GoodToCode Semantic Kernel v1",
+  "identity": "GoodToCode.SemanticKernel.CSharp",
+  "shortName": "gtc-skv1",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "SemanticKernel",
+  "preferNameDirectory": true
+}

@@ -1,0 +1,46 @@
+parameters:
+  - name: rgEnvironment
+    type: string 
+    default: "rg-PRODUCT-001"
+  - name: integrationPath
+    type: string 
+    default: "."
+  - name: integrationProject
+    type: string 
+    default: "*.csproj"
+  - name: appcsConnection
+    type: string 
+    default: ""
+  - name: appcsEnvironmentVariable
+    type: string 
+    default: "AZURE_APP_CONFIGURATION_CONNECTION"
+  - name: stConnection
+    type: string 
+    default: ""
+  - name: stEnvironmentVariable
+    type: string 
+    default: "AZURE_STORAGE_CONNECTION"
+  - name: dotnetVersion
+    type: string 
+    default: "7.x"
+
+
+steps:
+  - task: UseDotNet@2
+    displayName: 'use .net ${{ parameters.dotnetVersion }}'
+    inputs:
+      packageType: 'sdk'
+      version: ${{ parameters.dotnetVersion }}
+      includePreviewVersions: true  
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet test'
+    inputs:
+      command: test
+      projects: |
+        ${{ parameters.integrationPath }}/**/${{ parameters.integrationProject }}
+    env:
+      ${{ parameters.appcsEnvironmentVariable }}: ${{ parameters.appcsConnection }}
+      ${{ parameters.stEnvironmentVariable }}: ${{ parameters.stConnection }}
+      ASPNETCORE_ENVIRONMENT: ${{ parameters.rgEnvironment }}
+      AZURE_FUNCTIONS_ENVIRONMENT: ${{ parameters.rgEnvironment }}

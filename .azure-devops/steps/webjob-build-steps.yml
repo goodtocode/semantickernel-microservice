@@ -1,0 +1,96 @@
+parameters:
+  - name: artifactsPath
+    type: string 
+    default: '.'
+  - name: archiveFile
+    type: string 
+    default: '*.zip'
+  - name: srcPath
+    type: string 
+    default: '.'
+  - name: webjobProject
+    type: string 
+    default: '*.csproj'
+  - name: webjobName
+    type: string 
+  - name: nugetPathFile
+    type: string 
+    default: ".nuget/NuGet.config"
+  - name: buildConfiguration
+    type: string 
+    default: "Release"
+  - name: tempPath
+    type: string 
+    default: './ymltemp'
+  - name: webjobType
+    type: string
+    default: 'triggered' #'continuous'  
+  - name: webjobPath
+    type: string
+    default: '/App_Data/jobs'
+  - name: cronSchedule
+    type: string
+    default: '0 */5 * * * *'
+  - name: dotnetVersion
+    type: string 
+    default: "7.x"
+
+steps:
+  - task: DeleteFiles@1
+    inputs:
+      SourceFolder: '${{ parameters.tempPath }}'
+      Contents: '**/*'
+      RemoveDotFiles: true
+
+  - task: UseDotNet@2
+    displayName: 'use .net ${{ parameters.dotnetVersion }}'
+    inputs:
+      packageType: 'sdk'
+      version: ${{ parameters.dotnetVersion }}
+      includePreviewVersions: true  
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: 'restore'
+      projects: |
+        ${{ parameters.srcPath }}/**/${{ parameters.webjobProject }}
+      feedsToUse: config
+      nugetConfigPath: ${{ parameters.nugetPathFile }}
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      projects: |
+        ${{ parameters.srcPath }}/**/${{ parameters.webjobProject }}
+      arguments: '--output ${{ parameters.tempPath }}${{ parameters.webjobPath }}/${{ parameters.webjobType }}/${{ parameters.webjobName }} --configuration ${{ parameters.buildConfiguration }}'
+
+  - task: PowerShell@2
+    displayName: 'create settings.job'
+    inputs:
+      targetType: 'inline'
+      script: |
+        New-Item '${{ parameters.tempPath }}${{ parameters.webjobPath }}/${{ parameters.webjobType }}/${{ parameters.webjobName }}/settings.job'
+        Set-Content '${{ parameters.tempPath }}${{ parameters.webjobPath }}/${{ parameters.webjobType }}/${{ parameters.webjobName }}/settings.job' '{"schedule":"${{ parameters.cronSchedule }}"}'    
+
+  - task: ArchiveFiles@2
+    displayName: 'Archive ${{ parameters.archiveFile }}'
+    inputs:
+      rootFolderOrFile: '${{ parameters.tempPath }}'
+      includeRootFolder: false
+      archiveType: zip
+      archiveFile: '${{ parameters.artifactsPath }}/${{ parameters.archiveFile }}'
+      replaceExistingArchive: true
+
+  - task: DeleteFiles@1
+    inputs:
+      SourceFolder: '${{ parameters.tempPath }}'
+      Contents: '**/*'
+      RemoveDotFiles: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      pathToPublish: '${{ parameters.artifactsPath }}'
+      artifactName: drop

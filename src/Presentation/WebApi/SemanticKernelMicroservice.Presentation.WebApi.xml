@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SemanticKernelMicroservice.Presentation.WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:SemanticKernelMicroservice.Presentation.WebApi.ChatCompletion.ChatCompletionController">
+            <summary>
+            Chat completion endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
+            </summary>
+        </member>
+        <member name="M:SemanticKernelMicroservice.Presentation.WebApi.ChatCompletion.ChatCompletionController.Post(SemanticKernelMicroservice.Core.Application.ChatCompletion.Commands.CreateChatSessionCommand)">
+             <summary>
+             Creates new Chat Completion session with empty history
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 HttpPost Body
+                 {
+                    "Message": "Hi, I'm Robert. What is the weather today?",
+                 }
+            
+                 "version":  1.0
+             </remarks>
+             <param name="command"></param>
+             <returns></returns>
+        </member>
+        <member name="T:SemanticKernelMicroservice.Presentation.WebApi.Common.ApiExceptionFilterAttribute">
+            <summary>
+                Filter to handle ApiExceptionFilterAttribute
+            </summary>
+        </member>
+        <member name="M:SemanticKernelMicroservice.Presentation.WebApi.Common.ApiExceptionFilterAttribute.#ctor">
+            <summary>
+                ApiExceptionFilterAttribute including ValidationException, NotFoundException, UnauthorizedAccessException,
+                ForbiddenAccessException
+                NotFoundException
+            </summary>
+        </member>
+        <member name="M:SemanticKernelMicroservice.Presentation.WebApi.Common.ApiExceptionFilterAttribute.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+                Handles OnException
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:SemanticKernelMicroservice.Presentation.WebApi.ConfigureServices">
+            <summary>
+            Presentation Layer WebApi Configuration
+            </summary>
+        </member>
+        <member name="M:SemanticKernelMicroservice.Presentation.WebApi.ConfigureServices.AddWebUIServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Add WebUI Services
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SemanticKernelMicroservice.Presentation.WebApi.ConfigureServices.ConfigureSwaggerOptions">
+            <summary>
+            Swagger UI Configuration
+            </summary>
+        </member>
+        <member name="M:SemanticKernelMicroservice.Presentation.WebApi.ConfigureServices.ConfigureSwaggerOptions.#ctor(Asp.Versioning.ApiExplorer.IApiVersionDescriptionProvider)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="provider"></param>
+        </member>
+        <member name="M:SemanticKernelMicroservice.Presentation.WebApi.ConfigureServices.ConfigureSwaggerOptions.Configure(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <summary>
+            OpenApi Configuration
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:SemanticKernelMicroservice.Presentation.WebApi.ConfigureServices.ConfigureSwaggerOptions.Configure(System.String,Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <summary>
+            OpenApi Configuration
+            </summary>
+            <param name="name"></param>
+            <param name="options"></param>
+        </member>
+        <member name="T:SemanticKernelMicroservice.Presentation.WebApi.TextGeneration.TextGenerationController">
+            <summary>
+            Chat completion endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
+            </summary>
+        </member>
+        <member name="M:SemanticKernelMicroservice.Presentation.WebApi.TextGeneration.TextGenerationController.Post(SemanticKernelMicroservice.Core.Application.TextGeneration.Commands.CreateTextGenerationCommand)">
+             <summary>
+             Creates new Chat Completion session with empty history
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 HttpPost Body
+                 {
+                    "Message": "Hi, I'm Robert. What is the weather today?",
+                 }
+            
+                 "version":  1.0
+             </remarks>
+             <param name="command"></param>
+             <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,53 @@
+parameters:
+- name: armPath
+  type: string 
+  default: "."
+- name: subscriptionId
+  type: string 
+  default: "00000000-0000-0000-0000-000000000000"
+- name: subscriptionService
+  type: string 
+  default: 'COMPANY-PRODUCT-001'
+- name: rgName
+  type: string 
+  default: 'rg-PRODUCT-001'
+- name: rgLocation
+  type: string 
+  default: "West US 3"
+- name: hcnName
+  type: string 
+  default: "hcn-PRODUCT-ENVIRONMENT-001"
+- name: hcnRelayName
+  type: string 
+  default: ""
+
+steps:
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Validate ${{ parameters.hcnName }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/hcn-hybridconnection.json"        
+        csmParametersFile: "${{ parameters.armPath }}/hcn-hybridconnection.parameters.json"        
+        deploymentMode: "Validation"
+        overrideParameters: -name "${{ parameters.hcnName }}" -relayName "${{ parameters.hcnRelayName }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Deploy ${{ parameters.hcnName }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/hcn-hybridconnection.json"
+        csmParametersFile: "${{ parameters.armPath }}/hcn-hybridconnection.parameters.json"
+        deploymentMode: "Incremental"
+        overrideParameters: -name "${{ parameters.hcnName }}" -relayName "${{ parameters.hcnRelayName }}"

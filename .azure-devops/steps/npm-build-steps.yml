@@ -1,0 +1,83 @@
+parameters:
+  - name: artifactsPath
+    type: string 
+    default: "."
+  - name: archiveFile
+    type: string 
+    default: "archive.zip"
+  - name: srcPath
+    type: string 
+    default: "."
+  - name: scriptsPath
+    type: string 
+    default: "../scripts"
+  - name: tempPath
+    type: string 
+    default: './sitetemp'
+  - name: versionToReplace
+    type: string 
+    default: "1.0.0"
+
+steps:
+  - task: PowerShell@2
+    displayName: 'Set-Version.ps1'
+    inputs:
+      filePath: '${{ parameters.scriptsPath }}/Set-Version.ps1'
+      arguments: '-Path ${{ parameters.srcPath }}  -VersionToReplace ${{ parameters.versionToReplace }}'
+      workingDirectory: '${{ parameters.scriptsPath }}'
+
+  - task: NodeTool@0
+    displayName: Install Node.js
+    inputs:
+      versionSpec: '17.x'
+
+  - task: Npm@1
+    displayName: 'npm install'
+    inputs:
+      command: 'install'
+      workingDir: '${{ parameters.srcPath }}'
+
+  - task: Npm@1
+    displayName: 'npm run build'
+    inputs:
+      command: 'custom'
+      customCommand: 'run build'
+      workingDir: '${{ parameters.srcPath }}'
+
+  - task: DeleteFiles@1
+    displayName: 'delete tempPath'
+    inputs:
+      SourceFolder: '${{ parameters.tempPath }}'
+      Contents: '**/*'
+      RemoveDotFiles: true
+
+  - task: CopyFiles@2
+    displayName: 'copy wwwroot'
+    inputs:
+      SourceFolder: '${{ parameters.srcPath }}/wwwroot'
+      Contents: '**'
+      TargetFolder: '${{ parameters.tempPath }}'
+      CleanTargetFolder: true
+      OverWrite: true
+
+  - task: ArchiveFiles@2
+    displayName: 'Archive ${{ parameters.archiveFile }}'
+    inputs:
+      rootFolderOrFile: '${{ parameters.tempPath }}'
+      includeRootFolder: false
+      archiveType: zip
+      archiveFile: '${{ parameters.artifactsPath }}/${{ parameters.archiveFile }}'
+      replaceExistingArchive: true
+
+  - task: DeleteFiles@1
+    displayName: 'delete tempPath'
+    inputs:
+      SourceFolder: '${{ parameters.tempPath }}'
+      Contents: '**/*'
+      RemoveDotFiles: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      pathToPublish: '${{ parameters.artifactsPath }}'
+      artifactName: drop

@@ -1,0 +1,33 @@
+parameters:
+  - name: artifactsPath
+    type: string 
+    default: "."
+  - name: nugetFile
+    type: string 
+    default: "*.nupkg"
+  - name: nugetId
+    type: string 
+  - name: nugetType
+    type: string 
+    default: "internal"
+  - name: nugetFeeds
+    type: string 
+    default: "select"
+
+steps:
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      buildType: 'current'
+      downloadType: 'single'
+      artifactName: 'drop'
+      downloadPath: '${{ parameters.artifactsPath }}'
+
+  - task: NuGetCommand@2
+    displayName: 'Deploying nuget'
+    inputs:
+      command: 'push'
+      packagesToPush: '${{ parameters.artifactsPath }}/**/${{ parameters.nugetFile }};'
+      feedsToUse: '${{ parameters.nugetFeeds }}'
+      nuGetFeedType: '${{ parameters.nugetType }}'
+      publishVstsFeed: '${{ parameters.nugetId }}'
+      allowPackageConflicts: true      

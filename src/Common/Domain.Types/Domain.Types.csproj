@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>Goodtocode.Domain.Types</RootNamespace>
+		<AssemblyName>Goodtocode.Domain.Types</AssemblyName>
+		<Version>1.0.0</Version>		
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\DotNet.Extensions\DotNet.Extensions.csproj" />
+	</ItemGroup>
+
+</Project>

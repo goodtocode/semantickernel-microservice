@@ -1,0 +1,62 @@
+parameters:
+- name: artifactsPath
+  type: string 
+  default: "."
+- name: archiveFile
+  type: string 
+  default: "archive.zip"
+- name: srcPath
+  type: string 
+  default: "."
+- name: scriptsPath
+  type: string 
+  default: "../scripts"
+- name: tempPath
+  type: string 
+  default: './sitetemp'
+
+steps:
+  - task: DeleteFiles@1
+    displayName: 'delete tempPath'
+    inputs:
+      SourceFolder: '${{ parameters.tempPath }}'
+      Contents: '**/*'
+      RemoveDotFiles: true
+
+  - task: CopyFiles@2
+    displayName: 'copy files'
+    inputs:
+      SourceFolder: '${{ parameters.srcPath }}'
+      Contents: '**'
+      TargetFolder: '${{ parameters.tempPath }}'
+      CleanTargetFolder: true
+      OverWrite: true
+
+  - task: DeleteFiles@1
+    displayName: 'delete .github files'
+    inputs:
+      SourceFolder: '${{ parameters.tempPath }}'
+      Contents: '.github/**/*'
+      RemoveDotFiles: true
+
+  - task: ArchiveFiles@2
+    displayName: 'Archive ${{ parameters.archiveFile }}'
+    inputs:
+      rootFolderOrFile: '${{ parameters.tempPath }}'
+      includeRootFolder: false
+      archiveType: zip
+      archiveFile: '${{ parameters.artifactsPath }}/${{ parameters.archiveFile }}'
+      replaceExistingArchive: true
+
+  - task: DeleteFiles@1
+    displayName: 'delete tempPath'
+    inputs:
+      SourceFolder: '${{ parameters.tempPath }}'
+      Contents: '**/*'
+      RemoveDotFiles: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      pathToPublish: '${{ parameters.artifactsPath }}'
+      artifactName: drop

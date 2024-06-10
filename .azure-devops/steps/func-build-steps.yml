@@ -1,0 +1,90 @@
+parameters:
+  - name: artifactsPath
+    type: string 
+    default: '.'
+  - name: archiveFile
+    type: string 
+    default: '*.zip'
+  - name: funcPath
+    type: string 
+    default: '.'
+  - name: funcProject
+    type: string 
+    default: '*.csproj'
+  - name: nugetPathFile
+    type: string 
+    default: ".nuget/NuGet.config"
+  - name: buildConfiguration
+    type: string 
+    default: "Release"
+  - name: tempPath
+    type: string 
+    default: './ymltemp'
+  - name: scriptsPath
+    type: string 
+    default: "../scripts"
+  - name: versionToReplace
+    type: string 
+    default: "1.0.0"
+  - name: dotnetVersion
+    type: string 
+    default: "7.x"
+
+steps:
+  - task: DeleteFiles@1
+    inputs:
+      SourceFolder: '${{ parameters.tempPath }}'
+      Contents: '**/*'
+      RemoveDotFiles: true
+
+  - task: UseDotNet@2
+    displayName: 'use .net ${{ parameters.dotnetVersion }}'
+    inputs:
+      packageType: 'sdk'
+      version: ${{ parameters.dotnetVersion }}
+      includePreviewVersions: true  
+
+  - task: PowerShell@2
+    displayName: 'Set-Version.ps1'
+    inputs:
+      filePath: '${{ parameters.scriptsPath }}/Set-Version.ps1'
+      arguments: '-Path ${{ parameters.funcPath }}  -VersionToReplace ${{ parameters.versionToReplace }}'
+      workingDirectory: '${{ parameters.scriptsPath }}'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: 'restore'
+      projects: |
+        ${{ parameters.funcPath }}/**/${{ parameters.funcProject }}
+      feedsToUse: config
+      nugetConfigPath: ${{ parameters.nugetPathFile }}
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      projects: |
+        ${{ parameters.funcPath }}/**/${{ parameters.funcProject }}
+      arguments: --output ${{ parameters.tempPath }} --configuration ${{ parameters.buildConfiguration }}
+
+  - task: ArchiveFiles@2
+    displayName: 'Archive ${{ parameters.archiveFile }}'
+    inputs:
+      rootFolderOrFile: '${{ parameters.tempPath }}'
+      includeRootFolder: false
+      archiveType: zip
+      archiveFile: '${{ parameters.artifactsPath }}/${{ parameters.archiveFile }}'
+      replaceExistingArchive: true
+
+  - task: DeleteFiles@1
+    inputs:
+      SourceFolder: '${{ parameters.tempPath }}'
+      Contents: '**/*'
+      RemoveDotFiles: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      pathToPublish: '${{ parameters.artifactsPath }}'
+      artifactName: drop

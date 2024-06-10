@@ -1,0 +1,159 @@
+on:
+  push:
+    branches-ignore:
+    - main
+    paths:
+    - .github/workflows/gtc-rg-PRODUCT-api.yml
+    - src/PRODUCT/**
+  pull_request:
+    branches:
+    - main    
+    paths:
+    - .github/workflows/gtc-rg-PRODUCT-api.yml
+    - src/PRODUCT/**
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run'     
+        required: true
+        default: 'development'
+      mode:
+        description: 'Running mode'  
+
+permissions:
+  id-token: write
+  contents: read
+  security-events: write
+
+jobs:  
+  build-test-and-deploy:
+    name: 'Build, Test and Deploy .NET'
+    runs-on: ubuntu-latest
+    environment: development    
+
+    strategy:
+      matrix:
+        dotnet-version: [ '7.0.x' ]
+
+    env:      
+      AZURE_WEBAPP_NAME: api-PRODUCT-dev-001
+      AZURE_WEBAPP_PACKAGE_PATH: '.'
+      AZURE_RG_NAME: 'gtc-rg-PRODUCT-dev-001'
+      RUNTIME_ENV: 'Development'
+      SRC_PATH: './src/PRODUCT'
+      SRC_SLN: 'COMPANY.PRODUCT.sln'      
+      API_PATH: 'Presentation/WebApi'
+      API_PROJECT: 'WebApi.csproj'
+      APPI_NAME: 'appi-PRODUCT-dev-001'
+      INFRA_PATH: 'Infrastructure/Persistence'
+      INFRA_PROJECT: 'Persistence.csproj'
+      UNIT_PATH: 'Specs/Application.Unit'
+      UNIT_PROJECT: 'Application.Unit.csproj'
+      SCRIPTS_PATH: './.github/scripts'
+      SQL_NAME: 'sql-PRODUCTLINE-dev-001'
+      SQLDB_NAME: 'sqldb-PRODUCT-dev-001'
+      AZURE_CRED: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: dotnet version ${{ matrix.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.DOTNET_VERSION }}
+
+      - name: Set-Version.ps1
+        run: |
+          $version = ${{ env.SCRIPTS_PATH }}/Set-Version.ps1 -Path ${{ env.SRC_PATH }} -VersionToReplace 1.0.0
+          echo $version
+          echo "VERSION=$version" >> $GITHUB_ENV
+        shell: pwsh
+
+      - name: dotnet build test and publish
+        run: |
+          dotnet build ${{ env.SRC_PATH }}/${{ env.SRC_SLN }} --configuration Release       
+          dotnet test ${{ env.SRC_PATH }}/${{ env.UNIT_PATH }}/${{ env.UNIT_PROJECT }} --verbosity normal
+          dotnet publish ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --configuration Release -o ${{ env.AZURE_WEBAPP_NAME }} 
+        shell: pwsh
+
+      - name: dotnet test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: dotnet-results-${{ matrix.DOTNET_VERSION }}
+          path: TestResults-${{ matrix.DOTNET_VERSION }}
+        if: ${{ always() }}
+
+      - name: az login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: get publish profile
+        id: publishprofile
+        uses: aliencube/publish-profile-actions@v1
+        env:
+          AZURE_CREDENTIALS: ${{ env.AZURE_CRED }}
+        with:
+          resourceGroupName: ${{ env.AZURE_RG_NAME }}
+          appName: ${{ env.AZURE_WEBAPP_NAME }}
+
+      - name: functionapp deploy
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'
+          publish-profile: ${{ steps.publishprofile.outputs.profile }}
+        if: ${{ false }}
+
+      - name: webapps deploy
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+          publish-profile: ${{ steps.publishprofile.outputs.profile }}
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'
+          #slot-name: staging
+
+      - name: Reset publish profile
+        uses: aliencube/publish-profile-actions@v1
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CRED }}
+        with:
+          resourceGroupName: ${{ env.AZURE_RG_NAME }}
+          appName: ${{ env.AZURE_WEBAPP_NAME }}
+          reset: true
+
+      # Get instrumentation key: az monitor app-insights component show --app <app-name> -g <rg-name>
+      # Get connection: az monitor app-insights component show -g ${{ env.AZURE_RG_NAME }} --app ${{ env.APPI_NAME }}
+      - name: ${{ env.AZURE_WEBAPP_NAME }} app settings
+        run: |
+          az config set extension.use_dynamic_install=yes_without_prompt
+          $TEMP_JSON = az monitor app-insights component show -g ${{ env.AZURE_RG_NAME }} --app ${{ env.APPI_NAME }} | ConvertFrom-Json
+          $INSTR_KEY = $TEMP_JSON.instrumentationKey 
+          $CONN_STR = $TEMP_JSON.connectionString          
+          az webapp config appsettings set -g ${{ env.AZURE_RG_NAME }} -n ${{ env.AZURE_WEBAPP_NAME }} --settings APPINSIGHTS_INSTRUMENTATIONKEY=$INSTR_KEY
+          az webapp config appsettings set -g ${{ env.AZURE_RG_NAME }} -n ${{ env.AZURE_WEBAPP_NAME }} --settings APPLICATIONINSIGHTS_CONNECTION_STRING=$CONN_STR
+          az webapp config appsettings set -g ${{ env.AZURE_RG_NAME }} -n ${{ env.AZURE_WEBAPP_NAME }} --settings ASPNETCORE_ENVIRONMENT=${{ env.RUNTIME_ENV }}
+        shell: pwsh
+
+      # Get Azure SQL DB Conenction: az sql db show-connection-string --client ado.net --server ${{ env.SQL_NAME }} --name ${{ env.SQLDB_NAME }} -o tsv
+      - name: ${{ env.AZURE_WEBAPP_NAME }} connection strings
+        run: |
+          $TEMP_STR=az sql db show-connection-string --client ado.net --server ${{ env.SQL_NAME }} --name ${{ env.SQLDB_NAME }} -o tsv
+          $TEMP_STR=$TEMP_STR.replace("<username>", "${{ secrets.SQL_USER }}")
+          $TEMP_STR=$TEMP_STR.replace("<password>", "${{ secrets.SQL_PASSWORD }}")
+          az webapp config connection-string set -g ${{ env.AZURE_RG_NAME }} -n ${{ env.AZURE_WEBAPP_NAME }} -t SQLServer --settings DefaultConnection=$TEMP_STR
+          dotnet tool install --global dotnet-ef
+          dotnet tool restore          
+          dotnet ef migrations add v${{ env.VERSION }} --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context PRODUCTDbContext
+          dotnet ef migrations script --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context PRODUCTDbContext --output ${{ github.workspace }}/sql/migrations.sql --idempotent
+          dotnet ef database update --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context PRODUCTDbContext --connection $TEMP_STR
+        shell: pwsh
+           
+      - name: Swap to production slot
+        run: |
+          az webapp deployment slot swap --resource-group ${{ env.AZURE_RG_NAME }} --name ${{ env.AZURE_WEBAPP_NAME }} --slot staging --target-slot production
+          echo "Swap finished. App Service Application URL: https://$(az webapp show --resource-group ${{ env.AZURE_RG_NAME }} --name ${{ env.AZURE_WEBAPP_NAME }} --query hostNames[0] -o tsv)"
+        if: ${{ false }}

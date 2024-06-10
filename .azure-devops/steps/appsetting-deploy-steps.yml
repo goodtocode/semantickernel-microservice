@@ -1,0 +1,35 @@
+parameters:
+- name: appServiceName
+  type: string 
+  default: "api/web-PRODUCT-ENVIRONMENT-001"
+- name: subscriptionService
+  type: string 
+  default: 'COMPANY-PRODUCT-001'
+- name: rgEnvironment
+  type: string 
+  default: 'development'
+- name: slotName
+  type: string
+  default: 'production'
+- name: appSetting
+  type: object
+  default:
+    name: 'ASPNETCORE_ENVIRONMENT'
+    value: 'Development'
+    slotSetting: false
+
+steps:
+  - task: AzureAppServiceSettings@1
+    displayName: 'App Settings ${{ parameters.appServiceName }}'
+    inputs:
+      azureSubscription: ${{ parameters.subscriptionService }}
+      appName: ${{ parameters.appServiceName }}    
+      appSettings: |
+        [
+          {
+            "name": "${{ parameters.appSetting.name }}",
+            "value": "${{ parameters.appSetting.value }}",
+            "slotSetting": "${{ parameters.appSetting.slotSetting }}"
+          }
+        ]
+      slotName: ${{ parameters.slotName }}

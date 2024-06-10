@@ -1,0 +1,73 @@
+parameters:
+  - name: armPath
+    type: string 
+    default: "."
+  - name: subscriptionId
+    type: string 
+  - name: subscriptionService
+    type: string 
+  - name: rgName
+    type: string 
+  - name: rgLocation
+    type: string 
+    default: "West US 3"
+  - name: rgEnvironment
+    type: string 
+    default: 'Development'
+  - name: appiKey
+    type: string 
+  - name: appiConnection
+    type: string 
+  - name: funcName
+    type: string 
+  - name: funcRuntime
+    type: string 
+    default: "dotnet-isolated"
+  - name: funcVersion
+    type: "number"
+    default: 4
+  - name: alwaysOn
+    type: string
+    default: "false"
+  - name: planSku
+    type: string
+    default: "Y1"
+  - name: planCapacity
+    type: string
+    default: "0"
+  - name: planTier
+    type: string
+    default: "dynamic"
+  - name: stName
+    type: string 
+
+steps:  
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Validate ${{ parameters.funcName }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/func-functionsappplan.json"        
+        csmParametersFile: "${{ parameters.armPath }}/func-functionsappplan.parameters.json"        
+        deploymentMode: "Validation"
+        overrideParameters: -name "${{ parameters.funcName }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -rgEnvironment "${{ parameters.rgEnvironment }}" -sku "${{ parameters.planSku }}" -alwaysOn "${{ parameters.alwaysOn }}"
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Deploy ${{ parameters.funcName }}"
+    inputs:
+        deploymentScope: "Resource Group"
+        azureResourceManagerConnection: "${{ parameters.subscriptionService }}"
+        subscriptionId: "${{ parameters.subscriptionId }}"
+        action: "Create Or Update Resource Group"
+        resourceGroupName: "${{ parameters.rgName }}"
+        location: "${{ parameters.rgLocation }}"
+        templateLocation: "Linked artifact"
+        csmFile: "${{ parameters.armPath }}/func-functionsappplan.json"
+        csmParametersFile: "${{ parameters.armPath }}/func-functionsappplan.parameters.json"
+        deploymentMode: "Incremental"
+        overrideParameters: -name "${{ parameters.funcName }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -rgEnvironment "${{ parameters.rgEnvironment }}" -sku "${{ parameters.planSku }}" -alwaysOn "${{ parameters.alwaysOn }}"

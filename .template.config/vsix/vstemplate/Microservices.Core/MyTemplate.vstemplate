@@ -1,0 +1,31 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Microservice.Abstractions</Name>
+    <Description>GoodToCode Microservice template contains a simple microservice solution and pre-setup projects. Built on DDD, CQRS with SOLID in mind.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Microservice.Abstractions</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="Microservice.Abstractions.csproj" File="Microservice.Abstractions.csproj" ReplaceParameters="true">
+      <Folder Name="Associate" TargetFolderName="Associate">
+        <ProjectItem ReplaceParameters="true" TargetFileName="IAssociate.cs">IAssociate.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="IBusiness.cs">IBusiness.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="IDetail.cs">IDetail.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="IGender.cs">IGender.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="IGovernment.cs">IGovernment.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="IPerson.cs">IPerson.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ISetting.cs">ISetting.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ISettingType.cs">ISettingType.cs</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

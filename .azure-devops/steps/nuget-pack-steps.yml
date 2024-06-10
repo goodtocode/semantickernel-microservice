@@ -1,0 +1,63 @@
+parameters:
+  - name: artifactsPath
+    type: string 
+    default: "."
+  - name: buildConfiguration
+    type: string 
+    default: "Release"
+  - name: nugetPathFile
+    type: string 
+    default: ".nuget/NuGet.config"
+  - name: srcPath
+    type: string 
+    default: "."
+  - name: srcNuspec
+    type: string 
+    default: "*.nuspec"
+  - name: srcSolution
+    type: string 
+    default: "*.sln"
+  - name: scriptsPath
+    type: string 
+    default: "../scripts"
+  - name: versionToReplace
+    type: string 
+    default: "1.0.0"
+
+steps:
+  - task: PowerShell@2
+    displayName: 'Set-Version.ps1'
+    inputs:
+      filePath: '${{ parameters.scriptsPath }}/Set-Version.ps1'
+      arguments: '-Path ${{ parameters.srcPath }} -VersionToReplace ${{ parameters.versionToReplace }}'
+      workingDirectory: '${{ parameters.scriptsPath }}'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: 'restore'
+      projects: |
+        ${{ parameters.srcPath }}/**/${{ parameters.srcProject }}
+      feedsToUse: config
+      nugetConfigPath: ${{ parameters.nugetPathFile }}
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      projects: |
+        ${{ parameters.srcPath }}/**/${{ parameters.srcSolution }}
+      arguments: '--configuration ${{ parameters.buildConfiguration }}'
+
+# Package a project
+  - task: NuGetCommand@2
+    inputs:
+      command: 'pack'
+      packagesToPack: ${{ parameters.srcPath }}/**/${{ parameters.srcNuspec }}
+      packDestination: '${{ parameters.artifactsPath }}'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      pathToPublish: '${{ parameters.artifactsPath }}'
+      artifactName: drop

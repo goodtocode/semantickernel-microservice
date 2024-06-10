@@ -1,0 +1,35 @@
+parameters:
+  - name: artifactsPath
+    type: string 
+    default: '.'
+  - name: archiveFile
+    type: string 
+    default: '*.zip'
+  - name: funcName
+    type: string 
+    default: 'func-PRODUCT-ENVIRONMENT-001'
+  - name: subscriptionId
+    type: string 
+    default: "00000000-0000-0000-0000-000000000000"
+  - name: subscriptionService
+    type: string 
+    default: 'COMPANY-PRODUCT-001'
+
+steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '${{ parameters.artifactsPath }}'
+
+    - task: AzureRmWebAppDeployment@4
+      displayName: 'Deploying ${{ parameters.funcName }}'
+      inputs:
+        ConnectionType: 'AzureRM'
+        ConnectedServiceName: ${{ parameters.subscriptionService }}
+        subscriptionName: ${{ parameters.subscriptionId }}
+        appType: 'webApp'
+        WebAppName: '${{ parameters.funcName }}'
+        RemoveAdditionalFilesFlag: true
+        packageForLinux: '${{ parameters.artifactsPath }}/**/${{ parameters.archiveFile }}'

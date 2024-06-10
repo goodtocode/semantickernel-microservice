@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>Goodtocode.SemanticKernel.Presentation.WebApi</RootNamespace>
+		<AssemblyName>Goodtocode.SemanticKernel.Presentation.WebApi</AssemblyName>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<DocumentationFile>Goodtocode.SemanticKernel.Presentation.WebApi.xml</DocumentationFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<UserSecretsId>bf5b92ab-f3fe-4af6-b299-583240397247</UserSecretsId>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Remove="Goodtocode.SemanticKernel.Presentation.WebApi.xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+		<PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.3.1" />
+		<PackageReference Include="Azure.Identity" Version="1.11.3" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="2.19.0" />
+		<PackageReference Include="Microsoft.Identity.Web.UI" Version="2.19.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\Application\Application.csproj" />
+		<ProjectReference Include="..\..\Infrastructure\SemanticKernel\Infrastructure.SemanticKernel.csproj" />
+		<ProjectReference Include="..\..\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj" />
+	</ItemGroup>
+</Project>

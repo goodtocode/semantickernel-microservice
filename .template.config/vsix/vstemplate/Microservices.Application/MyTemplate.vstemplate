@@ -1,0 +1,60 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Microservice.Application</Name>
+    <Description>GoodToCode Microservice template contains a simple microservice solution and pre-setup projects. Built on DDD, CQRS with SOLID in mind.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Microservice.Application</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="Microservice.Application.csproj" File="Microservice.Application.csproj" ReplaceParameters="true">
+      <Folder Name="Associate" TargetFolderName="Associate">
+        <Folder Name="Business" TargetFolderName="Business">
+          <Folder Name="Commands" TargetFolderName="Commands">
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessCreateCommand.cs">BusinessCreateCommand.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessCreateValidator.cs">BusinessCreateValidator.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessDeleteCommand.cs">BusinessDeleteCommand.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessDeleteValidator.cs">BusinessDeleteValidator.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessSaveCommand.cs">BusinessSaveCommand.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessSaveValidator.cs">BusinessSaveValidator.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessUpdateCommand.cs">BusinessUpdateCommand.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessUpdateValidator.cs">BusinessUpdateValidator.cs</ProjectItem>
+          </Folder>
+          <Folder Name="Queries" TargetFolderName="Queries">
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessesGetQuery.cs">BusinessesGetQuery.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessesGetValidator.cs">BusinessesGetValidator.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessGetQuery.cs">BusinessGetQuery.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="BusinessGetValidator.cs">BusinessGetValidator.cs</ProjectItem>
+          </Folder>
+        </Folder>
+        <Folder Name="Person" TargetFolderName="Person">
+          <Folder Name="Commands" TargetFolderName="Commands">
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonCreateCommand.cs">PersonCreateCommand.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonCreateValidator.cs">PersonCreateValidator.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonDeleteCommand.cs">PersonDeleteCommand.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonDeleteValidator.cs">PersonDeleteValidator.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonSaveCommand.cs">PersonSaveCommand.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonSaveValidator.cs">PersonSaveValidator.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonUpdateCommand.cs">PersonUpdateCommand.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonUpdateValidator.cs">PersonUpdateValidator.cs</ProjectItem>
+          </Folder>
+          <Folder Name="Queries" TargetFolderName="Queries">
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonGetQuery.cs">PersonGetQuery.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonGetValidator.cs">PersonGetValidator.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonsGetQuery.cs">PersonsGetQuery.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PersonsGetValidator.cs">PersonsGetValidator.cs</ProjectItem>
+          </Folder>
+        </Folder>
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssociateAggregate.cs">AssociateAggregate.cs</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

@@ -1,0 +1,71 @@
+parameters:
+  - name: rgEnvironment
+    type: string 
+    default: "rg-PRODUCT-001"
+  - name: testPath
+    type: string 
+    default: "."
+  - name: testProject
+    type: string 
+    default: "*.csproj"
+  - name: restorePath
+    type: string 
+    default: "."
+  - name: restoreProject
+    type: string 
+    default: "*.csproj"
+  - name: nugetPathFile
+    type: string 
+    default: ".nuget/NuGet.config"
+  - name: appcsConnection
+    type: string 
+    default: ""
+  - name: appcsEnvironmentVariable
+    type: string 
+    default: "AZURE_APP_CONFIGURATION_CONNECTION"
+  - name: stConnection
+    type: string 
+    default: ""
+  - name: stEnvironmentVariable
+    type: string 
+    default: "AZURE_STORAGE_CONNECTION"
+  - name: arguments
+    type: string
+    default: ""
+  - name: dotnetVersion
+    type: string 
+    default: "7.x"
+  - name: continueOnFail
+    type: boolean
+    default: false
+
+steps:
+  - task: UseDotNet@2
+    displayName: 'use .net ${{ parameters.dotnetVersion }}'
+    inputs:
+      packageType: 'sdk'
+      version: ${{ parameters.dotnetVersion }}
+      includePreviewVersions: true  
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: 'restore'
+      projects: |
+        ${{ parameters.restorePath }}/**/${{ parameters.restoreProject }}
+      feedsToUse: config
+      nugetConfigPath: ${{ parameters.nugetPathFile }}
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet test'
+    continueOnError: ${{ parameters.continueOnFail }}
+    inputs:
+      command: test
+      projects: |
+        ${{ parameters.testPath }}/**/${{ parameters.testProject }}
+      arguments: ${{ parameters.arguments }}
+    env:
+      ${{ parameters.appcsEnvironmentVariable }}: ${{ parameters.appcsConnection }}
+      ${{ parameters.stEnvironmentVariable }}: ${{ parameters.stConnection }}
+      ASPNETCORE_ENVIRONMENT: ${{ parameters.rgEnvironment }}
+      AZURE_FUNCTIONS_ENVIRONMENT: ${{ parameters.rgEnvironment }}

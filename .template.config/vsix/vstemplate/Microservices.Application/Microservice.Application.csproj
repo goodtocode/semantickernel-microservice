@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	<Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.22.1</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	<RootNamespace>$safeprojectname$</RootNamespace>
+	<AssemblyName>$safeprojectname$</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.6" />
+    <PackageReference Include="GoodToCode.Shared.Cqrs" Version="5.11.332.205" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microservice.Core\Microservice.Core.csproj" />
+    <ProjectReference Include="..\Microservice.Domain\Microservice.Domain.csproj" />
+    <ProjectReference Include="..\Microservice.Infrastructure\Microservice.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

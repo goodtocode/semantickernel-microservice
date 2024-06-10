@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>Goodtocode.SemanticKernel.Core.Application</RootNamespace>
+		<AssemblyName>Goodtocode.SemanticKernel.Core.Application</AssemblyName>
+		<Version>1.0.0</Version>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>		
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+		<PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.14.1" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Domain\Domain.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="AudioToText\" />
+	  <Folder Include="TextEmbeddingGeneration\" />
+	</ItemGroup>
+</Project>

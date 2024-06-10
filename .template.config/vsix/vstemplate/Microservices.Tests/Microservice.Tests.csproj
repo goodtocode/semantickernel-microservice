@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+    <Version>1.22.1</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	<RootNamespace>$safeprojectname$</RootNamespace>
+	<AssemblyName>$safeprojectname$</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microservice.Core\Microservice.Core.csproj" />
+    <ProjectReference Include="..\Microservice.Api\Microservice.Api.csproj" />
+    <ProjectReference Include="..\Microservice.Application\Microservice.Application.csproj" />
+    <ProjectReference Include="..\Microservice.Domain\Microservice.Domain.csproj" />
+    <ProjectReference Include="..\Microservice.Infrastructure\Microservice.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

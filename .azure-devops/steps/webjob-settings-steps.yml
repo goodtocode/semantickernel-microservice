@@ -1,0 +1,48 @@
+parameters:
+  - name: subscriptionService
+    type: string 
+    default: 'COMPANY-PRODUCT-001'
+  - name: rgEnvironment
+    type: string 
+    default: 'Development'
+  - name: webjobName
+    type: string 
+    default: "webjob-PRODUCT-ENVIRONMENT-001"
+  - name: appSettings
+    type: object
+    default: 
+      - name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        value: '$(appiKey)'
+        slotSetting: false
+      - name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+        value: '$(appiConnection)'
+        slotSetting: false        
+      - name: 'ASPNETCORE_ENVIRONMENT'
+        value: '${{ variables.rgEnvironment}}'
+        slotSetting: false
+      - name: 'AzureWebJobsDashboard'
+        value: '$(stConnection)'
+        slotSetting: false
+      - name: '$(appcsEnvironmentVariable)'
+        value: '$(appcsConnection)'
+        slotSetting: false
+      - name: '$(stEnvironmentVariable)'
+        value: '$(stConnection)'
+        slotSetting: false
+
+steps:
+  - ${{ each appSetting in parameters.appSettings }}:
+    - task: AzureAppServiceSettings@1
+      displayName: 'set_appsettings ${{ appSetting.name }}'
+      inputs:
+        azureSubscription: ${{ parameters.subscriptionService }}
+        appName: ${{ parameters.webjobName }}    
+        appSettings: |
+          [
+            {
+              "name": "${{ appSetting.name }}",
+              "value": "${{ appSetting.value }}",
+              "slotSetting": "${{ appSetting.slotSetting }}"
+            }
+          ]
+        slotName: ${{ parameters.slotName }}

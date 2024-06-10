@@ -1,0 +1,34 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Microservice.Domain</Name>
+    <Description>GoodToCode Microservice template contains a simple microservice solution and pre-setup projects. Built on DDD, CQRS with SOLID in mind.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Microservice.Domain</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="Microservice.Domain.csproj" File="Microservice.Domain.csproj" ReplaceParameters="true">
+      <Folder Name="Associate" TargetFolderName="Associate">
+        <ProjectItem ReplaceParameters="true" TargetFileName="Associate.cs">Associate.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Business.cs">Business.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="BusinessCreatedEvent.cs">BusinessCreatedEvent.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="BusinessDeletedEvent.cs">BusinessDeletedEvent.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="BusinessUpdatedEvent.cs">BusinessUpdatedEvent.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Gender.cs">Gender.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Government.cs">Government.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Person.cs">Person.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="PersonCreatedEvent.cs">PersonCreatedEvent.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="PersonDeletedEvent.cs">PersonDeletedEvent.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="PersonUpdatedEvent.cs">PersonUpdatedEvent.cs</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

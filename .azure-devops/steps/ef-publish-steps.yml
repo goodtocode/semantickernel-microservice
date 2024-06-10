@@ -1,0 +1,69 @@
+parameters:
+  - name: artifactsPath
+    type: string 
+    default: "."
+  - name: buildConfiguration
+    type: string 
+    default: "Release"
+  - name: dbContext
+    type: string
+  - name: dotnetVersion
+    type: string 
+    default: "7.x"
+  - name: nugetPathFile
+    type: string 
+    default: ".nuget/NuGet.config"
+  - name: sqldbFile
+    type: string 
+    default: "migration.sql"
+  - name: srcPath
+    type: string 
+    default: "."
+  - name: srcProject
+    type: string 
+    default: "*.csproj"
+  - name: efStartupPath
+    type: string 
+    default: "."
+  - name: efTargetPath
+    type: string 
+    default: "."
+
+steps:
+  - task: UseDotNet@2
+    displayName: 'use .net ${{ parameters.dotnetVersion }}'
+    inputs:
+      packageType: 'sdk'
+      version: ${{ parameters.dotnetVersion }}
+      includePreviewVersions: true   
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: 'restore'
+      projects: |
+        ${{ parameters.srcPath }}/**/${{ parameters.srcProject }}
+      feedsToUse: config
+      nugetConfigPath: ${{ parameters.nugetPathFile }}
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      projects: |
+        ${{ parameters.srcPath }}/**/${{ parameters.srcProject }}
+      arguments: '--configuration ${{ parameters.buildConfiguration }}'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet tool install dotnet-ef'
+    inputs:
+      command: custom
+      custom: tool
+      arguments: 'install --global dotnet-ef'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet ef migrations script'
+    inputs:
+      command: custom
+      custom: ef
+      arguments: 'migrations script -i -o ${{ parameters.sqldbFile }} -p ${{ parameters.efTargetPath }} -s ${{ parameters.efStartupPath }} -c ${{ parameters.dbContext }}' 

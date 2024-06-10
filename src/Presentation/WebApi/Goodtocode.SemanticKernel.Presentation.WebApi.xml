@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Goodtocode.SemanticKernel.Presentation.WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController">
+            <summary>
+            Chat completion endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
+            </summary>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Get(System.Guid)">
+             <summary>Get Chat Completion session with history</summary>
+             <remarks>
+             Sample request:
+            
+                    "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "api-version":  1.0
+             
+             </remarks>
+             <returns>ChatSessionDto</returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Post(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.CreateChatSessionCommand)">
+             <summary>
+             Creates new Chat Completion session with empty history
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 HttpPost Body
+                 {
+                    "Message": "Hi, I'm Robert. I am interested in learning about Semantic Kernel.",
+                 }
+            
+                 "version":  1.0
+             </remarks>
+             <param name="command"></param>
+             <returns></returns>
+        </member>
+        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.Common.ApiControllerBase">
+            <summary>
+            Sets up ISender Mediator property
+            </summary>
+        </member>
+        <member name="P:Goodtocode.SemanticKernel.Presentation.WebApi.Common.ApiControllerBase.Mediator">
+            <summary>
+            Mediator property exposing ISender type
+            </summary>
+        </member>
+        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.Common.ApiExceptionFilterAttribute">
+            <summary>
+                Filter to handle ApiExceptionFilterAttribute
+            </summary>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Common.ApiExceptionFilterAttribute.#ctor">
+            <summary>
+                ApiExceptionFilterAttribute including ValidationException, NotFoundException, UnauthorizedAccessException,
+                ForbiddenAccessException
+                NotFoundException
+            </summary>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Common.ApiExceptionFilterAttribute.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+                Handles OnException
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.ConfigureServices">
+            <summary>
+            Presentation Layer WebApi Configuration
+            </summary>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ConfigureServices.AddWebUIServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Add WebUI Services
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.ConfigureServices.ConfigureSwaggerOptions">
+            <summary>
+            Swagger UI Configuration
+            </summary>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ConfigureServices.ConfigureSwaggerOptions.#ctor(Asp.Versioning.ApiExplorer.IApiVersionDescriptionProvider)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="provider"></param>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ConfigureServices.ConfigureSwaggerOptions.Configure(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <summary>
+            OpenApi Configuration
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ConfigureServices.ConfigureSwaggerOptions.Configure(System.String,Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <summary>
+            OpenApi Configuration
+            </summary>
+            <param name="name"></param>
+            <param name="options"></param>
+        </member>
+        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.TextGeneration.TextGenerationController">
+            <summary>
+            Chat completion endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
+            </summary>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.TextGeneration.TextGenerationController.Post(Goodtocode.SemanticKernel.Core.Application.TextGeneration.CreateTextGenerationCommand)">
+             <summary>
+             Creates new Chat Completion session with empty history
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 HttpPost Body
+                 {
+                    "Message": "Hi, I'm Robert. What is the weather today?",
+                 }
+            
+                 "version":  1.0
+             </remarks>
+             <param name="command"></param>
+             <returns></returns>
+        </member>
+    </members>
+</doc>
