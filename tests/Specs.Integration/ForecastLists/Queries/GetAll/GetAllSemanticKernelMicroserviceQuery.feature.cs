@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace SemanticKernelMicroservice.Specs.Application.Unit.ForecastLists.Queries.GetAll
+namespace Goodtocode.SemanticKernel.Specs.Integration.ForecastLists.Queries.GetAll
 {
     using TechTalk.SpecFlow;
     using System;
@@ -66,7 +66,7 @@ namespace SemanticKernelMicroservice.Specs.Application.Unit.ForecastLists.Querie
             if (((testRunner.FeatureContext != null) 
                         && (testRunner.FeatureContext.FeatureInfo.Title != "Get All Forecasts")))
             {
-                global::SemanticKernelMicroservice.Specs.Application.Unit.ForecastLists.Queries.GetAll.GetAllForecastsFeature.FeatureSetup(null);
+                global::Goodtocode.SemanticKernel.Specs.Integration.ForecastLists.Queries.GetAll.GetAllForecastsFeature.FeatureSetup(null);
             }
         }
         

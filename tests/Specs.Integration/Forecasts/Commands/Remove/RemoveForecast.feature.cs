@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace SemanticKernelMicroservice.Specs.Application.Unit.Forecasts.Commands.Remove
+namespace Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Remove
 {
     using TechTalk.SpecFlow;
     using System;
@@ -66,7 +66,7 @@ namespace SemanticKernelMicroservice.Specs.Application.Unit.Forecasts.Commands.R
             if (((testRunner.FeatureContext != null) 
                         && (testRunner.FeatureContext.FeatureInfo.Title != "Remove Forecast Command")))
             {
-                global::SemanticKernelMicroservice.Specs.Application.Unit.Forecasts.Commands.Remove.RemoveForecastCommandFeature.FeatureSetup(null);
+                global::Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Remove.RemoveForecastCommandFeature.FeatureSetup(null);
             }
         }
         

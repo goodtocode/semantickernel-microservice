@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>Goodtocode.SemanticKernel.Specs.Integration</RootNamespace>
+		<AssemblyName>Goodtocode.SemanticKernel.Specs.Integration</AssemblyName>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<UserSecretsId>998fefad-d248-4bad-9d33-8a060711dd88</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="appsettings.test.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="appsettings.test.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.6" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+		<PackageReference Include="FluentAssertions" Version="6.12.0" />
+		<PackageReference Include="Moq" Version="4.20.70" />
+		<PackageReference Include="MSTest.TestAdapter" Version="3.4.3" />
+		<PackageReference Include="MSTest.TestFramework" Version="3.4.3" />
+		<PackageReference Include="SpecFlow.MsTest" Version="3.9.74" />
+		<PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
+		<ProjectReference Include="..\..\src\Infrastructure\SemanticKernel\Infrastructure.SemanticKernel.csproj" />
+		<ProjectReference Include="..\..\src\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj" />
+	</ItemGroup>
+
+</Project>

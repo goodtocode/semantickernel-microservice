@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace SemanticKernelMicroservice.Specs.Application.Unit.Forecasts.Commands.Add
+namespace Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Add
 {
     using TechTalk.SpecFlow;
     using System;
@@ -66,7 +66,7 @@ namespace SemanticKernelMicroservice.Specs.Application.Unit.Forecasts.Commands.A
             if (((testRunner.FeatureContext != null) 
                         && (testRunner.FeatureContext.FeatureInfo.Title != "Add Forecast Command")))
             {
-                global::SemanticKernelMicroservice.Specs.Application.Unit.Forecasts.Commands.Add.AddForecastCommandFeature.FeatureSetup(null);
+                global::Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Add.AddForecastCommandFeature.FeatureSetup(null);
             }
         }
         
