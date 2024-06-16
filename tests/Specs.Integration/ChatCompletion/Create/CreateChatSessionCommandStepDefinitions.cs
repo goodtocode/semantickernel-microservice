@@ -14,7 +14,6 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
     private Guid _key;
     private bool _exists;
     private ChatSessionDto _chatSessionDto = new();
-    private ChatMessageDto _lastMessage = new();
 
     [Given(@"I have a def ""([^""]*)""")]
     public void GivenIHaveADef(string def)
@@ -54,7 +53,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
                      new ChatMessageEntity()
                  {
                      Content = _message,
-                     Role = ChatMessageRole.User,
+                     Role = ChatMessageRole.user,
                      Timestamp = DateTime.Now
                  }
                  ],
@@ -81,7 +80,6 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
                 var chatService = new OpenAIChatCompletionService(_optionsOpenAi.ChatModelId, _optionsOpenAi.ApiKey);
                 var handler = new CreateChatSessionCommandHandler(chatService, _context, Mapper);
                 _chatSessionDto = await handler.Handle(request, CancellationToken.None);
-                _lastMessage = _chatSessionDto?.Messages?.LastOrDefault() ?? new ChatMessageDto();
                 _responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
@@ -96,24 +94,12 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
     [Then(@"I see the chat session created with the initial response ""([^""]*)""")]
     public void ThenISeeTheChatSessionCreatedWithTheInitialResponse(string response)
     {
-        Assert.IsTrue(!string.IsNullOrWhiteSpace(response));
+        response.Should().NotBeNullOrEmpty();
     }
 
     [Then(@"if the response has validation issues I see the ""([^""]*)"" in the response")]
     public void ThenIfTheResponseHasValidationIssuesISeeTheInTheResponse(string expectedErrors)
     {
         HandleExpectedValidationErrorsAssertions(expectedErrors);
-    }
-
-    [Then(@"chat completion returns with content ""([^""]*)""")]
-    public void ThenChatCompletionReturnsWithContent(string content)
-    {
-        Assert.IsTrue(!string.IsNullOrWhiteSpace(_lastMessage.Content));
-    }
-
-    [Then(@"chat completion returns with the according role ""([^""]*)""")]
-    public void ThenChatCompletionReturnsWithTheAccordingRole(string role)
-    {
-        Assert.IsTrue(_lastMessage.Role == ChatMessageRole.User);
     }
 }

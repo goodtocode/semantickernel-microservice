@@ -9,22 +9,15 @@ public class CreateTextGenerationCommand : IRequest<string>
     public string? Message { get; set; }
 }
 
-public class CreateTextGenerationCommandHandler : IRequestHandler<CreateTextGenerationCommand, string>
+public class CreateTextGenerationCommandHandler(ITextGenerationService textService) : IRequestHandler<CreateTextGenerationCommand, string>
 {
-    private ITextGenerationService _textService;
-    //private readonly ISemanticKernelMicroserviceContext _context;
-
-    public CreateTextGenerationCommandHandler(ITextGenerationService textService)//, ISemanticKernelMicroserviceContext context)
-    {
-        //_context = context;
-        _textService = textService;
-    }
+    private readonly ITextGenerationService _textService = textService;
 
     public async Task<string> Handle(CreateTextGenerationCommand request, CancellationToken cancellationToken)
     {
 
         GuardAgainstEmptyMessage(request?.Message);
-        var response = await _textService.GetTextContentAsync(request.Message);
+        var response = await _textService.GetTextContentAsync(request!.Message!, null, null, cancellationToken);
 
         //Id, chatcmpl-9Te5QEaE2fBhxt1mtHamj7U25NIRz
         //{ [Created, { 5/27/2024 11:30:32 PM +00:00}]}
@@ -47,9 +40,9 @@ public class CreateTextGenerationCommandHandler : IRequestHandler<CreateTextGene
     private static void GuardAgainstEmptyMessage(string? message)
     {
         if (string.IsNullOrWhiteSpace(message))
-            throw new CustomValidationException(new List<ValidationFailure>
-            {
+            throw new CustomValidationException(
+            [
                 new("Message", "A message is required to get a response")
-            });
+            ]);
     }
 }

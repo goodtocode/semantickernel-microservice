@@ -1,6 +1,6 @@
-﻿using AutoMapper.QueryableExtensions;
-using Goodtocode.SemanticKernel.Core.Application.Abstractions;
-using Goodtocode.SemanticKernel.Core.Application.ForecastLists.Queries.GetAll;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
@@ -23,8 +23,15 @@ public class GetChatSessionQueryHandler : IRequestHandler<GetChatSessionQuery, C
     public async Task<ChatSessionDto> Handle(GetChatSessionQuery request,
                                 CancellationToken cancellationToken)
     {
-        return await _context.ChatMessages
-            .ProjectTo<ChatSessionDto>(_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(x => x.Key == request.Key, cancellationToken);
+        var chatSession = await _context.ChatSessions.FindAsync(request.Key);
+        GuardAgainstForecastNotFound(chatSession);
+
+        return _mapper.Map<ChatSessionDto>(chatSession);
+    }
+
+    private static void GuardAgainstForecastNotFound(ChatSessionEntity? chatSession)
+    {
+        if (chatSession == null)
+            throw new CustomNotFoundException("Chat Session Not Found");
     }
 }

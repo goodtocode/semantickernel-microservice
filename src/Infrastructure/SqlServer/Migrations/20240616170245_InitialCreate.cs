@@ -60,8 +60,8 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                 {
                     Key = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ChatSessionKey = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Response = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PartitionKey = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },

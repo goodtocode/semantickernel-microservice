@@ -2,7 +2,8 @@
 
 public enum ChatMessageRole
 {
-    System,
-    User,
-    Assistant
+    system,
+    user,
+    assistant,
+    tool
 }
