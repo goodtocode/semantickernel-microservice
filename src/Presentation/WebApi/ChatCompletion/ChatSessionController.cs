@@ -8,7 +8,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession;
 /// </summary>
 [ApiController]
 [ApiConventionType(typeof(DefaultApiConventions))]
-[Route("[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class ChatSessionController : ApiControllerBase
 {
@@ -41,7 +41,7 @@ public class ChatSessionController : ApiControllerBase
     ///
     ///     HttpPost Body
     ///     {
-    ///        "Key": "00000000-0000-0000-0000-000000000000",
+    ///        "Key": 00000000-0000-0000-0000-000000000000,
     ///        "Message":  "Hi, I am interested in learning about Semantic Kernel."
     ///     }
     ///
@@ -49,11 +49,12 @@ public class ChatSessionController : ApiControllerBase
     /// </remarks>
     /// <param name="command"></param>
     /// <returns>    
-    ///     {
-    ///        "Key": "00000000-0000-0000-0000-000000000000",
-    ///        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
-    ///        "Response": "Certainly! Semantic Kernel is a great framework for AI.",
-    ///     }
+    ///     {[
+    ///         {
+    ///             "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+    ///             "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+    ///         }
+    ///     }]
     /// </returns>
     [HttpPost(Name = "CreateChatSessionCommand")]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -73,7 +74,7 @@ public class ChatSessionController : ApiControllerBase
     /////
     /////     HttpPut Body
     /////     {
-    /////        "Key": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    /////        "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
     /////        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
     /////        "Content": "Certainly! Semantic Kernel is a great framework for AI.",
     /////     }
@@ -83,7 +84,7 @@ public class ChatSessionController : ApiControllerBase
     ///// <param name="command"></param>
     ///// <returns>    
     /////     {
-    /////        "Key": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    /////        "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
     /////        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
     /////        "Content": "Certainly! Semantic Kernel is a great framework for AI.",
     /////     }</returns>
@@ -98,34 +99,34 @@ public class ChatSessionController : ApiControllerBase
     //    return NoContent();
     //}
 
-    ///// <summary>
-    ///// Patch ChatSession Command
-    ///// </summary>
-    ///// <remarks>
-    ///// Sample request:
-    /////
-    /////     HttpPatch Body
-    /////     {
-    /////        "Key": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    /////        "Date": "2023-06-08T23:32:05.256Z",
-    /////        "TemperatureC": 0,
-    /////        "Zipcodes": [ 92602, 92673 ]
-    /////     }
-    /////
-    /////     "version":  1.0
-    ///// </remarks>
-    ///// <param name="command"></param>
-    ///// <returns>NoContent</returns>
-    //[HttpPatch(Name = "PatchChatSessionCommand")]
-    //[ProducesResponseType(StatusCodes.Status204NoContent)]
-    //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //public async Task<ActionResult> Patch(PatchChatSessionCommand command)
-    //{
-    //    await Mediator.Send(command);
+    /// <summary>
+    /// Patch Chat Session Command
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     HttpPatch Body
+    ///     {
+    ///        "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+    ///        "Title":  "Semantic Kernel Chat Session"
+    ///     }
+    ///
+    ///     "version":  1.0
+    /// </remarks>
+    /// <param name="key"></param>
+    /// <param name="command"></param>
+    /// <returns>NoContent</returns>
+    [HttpPatch("{key}", Name = "PatchChatSessionCommand")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult> Patch(Guid key, PatchChatSessionCommand command)
+    {
+        command.Key = key;
+        await Mediator.Send(command);
 
-    //    return NoContent();
-    //}
+        return NoContent();
+    }
 
     ///// <summary>Remove ChatSession Command</summary>
     ///// <remarks>

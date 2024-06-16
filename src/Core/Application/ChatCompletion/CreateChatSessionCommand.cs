@@ -10,6 +10,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 public class CreateChatSessionCommand : IRequest<ChatSessionDto>
 {
     public Guid Key { get; set; }
+    public string? Title { get; set; }
     public string? Message { get; set; }
 }
 

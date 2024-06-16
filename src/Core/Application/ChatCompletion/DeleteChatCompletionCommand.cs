@@ -1,7 +1,7 @@
 ﻿//using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 //using Goodtocode.SemanticKernel.Core.Application.Common.Interfaces;
 
-//namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletions.Commands.Remove;
+//namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion.Commands.Remove;
 
 //public class DeleteChatSessionCommand : IRequest
 //{

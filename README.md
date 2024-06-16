@@ -115,6 +115,10 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 	```	
 	dotnet ef database update --project .\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj --startup-project .\Presentation\WebApi\Presentation.WebApi.csproj --context ChatCompletionContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernelMicroservice;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
 	```
+7. When an entity changes, is created or deleted, create a new migration. Suggest doing this each new version.
+	```
+	dotnet ef migrations add v1.1 --project .\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj --startup-project .\Presentation\WebApi\Presentation.WebApi.csproj --context ChatCompletionContext
+	```
 
 ## dotnet new steps
 1. Start Windows Terminal
