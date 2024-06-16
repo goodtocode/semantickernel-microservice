@@ -7,5 +7,5 @@ public class ChatSessionEntity : DomainEntity<ChatSessionEntity>
     public ChatSessionEntity() { }
 
     public DateTime Timestamp { get; set; }
-    public virtual ICollection<ChatMessageEntity>? Messages { get; set; } = [];
+    public virtual ICollection<ChatMessageEntity> Messages { get; set; } = [];
 }

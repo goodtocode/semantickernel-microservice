@@ -93,7 +93,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Create
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void CreateChatSession(string def, string response, string responseErrors, string key, string chatSessionExists, string message, string content, string responseRole, string[] exampleTags)
+        public virtual void CreateChatSession(string def, string response, string responseErrors, string key, string chatSessionExists, string message, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -103,8 +103,6 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Create
             argumentsOfScenario.Add("key", key);
             argumentsOfScenario.Add("chatSessionExists", chatSessionExists);
             argumentsOfScenario.Add("message", message);
-            argumentsOfScenario.Add("content", content);
-            argumentsOfScenario.Add("responseRole", responseRole);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Chat Session", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
@@ -137,12 +135,6 @@ this.ScenarioInitialize(scenarioInfo);
 #line 14
  testRunner.And(string.Format("if the response has validation issues I see the \"{0}\" in the response", responseErrors), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
- testRunner.And(string.Format("chat completion returns with content \"{0}\"", content), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 16
- testRunner.And("chat completion returns with the according role \"<role>\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
             }
             this.ScenarioCleanup();
         }
@@ -158,12 +150,10 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "false")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Hello, I am interested in an interactive chat session.")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:content", "Certainly! I’m here to assist.")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseRole", "Assistant")]
         public void CreateChatSession_Success()
         {
 #line 7
-this.CreateChatSession("success", "Success", "", "00000000-0000-0000-0000-000000000000", "false", "Hello, I am interested in an interactive chat session.", "Certainly! I’m here to assist.", "Assistant", ((string[])(null)));
+this.CreateChatSession("success", "Success", "", "00000000-0000-0000-0000-000000000000", "false", "Hello, I am interested in an interactive chat session.", ((string[])(null)));
 #line hidden
         }
         
@@ -178,12 +168,10 @@ this.CreateChatSession("success", "Success", "", "00000000-0000-0000-0000-000000
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "false")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:content", "")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseRole", "")]
         public void CreateChatSession_BadRequestEmptyMessage()
         {
 #line 7
-this.CreateChatSession("bad request: empty message", "BadRequest", "Message", "00000000-0000-0000-0000-000000000000", "false", "", "", "", ((string[])(null)));
+this.CreateChatSession("bad request: empty message", "BadRequest", "Message", "00000000-0000-0000-0000-000000000000", "false", "", ((string[])(null)));
 #line hidden
         }
         
@@ -193,17 +181,15 @@ this.CreateChatSession("bad request: empty message", "BadRequest", "Message", "0
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createChatSessionCommand")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "already exists")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "already exists")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Key")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Error")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Hello, I am interested in an interactive chat session.")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:content", "Certainly! I’m here to assist.")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseRole", "Assistant")]
         public void CreateChatSession_AlreadyExists()
         {
 #line 7
-this.CreateChatSession("already exists", "BadRequest", "Key", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", "Hello, I am interested in an interactive chat session.", "Certainly! I’m here to assist.", "Assistant", ((string[])(null)));
+this.CreateChatSession("already exists", "Error", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", "Hello, I am interested in an interactive chat session.", ((string[])(null)));
 #line hidden
         }
     }

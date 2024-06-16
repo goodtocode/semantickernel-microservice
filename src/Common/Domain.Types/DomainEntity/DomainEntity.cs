@@ -8,7 +8,7 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
     private readonly List<IDomainEvent<TModel>> _domainEvents = [];
 
     [Key]
-    public Guid Key { get; }
+    public Guid Key { get; set; }
 
     [IgnoreDataMember]
     public string PartitionKey { get; set; } = string.Empty;

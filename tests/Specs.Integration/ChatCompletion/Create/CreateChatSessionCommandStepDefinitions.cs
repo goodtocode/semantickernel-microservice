@@ -48,6 +48,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         {
             var chatSession = new ChatSessionEntity()
             {
+                Key = _key,
                 Messages =
                  [
                      new ChatMessageEntity()
@@ -59,15 +60,15 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
                  ],
                 Timestamp = DateTime.UtcNow,
             };
-            var context = new ChatCompletionContext(new DbContextOptionsBuilder<ChatCompletionContext>()
-                   .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options);
-            context.ChatSessions.Add(chatSession);
-            await context.SaveChangesAsync(CancellationToken.None);
+            _context.ChatSessions.Add(chatSession);
+            await _context.SaveChangesAsync(CancellationToken.None);
         }
 
         // Test command
         var request = new CreateChatSessionCommand()
-        {  Message = _message           
+        {  
+            Key = _key,
+            Message = _message           
         };
 
         var validator = new CreateChatSessionCommandValidator();
