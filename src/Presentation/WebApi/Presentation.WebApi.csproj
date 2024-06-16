@@ -12,6 +12,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Goodtocode.SemanticKernel.Presentation.WebApi.xml" />
+		<None Remove="SemanticKernelMicroservice.Presentation.WebApi.xml" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />

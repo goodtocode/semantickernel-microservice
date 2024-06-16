@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace SemanticKernelMicroservice.Specs.Application.Unit.TempCalculations.Queries.GetFahrenheitToCelsius
+namespace Goodtocode.SemanticKernel.Specs.Integration.TempCalculations.Queries.GetFahrenheitToCelsius
 {
     using TechTalk.SpecFlow;
     using System;
@@ -67,7 +67,7 @@ namespace SemanticKernelMicroservice.Specs.Application.Unit.TempCalculations.Que
             if (((testRunner.FeatureContext != null) 
                         && (testRunner.FeatureContext.FeatureInfo.Title != "Get Fahrenheit To Celsius Calculation Conversion Query")))
             {
-                global::SemanticKernelMicroservice.Specs.Application.Unit.TempCalculations.Queries.GetFahrenheitToCelsius.GetFahrenheitToCelsiusCalculationConversionQueryFeature.FeatureSetup(null);
+                global::Goodtocode.SemanticKernel.Specs.Integration.TempCalculations.Queries.GetFahrenheitToCelsius.GetFahrenheitToCelsiusCalculationConversionQueryFeature.FeatureSetup(null);
             }
         }
         

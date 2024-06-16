@@ -34,8 +34,9 @@ Follow these steps to get your development environment set up:
 	Get-Childitem env:
 	```	
   
-  ### Setup Azure Open AI or Open AI configuration
-  #### Azure Open AI
+### Setup Azure Open AI or Open AI configuration
+**Important:** Do this for both Presentation.WebAPI and Specs.Infrastructure
+#### Azure Open AI in Presentation.WebAPI and Specs.Infrastructure
 ```
 cd src/Presentation/WebAPI
 dotnet user-secrets init
@@ -43,7 +44,6 @@ dotnet user-secrets set "AzureOpenAI:ChatDeploymentName" "gpt-4"
 dotnet user-secrets set "AzureOpenAI:Endpoint" "https://YOUR_ENDPOINT.openai.azure.com/"
 dotnet user-secrets set "AzureOpenAI:ApiKey" "YOUR_API_KEY"
 ```
-
 Alternately you can set in Environment variables
 ```
 AzureOpenAI__ChatDeploymentName
