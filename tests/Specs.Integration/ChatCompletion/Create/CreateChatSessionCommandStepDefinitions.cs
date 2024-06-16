@@ -94,7 +94,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
     [Then(@"I see the chat session created with the initial response ""([^""]*)""")]
     public void ThenISeeTheChatSessionCreatedWithTheInitialResponse(string response)
     {
-        Assert.IsTrue(!string.IsNullOrWhiteSpace(response));
+        response.Should().NotBeNullOrEmpty();
     }
 
     [Then(@"if the response has validation issues I see the ""([^""]*)"" in the response")]
