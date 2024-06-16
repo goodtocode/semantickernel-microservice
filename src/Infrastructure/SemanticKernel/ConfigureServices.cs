@@ -43,11 +43,11 @@ public static class ConfigureServices
         {
             OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
             return new OpenAIChatCompletionService(options.ChatModelId, options.ApiKey);
-        })
+        });
         // Completing words or sentences, code completion
-         .AddOpenAITextGeneration(
+         services.AddOpenAITextGeneration(
             configuration["OpenAI:ChatModelId"] ?? OpenAiModels.ChatGpt35Turbo,
-            configuration["OpenAI:ApiKey"] ?? throw new InvalidOperationException("The 'OpenAI:ChatModelId' configuration value is missing."));
+            configuration["OpenAI:ApiKey"] ?? throw new InvalidOperationException("The 'OpenAI:ApiKey' configuration value is missing."));
         // Alternative:
         //.AddSingleton<ITextGenerationService>(sp =>
         //{

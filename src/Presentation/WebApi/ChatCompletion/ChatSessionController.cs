@@ -41,13 +41,20 @@ public class ChatSessionController : ApiControllerBase
     ///
     ///     HttpPost Body
     ///     {
-    ///        "Message": "Hi, I'm Robert. I am interested in learning about Semantic Kernel.",
+    ///        "Key": "00000000-0000-0000-0000-000000000000",
+    ///        "Message":  "Hi, I am interested in learning about Semantic Kernel."
     ///     }
     ///
     ///     "version":  1.0
     /// </remarks>
     /// <param name="command"></param>
-    /// <returns></returns>
+    /// <returns>    
+    ///     {
+    ///        "Key": "00000000-0000-0000-0000-000000000000",
+    ///        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
+    ///        "Response": "Certainly! Semantic Kernel is a great framework for AI.",
+    ///     }
+    /// </returns>
     [HttpPost(Name = "CreateChatSessionCommand")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -55,7 +62,7 @@ public class ChatSessionController : ApiControllerBase
     public async Task<ActionResult> Post(CreateChatSessionCommand command)
     {
         var response = await Mediator.Send(command);
-        return CreatedAtAction(nameof(Get), new { response.Key }, command);
+        return CreatedAtAction(nameof(Get), new { response.Key }, response);
     }
 
     ///// <summary>
@@ -67,14 +74,19 @@ public class ChatSessionController : ApiControllerBase
     /////     HttpPut Body
     /////     {
     /////        "Key": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    /////        "Message": "Hi, I'm Robert. What is the weather today?",
-    /////        "Response": "The weather is 75 degrees Fahrenheit and sunny.",
+    /////        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
+    /////        "Content": "Certainly! Semantic Kernel is a great framework for AI.",
     /////     }
     /////
     /////     "version":  1.0
     ///// </remarks>
     ///// <param name="command"></param>
-    ///// <returns>NoContent</returns>
+    ///// <returns>    
+    /////     {
+    /////        "Key": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    /////        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
+    /////        "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+    /////     }</returns>
     //[HttpPut(Name = "UpdateChatSessionCommand")]
     //[ProducesResponseType(StatusCodes.Status204NoContent)]
     //[ProducesResponseType(StatusCodes.Status404NotFound)]

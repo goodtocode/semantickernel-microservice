@@ -32,7 +32,7 @@ if (builder.Environment.IsDevelopment() || builder.Environment.EnvironmentName =
 builder.Services.AddApplicationServices();
 builder.Services.AddDbContextServices(builder.Configuration);
 builder.Services.AddSemanticKernelServices(builder.Configuration);
-builder.Services.AddWebUIServices(builder.Configuration);
+builder.Services.AddWebUIServices();
 builder.Services.AddHealthChecks();
 //AddKeyVaultConfigurationSettings(builder);
 BuildApiVerAndApiExplorer(builder);

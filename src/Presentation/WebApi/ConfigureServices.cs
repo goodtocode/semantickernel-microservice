@@ -13,10 +13,8 @@ public static class ConfigureServices
     /// Add WebUI Services
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="configuration"></param>
     /// <returns></returns>
-    public static IServiceCollection AddWebUIServices(this IServiceCollection services,
-        IConfiguration configuration)
+    public static IServiceCollection AddWebUIServices(this IServiceCollection services)
     {
         services.AddControllersWithViews(setupAction =>
             {
@@ -81,18 +79,13 @@ public static class ConfigureServices
     /// <summary>
     /// Swagger UI Configuration
     /// </summary>
-    public class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
+    /// <remarks>
+    /// Constructor
+    /// </remarks>
+    /// <param name="provider"></param>
+    public class ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider) : IConfigureNamedOptions<SwaggerGenOptions>
     {
-        private readonly IApiVersionDescriptionProvider provider;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="provider"></param>
-        public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
-        {
-            this.provider = provider;
-        }
+        private readonly IApiVersionDescriptionProvider _provider = provider;
 
         /// <summary>
         /// OpenApi Configuration
@@ -100,7 +93,7 @@ public static class ConfigureServices
         /// <param name="options"></param>
         public void Configure(SwaggerGenOptions options)
         {
-            foreach (var description in provider.ApiVersionDescriptions)
+            foreach (var description in _provider.ApiVersionDescriptions)
                 options.SwaggerDoc(description.GroupName, CreateVersionInfo(description));
 
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -113,12 +106,12 @@ public static class ConfigureServices
         /// </summary>
         /// <param name="name"></param>
         /// <param name="options"></param>
-        public void Configure(string name, SwaggerGenOptions options)
+        public void Configure(string? name, SwaggerGenOptions options)
         {
             Configure(options);
         }
 
-        private OpenApiInfo CreateVersionInfo(ApiVersionDescription description)
+        private static OpenApiInfo CreateVersionInfo(ApiVersionDescription description)
         {
             var info = new OpenApiInfo
             {
