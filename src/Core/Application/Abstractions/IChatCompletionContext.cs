@@ -1,5 +1,4 @@
 ﻿using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using Goodtocode.SemanticKernel.Core.Domain.Forecasts.Entities;
 using Goodtocode.SemanticKernel.Core.Domain.Subject;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Abstractions;
