@@ -88,6 +88,17 @@
              <param name="command"></param>
              <returns>NoContent</returns>
         </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Delete(System.Guid)">
+             <summary>Remove ChatSession Command</summary>
+             <remarks>
+             Sample request:
+            
+                    "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "api-version":  1.0
+             
+             </remarks>
+             <returns>NoContent</returns>
+        </member>
         <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.Common.ApiControllerBase">
             <summary>
             Sets up ISender Mediator property

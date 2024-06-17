@@ -1,28 +1,30 @@
-﻿//using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
-//using Goodtocode.SemanticKernel.Core.Application.Common.Interfaces;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
-//namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion.Commands.Remove;
+namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
-//public class DeleteChatSessionCommand : IRequest
-//{
-//    public Guid Key { get; set; }
-//}
+public class DeleteChatSessionCommand : IRequest
+{
+    public Guid Key { get; set; }
+}
 
-//public class DeleteChatSessionCommandHandler : IRequestHandler<DeleteChatSessionCommand>
-//{
-//    private readonly ISemanticKernelMicroserviceContext _context;
+public class DeleteChatSessionCommandHandler(IChatCompletionContext context) : IRequestHandler<DeleteChatSessionCommand>
+{
+    private readonly IChatCompletionContext _context = context;
 
-//    public DeleteChatSessionCommandHandler(ISemanticKernelMicroserviceContext context)
-//    {
-//        _context = context;
-//    }
+    public async Task Handle(DeleteChatSessionCommand request, CancellationToken cancellationToken)
+    {
+        var chatSession = _context.ChatSessions.Find(request.Key);
+        GuardAgainstNotFound(chatSession);
 
-//    public async Task Handle(DeleteChatSessionCommand request, CancellationToken cancellationToken)
-//    {
-//        var weatherChatCompletion = _context.ChatCompletions.Find(request.Key);
+        _context.ChatSessions.Remove(chatSession!);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 
-//        if (weatherChatCompletion == null) throw new CustomNotFoundException();
-//        _context.ChatCompletions.Remove(weatherChatCompletion);
-//        await _context.SaveChangesAsync(cancellationToken);
-//    }
-//}
+    private static void GuardAgainstNotFound(ChatSessionEntity? chatSession)
+    {
+        if (chatSession == null)
+            throw new CustomNotFoundException("Chat Session Not Found");
+    }
+}

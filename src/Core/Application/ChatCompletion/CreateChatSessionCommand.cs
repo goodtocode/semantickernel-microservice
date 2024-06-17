@@ -1,9 +1,7 @@
-﻿using FluentValidation.Results;
-using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using Microsoft.SemanticKernel.ChatCompletion;
-using System.Net.NetworkInformation;
 
 namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 

@@ -128,24 +128,24 @@ public class ChatSessionController : ApiControllerBase
         return NoContent();
     }
 
-    ///// <summary>Remove ChatSession Command</summary>
-    ///// <remarks>
-    ///// Sample request:
-    /////
-    /////        "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
-    /////        "api-version":  1.0
-    ///// 
-    ///// </remarks>
-    ///// <returns>NoContent</returns>
-    //[HttpDelete("{key}", Name = "RemoveChatSessionCommand")]
-    //[ProducesResponseType(StatusCodes.Status204NoContent)]
-    //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[ProducesDefaultResponseType]
-    //public async Task<IActionResult> Delete(Guid key)
-    //{
-    //    await Mediator.Send(new RemoveChatSessionCommand() { Key = key });
+    /// <summary>Remove ChatSession Command</summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///        "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+    ///        "api-version":  1.0
+    /// 
+    /// </remarks>
+    /// <returns>NoContent</returns>
+    [HttpDelete("{key}", Name = "RemoveChatSessionCommand")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> Delete(Guid key)
+    {
+        await Mediator.Send(new DeleteChatSessionCommand() { Key = key });
 
-    //    return NoContent();
-    //}
+        return NoContent();
+    }
 }
