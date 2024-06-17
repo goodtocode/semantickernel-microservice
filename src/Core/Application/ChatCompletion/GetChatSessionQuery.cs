@@ -9,27 +9,21 @@ public class GetChatSessionQuery : IRequest<ChatSessionDto>
     public Guid Key { get; set; }
 }
 
-public class GetChatSessionQueryHandler : IRequestHandler<GetChatSessionQuery, ChatSessionDto>
+public class GetChatSessionQueryHandler(IChatCompletionContext context, IMapper mapper) : IRequestHandler<GetChatSessionQuery, ChatSessionDto>
 {
-    private IChatCompletionContext _context;
-    private IMapper _mapper;
-
-    public GetChatSessionQueryHandler(IChatCompletionContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
+    private readonly IChatCompletionContext _context = context;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<ChatSessionDto> Handle(GetChatSessionQuery request,
                                 CancellationToken cancellationToken)
     {
-        var chatSession = await _context.ChatSessions.FindAsync(request.Key);
-        GuardAgainstForecastNotFound(chatSession);
+        var chatSession = await _context.ChatSessions.FindAsync(request.Key, cancellationToken);
+        GuardAgainstNotFound(chatSession);
 
         return _mapper.Map<ChatSessionDto>(chatSession);
     }
 
-    private static void GuardAgainstForecastNotFound(ChatSessionEntity? chatSession)
+    private static void GuardAgainstNotFound(ChatSessionEntity? chatSession)
     {
         if (chatSession == null)
             throw new CustomNotFoundException("Chat Session Not Found");

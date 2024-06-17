@@ -29,7 +29,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Given(@"I the chat session exists ""([^""]*)""")]
     public void GivenITheChatSessionExists(string chatSessionExists)
     {
-        _exists = bool.Parse(chatSessionExists);
+        bool.TryParse(chatSessionExists, out _exists).Should().BeTrue();
     }
 
     [Given(@"I have a expected chat session count ""([^""]*)""")]

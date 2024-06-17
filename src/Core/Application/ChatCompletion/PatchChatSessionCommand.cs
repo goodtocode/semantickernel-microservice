@@ -1,6 +1,7 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
@@ -19,9 +20,9 @@ public class PatchChatSessionCommandHandler(IChatCompletionContext context) : IR
 
         var chatSession = _context.ChatSessions.Find(request.Key);
         GuardAgainstNotFound(chatSession);
+        GuardAgainstEmptyTitle(request.Title);
 
-        if (!string.IsNullOrWhiteSpace(request.Title))
-            chatSession.Title = request.Title;
+        chatSession!.Title = request.Title;
 
         _context.ChatSessions.Update(chatSession);
         await _context.SaveChangesAsync(cancellationToken);
@@ -31,5 +32,14 @@ public class PatchChatSessionCommandHandler(IChatCompletionContext context) : IR
     {
         if (chatSession == null)
             throw new CustomNotFoundException("Chat Session Not Found");
+    }
+
+    private static void GuardAgainstEmptyTitle(string title)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+            throw new CustomValidationException(
+                [
+                    new("Title", "Title cannot be empty")
+                ]);
     }
 }

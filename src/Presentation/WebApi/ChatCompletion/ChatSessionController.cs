@@ -66,38 +66,38 @@ public class ChatSessionController : ApiControllerBase
         return CreatedAtAction(nameof(Get), new { response.Key }, response);
     }
 
-    ///// <summary>
-    ///// Update ChatSession Command
-    ///// </summary>
-    ///// <remarks>
-    ///// Sample request:
-    /////
-    /////     HttpPut Body
-    /////     {
-    /////        "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
-    /////        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
-    /////        "Content": "Certainly! Semantic Kernel is a great framework for AI.",
-    /////     }
-    /////
-    /////     "version":  1.0
-    ///// </remarks>
-    ///// <param name="command"></param>
-    ///// <returns>    
-    /////     {
-    /////        "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
-    /////        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
-    /////        "Content": "Certainly! Semantic Kernel is a great framework for AI.",
-    /////     }</returns>
-    //[HttpPut(Name = "UpdateChatSessionCommand")]
-    //[ProducesResponseType(StatusCodes.Status204NoContent)]
-    //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //public async Task<ActionResult> Put(UpdateChatSessionCommand command)
-    //{
-    //    await Mediator.Send(command);
+    /// <summary>
+    /// Update ChatSession Command
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     HttpPut Body
+    ///     {
+    ///        "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+    ///        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
+    ///        "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+    ///     }
+    ///
+    ///     "version":  1.0
+    /// </remarks>
+    /// <param name="command"></param>
+    /// <returns>    
+    ///     {
+    ///        "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+    ///        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
+    ///        "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+    ///     }</returns>
+    [HttpPut(Name = "UpdateChatSessionCommand")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult> Put(UpdateChatSessionCommand command)
+    {
+        await Mediator.Send(command);
 
-    //    return NoContent();
-    //}
+        return NoContent();
+    }
 
     /// <summary>
     /// Patch Chat Session Command

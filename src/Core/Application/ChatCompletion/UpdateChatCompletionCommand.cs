@@ -1,34 +1,33 @@
-﻿//using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
-//using Goodtocode.SemanticKernel.Core.Application.Common.Interfaces;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
-//namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion.Commands.Update;
+namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
-//public class UpdateChatSessionCommand : IRequest
-//{
-//    public Guid Key { get; set; }
-//    public DateTime Date { get; set; }
-//    public int? TemperatureF { get; set; }
-//    public List<int> Zipcodes { get; set; }
-//}
+public class UpdateChatSessionCommand : IRequest
+{
+    public Guid Key { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public ICollection<ChatMessageDto> Messages { get; set; } = [];
+}
 
-//public class UpdateWeatherChatSessionCommandHandler : IRequestHandler<UpdateChatSessionCommand>
-//{
-//    private readonly ISemanticKernelMicroserviceContext _context;
+public class UpdateChatSessionCommandHandler (IChatCompletionContext context) : IRequestHandler<UpdateChatSessionCommand>
+{
+    private readonly IChatCompletionContext _context = context;
 
-//    public UpdateWeatherChatSessionCommandHandler(ISemanticKernelMicroserviceContext context)
-//    {
-//        _context = context;
-//    }
+    public async Task Handle(UpdateChatSessionCommand request, CancellationToken cancellationToken)
+    {
+        var chatSession = _context.ChatSessions.Find(request.Key);
+        GuardAgainstNotFound(chatSession);
 
-//    public async Task Handle(UpdateChatSessionCommand request, CancellationToken cancellationToken)
-//    {
-//        var weatherChatCompletion = _context.ChatCompletions.Find(request.Key);
-//        if (weatherChatCompletion == null) throw new CustomNotFoundException();
 
-//        weatherChatCompletion.UpdateDate(request.Date);
-//        weatherChatCompletion.UpdateTemperatureF((int) request.TemperatureF);
-//        weatherChatCompletion.UpdateZipcodes(request.Zipcodes);
-//        _context.ChatCompletions.Update(weatherChatCompletion);
-//        await _context.SaveChangesAsync(CancellationToken.None);
-//    }
-//}
+        _context.ChatSessions.Update(chatSession!);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    private static void GuardAgainstNotFound(ChatSessionEntity? chatSession)
+    {
+        if (chatSession == null)
+            throw new CustomNotFoundException("Chat Session Not Found");
+    }
+}

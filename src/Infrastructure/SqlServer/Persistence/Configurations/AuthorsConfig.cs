@@ -1,6 +1,4 @@
-﻿using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using Goodtocode.SemanticKernel.Core.Domain.Forecasts.Entities;
-using Goodtocode.SemanticKernel.Core.Domain.Subject;
+﻿using Goodtocode.SemanticKernel.Core.Domain.Subject;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence.Configurations;
 
