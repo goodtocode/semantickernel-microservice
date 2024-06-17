@@ -1,5 +1,5 @@
 ﻿//using Goodtocode.SemanticKernel.Core.Application.Forecasts.Commands.Add;
-//using Goodtocode.SemanticKernel.Core.Application.Forecasts.Commands.Patch;
+//using Goodtocode.SemanticKernel.Core.Application.Forecasts;
 //using Goodtocode.SemanticKernel.Core.Application.Forecasts.Commands.Remove;
 //using Goodtocode.SemanticKernel.Core.Application.Forecasts.Commands.Update;
 //using Goodtocode.SemanticKernel.Core.Application.Forecasts.Queries.Get;

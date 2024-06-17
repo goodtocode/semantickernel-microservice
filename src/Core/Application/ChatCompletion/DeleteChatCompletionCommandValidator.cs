@@ -1,4 +1,4 @@
-﻿//namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletions.Commands.Remove;
+﻿//namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion.Commands.Remove;
 
 //public class DeleteChatSessionCommandValidator : AbstractValidator<DeleteChatSessionCommand>
 //{

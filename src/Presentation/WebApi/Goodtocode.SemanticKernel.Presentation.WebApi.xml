@@ -29,7 +29,7 @@
             
                  HttpPost Body
                  {
-                    "Key": "00000000-0000-0000-0000-000000000000",
+                    "Key": 00000000-0000-0000-0000-000000000000,
                     "Message":  "Hi, I am interested in learning about Semantic Kernel."
                  }
             
@@ -37,12 +37,32 @@
              </remarks>
              <param name="command"></param>
              <returns>    
-                 {
-                    "Key": "00000000-0000-0000-0000-000000000000",
-                    "Message":  "Hi, I am interested in learning about Semantic Kernel.",
-                    "Response": "Certainly! Semantic Kernel is a great framework for AI.",
-                 }
+                 {[
+                     {
+                         "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
              </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Patch(System.Guid,Goodtocode.SemanticKernel.Core.Application.ChatCompletion.PatchChatSessionCommand)">
+             <summary>
+             Patch Chat Session Command
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 HttpPatch Body
+                 {
+                    "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+                    "Title":  "Semantic Kernel Chat Session"
+                 }
+            
+                 "version":  1.0
+             </remarks>
+             <param name="key"></param>
+             <param name="command"></param>
+             <returns>NoContent</returns>
         </member>
         <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.Common.ApiControllerBase">
             <summary>

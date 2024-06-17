@@ -1,7 +1,7 @@
 ﻿//using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 //using Goodtocode.SemanticKernel.Core.Application.Common.Interfaces;
 
-//namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletions.Commands.Update;
+//namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion.Commands.Update;
 
 //public class UpdateChatSessionCommand : IRequest
 //{

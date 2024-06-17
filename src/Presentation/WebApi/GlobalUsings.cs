@@ -1,6 +1,5 @@
 ﻿global using Asp.Versioning;
 global using Asp.Versioning.ApiExplorer;
-global using FluentValidation.AspNetCore;
 global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.Filters;

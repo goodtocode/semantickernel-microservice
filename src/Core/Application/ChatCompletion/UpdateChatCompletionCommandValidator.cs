@@ -1,4 +1,4 @@
-﻿//namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletions.Commands.Update;
+﻿//namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion.Commands.Update;
 
 //public class UpdateChatSessionCommandValidator : AbstractValidator<UpdateChatSessionCommand>
 //{
