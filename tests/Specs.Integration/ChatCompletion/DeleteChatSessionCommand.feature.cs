@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Remove
+namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
 {
     using TechTalk.SpecFlow;
     using System;
@@ -20,7 +20,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Remove
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class RemoveForecastCommandFeature
+    public partial class DeleteChatSessionCommandFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,9 +28,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Remove
         private Microsoft.VisualStudio.TestTools.UnitTesting.TestContext _testContext;
         
         private static string[] featureTags = new string[] {
-                "removeForecastCommand"};
+                "deleteChatSessionCommand"};
         
-#line 1 "RemoveForecast.feature"
+#line 1 "DeleteChatSessionCommand.feature"
 #line hidden
         
         public virtual Microsoft.VisualStudio.TestTools.UnitTesting.TestContext TestContext
@@ -49,7 +49,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Remove
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Forecasts/Commands/Remove", "Remove Forecast Command", "As a weather forecasts user\r\nI can remove a forecast", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ChatCompletion", "Delete Chat Session Command", "As a chat session owner\r\nWhen I select a chat session\r\nI can delete the chat sess" +
+                    "ion", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -64,9 +65,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Remove
         public void TestInitialize()
         {
             if (((testRunner.FeatureContext != null) 
-                        && (testRunner.FeatureContext.FeatureInfo.Title != "Remove Forecast Command")))
+                        && (testRunner.FeatureContext.FeatureInfo.Title != "Delete Chat Session Command")))
             {
-                global::Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Remove.RemoveForecastCommandFeature.FeatureSetup(null);
+                global::Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.DeleteChatSessionCommandFeature.FeatureSetup(null);
             }
         }
         
@@ -92,7 +93,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Remove
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void RemoveForecast(string def, string response, string responseErrors, string key, string forecastExists, string[] exampleTags)
+        public virtual void DeleteChatSession(string def, string response, string responseErrors, string key, string exists, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -100,9 +101,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Forecasts.Commands.Remove
             argumentsOfScenario.Add("response", response);
             argumentsOfScenario.Add("responseErrors", responseErrors);
             argumentsOfScenario.Add("key", key);
-            argumentsOfScenario.Add("forecastExists", forecastExists);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Remove Forecast", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 6
+            argumentsOfScenario.Add("exists", exists);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete Chat Session", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -112,22 +113,22 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 7
+#line 8
  testRunner.Given(string.Format("I have a def \"{0}\"", def), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 8
- testRunner.And(string.Format("I have a forecast key\"{0}\"", key), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
 #line 9
- testRunner.And(string.Format("The forecast exists \"{0}\"", forecastExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a chat sesion key\"{0}\"", key), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.When("I remove the forecast", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And(string.Format("The chat sesion exists \"{0}\"", exists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.Then(string.Format("The response is \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I delete the chat sesion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 12
+ testRunner.Then(string.Format("The response is \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 13
  testRunner.And(string.Format("If the response has validation issues I see the \"{0}\" in the response", responseErrors), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -135,53 +136,53 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Remove Forecast: success")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Remove Forecast Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("removeForecastCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete Chat Session: success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete Chat Session Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("deleteChatSessionCommand")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:forecastExists", "true")]
-        public void RemoveForecast_Success()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "true")]
+        public void DeleteChatSession_Success()
         {
-#line 6
-this.RemoveForecast("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", ((string[])(null)));
+#line 7
+this.DeleteChatSession("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", ((string[])(null)));
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Remove Forecast: not found")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Remove Forecast Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("removeForecastCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete Chat Session: not found")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete Chat Session Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("deleteChatSessionCommand")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "not found")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "not found")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "NotFound")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:forecastExists", "false")]
-        public void RemoveForecast_NotFound()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "false")]
+        public void DeleteChatSession_NotFound()
         {
-#line 6
-this.RemoveForecast("not found", "NotFound", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "false", ((string[])(null)));
+#line 7
+this.DeleteChatSession("not found", "NotFound", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "false", ((string[])(null)));
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Remove Forecast: bad request: empty key")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Remove Forecast Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("removeForecastCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete Chat Session: bad request: empty key")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete Chat Session Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("deleteChatSessionCommand")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "bad request: empty key")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty key")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Key")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "00000000-0000-0000-0000-000000000000")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:forecastExists", "false")]
-        public void RemoveForecast_BadRequestEmptyKey()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "false")]
+        public void DeleteChatSession_BadRequestEmptyKey()
         {
-#line 6
-this.RemoveForecast("bad request: empty key", "BadRequest", "Key", "00000000-0000-0000-0000-000000000000", "false", ((string[])(null)));
+#line 7
+this.DeleteChatSession("bad request: empty key", "BadRequest", "Key", "00000000-0000-0000-0000-000000000000", "false", ((string[])(null)));
 #line hidden
         }
     }
