@@ -4,7 +4,7 @@ using Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Create;
+namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 
 [Binding]
 [Scope(Tag = "createChatSessionCommand")]
@@ -24,7 +24,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
     [Given(@"I have a initial message ""([^""]*)""")]
     public void GivenIHaveAInitialMessage(string message)
     {
-        _message= message;
+        _message = message;
     }
 
     [Given(@"I have a chat session key ""([^""]*)""")]
@@ -65,9 +65,9 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
 
         // Test command
         var request = new CreateChatSessionCommand()
-        {  
+        {
             Key = _key,
-            Message = _message           
+            Message = _message
         };
 
         var validator = new CreateChatSessionCommandValidator();

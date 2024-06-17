@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Get
+namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
 {
     using TechTalk.SpecFlow;
     using System;
@@ -49,7 +49,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Get
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ChatCompletion/Get", "Get Chat Session Query", "As a chat user\r\nWhen I select an existing chat session\r\nI can see the chat histor" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ChatCompletion", "Get Chat Session Query", "As a chat user\r\nWhen I select an existing chat session\r\nI can see the chat histor" +
                     "y messages", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -67,7 +67,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Get
             if (((testRunner.FeatureContext != null) 
                         && (testRunner.FeatureContext.FeatureInfo.Title != "Get Chat Session Query")))
             {
-                global::Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Get.GetChatSessionQueryFeature.FeatureSetup(null);
+                global::Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.GetChatSessionQueryFeature.FeatureSetup(null);
             }
         }
         

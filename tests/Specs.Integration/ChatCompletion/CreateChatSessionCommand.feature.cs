@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Create
+namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
 {
     using TechTalk.SpecFlow;
     using System;
@@ -49,7 +49,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Create
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ChatCompletion/Create", "Create Chat Session Command", "As a chat user\r\nWhen I start a new chat session and enter an initial message\r\nThe" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ChatCompletion", "Create Chat Session Command", "As a chat user\r\nWhen I start a new chat session and enter an initial message\r\nThe" +
                     "n I should see the chat session created with the initial response", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -67,7 +67,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Create
             if (((testRunner.FeatureContext != null) 
                         && (testRunner.FeatureContext.FeatureInfo.Title != "Create Chat Session Command")))
             {
-                global::Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Create.CreateChatSessionCommandFeature.FeatureSetup(null);
+                global::Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.CreateChatSessionCommandFeature.FeatureSetup(null);
             }
         }
         

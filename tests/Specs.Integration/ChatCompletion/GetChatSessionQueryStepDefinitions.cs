@@ -3,7 +3,7 @@ using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using System;
 using TechTalk.SpecFlow;
 
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.Get;
+namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 
 [Binding]
 [Scope(Tag = "getChatSessionQuery")]
