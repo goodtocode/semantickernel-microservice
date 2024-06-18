@@ -10,9 +10,13 @@ public class ChatSessionsConfig : IEntityTypeConfiguration<ChatSessionEntity>
         builder.HasKey(x => x.Key);
         builder.Property(x => x.Key);
         builder.Property(x => x.Timestamp);
-        builder            
-            .HasMany(cs => cs.Messages) // ChatSession has many ChatMessages
-            .WithOne(cm => cm.ChatSession) // ChatMessage has one ChatSession
-            .HasForeignKey(cm => cm.ChatSessionKey); // Foreign key property
+        builder
+            .HasOne(a => a.Author)
+            .WithMany(a => a.ChatSessions)
+            .HasForeignKey(a => a.AuthorKey);
+        builder
+            .HasMany(cs => cs.Messages)
+            .WithOne(cm => cm.ChatSession)
+            .HasForeignKey(cm => cm.ChatSessionKey);
     }
 }
