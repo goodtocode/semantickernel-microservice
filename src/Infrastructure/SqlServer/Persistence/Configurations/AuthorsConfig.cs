@@ -9,5 +9,6 @@ public class AuthorsConfig : IEntityTypeConfiguration<AuthorEntity>
         builder.ToTable("Authors");
         builder.HasKey(x => x.Key);
         builder.Property(x => x.Key);
+        builder.Property(x => x.Name);
     }
 }
