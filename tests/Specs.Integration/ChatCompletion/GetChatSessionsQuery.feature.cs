@@ -93,12 +93,13 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void GetChatSessions(string def, string response, string startDate, string endDate, string exist, string chatSessionsResultExists, string[] exampleTags)
+        public virtual void GetChatSessions(string def, string response, string responseErrors, string startDate, string endDate, string exist, string chatSessionsResultExists, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("def", def);
             argumentsOfScenario.Add("response", response);
+            argumentsOfScenario.Add("responseErrors", responseErrors);
             argumentsOfScenario.Add("startDate", startDate);
             argumentsOfScenario.Add("endDate", endDate);
             argumentsOfScenario.Add("exist", exist);
@@ -136,15 +137,18 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then(string.Format("The response is \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 15
- testRunner.And("The response has a collection of chat sessions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("If the response has validation issues I see the \"{0}\" in the response", responseErrors), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 16
- testRunner.And("Each chat session has a Key", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The response has a collection of chat sessions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 17
- testRunner.And("Each chat session has a Date greater than start date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Each chat session has a Key", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 18
+ testRunner.And("Each chat session has a Date greater than start date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 19
  testRunner.And("Each chat session has a Date less than end date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -158,6 +162,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success no date range")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success no date range")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
@@ -165,7 +170,7 @@ this.ScenarioInitialize(scenarioInfo);
         public void GetChatSessions_SuccessNoDateRange()
         {
 #line 7
-this.GetChatSessions("success no date range", "Success", "", "", "true", "true", ((string[])(null)));
+this.GetChatSessions("success no date range", "Success", "", "", "", "true", "true", ((string[])(null)));
 #line hidden
         }
         
@@ -176,6 +181,7 @@ this.GetChatSessions("success no date range", "Success", "", "", "true", "true",
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success with date range")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success with date range")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
@@ -183,7 +189,7 @@ this.GetChatSessions("success no date range", "Success", "", "", "true", "true",
         public void GetChatSessions_SuccessWithDateRange()
         {
 #line 7
-this.GetChatSessions("success with date range", "Success", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "true", ((string[])(null)));
+this.GetChatSessions("success with date range", "Success", "", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "true", ((string[])(null)));
 #line hidden
         }
         
@@ -194,6 +200,7 @@ this.GetChatSessions("success with date range", "Success", "2024-06-01T11:21:00Z
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success filtered results")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success filtered results")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
@@ -201,7 +208,7 @@ this.GetChatSessions("success with date range", "Success", "2024-06-01T11:21:00Z
         public void GetChatSessions_SuccessFilteredResults()
         {
 #line 7
-this.GetChatSessions("success filtered results", "Success", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "false", ((string[])(null)));
+this.GetChatSessions("success filtered results", "Success", "", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "false", ((string[])(null)));
 #line hidden
         }
         
@@ -212,6 +219,7 @@ this.GetChatSessions("success filtered results", "Success", "2024-06-01T11:21:00
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success empty results")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success empty results")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "false")]
@@ -219,7 +227,7 @@ this.GetChatSessions("success filtered results", "Success", "2024-06-01T11:21:00
         public void GetChatSessions_SuccessEmptyResults()
         {
 #line 7
-this.GetChatSessions("success empty results", "Success", "", "", "false", "false", ((string[])(null)));
+this.GetChatSessions("success empty results", "Success", "", "", "", "false", "false", ((string[])(null)));
 #line hidden
         }
     }
