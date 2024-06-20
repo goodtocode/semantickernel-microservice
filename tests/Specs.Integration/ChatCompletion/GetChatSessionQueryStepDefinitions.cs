@@ -1,7 +1,5 @@
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using System;
-using TechTalk.SpecFlow;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 

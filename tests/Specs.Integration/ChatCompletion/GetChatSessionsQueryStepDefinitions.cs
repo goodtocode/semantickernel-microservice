@@ -8,7 +8,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 public class GetChatSessionsQueryStepDefinitions : TestBase
 {
     private bool _exists;
-    private bool _withinDateRangeExists;    
+    private bool _withinDateRangeExists;
     private DateTime _endDate;
     private DateTime _startDate;
     private ICollection<ChatSessionDto> _response;
@@ -26,7 +26,7 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
     }
 
     [Given(@"I have a start date ""([^""]*)""")]
-    public void GivenIHaveAStartDate(string startDate) 
+    public void GivenIHaveAStartDate(string startDate)
     {
         DateTime.TryParse(startDate, out _startDate);
     }
@@ -61,7 +61,7 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
             var chatSession = new ChatSessionEntity()
             {
                 Messages = messages,
-                Timestamp = _startDate.AddSeconds(1),
+                Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1),
             };
             _context.ChatSessions.Add(chatSession);
             await _context.SaveChangesAsync(CancellationToken.None);
@@ -88,6 +88,18 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
             }
         else
             _responseType = CommandResponseType.BadRequest;
+    }
+
+    [Then(@"The response is ""([^""]*)""")]
+    public void ThenTheResponseIs(string response)
+    {
+        HandleHasResponseType(response);
+    }
+
+    [Then(@"If the response has validation issues I see the ""([^""]*)"" in the response")]
+    public void ThenIfTheResponseHasValidationIssuesISeeTheInTheResponse(string expectedErrors)
+    {
+        HandleExpectedValidationErrorsAssertions(expectedErrors);
     }
 
     [Then(@"The response has a collection of chat sessions")]
