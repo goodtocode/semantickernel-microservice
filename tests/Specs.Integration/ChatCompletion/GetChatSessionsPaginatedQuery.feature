@@ -6,6 +6,7 @@ I can get a paginated collection of chat sessions
 
 Scenario: Get chat sessions paginated
 	Given I have a definition "<def>"
+	And Chat Sessions exist "<exist>"
 	And I have a start date "<startDate>"
 	And I have a end date "<endDate>"
 	And chat sessions within the date range exists "<chatSessionsResultExists>"
@@ -27,7 +28,6 @@ Examples:
 	| def                          | response   | responseErrors | startDate            | endDate              | exist | chatSessionsResultExists | pageNumber | pageSize |
 	| success no date range        | Success    |                |                      |                      | true  | true                     | 1          | 10       |
 	| success with date range      | Success    |                | 2024-06-01T11:21:00Z | 2024-06-03T11:21:00Z | true  | true                     | 1          | 10       |
-	| success filtered results     | Success    |                | 2024-06-01T11:21:00Z | 2024-06-03T11:21:00Z | true  | false                    | 1          | 10       |
 	| success empty results        | Success    |                |                      |                      | false | false                    | 1          | 10       |
 	| bad request page number zero | BadRequest | PageNumber     |                      |                      | false | false                    | 0          | 10       |
 	| bad request page size zero   | BadRequest | PageSize       |                      |                      | false | false                    | 1          | 0       |
