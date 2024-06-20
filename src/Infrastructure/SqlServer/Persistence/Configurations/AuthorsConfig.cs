@@ -2,9 +2,9 @@
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence.Configurations;
 
-public class AuthorsConfig : IEntityTypeConfiguration<AuthorEntity>
+public class AuthorsConfig : IEntityTypeConfiguration<AuthorChatSessionEntity>
 {
-    public void Configure(EntityTypeBuilder<AuthorEntity> builder)
+    public void Configure(EntityTypeBuilder<AuthorChatSessionEntity> builder)
     {
         builder.ToTable("Authors");
         builder.HasKey(x => x.Key);

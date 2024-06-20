@@ -5,7 +5,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.Abstractions;
 
 public interface IChatCompletionContext
 {
-    DbSet<AuthorEntity> Authors { get; }
+    DbSet<AuthorChatSessionEntity> Authors { get; }
     DbSet<ChatMessageEntity> ChatMessages { get; }
     DbSet<ChatSessionEntity> ChatSessions { get; }
 

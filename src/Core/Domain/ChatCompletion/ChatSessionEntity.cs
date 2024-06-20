@@ -11,6 +11,5 @@ public class ChatSessionEntity : DomainEntity<ChatSessionEntity>
     public string Title { get; set; } = string.Empty;
     public DateTime Timestamp { get; set; }
     public virtual ICollection<ChatMessageEntity> Messages { get; set; } = [];
-
-    public virtual AuthorEntity Author { get; set; } = new();
+    public virtual AuthorChatSessionEntity Author { get; set; } = new();
 }
