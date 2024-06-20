@@ -5,7 +5,7 @@ public class PaginatedList<T>
     public PaginatedList(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize)
     {
         PageNumber = pageNumber;
-        TotalPages = (int) Math.Ceiling(count / (double) pageSize);
+        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
         TotalCount = count;
         Items = items;
     }

@@ -21,6 +21,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="AudioToText\" />
+	  <Folder Include="Author\" />
 	  <Folder Include="TextEmbeddingGeneration\" />
 	</ItemGroup>
 </Project>
