@@ -12,11 +12,11 @@ public class CreateChatSessionCommand : IRequest<ChatSessionDto>
     public string? Message { get; set; }
 }
 
-public class CreateChatSessionCommandHandler(IChatCompletionService chatService, IChatCompletionContext context, IMapper mapper) : IRequestHandler<CreateChatSessionCommand, ChatSessionDto>
+public class CreateChatSessionCommandHandler(IChatCompletionService chatService, ISemanticKernelContext context, IMapper mapper) : IRequestHandler<CreateChatSessionCommand, ChatSessionDto>
 {
     private readonly IChatCompletionService _chatService = chatService;
     private readonly IMapper _mapper = mapper;
-    private readonly IChatCompletionContext _context = context;
+    private readonly ISemanticKernelContext _context = context;
 
     public async Task<ChatSessionDto> Handle(CreateChatSessionCommand request, CancellationToken cancellationToken)
     {

@@ -10,7 +10,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     private Guid _key;
     private bool _exists;
     private int _chatSessionCount;
-    private ChatSessionDto _response;
+    private ChatSessionDto? _response;
 
     [Given(@"I have a definition ""([^""]*)""")]
     public void GivenIHaveADefinition(string def)
@@ -21,7 +21,8 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Given(@"I have a chat session key ""([^""]*)""")]
     public void GivenIHaveAChatSessionKey(string chatSessionKey)
     {
-        Guid.TryParse(chatSessionKey, out _key);
+        if (string.IsNullOrWhiteSpace(chatSessionKey)) return;
+        Guid.TryParse(chatSessionKey, out _key).Should().BeTrue();
     }
 
     [Given(@"I the chat session exists ""([^""]*)""")]
@@ -99,7 +100,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
         if (_responseType != CommandResponseType.Successful) return;
-        _response.Key.Should().NotBeEmpty();
+        _response?.Key.Should().NotBeEmpty();
     }
 
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]

@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
+namespace Goodtocode.SemanticKernel.Specs.Integration.Author
 {
     using TechTalk.SpecFlow;
     using System;
@@ -20,7 +20,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class UpdateChatSessionCommandFeature
+    public partial class GetAuthorQueryFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,9 +28,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         private Microsoft.VisualStudio.TestTools.UnitTesting.TestContext _testContext;
         
         private static string[] featureTags = new string[] {
-                "updateChatSessionCommand"};
+                "getAuthorQuery"};
         
-#line 1 "UpdateChatSessionCommand.feature"
+#line 1 "GetAuthorQuery.feature"
 #line hidden
         
         public virtual Microsoft.VisualStudio.TestTools.UnitTesting.TestContext TestContext
@@ -49,8 +49,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ChatCompletion", "Update Chat Session Command", "As a chat session owner\r\nWhen I edit a chat session\r\nI am able to change or add t" +
-                    "o the chat session", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Author", "Get Author Query", "As a author owner\r\nWhen I select an existing Author\r\nI can see the author detail", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -65,9 +64,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         public void TestInitialize()
         {
             if (((testRunner.FeatureContext != null) 
-                        && (testRunner.FeatureContext.FeatureInfo.Title != "Update Chat Session Command")))
+                        && (testRunner.FeatureContext.FeatureInfo.Title != "Get Author Query")))
             {
-                global::Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.UpdateChatSessionCommandFeature.FeatureSetup(null);
+                global::Goodtocode.SemanticKernel.Specs.Integration.Author.GetAuthorQueryFeature.FeatureSetup(null);
             }
         }
         
@@ -93,7 +92,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void UpdateChatSession(string def, string response, string responseErrors, string key, string exists, string[] exampleTags)
+        public virtual void GetAuthor(string def, string response, string responseErrors, string key, string exists, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -102,7 +101,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             argumentsOfScenario.Add("responseErrors", responseErrors);
             argumentsOfScenario.Add("key", key);
             argumentsOfScenario.Add("exists", exists);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update Chat Session", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get Author", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -114,16 +113,16 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 8
- testRunner.Given(string.Format("I have a def \"{0}\"", def), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given(string.Format("I have a definition \"{0}\"", def), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 9
- testRunner.And(string.Format("I have a chat session key \"{0}\"", key), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a Author key \"{0}\"", key), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And(string.Format("the chat session exists \"{0}\"", exists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I the Author exists \"{0}\"", exists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.When("I update the chat session", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I get a Author", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 12
  testRunner.Then(string.Format("The response is \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -131,58 +130,61 @@ this.ScenarioInitialize(scenarioInfo);
 #line 13
  testRunner.And(string.Format("If the response has validation issues I see the \"{0}\" in the response", responseErrors), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
+#line 14
+ testRunner.And("If the response is successful the response has a Key", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
             }
             this.ScenarioCleanup();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Update Chat Session: success")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Update Chat Session Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("updateChatSessionCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Get Author: success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Get Author Query")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("getAuthorQuery")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "true")]
-        public void UpdateChatSession_Success()
+        public void GetAuthor_Success()
         {
 #line 7
-this.UpdateChatSession("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", ((string[])(null)));
+this.GetAuthor("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", ((string[])(null)));
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Update Chat Session: not found")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Update Chat Session Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("updateChatSessionCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Get Author: not found")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Get Author Query")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("getAuthorQuery")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "not found")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "not found")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "NotFound")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "false")]
-        public void UpdateChatSession_NotFound()
+        public void GetAuthor_NotFound()
         {
 #line 7
-this.UpdateChatSession("not found", "NotFound", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "false", ((string[])(null)));
+this.GetAuthor("not found", "NotFound", "", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "false", ((string[])(null)));
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Update Chat Session: bad request: empty key")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Update Chat Session Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("updateChatSessionCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Get Author: bad request: empty key")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Get Author Query")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("getAuthorQuery")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "bad request: empty key")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty key")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Key")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "false")]
-        public void UpdateChatSession_BadRequestEmptyKey()
+        public void GetAuthor_BadRequestEmptyKey()
         {
 #line 7
-this.UpdateChatSession("bad request: empty key", "BadRequest", "Key", "00000000-0000-0000-0000-000000000000", "false", ((string[])(null)));
+this.GetAuthor("bad request: empty key", "BadRequest", "Key", "00000000-0000-0000-0000-000000000000", "false", ((string[])(null)));
 #line hidden
         }
     }

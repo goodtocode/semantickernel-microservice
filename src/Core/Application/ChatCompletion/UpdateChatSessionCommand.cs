@@ -11,9 +11,9 @@ public class UpdateChatSessionCommand : IRequest
     public ICollection<ChatMessageDto> Messages { get; set; } = [];
 }
 
-public class UpdateChatSessionCommandHandler (IChatCompletionContext context) : IRequestHandler<UpdateChatSessionCommand>
+public class UpdateChatSessionCommandHandler (ISemanticKernelContext context) : IRequestHandler<UpdateChatSessionCommand>
 {
-    private readonly IChatCompletionContext _context = context;
+    private readonly ISemanticKernelContext _context = context;
 
     public async Task Handle(UpdateChatSessionCommand request, CancellationToken cancellationToken)
     {

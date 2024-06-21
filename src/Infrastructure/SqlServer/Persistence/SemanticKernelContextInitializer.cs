@@ -2,10 +2,10 @@
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 
-public class ChatCompletionContextInitializer(ILogger<ChatCompletionContextInitializer> logger, ChatCompletionContext context)
+public class SemanticKernelContextInitializer(ILogger<SemanticKernelContextInitializer> logger, SemanticKernelContext context)
 {
-    private readonly ChatCompletionContext _context = context;
-    private readonly ILogger<ChatCompletionContextInitializer> _logger = logger;
+    private readonly SemanticKernelContext _context = context;
+    private readonly ILogger<SemanticKernelContextInitializer> _logger = logger;
 
     public async Task InitialiseAsync()
     {

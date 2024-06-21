@@ -20,7 +20,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         [Given(@"I have a chat session key ""([^""]*)""")]
         public void GivenIHaveAChatSessionKey(string key)
         {
-            Guid.TryParse(key, out _key);
+            Guid.TryParse(key, out _key).Should().BeTrue();
         }
 
         [Given(@"the chat session exists ""([^""]*)""")]

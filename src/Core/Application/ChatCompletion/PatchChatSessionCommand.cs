@@ -11,9 +11,9 @@ public class PatchChatSessionCommand : IRequest
     public string Title { get; set; } = string.Empty;
 }
 
-public class PatchChatSessionCommandHandler(IChatCompletionContext context) : IRequestHandler<PatchChatSessionCommand>
+public class PatchChatSessionCommandHandler(ISemanticKernelContext context) : IRequestHandler<PatchChatSessionCommand>
 {
-    private readonly IChatCompletionContext _context = context;
+    private readonly ISemanticKernelContext _context = context;
 
     public async Task Handle(PatchChatSessionCommand request, CancellationToken cancellationToken)
     {

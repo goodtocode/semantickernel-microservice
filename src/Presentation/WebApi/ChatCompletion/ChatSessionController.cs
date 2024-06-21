@@ -1,4 +1,5 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Presentation.WebApi.Common;
 
 namespace Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession;
@@ -43,33 +44,35 @@ public class ChatSessionController : ApiControllerBase
         });
     }
 
-    ///// <summary>Get Paginated Query</summary>
-    ///// <remarks>
-    ///// Sample request:
-    /////
-    /////        "PageNumber": 1
-    /////        "PageSize" : 10
-    /////        "api-version":  1.0
-    ///// 
-    ///// </remarks>
-    ///// <returns>
-    ///// ChatSessionDto
-    /////     { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
-    /////     AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
-    /////     Messages: [
-    /////         {
-    /////             "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
-    /////             "Content": "Certainly! Semantic Kernel is a great framework for AI.",
-    /////         }
-    /////     }]
-    ///// </returns>
-    //[HttpGet("Paginated", Name = "GetChatSessionsPaginatedQuery")]
-    //[ProducesResponseType(typeof(PaginatedList<ForecastPaginatedDto>), StatusCodes.Status200OK)]
-    //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //public async Task<ActionResult<PaginatedList<ForecastPaginatedDto>>> GetSemanticKernelMicroservicePaginatedQuery([FromQuery] GetForecastsPaginatedQuery query)
-    //{
-    //    return await Mediator.Send(query);
-    //}
+    /// <summary>Get Chat Sessions Paginated Query</summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     "StartDate": "2024-06-01T00:00:00Z"
+    ///     "EndDate": "2024-12-01T00:00:00Z"
+    ///     "PageNumber": 1
+    ///     "PageSize" : 10
+    ///     "api-version":  1.0
+    /// 
+    /// </remarks>
+    /// <returns>
+    /// ChatSessionDto
+    ///     { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
+    ///     AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+    ///     Messages: [
+    ///         {
+    ///             "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+    ///             "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+    ///         }
+    ///     }]
+    /// </returns>
+    [HttpGet("Paginated", Name = "GetChatSessionsPaginatedQuery")]
+    [ProducesResponseType(typeof(PaginatedList<ChatSessionDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<PaginatedList<ChatSessionDto>>> GetSemanticKernelMicroservicePaginatedQuery([FromQuery] GetChatSessionsPaginatedQuery query)
+    {
+        return await Mediator.Send(query);
+    }
 
     /// <summary>Get All Chat Sessions Query</summary>
     /// <remarks>

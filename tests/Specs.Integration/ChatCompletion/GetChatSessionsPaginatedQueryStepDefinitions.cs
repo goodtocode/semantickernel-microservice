@@ -14,7 +14,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         private bool _withinDateRangeExists;
         private int _pageNumber;
         private int _pageSize;
-        private PaginatedList<ChatSessionDto> _response;
+        private PaginatedList<ChatSessionDto>? _response;
 
         [Given(@"I have a definition ""([^""]*)""")]
         public void GivenIHaveADefinition(string def)
@@ -31,13 +31,15 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         [Given(@"I have a start date ""([^""]*)""")]
         public void GivenIHaveAStartDate(string startDate)
         {
-            DateTime.TryParse(startDate, out _startDate);
+            if (string.IsNullOrWhiteSpace(startDate)) return;
+            DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
         }
 
         [Given(@"I have a end date ""([^""]*)""")]
         public void GivenIHaveAEndDate(string endDate)
         {
-            DateTime.TryParse(endDate, out _endDate);
+            if (string.IsNullOrWhiteSpace(endDate)) return;
+            DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
         }
 
         [Given(@"chat sessions within the date range exists ""([^""]*)""")]
@@ -123,49 +125,49 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         public void ThenTheResponseHasACollectionOfChatSessions()
         {
             if (_responseType != CommandResponseType.Successful) return;
-            _response.TotalCount.Should().Be(_withinDateRangeExists == false ? 0 : _response.TotalCount);
+            _response?.TotalCount.Should().Be(_withinDateRangeExists == false ? 0 : _response.TotalCount);
         }
 
         [Then(@"Each chat session has a Key")]
         public void ThenEachChatSessionHasAKey()
         {
             if (_responseType != CommandResponseType.Successful) return;
-            _response.Items.FirstOrDefault(x => x.Key == default).Should().BeNull();
+            _response?.Items.FirstOrDefault(x => x.Key == default).Should().BeNull();
         }
 
         [Then(@"Each chat session has a Date greater than start date")]
         public void ThenEachChatSessionHasADateGreaterThanStartDate()
         {
             if (_responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
+                _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
         }
 
         [Then(@"Each chat session has a Date less than end date")]
         public void ThenEachChatSessionHasADateLessThanEndDate()
         {
             if (_responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
+                _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
         }
 
         [Then(@"The response has a Page Number")]
         public void ThenTheResponseHasAPageNumber()
         {
             if (_responseType != CommandResponseType.Successful) return;
-            _response.PageNumber.Should();
+            _response?.PageNumber.Should();
         }
 
         [Then(@"The response has a Total Pages")]
         public void ThenTheResponseHasATotalPages()
         {
             if (_responseType != CommandResponseType.Successful) return;
-            _response.TotalPages.Should();
+            _response?.TotalPages.Should();
         }
 
         [Then(@"The response has a Total Count")]
         public void ThenTheResponseHasATotalCount()
         {
             if (_responseType != CommandResponseType.Successful) return;
-            _response.TotalCount.Should();
+            _response?.TotalCount.Should();
         }
     }
 }

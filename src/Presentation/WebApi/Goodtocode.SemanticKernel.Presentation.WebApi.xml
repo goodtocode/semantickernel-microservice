@@ -4,6 +4,75 @@
         <name>Goodtocode.SemanticKernel.Presentation.WebApi</name>
     </assembly>
     <members>
+        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController">
+            <summary>
+            Author endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
+            </summary>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.Get(System.Guid)">
+             <summary>Get Author session with history</summary>
+             <remarks>
+             Sample request:
+            
+                    "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             AuthorDto
+                 { 
+                     Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                     Name: John Doe
+                 }
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.Post(Goodtocode.SemanticKernel.Core.Application.Author.CreateAuthorCommand)">
+             <summary>
+             Creates new Author session with empty history
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 HttpPost Body
+                 {
+                    "Key": 00000000-0000-0000-0000-000000000000,
+                    "Name":  "John Doe"
+                 }
+            
+                 "version":  1.0
+             </remarks>
+             <param name="command"></param>
+             <returns></returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.Put(Goodtocode.SemanticKernel.Core.Application.Author.UpdateAuthorCommand)">
+             <summary>
+             Update Author Command
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 HttpPut Body
+                 {
+                    "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+                    "Name":  "John Doe",
+                 }
+            
+                 "version":  1.0
+             </remarks>
+             <param name="command"></param>
+             <returns></returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.Delete(System.Guid)">
+             <summary>Remove Author Command</summary>
+             <remarks>
+             Sample request:
+            
+                    "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "api-version":  1.0
+             
+             </remarks>
+             <returns>NoContent</returns>
+        </member>
         <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController">
             <summary>
             Chat completion endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
@@ -16,6 +85,30 @@
             
                     "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
                     "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             ChatSessionDto
+                 { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Messages: [
+                     {
+                         "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.GetSemanticKernelMicroservicePaginatedQuery(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.GetChatSessionsPaginatedQuery)">
+             <summary>Get Chat Sessions Paginated Query</summary>
+             <remarks>
+             Sample request:
+            
+                 "StartDate": "2024-06-01T00:00:00Z"
+                 "EndDate": "2024-12-01T00:00:00Z"
+                 "PageNumber": 1
+                 "PageSize" : 10
+                 "api-version":  1.0
              
              </remarks>
              <returns>

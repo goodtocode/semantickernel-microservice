@@ -12,19 +12,19 @@ public static class ConfigureServices
     {
         if (configuration.GetValue<bool>("UseInMemoryDatabase"))
         {
-            services.AddDbContext<ChatCompletionContext>(options =>
+            services.AddDbContext<SemanticKernelContext>(options =>
                 options.UseInMemoryDatabase("DefaultConnection").UseLazyLoadingProxies());
         }
         else
         {
-            services.AddDbContext<ChatCompletionContext>(options =>
+            services.AddDbContext<SemanticKernelContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                        builder => builder.MigrationsAssembly(typeof(ChatCompletionContext).Assembly.FullName))
+                        builder => builder.MigrationsAssembly(typeof(SemanticKernelContext).Assembly.FullName))
                     .UseLazyLoadingProxies());
         }
 
-        services.AddScoped<IChatCompletionContext, ChatCompletionContext>();
-        services.AddScoped<ChatCompletionContextInitializer>();
+        services.AddScoped<ISemanticKernelContext, SemanticKernelContext>();
+        services.AddScoped<SemanticKernelContextInitializer>();
 
         return services;
     }

@@ -19,4 +19,4 @@ Examples:
 	| def                    | response   | responseErrors | key                                  | chatSessionExists | expectedChatSessionCount |
 	| success                | Success    |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | true              | 2                        |
 	| not found              | NotFound   |                | 048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | false             | 0                        |
-	| bad request: empty key | BadRequest | Key            |                                      | false             | 0                        |
+	| bad request: empty key | BadRequest | Key            | 00000000-0000-0000-0000-000000000000 | false             | 0                        |

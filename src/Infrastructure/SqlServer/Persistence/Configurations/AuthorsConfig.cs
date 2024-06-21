@@ -1,4 +1,4 @@
-﻿using Goodtocode.SemanticKernel.Core.Domain.Subject;
+﻿using Goodtocode.SemanticKernel.Core.Domain.Author;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence.Configurations;
 
