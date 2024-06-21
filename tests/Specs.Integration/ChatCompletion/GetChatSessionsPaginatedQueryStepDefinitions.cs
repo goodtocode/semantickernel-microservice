@@ -78,8 +78,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
                     Messages = messages,
                     Timestamp = _startDate.AddSeconds(1),
                 };
-                _context.ChatSessions.Add(chatSession);
-                await _context.SaveChangesAsync(CancellationToken.None);
+                _contextChatCompletion.ChatSessions.Add(chatSession);
+                await _contextChatCompletion.SaveChangesAsync(CancellationToken.None);
             }
 
             var request = new GetChatSessionsPaginatedQuery()
@@ -95,7 +95,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             if (_validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetChatSessionsPaginatedQueryHandler(_context, Mapper);
+                    var handler = new GetChatSessionsPaginatedQueryHandler(_contextChatCompletion, Mapper);
                     _response = await handler.Handle(request, CancellationToken.None);
                     _responseType = CommandResponseType.Successful;
                 }

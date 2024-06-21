@@ -1,5 +1,5 @@
 ﻿using Goodtocode.Domain.Types;
-using Goodtocode.SemanticKernel.Core.Domain.Subject;
+using Goodtocode.SemanticKernel.Core.Domain.Author;
 
 namespace Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 

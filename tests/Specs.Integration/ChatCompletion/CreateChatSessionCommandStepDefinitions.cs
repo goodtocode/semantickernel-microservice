@@ -59,8 +59,8 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
                  ],
                 Timestamp = DateTime.UtcNow,
             };
-            _context.ChatSessions.Add(chatSession);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            _contextChatCompletion.ChatSessions.Add(chatSession);
+            await _contextChatCompletion.SaveChangesAsync(CancellationToken.None);
         }
 
         // Test command
@@ -78,7 +78,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
             try
             {
                 var chatService = new OpenAIChatCompletionService(_optionsOpenAi.ChatModelId, _optionsOpenAi.ApiKey);
-                var handler = new CreateChatSessionCommandHandler(chatService, _context, Mapper);
+                var handler = new CreateChatSessionCommandHandler(chatService, _contextChatCompletion, Mapper);
                 _chatSessionDto = await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;
             }

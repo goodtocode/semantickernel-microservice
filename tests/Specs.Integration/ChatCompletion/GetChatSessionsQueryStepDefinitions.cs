@@ -63,8 +63,8 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
                 Messages = messages,
                 Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1),
             };
-            _context.ChatSessions.Add(chatSession);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            _contextChatCompletion.ChatSessions.Add(chatSession);
+            await _contextChatCompletion.SaveChangesAsync(CancellationToken.None);
         }
 
         var request = new GetChatSessionsQuery()
@@ -78,7 +78,7 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
         if (_validationResponse.IsValid)
             try
             {
-                var handler = new GetChatSessionsQueryHandler(_context, Mapper);
+                var handler = new GetChatSessionsQueryHandler(_contextChatCompletion, Mapper);
                 _response = await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;
             }

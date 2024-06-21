@@ -171,7 +171,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     b.ToTable("ForecastZipCodes", (string)null);
                 });
 
-            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.Subject.AuthorEntity", b =>
+            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", b =>
                 {
                     b.Property<Guid>("Key")
                         .ValueGeneratedOnAdd()

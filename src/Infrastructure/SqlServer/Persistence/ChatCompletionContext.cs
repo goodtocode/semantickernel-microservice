@@ -1,6 +1,6 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using Goodtocode.SemanticKernel.Core.Domain.Subject;
+using Goodtocode.SemanticKernel.Core.Domain.Author;
 using System.Reflection;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
@@ -8,7 +8,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 public class ChatCompletionContext : DbContext, IChatCompletionContext
 {
     // Roles: User, Assistant, System
-    public DbSet<AuthorChatSessionEntity> Authors => Set<AuthorChatSessionEntity>();
+    public DbSet<AuthorChatSessionEntity> AuthorChatSessions => Set<AuthorChatSessionEntity>();
     public DbSet<ChatMessageEntity> ChatMessages => Set<ChatMessageEntity>();
     public DbSet<ChatSessionEntity> ChatSessions => Set<ChatSessionEntity>();
 

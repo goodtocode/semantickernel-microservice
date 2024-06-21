@@ -22,7 +22,7 @@ public abstract class TestBase
     internal IDictionary<string, string[]> _commandErrors = new ConcurrentDictionary<string, string[]>();
     internal CommandResponseType _responseType;
     internal ValidationResult _validationResponse = new();
-    internal ChatCompletionContext _context;
+    internal ChatCompletionContext _contextChatCompletion;
     internal IConfiguration _configuration;
     internal OpenAI _optionsOpenAi = new();
 
@@ -31,7 +31,7 @@ public abstract class TestBase
         Mapper = new MapperConfiguration(cfg => { cfg.AddProfile<MappingProfile>(); })
             .CreateMapper();
 
-        _context = new ChatCompletionContext(new DbContextOptionsBuilder<ChatCompletionContext>()
+        _contextChatCompletion = new ChatCompletionContext(new DbContextOptionsBuilder<ChatCompletionContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options);
 
         var executingType = Assembly.GetExecutingAssembly().GetTypes()

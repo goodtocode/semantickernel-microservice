@@ -54,8 +54,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
                     ],
                     Timestamp = DateTime.UtcNow,
                 };
-                _context.ChatSessions.Add(chatSession);
-                await _context.SaveChangesAsync(CancellationToken.None);
+                _contextChatCompletion.ChatSessions.Add(chatSession);
+                await _contextChatCompletion.SaveChangesAsync(CancellationToken.None);
             }
 
             var validator = new DeleteChatSessionCommandValidator();
@@ -64,7 +64,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             if (_validationResponse.IsValid)
                 try
                 {
-                    var handler = new DeleteChatSessionCommandHandler(_context);
+                    var handler = new DeleteChatSessionCommandHandler(_contextChatCompletion);
                     await handler.Handle(request, CancellationToken.None);
                     _responseType = CommandResponseType.Successful;
                 }
