@@ -13,7 +13,6 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
     private string _message = string.Empty;
     private Guid _key;
     private bool _exists;
-    private ChatSessionDto _chatSessionDto = new();
 
     [Given(@"I have a def ""([^""]*)""")]
     public void GivenIHaveADef(string def)
@@ -42,7 +41,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
     [When(@"I create a chat sesion with the message")]
     public async Task WhenICreateAChatSesionWithTheMessage()
     {
-        // Setup the database if want to test existing chat session
+        // Setup the database if want to test existing records
         if (_exists)
         {
             var chatSession = new ChatSessionEntity()
@@ -59,8 +58,8 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
                  ],
                 Timestamp = DateTime.UtcNow,
             };
-            _contextChatCompletion.ChatSessions.Add(chatSession);
-            await _contextChatCompletion.SaveChangesAsync(CancellationToken.None);
+            _context.ChatSessions.Add(chatSession);
+            await _context.SaveChangesAsync(CancellationToken.None);
         }
 
         // Test command
@@ -78,8 +77,8 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
             try
             {
                 var chatService = new OpenAIChatCompletionService(_optionsOpenAi.ChatModelId, _optionsOpenAi.ApiKey);
-                var handler = new CreateChatSessionCommandHandler(chatService, _contextChatCompletion, Mapper);
-                _chatSessionDto = await handler.Handle(request, CancellationToken.None);
+                var handler = new CreateChatSessionCommandHandler(chatService, _context, Mapper);
+                await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
@@ -94,7 +93,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
     [Then(@"I see the chat session created with the initial response ""([^""]*)""")]
     public void ThenISeeTheChatSessionCreatedWithTheInitialResponse(string response)
     {
-        response.Should().NotBeNullOrEmpty();
+        HandleHasResponseType(response);
     }
 
     [Then(@"if the response has validation issues I see the ""([^""]*)"" in the response")]

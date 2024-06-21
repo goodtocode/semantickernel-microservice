@@ -97,7 +97,7 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 ### Steps
 
 1. Open Windows Terminal in Powershell or Cmd mode
-2. cd to /src folder
+2. cd to root of repository
 3. (Optional) If you have an existing database, scaffold current entities into your project
 	
 	```
@@ -106,18 +106,18 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 
 4. Create an initial migration
 	```
-	dotnet ef migrations add InitialCreate --project .\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj --startup-project .\Presentation\WebApi\Presentation.WebApi.csproj --context ChatCompletionContext
+	dotnet ef migrations add InitialCreate --project .\src\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj --startup-project .\src\Presentation\WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
 	```
 
 5. Develop new entities and configurations
 6. When ready to deploy new entities and configurations
    
 	```	
-	dotnet ef database update --project .\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj --startup-project .\Presentation\WebApi\Presentation.WebApi.csproj --context ChatCompletionContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernelMicroservice;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
+	dotnet ef database update --project .\src\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj --startup-project .\src\Presentation\WebApi\Presentation.WebApi.csproj --context SemanticKernelContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernelMicroservice;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
 	```
 7. When an entity changes, is created or deleted, create a new migration. Suggest doing this each new version.
 	```
-	dotnet ef migrations add v1.1 --project .\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj --startup-project .\Presentation\WebApi\Presentation.WebApi.csproj --context ChatCompletionContext
+	dotnet ef migrations add v1.1 --project .\src\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj --startup-project .\src\Presentation\WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
 	```
 
 ## dotnet new steps

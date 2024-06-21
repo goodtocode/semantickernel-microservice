@@ -15,5 +15,5 @@ Scenario: Patch Chat Session
 Examples:
 	| def                     | response   | responseErrors | key                                  | chatSessionExists | title         |
 	| success : patch title   | Success    |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | true              | New Title     |
-	| bad request: empty key  | BadRequest | Key            |                                      | false             | Changed Title |
+	| bad request: empty key  | BadRequest | Key            | 00000000-0000-0000-0000-000000000000 | false             | Changed Title |
 	| not found : patch title | NotFound   |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | false             | Title         |

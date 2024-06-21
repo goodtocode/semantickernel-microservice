@@ -189,13 +189,13 @@ this.GetChatSession("not found", "NotFound", "", "048d8e7f-f18f-4a8e-8b3c-3b6a68
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty key")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Key")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "false")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:expectedChatSessionCount", "0")]
         public void GetChatSession_BadRequestEmptyKey()
         {
 #line 7
-this.GetChatSession("bad request: empty key", "BadRequest", "Key", "", "false", "0", ((string[])(null)));
+this.GetChatSession("bad request: empty key", "BadRequest", "Key", "00000000-0000-0000-0000-000000000000", "false", "0", ((string[])(null)));
 #line hidden
         }
     }

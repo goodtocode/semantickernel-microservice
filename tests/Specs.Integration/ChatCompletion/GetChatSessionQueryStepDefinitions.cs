@@ -10,7 +10,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     private Guid _key;
     private bool _exists;
     private int _chatSessionCount;
-    private ChatSessionDto _response;
+    private ChatSessionDto? _response;
 
     [Given(@"I have a definition ""([^""]*)""")]
     public void GivenIHaveADefinition(string def)
@@ -21,7 +21,8 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Given(@"I have a chat session key ""([^""]*)""")]
     public void GivenIHaveAChatSessionKey(string chatSessionKey)
     {
-        Guid.TryParse(chatSessionKey, out _key);
+        if (string.IsNullOrWhiteSpace(chatSessionKey)) return;
+        Guid.TryParse(chatSessionKey, out _key).Should().BeTrue();
     }
 
     [Given(@"I the chat session exists ""([^""]*)""")]
@@ -57,8 +58,8 @@ public class GetChatSessionQueryStepDefinitions : TestBase
                 Messages = messages,
                 Timestamp = DateTime.UtcNow,
             };
-            _contextChatCompletion.ChatSessions.Add(chatSession);
-            await _contextChatCompletion.SaveChangesAsync(CancellationToken.None);
+            _context.ChatSessions.Add(chatSession);
+            await _context.SaveChangesAsync(CancellationToken.None);
         }
 
         var request = new GetChatSessionQuery()
@@ -71,7 +72,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
         if (_validationResponse.IsValid)
             try
             {
-                var handler = new GetChatSessionQueryHandler(_contextChatCompletion, Mapper);
+                var handler = new GetChatSessionQueryHandler(_context, Mapper);
                 _response = await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;
             }
@@ -99,7 +100,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
         if (_responseType != CommandResponseType.Successful) return;
-        _response.Key.Should().NotBeEmpty();
+        _response?.Key.Should().NotBeEmpty();
     }
 
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]

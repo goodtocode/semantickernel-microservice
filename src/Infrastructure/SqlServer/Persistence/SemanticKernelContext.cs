@@ -5,16 +5,16 @@ using System.Reflection;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 
-public class ChatCompletionContext : DbContext, IChatCompletionContext
+public class SemanticKernelContext : DbContext, ISemanticKernelContext
 {
     // Roles: User, Assistant, System
-    public DbSet<AuthorChatSessionEntity> AuthorChatSessions => Set<AuthorChatSessionEntity>();
+    public DbSet<AuthorEntity> Authors => Set<AuthorEntity>();
     public DbSet<ChatMessageEntity> ChatMessages => Set<ChatMessageEntity>();
     public DbSet<ChatSessionEntity> ChatSessions => Set<ChatSessionEntity>();
 
-    protected ChatCompletionContext() { }
+    protected SemanticKernelContext() { }
 
-    public ChatCompletionContext(DbContextOptions<ChatCompletionContext> options) : base(options) { }
+    public SemanticKernelContext(DbContextOptions<SemanticKernelContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -21,7 +21,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         [Given(@"I have a chat sesion key""([^""]*)""")]
         public void GivenIHaveAChatSesionKey(string key)
         {
-            Guid.TryParse(key, out _key);
+            Guid.TryParse(key, out _key).Should().BeTrue();
         }
 
         [Given(@"The chat sesion exists ""([^""]*)""")]
@@ -54,8 +54,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
                     ],
                     Timestamp = DateTime.UtcNow,
                 };
-                _contextChatCompletion.ChatSessions.Add(chatSession);
-                await _contextChatCompletion.SaveChangesAsync(CancellationToken.None);
+                _context.ChatSessions.Add(chatSession);
+                await _context.SaveChangesAsync(CancellationToken.None);
             }
 
             var validator = new DeleteChatSessionCommandValidator();
@@ -64,7 +64,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             if (_validationResponse.IsValid)
                 try
                 {
-                    var handler = new DeleteChatSessionCommandHandler(_contextChatCompletion);
+                    var handler = new DeleteChatSessionCommandHandler(_context);
                     await handler.Handle(request, CancellationToken.None);
                     _responseType = CommandResponseType.Successful;
                 }

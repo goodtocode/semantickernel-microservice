@@ -9,9 +9,9 @@ public class DeleteChatSessionCommand : IRequest
     public Guid Key { get; set; }
 }
 
-public class DeleteChatSessionCommandHandler(IChatCompletionContext context) : IRequestHandler<DeleteChatSessionCommand>
+public class DeleteChatSessionCommandHandler(ISemanticKernelContext context) : IRequestHandler<DeleteChatSessionCommand>
 {
-    private readonly IChatCompletionContext _context = context;
+    private readonly ISemanticKernelContext _context = context;
 
     public async Task Handle(DeleteChatSessionCommand request, CancellationToken cancellationToken)
     {

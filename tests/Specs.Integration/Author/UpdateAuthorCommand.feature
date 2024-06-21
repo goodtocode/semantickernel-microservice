@@ -1,14 +1,14 @@
-﻿@updateChatSessionCommand
-Feature: Update Chat Session Command
-As a chat session owner
-When I edit a chat session
-I am able to change or add to the chat session
+﻿@updateAuthorCommand
+Feature: Update Author Command
+As a Author owner
+When I edit a Author
+I am able to change or add to the Author
 
-Scenario: Update Chat Session
+Scenario: Update Author
 	Given I have a def "<def>"
-	And I have a chat session key "<key>"
-	And the chat session exists "<exists>"
-	When I update the chat session
+	And I have a Author key "<key>"
+	And the Author exists "<exists>"
+	When I update the Author
 	Then The response is "<response>"
 	And If the response has validation issues I see the "<responseErrors>" in the response
  

@@ -15,10 +15,10 @@ public class GetChatSessionsPaginatedQuery : IRequest<PaginatedList<ChatSessionD
 
 public class GetChatSessionsPaginatedQueryHandler : IRequestHandler<GetChatSessionsPaginatedQuery, PaginatedList<ChatSessionDto>>
 {
-    private readonly IChatCompletionContext _context;
+    private readonly ISemanticKernelContext _context;
     private readonly IMapper _mapper;
 
-    public GetChatSessionsPaginatedQueryHandler(IChatCompletionContext context, IMapper mapper)
+    public GetChatSessionsPaginatedQueryHandler(ISemanticKernelContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

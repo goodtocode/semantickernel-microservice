@@ -11,10 +11,10 @@ public class GetChatSessionsQuery : IRequest<ICollection<ChatSessionDto>>
 
 public class GetChatSessionsQueryHandler : IRequestHandler<GetChatSessionsQuery, ICollection<ChatSessionDto>>
 {
-    private readonly IChatCompletionContext _context;
+    private readonly ISemanticKernelContext _context;
     private readonly IMapper _mapper;
 
-    public GetChatSessionsQueryHandler(IChatCompletionContext context, IMapper mapper)
+    public GetChatSessionsQueryHandler(ISemanticKernelContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

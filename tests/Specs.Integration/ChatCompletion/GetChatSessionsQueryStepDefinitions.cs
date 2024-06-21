@@ -11,7 +11,7 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
     private bool _withinDateRangeExists;
     private DateTime _endDate;
     private DateTime _startDate;
-    private ICollection<ChatSessionDto> _response;
+    private ICollection<ChatSessionDto>? _response;
 
     [Given(@"I have a definition ""([^""]*)""")]
     public void GivenIHaveADefinition(string def)
@@ -28,13 +28,15 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
     [Given(@"I have a start date ""([^""]*)""")]
     public void GivenIHaveAStartDate(string startDate)
     {
-        DateTime.TryParse(startDate, out _startDate);
+        if (string.IsNullOrWhiteSpace(startDate)) return;
+        DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
     }
 
     [Given(@"I have a end date ""([^""]*)""")]
     public void GivenIHaveAEndDate(string endDate)
     {
-        DateTime.TryParse(endDate, out _endDate);
+        if (string.IsNullOrWhiteSpace(endDate)) return;
+        DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
     }
 
     [Given(@"chat sessions within the date range exists ""([^""]*)""")]
@@ -63,8 +65,8 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
                 Messages = messages,
                 Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1),
             };
-            _contextChatCompletion.ChatSessions.Add(chatSession);
-            await _contextChatCompletion.SaveChangesAsync(CancellationToken.None);
+            _context.ChatSessions.Add(chatSession);
+            await _context.SaveChangesAsync(CancellationToken.None);
         }
 
         var request = new GetChatSessionsQuery()
@@ -78,7 +80,7 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
         if (_validationResponse.IsValid)
             try
             {
-                var handler = new GetChatSessionsQueryHandler(_contextChatCompletion, Mapper);
+                var handler = new GetChatSessionsQueryHandler(_context, Mapper);
                 _response = await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;
             }
@@ -105,26 +107,26 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
     [Then(@"The response has a collection of chat sessions")]
     public void ThenTheResponseHasACollectionOfChatSessions()
     {
-        _response.Count.Should().Be(_withinDateRangeExists == false ? 0 : _response.Count);
+        _response?.Count.Should().Be(_withinDateRangeExists == false ? 0 : _response.Count);
     }
 
     [Then(@"Each chat session has a Key")]
     public void ThenEachChatSessionHasAKey()
     {
-        _response.FirstOrDefault(x => x.Key == default).Should().BeNull();
+        _response?.FirstOrDefault(x => x.Key == default).Should().BeNull();
     }
 
     [Then(@"Each chat session has a Date greater than start date")]
     public void ThenEachChatSessionHasADateGreaterThanStartDate()
     {
         if (_withinDateRangeExists)
-            _response.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
+            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
     }
 
     [Then(@"Each chat session has a Date less than end date")]
     public void ThenEachChatSessionHasADateLessThanEndDate()
     {
         if (_withinDateRangeExists)
-            _response.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
+            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
     }
 }

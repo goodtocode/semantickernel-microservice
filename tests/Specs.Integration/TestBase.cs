@@ -22,7 +22,7 @@ public abstract class TestBase
     internal IDictionary<string, string[]> _commandErrors = new ConcurrentDictionary<string, string[]>();
     internal CommandResponseType _responseType;
     internal ValidationResult _validationResponse = new();
-    internal ChatCompletionContext _contextChatCompletion;
+    internal SemanticKernelContext _context;
     internal IConfiguration _configuration;
     internal OpenAI _optionsOpenAi = new();
 
@@ -31,7 +31,7 @@ public abstract class TestBase
         Mapper = new MapperConfiguration(cfg => { cfg.AddProfile<MappingProfile>(); })
             .CreateMapper();
 
-        _contextChatCompletion = new ChatCompletionContext(new DbContextOptionsBuilder<ChatCompletionContext>()
+        _context = new SemanticKernelContext(new DbContextOptionsBuilder<SemanticKernelContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options);
 
         var executingType = Assembly.GetExecutingAssembly().GetTypes()
@@ -57,7 +57,7 @@ public abstract class TestBase
                 _commandErrors = validationException.Errors;
                 _responseType = CommandResponseType.BadRequest;
                 break;
-            case CustomNotFoundException notFoundException:
+            case CustomNotFoundException:
                 _responseType = CommandResponseType.NotFound;
                 break;
             default:

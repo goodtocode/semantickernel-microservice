@@ -15,6 +15,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <SpecFlowObsoleteCodeBehindFiles Remove="Author\CreateChatSessionCommand.feature.cs" />
+	  <SpecFlowObsoleteCodeBehindFiles Remove="Author\DeleteChatSessionCommand.feature.cs" />
+	  <SpecFlowObsoleteCodeBehindFiles Remove="Author\GetChatSessionQuery.feature.cs" />
+	  <SpecFlowObsoleteCodeBehindFiles Remove="Author\UpdateChatSessionCommand.feature.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Include="appsettings.test.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
@@ -36,6 +43,26 @@
 		<ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
 		<ProjectReference Include="..\..\src\Infrastructure\SemanticKernel\Infrastructure.SemanticKernel.csproj" />
 		<ProjectReference Include="..\..\src\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <SpecFlowFeatureFiles Update="Author\CreateAuthorCommand.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Author\DeleteAuthorCommand.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Author\GetAuthorQuery.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Author\UpdateAuthorCommand.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
 	</ItemGroup>
 
 </Project>

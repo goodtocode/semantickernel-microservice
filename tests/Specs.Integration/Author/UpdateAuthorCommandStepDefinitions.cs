@@ -1,14 +1,12 @@
-using Azure;
-using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Application.Author;
+using Goodtocode.SemanticKernel.Core.Domain.Author;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using System;
-using TechTalk.SpecFlow;
 
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
+namespace Goodtocode.SemanticKernel.Specs.Integration.Author
 {
     [Binding]
-    [Scope(Tag = "updateChatSessionCommand")]
-    public class UpdateChatSessionCommandStepDefinitions : TestBase
+    [Scope(Tag = "updateAuthorCommand")]
+    public class UpdateAuthorCommandStepDefinitions : TestBase
     {
         private bool _exists;
         private Guid _key;
@@ -19,54 +17,45 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             _def = def;
         }
 
-        [Given(@"I have a chat session key ""([^""]*)""")]
-        public void GivenIHaveAChatSessionKey(string key)
+        [Given(@"I have a Author key ""([^""]*)""")]
+        public void GivenIHaveAAuthorKey(string key)
         {
             Guid.TryParse(key, out _key).Should().BeTrue();
         }
 
-        [Given(@"the chat session exists ""([^""]*)""")]
-        public void GivenTheChatSessionExists(string exists)
+        [Given(@"the Author exists ""([^""]*)""")]
+        public void GivenTheAuthorExists(string exists)
         {
             bool.TryParse(exists, out _exists).Should().BeTrue();
         }
 
-        [When(@"I update the chat session")]
-        public async Task WhenIUpdateTheChatSession()
-        {
-            var request = new UpdateChatSessionCommand()
-            {
-                Key = _key,
-                Title = "My Title"
-            };
-
+        [When(@"I update the Author")]
+        public async Task WhenIUpdateTheAuthor()
+        {            
             if (_exists)
             {
-                var chatSession = new ChatSessionEntity()
+                var Author = new AuthorEntity()
                 {
                     Key = _key,
-                    Title = "Initial Title",
-                    Messages = [
-                        new ChatMessageEntity()
-                        {
-                            Content = "Initial Content",
-                            Role = ChatMessageRole.user,
-                            Timestamp = DateTime.Now
-                        }
-                    ],
-                    Timestamp = DateTime.UtcNow,
+                    Name = "John Doe"
                 };
-                _context.ChatSessions.Add(chatSession);
+                _context.Authors.Add(Author);
                 await _context.SaveChangesAsync(CancellationToken.None);
             }
 
-            var validator = new UpdateChatSessionCommandValidator();
+            var request = new UpdateAuthorCommand()
+            {
+                Key = _key,
+                Name = "Joe Doe"
+            };
+
+            var validator = new UpdateAuthorCommandValidator();
             _validationResponse = await validator.ValidateAsync(request);
 
             if (_validationResponse.IsValid)
                 try
                 {
-                    var handler = new UpdateChatSessionCommandHandler(_context);
+                    var handler = new UpdateAuthorCommandHandler(_context);
                     await handler.Handle(request, CancellationToken.None);
                     _responseType = CommandResponseType.Successful;
                 }

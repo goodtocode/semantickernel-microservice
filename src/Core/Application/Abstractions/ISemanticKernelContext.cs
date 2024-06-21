@@ -3,9 +3,9 @@ using Goodtocode.SemanticKernel.Core.Domain.Author;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Abstractions;
 
-public interface IChatCompletionContext
+public interface ISemanticKernelContext
 {
-    DbSet<AuthorChatSessionEntity> AuthorChatSessions { get; }
+    DbSet<AuthorEntity> Authors { get; }
     DbSet<ChatMessageEntity> ChatMessages { get; }
     DbSet<ChatSessionEntity> ChatSessions { get; }
 

@@ -164,13 +164,13 @@ this.PatchChatSession("success : patch title", "Success", "", "038d8e7f-f18f-4a8
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty key")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Key")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "false")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:title", "Changed Title")]
         public void PatchChatSession_BadRequestEmptyKey()
         {
 #line 6
-this.PatchChatSession("bad request: empty key", "BadRequest", "Key", "", "false", "Changed Title", ((string[])(null)));
+this.PatchChatSession("bad request: empty key", "BadRequest", "Key", "00000000-0000-0000-0000-000000000000", "false", "Changed Title", ((string[])(null)));
 #line hidden
         }
         
