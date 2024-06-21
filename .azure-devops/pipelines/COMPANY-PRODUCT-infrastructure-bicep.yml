@@ -1,0 +1,144 @@
+trigger:
+  batch: false
+  branches:
+    include:
+      - 'main'
+  paths:
+    include:
+      - .azure/**
+    exclude:
+      - '*'
+
+pr:
+  branches:
+    include:
+      - 'main'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: ForceDeployDev
+    type: boolean
+    default: false
+  - name: ForceDeployProd
+    type: boolean
+    default: false
+  - name: SubscriptionService
+    type: string
+    default: 'AZURE-DEVOPS-SERVICE-CONNECTION-NAME'
+
+stages:
+  - stage: development
+    condition: or(eq(lower(${{ parameters.ForceDeployDev }}), 'true'), and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')))
+    variables:
+      - template: ../variables/development-infrastructure.yml
+
+    jobs:
+      - job: deploy_approval
+        pool: server
+        timeoutInMinutes: 4320
+        steps:
+          - task: ManualValidation@0
+            displayName: Approve $(rgEnvironment) Deployment
+            inputs:
+              notifyUsers: $(deployApprovers)
+              instructions: "Team: $(System.TeamProject)\r\nRepo: $(Build.Repository.Name)\r\nRequested by: $(Build.RequestedFor)\r\nBuild: $(Build.BuildNumber)\r\nUrl: $(Build.BuildUri)\r\nA new deployment has been requested. Please approve or reject the deployment."
+              onTimeout: reject
+
+      - job: deploy_resourcegroup
+        dependsOn: deploy_approval
+        steps:
+          - task: AzureCLI@2
+            displayName: Create Resource Group
+            inputs:
+              azureSubscription: '${{ parameters.SubscriptionService }}'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az group create --name $(rgSharedName) --location $(rgSharedLocation) 
+                az group create --name $(rgName) --location $(rgLocation)
+
+      - job: validate_landingzone
+        dependsOn: deploy_resourcegroup
+        steps:
+          - task: AzureCLI@2
+            displayName: Validate Landing Zone
+            inputs:
+              azureSubscription: '${{ parameters.SubscriptionService }}'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group what-if --resource-group $(rgSharedName) --template-file $(sharedTemplate) --parameters $(sharedParameters)
+                az deployment group what-if --resource-group $(rgName) --template-file $(landingZoneTemplate) --parameters $(landingZoneParameters)
+
+      - job: deploy_landingzone
+        dependsOn: validate_landingzone
+        steps:
+          - task: AzureCLI@2
+            displayName: Deploy Landing Zone
+            inputs:
+              azureSubscription: '${{ parameters.SubscriptionService }}'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group create --resource-group $(rgSharedName) --template-file $(sharedTemplate) --parameters $(sharedParameters)
+                az deployment group create --resource-group $(rgName) --template-file $(landingZoneTemplate) --parameters $(landingZoneParameters)
+                az keyvault set-policy --name '$(kvName)' --object-id $(serviceConnectionIdentityObjectId) --secret-permissions get list
+
+  - stage: production
+    condition: or(eq(lower(${{ parameters.ForceDeployProd }}), 'true'), and(and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main')), ne(variables['Build.Reason'], 'PullRequest')))
+    variables:
+      - template: ../variables/production-infrastructure.yml
+
+    jobs:
+      - job: deploy_approval
+        pool: server
+        timeoutInMinutes: 4320
+        steps:
+          - task: ManualValidation@0
+            displayName: Approve $(rgEnvironment) Deployment
+            inputs:
+              notifyUsers: $(deployApprovers)
+              instructions: "Team: $(System.TeamProject)\r\nRepo: $(Build.Repository.Name)\r\nRequested by: $(Build.RequestedFor)\r\nBuild: $(Build.BuildNumber)\r\nUrl: $(Build.BuildUri)\r\nA new deployment has been requested. Please approve or reject the deployment."
+              onTimeout: reject
+
+      - job: deploy_resourcegroup
+        dependsOn: deploy_approval
+        steps:
+          - task: AzureCLI@2
+            displayName: Create Resource Group
+            inputs:
+              azureSubscription: '${{ parameters.SubscriptionService }}'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az group create --name $(rgSharedName) --location $(rgSharedLocation) 
+                az group create --name $(rgName) --location $(rgLocation)
+
+      - job: validate_landingzone
+        dependsOn: deploy_resourcegroup
+        steps:
+          - task: AzureCLI@2
+            displayName: Validate Landing Zone
+            inputs:
+              azureSubscription: '${{ parameters.SubscriptionService }}'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group what-if --resource-group $(rgSharedName) --template-file $(sharedTemplate) --parameters $(sharedParameters)
+                az deployment group what-if --resource-group $(rgName) --template-file $(landingZoneTemplate) --parameters $(landingZoneParameters)
+
+      - job: deploy_landingzone
+        dependsOn: validate_landingzone
+        steps:
+          - task: AzureCLI@2
+            displayName: Deploy Landing Zone
+            inputs:
+              azureSubscription: '${{ parameters.SubscriptionService }}'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group create --resource-group $(rgSharedName) --template-file $(sharedTemplate) --parameters $(sharedParameters)
+                az deployment group create --resource-group $(rgName) --template-file $(landingZoneTemplate) --parameters $(landingZoneParameters)
+                az keyvault set-policy --name '$(kvName)' --object-id $(serviceConnectionIdentityObjectId) --secret-permissions get list

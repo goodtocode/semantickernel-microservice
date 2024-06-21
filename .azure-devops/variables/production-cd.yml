@@ -1,0 +1,15 @@
+variables:
+  - group: aacn-PRODUCT-prod
+  - name: rgEnvironment
+    value: 'Production'
+  - name: siteDns
+    value: 'FQDN'
+  - name: thumbprint
+    value: 'THUMBPRINT'
+  - name: productName
+    value: 'PRODUCT'
+    
+# Key Vault
+# sqlUser
+# sqlPassword
+# sqlConnection

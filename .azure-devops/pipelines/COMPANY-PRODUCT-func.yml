@@ -1,0 +1,185 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - 'develop'
+    - 'main'
+  paths:
+    include:
+    - src/Core/*
+    - src/Infrastructure/*
+    - src/Specs/*
+    - src/Presentation/Function/*
+
+pr:
+  branches:
+    exclude:
+    - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: subscriptionService
+    type: string 
+    default: "AZURE_DEVOPS_SERVICE_CONNECTION_NAME"
+
+  - name: funcSettings
+    type: object
+    default: 
+      - name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        value: '$(appiKey)'
+        slotSetting: false
+      - name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+        value: '$(appiConnection)'
+        slotSetting: false        
+      - name: 'AZURE_FUNCTIONS_ENVIRONMENT'
+        value: '$(rgEnvironment)'
+        slotSetting: false
+      - name: 'FUNCTIONS_EXTENSION_VERSION'
+        value: '~$(funcVersion)'
+        slotSetting: false
+      - name: 'FUNCTIONS_WORKER_RUNTIME'
+        value: '$(funcRuntime)'
+        slotSetting: false
+      - name: 'AzureWebJobs.<FUNCTION_NAME>.Disabled'
+        value: 'false'
+        slotSetting: false
+      - name: 'MyFunction.TimerSchedule'
+        value: '0 */5 * * * *'
+        slotSetting: false
+
+variables:
+  - template: ../variables/common.yml
+
+stages:
+  - stage: development
+    condition: and(or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.SourceBranch'], 'refs/heads/main')), ne(variables['Build.Reason'], 'PullRequest'))
+    variables:
+      - template: ../variables/development.yml
+
+    jobs:
+      - job: build_src
+        steps:
+          - template: ../steps/dotnet-build-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              srcPath: '$(srcPath)'
+              srcProject: '$(apiProject)'
+
+
+      - job: test_unit
+        dependsOn: build_src
+        steps:
+          - template: ../steps/dotnet-test-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              testPath: '$(unitPath)'
+              testProject: '$(unitProject)'
+              restorePath: '$(srcPath)'
+              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
+              appcsConnection: '$(appcsConnection)'
+              rgEnvironment: '$(rgEnvironment)'
+
+      - job: build_func
+        dependsOn: test_unit
+        steps:
+          - template: ../steps/func-build-steps.yml
+            parameters:
+              archiveFile: '$(archiveFileFunc)'
+              dotnetVersion: '$(dotnetVersion)'
+              scriptsPath: '$(scriptspath)'
+              funcPath: '$(funcPath)'
+              tempPath: '$(tempPath)'
+
+      - job: settings_func
+        dependsOn: build_func
+        steps:
+          - template: ../steps/func-settings-steps.yml
+            parameters:
+              subscriptionService: '${{ parameters.subscriptionService }}'              
+              rgEnvironment: '$(rgEnvironment)'
+              funcName: '$(funcName)'
+              appSettings: '${{ parameters.funcSettings }}'
+
+      - job: deploy_func
+        dependsOn: settings_func
+        steps:
+          - template: ../steps/func-deploy-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(archiveFileFunc)'
+              funcName: '$(funcName)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+ 
+  - stage: production
+    condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))
+    variables:
+      - template: ../variables/production.yml
+
+    jobs:
+      - job: deploy_approval
+        pool: server
+        timeoutInMinutes: 4320
+        steps:
+        - task: ManualValidation@0
+          inputs:
+           notifyUsers: $(deployApprovers)
+           instructions: "Team: $(System.TeamProject)\r\nRepo: $(Build.Repository.Name)\r\nRequested by: $(Build.RequestedFor)\r\nBuild: $(Build.BuildNumber)\r\nUrl: $(Build.BuildUri)\r\nA new deployment has been requested. Please approve or reject the deployment."
+           onTimeout: reject
+
+      - job: build_src
+        dependsOn: deploy_approval
+        steps:
+          - template: ../steps/dotnet-build-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              srcPath: '$(srcPath)'
+              srcProject: '$(apiProject)'
+
+
+      - job: test_unit
+        dependsOn: build_src
+        steps:
+          - template: ../steps/dotnet-test-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              testPath: '$(unitPath)'
+              testProject: '$(unitProject)'
+              restorePath: '$(srcPath)'
+              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
+              appcsConnection: '$(appcsConnection)'
+              rgEnvironment: '$(rgEnvironment)'
+
+      - job: build_func
+        dependsOn: test_unit
+        steps:
+          - template: ../steps/func-build-steps.yml
+            parameters:
+              archiveFile: '$(archiveFileFunc)'
+              dotnetVersion: '$(dotnetVersion)'
+              scriptsPath: '$(scriptspath)'
+              funcPath: '$(funcPath)'
+              tempPath: '$(tempPath)'
+
+      - job: settings_func
+        dependsOn: build_func
+        steps:
+          - template: ../steps/func-settings-steps.yml
+            parameters:
+              subscriptionService: '${{ parameters.subscriptionService }}'              
+              rgEnvironment: '$(rgEnvironment)'
+              funcName: '$(funcName)'
+              appSettings: '${{ parameters.funcSettings }}'
+
+      - job: deploy_func
+        dependsOn: settings_func
+        steps:
+          - template: ../steps/func-deploy-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(archiveFileFunc)'
+              funcName: '$(funcName)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'

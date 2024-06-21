@@ -1,0 +1,71 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+parameters:
+ - name: subscriptionService
+   type: string 
+   default: 'AZURE-DEVOPS-SERVICE-CONNECTION-NAME'
+
+variables:
+  - template: ../variables/common.yml
+  
+stages:
+  - stage: Development 
+    variables:
+       - template: ../variables/development.yml
+    jobs:
+      - job: Deploy_src
+        steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+           buildType: 'specific'
+           project: '65294700-f5dd-4170-8192-4b8b63d2132c'
+           definition: '24'
+           buildVersionToDownload: 'latest'
+           targetPath: '$(Pipeline.Workspace)'
+           artifactName: 'drop'
+        - task: AzureWebApp@1
+          displayName: Deploy to webapp
+          inputs:
+            azureSubscription: '${{ parameters.subscriptionService }}'
+            appType: 'webApp'
+            appName: '$(appName)'
+            package: '$(Pipeline.Workspace)/**/*.zip'
+            deploymentMethod: 'zipDeploy'
+
+  - stage: Production
+    variables:
+      - template: ../variables/production.yml
+    jobs:
+      - job: deploy_approval
+        pool: server
+        timeoutInMinutes: 4320
+        steps:
+        - task: ManualValidation@0
+          inputs:
+           notifyUsers: $(deployApprovers)
+           instructions: "Team: $(System.TeamProject)\r\nRepo: $(Build.Repository.Name)\r\nRequested by: $(Build.RequestedFor)\r\nBuild: $(Build.BuildNumber)\r\nUrl: $(Build.BuildUri)\r\nA new deployment has been requested. Please approve or reject the deployment."
+           onTimeout: reject
+      - job: Deploy_src
+        dependsOn: deploy_approval
+        steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+           buildType: 'specific'
+           project: '65294700-f5dd-4170-8192-4b8b63d2132c'
+           definition: '24'
+           buildVersionToDownload: 'latest'
+           targetPath: '$(Pipeline.Workspace)'
+           artifactName: 'drop'
+        - task: AzureWebApp@1
+          displayName: Deploy to webapp
+          inputs:
+            azureSubscription: '${{ parameters.subscriptionService }}'
+            appType: 'webApp'
+            appName: '$(appName)'
+            package: '$(Pipeline.Workspace)/**/*.zip'
+            deploymentMethod: 'zipDeploy'
+          

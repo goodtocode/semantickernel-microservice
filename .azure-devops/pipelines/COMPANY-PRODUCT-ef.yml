@@ -1,0 +1,125 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*'
+  paths:
+    include:
+    - src/**/migrations/*
+
+pr:
+  branches:
+    exclude:
+    - '*'
+
+pool:
+  vmImage: 'windows-latest'
+
+parameters:
+  - name: releaseToDev
+    type: boolean
+    default: true
+  - name: releaseToQA
+    type: boolean
+    default: true
+  - name: releaseToStaging
+    type: boolean
+    default: false
+  - name: releaseToProd
+    type: boolean
+    default: false
+  - name: subscriptionService
+    type: string 
+    default: "AZURE_DEVOPS_SERVICE_CONNECTION_NAME"
+
+variables:
+  - template: ../variables/common.yml
+
+stages:
+  - stage: development
+    condition: and(eq(lower(${{ parameters.releaseToDev }}), 'true'), and(ne(variables['Build.SourceBranch'], 'refs/heads/develop'), not(eq(variables['Build.Reason'], 'PullRequest'))))
+    variables:
+      - template: ../variables/development.yml
+
+    jobs:
+      - job: deploy_ef_migration
+        steps:
+          - template: ../steps/ef-deploy-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              buildConfiguration: '$(buildConfiguration)'
+              dbContext: '$(dbContext)'
+              srcPath: '$(srcPath)'
+              sqldbName: '$(sqldbName)'
+              sqlName: '$(sqlName)'
+              sqlUser: '$(sqlUser)'
+              sqlPassword: '$(sqlPassword)'
+              efStartupPath: '$(efStartupPath)'
+              efTargetPath: '$(efTargetPath)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+
+  - stage: qa
+    condition: and(eq(lower(${{ parameters.releaseToQA }}), 'true'), and(ne(variables['Build.SourceBranch'], 'refs/heads/develop'), ne(variables['Build.Reason'], 'PullRequest')))
+    variables:
+      - template: ../variables/qa.yml
+
+    jobs:
+      - job: deploy_ef_migration
+        steps:
+          - template: ../steps/ef-deploy-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              buildConfiguration: '$(buildConfiguration)'
+              dbContext: '$(dbContext)'
+              srcPath: '$(srcPath)'
+              sqldbName: '$(sqldbName)'
+              sqlName: '$(sqlName)'
+              sqlUser: '$(sqlUser)'
+              sqlPassword: '$(sqlPassword)'
+              efStartupPath: '$(efStartupPath)'
+              efTargetPath: '$(efTargetPath)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+
+  - stage: staging
+    condition: and(eq(lower(${{ parameters.releaseToStaging }}), 'true'), and(ne(variables['Build.SourceBranch'], 'refs/heads/develop'), ne(variables['Build.Reason'], 'PullRequest')))
+    variables:
+      - template: ../variables/staging.yml
+
+    jobs:
+      - job: deploy_ef_migration
+        steps:
+          - template: ../steps/ef-deploy-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              buildConfiguration: '$(buildConfiguration)'
+              dbContext: '$(dbContext)'
+              srcPath: '$(srcPath)'
+              sqldbName: '$(sqldbName)'
+              sqlName: '$(sqlName)'
+              sqlUser: '$(sqlUser)'
+              sqlPassword: '$(sqlPassword)'
+              efStartupPath: '$(efStartupPath)'
+              efTargetPath: '$(efTargetPath)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+
+  - stage: production
+    condition: and(eq(lower(${{ parameters.releaseToProd }}), 'true'), and(ne(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')))
+    variables:
+      - template: ../variables/production.yml 
+
+    jobs:
+      - job: deploy_ef_migration
+        steps:
+          - template: ../steps/ef-deploy-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              buildConfiguration: '$(buildConfiguration)'
+              dbContext: '$(dbContext)'
+              srcPath: '$(srcPath)'
+              sqldbName: '$(sqldbName)'
+              sqlName: '$(sqlName)'
+              sqlUser: '$(sqlUser)'
+              sqlPassword: '$(sqlPassword)'
+              efStartupPath: '$(efStartupPath)'
+              efTargetPath: '$(efTargetPath)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
