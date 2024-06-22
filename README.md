@@ -1,30 +1,44 @@
 # Semantic Kernel Microservice Quick-Start
 A simple Semantic Kernel CRUD Microservice solution including Domain Models, Aggregates, Persistence Repositories and an API presentation layer. This demonstrates the most basic use cases of Semantic Kernel in an Clean Architecture Microservice.
 
-## Prerequisites
+# Prerequisites
 You will need the following tools:
-### Visual Studio
+## Visual Studio
 [Visual Studio Workload IDs](https://learn.microsoft.com/en-us/visualstudio/install/workload-component-id-vs-community?view=vs-2022&preserve-view=true)
 ```
 winget install --id Microsoft.VisualStudio.2022.Community --override "--quiet --add Microsoft.Visualstudio.Workload.Azure --add Microsoft.VisualStudio.Workload.Data --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb"
 ```
-### Or VS Code (code .)
+## Or VS Code (code .)
 ```
 winget install Microsoft.VisualStudioCode --override '/SILENT /mergetasks="!runcode,addcontextmenufiles,addcontextmenufolders"'
 ```
 
-### .NET SDK (dotnet)
+## .NET SDK
 ```
 winget install Microsoft.DotNet.SDK.8 --silent
 ```
 
-### SQL Server
+## dotnet ef cli
+Install
+```
+dotnet tool install --global dotnet-ef
+```
+Update
+```
+dotnet tool update --global dotnet-ef
+```
+Remember to add the following package to appropriate project
+```
+dotnet add package Microsoft.EntityFrameworkCore.Design
+```
+
+## SQL Server
 [Optional: SQL Server 2022 or above](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 
-## Configurations
+# Application Configurations
 Follow these steps to get your development environment set up:
 
-### ASPNETCORE_ENVIRONMENT set to "Local" in launchsettings.json
+## ASPNETCORE_ENVIRONMENT set to "Local" in launchsettings.json
 1. This project uses the following ASPNETCORE_ENVIRONMENT to set configuration profile
 - Debugging uses Properties/launchSettings.json
 - launchSettings.json is set to Local, which relies on appsettings.Local.json
@@ -34,9 +48,9 @@ Follow these steps to get your development environment set up:
 	Get-Childitem env:
 	```	
   
-### Setup Azure Open AI or Open AI configuration
+## Setup Azure Open AI or Open AI configuration
 **Important:** Do this for both Presentation.WebAPI and Specs.Infrastructure
-#### Azure Open AI in Presentation.WebAPI and Specs.Infrastructure
+### Azure Open AI
 ```
 cd src/Presentation/WebAPI
 dotnet user-secrets init
@@ -51,7 +65,7 @@ AzureOpenAI__Endpoint
 AzureOpenAI__ApiKey
 ```
 
-#### Open AI
+### Open AI
 ```
 cd src/Presentation/WebAPI
 dotnet user-secrets init
@@ -64,37 +78,13 @@ OpenAI__ChatModelId
 OpenAI__ApiKey
 ```
 
-### Setup your SQL Server connection string
+## Setup your SQL Server connection string
 ```
 dotnet user-secrets init
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YOUR_SQL_CONNECTION_STRING"
 ```
 
-### Launch the backend
-Right-click Presentation.WebApi and select Set as Default Project
-```
-dotnet run WebApi.csproj
-```
-
-### Open http://localhost:7777/swagger/index.html in your browser to the Swagger API Interface
-Open Microsoft Edge or modern browser
-Navigate to: http://localhost:7777/swagger/index.html
-  
 ## dotnet ef migrate steps
-### dotnet ef cli
-Install
-```
-dotnet tool install --global dotnet-ef
-```
-Update
-```
-dotnet tool update --global dotnet-ef
-```
-Remember to add the following package to appropriate project
-```
-dotnet add package Microsoft.EntityFrameworkCore.Design
-```
-### Steps
 
 1. Open Windows Terminal in Powershell or Cmd mode
 2. cd to root of repository
@@ -119,7 +109,18 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 	```
 	dotnet ef migrations add v1.1 --project .\src\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj --startup-project .\src\Presentation\WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
 	```
+# Running the Application
+## Launch the backend
+Right-click Presentation.WebApi and select Set as Default Project
+```
+dotnet run Presentation.WebApi.csproj
+```
 
+## Open http://localhost:7777/swagger/index.html in your browser to the Swagger API Interface
+Open Microsoft Edge or modern browser
+Navigate to: http://localhost:7777/swagger/index.html
+
+# Creating a dotnet new Template
 ## dotnet new steps
 1. Start Windows Terminal
 2. Navigate to template.json folder
@@ -139,6 +140,43 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 	```
 	dotnet new gtc-msv3 -o "MyOrg.DomainMicroservice"
 	```
+
+# DevOps Configuration
+## GitHub Actions (.github folder)
+The GitHub action will automatically run upon commit to a repo. The triggers are set based on changes (PRs/Merges) to the main branch.
+
+### Azure Federation to GitHub Actions
+gtc-rg-semantickernel-infrastructure.yml will deploy all necessary resources to Azure. To enable this functionality, two service principles are required: App Registration service principle (used for az login command) and a Enterprise Application service principle (allows GitHub to authenticate to Azure).
+#### Git Hub Environment Secret setup and Azure IAM privileges: 
+1. Create GitHub repo environments, development, production
+2. Create Azure App Registration with client secret: 
+- https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure
+- Part 1: For az login in devops pipeline: Grant Azure App Registration identity Contributor privilege to subscription
+- Part 2: Create a Enterprise Application - service principle - and assign it to the Contributor role in the subscription
+
+```
+New-AzADApplication -DisplayName COMPANY-SUB_OR_PRODUCTLINE-github-001 `
+$clientId = (Get-AzADApplication -DisplayName COMPANY-SUB_OR_PRODUCTLINE-github-001).AppId `
+New-AzADServicePrincipal -ApplicationId $clientId `
+$objectId = (Get-AzADServicePrincipal -DisplayName myApp).Id 1 `
+New-AzRoleAssignment -ObjectId $objectId -RoleDefinitionName Contributor -ResourceGroupName $resourceGroupName `
+$clientId = (Get-AzADApplication -DisplayName myApp).AppId `
+$subscriptionId = (Get-AzContext).Subscription.Id `
+$tenantId = (Get-AzContext).Subscription.TenantId `
+
+New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com/' -Name 'COMPANY-SUB_OR_PRODUCTLINE-github-001' -Subject 'repo:GITHUIB_REPO_NAME/octo-repo:environment:GITHUB_REPO_ENVIRONMENT'
+```
+
+5. For the new App Registration service principle, make sure the following Federated Credentials exist, which allow environments and branches to deploy resources.
+- COMPANY-SUB_OR_PRODUCTLINE-github-production - Production environment - repo:goodtocode/semantickernel-microservice:environment:production
+- COMPANY-SUB_OR_PRODUCTLINE-github-main - Main repository - repo:goodtocode/semantickernel-microservice:ref:refs/heads/main
+- COMPANY-SUB_OR_PRODUCTLINE-github-pullrequest - Pull request - repo:goodtocode/semantickernel-microservice:pull_request
+- COMPANY-SUB_OR_PRODUCTLINE-github-development - Development environment - repo:goodtocode/semantickernel-microservice:environment:development
+6. In GitHub repo environment: Add the az login secrets: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID
+
+## Azure DevOps Pipelines (.azure-devops folder)
+Azure DevOps pipelines require an Azure Service Connection to authenticate and deploy resources to Azure.
+
 # Entity Framework vs. Semantic Kernel Memory
 This example uses Entity Framework (EF) to store messages and responses for Semantic Kernel, and does not rely on SK Memory (SM). EF and SM serve different purposes. If you need natural language querying and efficient indexing, Semantic Kernel Memory is a great fit. If you’re building a standard application with a relational database, Entity Framework is more appropriate.
 

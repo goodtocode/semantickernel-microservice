@@ -47,18 +47,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # Secret setup and IAM privileges: 
-      #   1. Create GitHub repo environments, development, production
-      #   2. Create Azure App Registration with client secret: 
-      #     - https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure
-      #   3. Grant Azure App Registration identity Contributor privilege to subscription
-      #     - gtc-semantickernel-github-production - Production environment - repo:goodtocode/semantickernel-microservice:environment:production
-      #     - gtc-semantickernel-github-main - Main repository - repo:goodtocode/semantickernel-microservice:ref:refs/heads/main
-      #     - gtc-semantickernel-github-pullrequest - Pull request - repo:goodtocode/semantickernel-microservice:pull_request
-      #     - gtc-semantickernel-github-development - Development environment - repo:goodtocode/semantickernel-microservice:environment:development
-      #   4. Add the secrets: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID
-      #   5. Create a service principle and assign it to the Contributor role in the subscription
-      #     - az ad sp create-for-rbac --name "gtc-semantickernel-github-001" --role contributor --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} --json-auth
+      
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
