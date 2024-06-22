@@ -1,16 +1,11 @@
 on:
-  push:
-    branches-ignore:
-    - main
-    paths:
-    - .github/workflows/gtc-rg-PRODUCTNAME-infrastructure.yml
-    - .azure/**/*.json
   pull_request:
+    types: [closed]
     branches:
     - main    
     paths:
-    - .github/workflows/gtc-rg-PRODUCTNAME-infrastructure.yml
-    - .azure/**/*.json
+    - .github/workflows/gtc-rg-semantickernel-infrastructure.yml
+    - .azure/**/*.bicep
   workflow_dispatch:
     inputs:
       environment:

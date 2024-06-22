@@ -158,7 +158,7 @@ gtc-rg-semantickernel-infrastructure.yml will deploy all necessary resources to 
 New-AzADApplication -DisplayName COMPANY-SUB_OR_PRODUCTLINE-github-001 `
 $clientId = (Get-AzADApplication -DisplayName COMPANY-SUB_OR_PRODUCTLINE-github-001).AppId `
 New-AzADServicePrincipal -ApplicationId $clientId `
-$objectId = (Get-AzADServicePrincipal -DisplayName myApp).Id 1 `
+$objectId = (Get-AzADServicePrincipal -DisplayName myApp).Id `
 New-AzRoleAssignment -ObjectId $objectId -RoleDefinitionName Contributor -ResourceGroupName $resourceGroupName `
 $clientId = (Get-AzADApplication -DisplayName myApp).AppId `
 $subscriptionId = (Get-AzContext).Subscription.Id `
