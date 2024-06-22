@@ -1,8 +1,8 @@
 targetScope='resourceGroup'
 
 // Common
-param tenantId string 
-param location string 
+param tenantId string  = tenant().tenantId
+param location string  = resourceGroup().location
 param tags object 
 // Azure Monitor
 param appiName string 
