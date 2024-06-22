@@ -1,4 +1,10 @@
 on:
+  push:
+    branches-ignore:
+    - main
+    paths:
+    - .github/workflows/gtc-rg-semantickernel-infrastructure.yml
+    - .azure/**/*.bicep
   pull_request:
     types: [closed]
     branches:
