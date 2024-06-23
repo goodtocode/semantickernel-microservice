@@ -32,7 +32,7 @@ env:
   # Product Landing Zone
   PRODUCT_RG_LOCATION: "westus2"
   PRODUCT_RG_NAME: "gtc-rg-public-semantickernel-dev-001"
-  KEYVAULT_NAME: "kv-semantickernel-dev-001"
+  KEYVAULT_NAME: "kv-semanticker-dev-001"
   PRODUCT_BICEP_TEMPLATE: ".azure/templates/landingzone-appservice.bicep"
   PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-appservice-development.bicepparam"
   PIPELINE_IDENTITY_OBJECT_ID: ""

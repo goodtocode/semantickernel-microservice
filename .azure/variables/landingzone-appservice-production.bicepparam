@@ -19,7 +19,7 @@ param stName = 'stsemantickernelprod001'
 param stSku = 'Standard_LRS'
 
 // Key Vault
-param kvName = 'kv-semantickernel-prod-001'
+param kvName = 'kv-semanticker-prod-001'
 param kvSku = 'standard'
 
 // App Service
