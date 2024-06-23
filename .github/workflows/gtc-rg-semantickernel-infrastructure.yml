@@ -1,55 +1,57 @@
 on:
   push:
     branches-ignore:
-    - main
+      - main
     paths:
-    - .github/workflows/gtc-rg-semantickernel-infrastructure.yml
-    - .azure/**/*.bicep
+      - .github/workflows/gtc-rg-semantickernel-infrastructure.yml
+      - .azure/**/*.bicep
+      - .azure/**/*.bicepparams
   pull_request:
     types: [closed]
     branches:
-    - main    
+      - main
     paths:
-    - .github/workflows/gtc-rg-semantickernel-infrastructure.yml
-    - .azure/**/*.bicep
+      - .github/workflows/gtc-rg-semantickernel-infrastructure.yml
+      - .azure/**/*.bicep
+      - .azure/**/*.bicepparams
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to run'     
+        description: "Environment to run"
         required: true
-        default: 'development'
+        default: "development"
       mode:
-        description: 'Running mode'  
+        description: "Running mode"
 
 env:
   # Shared Landing Zone
-  SHARED_RG_NAME: 'gtc-rg-shared-westus2-dev-001'
-  SHARED_RG_LOCATION: 'westus2'
-  SHARED_BICEP_TEMPLATE: '.azure/templates/landingzone-shared.bicep'
-  SHARED_BICEP_PARAMETERS: '.azure/variables/landingzone-shared-development.bicepparam'
+  SHARED_RG_NAME: "gtc-rg-shared-westus2-dev-001"
+  SHARED_RG_LOCATION: "westus2"
+  SHARED_BICEP_TEMPLATE: ".azure/templates/landingzone-shared.bicep"
+  SHARED_BICEP_PARAMETERS: ".azure/variables/landingzone-shared-development.bicepparam"
   # Product Landing Zone
-  PRODUCT_RG_LOCATION: 'westus2'
-  PRODUCT_RG_NAME: 'gtc-rg-public-semantickernel-dev-001'
-  KEYVAULT_NAME: 'kv-semantickernel-dev-001'
-  PRODUCT_BICEP_TEMPLATE: '.azure/templates/landingzone-appservice.bicep'
-  PRODUCT_BICEP_PARAMETERS: '.azure/variables/landingzone-appservice-development.bicepparam'
-  PIPELINE_IDENTITY_OBJECT_ID: ''
+  PRODUCT_RG_LOCATION: "westus2"
+  PRODUCT_RG_NAME: "gtc-rg-public-semantickernel-dev-001"
+  KEYVAULT_NAME: "kv-semantickernel-dev-001"
+  PRODUCT_BICEP_TEMPLATE: ".azure/templates/landingzone-appservice.bicep"
+  PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-appservice-development.bicepparam"
+  PIPELINE_IDENTITY_OBJECT_ID: ""
 
 permissions:
   id-token: write
   contents: read
   security-events: write
 
-jobs:  
+jobs:
   development_Stage_deploy_landing_zone:
-    name: 'Deploy landing zone IaC'
+    name: "Deploy landing zone IaC"
     runs-on: ubuntu-latest
     environment: development
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
-      - name: 'Az CLI login'
+
+      - name: "Az CLI login"
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
