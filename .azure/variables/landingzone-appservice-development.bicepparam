@@ -24,4 +24,4 @@ param kvSku = 'standard'
 
 // App Service
 param appName = 'api-semantickernel-dev-001'
-param planName = 'plan-shared-dev-001'
+param planName = 'plan-shared-westus2-dev-001'
