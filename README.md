@@ -148,8 +148,11 @@ The GitHub action will automatically run upon commit to a repo. The triggers are
 ### Azure Federation to GitHub Actions
 gtc-rg-semantickernel-infrastructure.yml will deploy all necessary resources to Azure. To enable this functionality, two service principles are required: App Registration service principle (used for az login command) and a Enterprise Application service principle (allows GitHub to authenticate to Azure).
 #### Git Hub Environment Secret setup and Azure IAM privileges: 
+Note: The AZURE_SECRETS method uses: az ad sp create-for-rbac --name "COMPANY-SUB_OR_PRODUCTLINE-github-001" --role contributor --scopes /subscriptions/SUBSCRIPTION_ID --json-auth
+
 1. Create GitHub repo environments, development, production
 2. Create Azure App Registration with client secret: 
+- https://github.com/marketplace/actions/azure-login#configure-a-service-principal-with-a-secret
 - https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure
 - Part 1: For az login in devops pipeline: Grant Azure App Registration identity Contributor privilege to subscription
 - Part 2: Create a Enterprise Application - service principle - and assign it to the Contributor role in the subscription
