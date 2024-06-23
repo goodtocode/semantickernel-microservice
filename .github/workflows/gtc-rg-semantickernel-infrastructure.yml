@@ -35,7 +35,6 @@ env:
   KEYVAULT_NAME: "kv-semanticker-dev-001"
   PRODUCT_BICEP_TEMPLATE: ".azure/templates/landingzone-appservice.bicep"
   PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-appservice-development.bicepparam"
-  PIPELINE_IDENTITY_OBJECT_ID: ""
 
 permissions:
   id-token: write
@@ -95,4 +94,4 @@ jobs:
         with:
           inlineScript: |
             az deployment group create --resource-group ${{ env.PRODUCT_RG_NAME }} --template-file ${{ env.PRODUCT_BICEP_TEMPLATE }} --parameters ${{ env.PRODUCT_BICEP_PARAMETERS }}
-            az keyvault set-policy --name '${{ env.KEYVAULT_NAME }}' --object-id ${{ env.PIPELINE_IDENTITY_OBJECT_ID }} --secret-permissions get list
+            az keyvault set-policy --name '${{ env.KEYVAULT_NAME }}' --object-id ${{ secrets.AZURE_SERVICE_PRINCIPAL_OBJECTID }} --secret-permissions get list
