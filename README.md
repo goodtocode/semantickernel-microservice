@@ -150,32 +150,34 @@ gtc-rg-semantickernel-infrastructure.yml will deploy all necessary resources to 
 #### Git Hub Environment Secret setup and Azure IAM privileges: 
 Note: The AZURE_SECRETS method uses: az ad sp create-for-rbac --name "COMPANY-SUB_OR_PRODUCTLINE-github-001" --role contributor --scopes /subscriptions/SUBSCRIPTION_ID --json-auth
 
-1. Create GitHub repo environments, development, production
-2. Create Azure App Registration with client secret: 
-- https://github.com/marketplace/actions/azure-login#configure-a-service-principal-with-a-secret
-- https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure
-- Part 1: For az login in devops pipeline: Grant Azure App Registration identity Contributor privilege to subscription
-- Part 2: Create a Enterprise Application - service principle - and assign it to the Contributor role in the subscription
-
+[New-AzureGitHubFederation.ps1](https://github.com/goodtocode/cloud-admin/blob/main/scripts/cybersecurity/Azure-GitHub-Federation/New-AzureGitHubFederation.ps1)
 ```
-New-AzADApplication -DisplayName COMPANY-SUB_OR_PRODUCTLINE-github-001 `
-$clientId = (Get-AzADApplication -DisplayName COMPANY-SUB_OR_PRODUCTLINE-github-001).AppId `
-New-AzADServicePrincipal -ApplicationId $clientId `
-$objectId = (Get-AzADServicePrincipal -DisplayName myApp).Id `
-New-AzRoleAssignment -ObjectId $objectId -RoleDefinitionName Contributor -ResourceGroupName $resourceGroupName `
-$clientId = (Get-AzADApplication -DisplayName myApp).AppId `
-$subscriptionId = (Get-AzContext).Subscription.Id `
-$tenantId = (Get-AzContext).Subscription.TenantId `
+Install-Module Az #-Force #Force will update the module if it is already installed
+Connect-AzAccount -SubscriptionId $SubscriptionId -UseDeviceAuthentication
+# Create a new Azure AD App Registration application and service principal
+$existingAppRegistration = Get-AzADApplication -Filter "displayName eq '$PrincipalName'"
+if (-not $existingAppRegistration) {
+    New-AzADApplication -DisplayName $PrincipalName
+}
+$clientId = (Get-AzADApplication -DisplayName $PrincipalName).AppId
+New-AzADServicePrincipal -ApplicationId $clientId
+$objectId = (Get-AzADServicePrincipal -DisplayName $PrincipalName).Id
+New-AzRoleAssignment -ObjectId $objectId -RoleDefinitionName Contributor -Scope "/subscriptions/$SubscriptionId"
+$clientId = (Get-AzADApplication -DisplayName $PrincipalName).AppId
+$tenantId = (Get-AzContext).Subscription.TenantId
 
-New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com/' -Name 'COMPANY-SUB_OR_PRODUCTLINE-github-001' -Subject 'repo:GITHUIB_REPO_NAME/octo-repo:environment:GITHUB_REPO_ENVIRONMENT'
+# Create new App Registration Federated Credentials for the GitHub operations
+$subjectRepo = $subjectRepo = "repo:" + $Organization + "/" + $Repository + ":environment:" + $Environment
+New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-repo" -Subject "$subjectRepo"
+$subjectRepoMain = "repo:" + $Organization + "/" + $Repository + ":ref:refs/heads/main"
+New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-main" -Subject "$subjectRepoMain"
+$subjectRepoPR = "repo:" + $Organization + "/" + $Repository + ":pull_request"
+New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-PR" -Subject "$subjectRepoPR"
 ```
-
-5. For the new App Registration service principle, make sure the following Federated Credentials exist, which allow environments and branches to deploy resources.
-- COMPANY-SUB_OR_PRODUCTLINE-github-production - Production environment - repo:goodtocode/semantickernel-microservice:environment:production
-- COMPANY-SUB_OR_PRODUCTLINE-github-main - Main repository - repo:goodtocode/semantickernel-microservice:ref:refs/heads/main
-- COMPANY-SUB_OR_PRODUCTLINE-github-pullrequest - Pull request - repo:goodtocode/semantickernel-microservice:pull_request
-- COMPANY-SUB_OR_PRODUCTLINE-github-development - Development environment - repo:goodtocode/semantickernel-microservice:environment:development
-6. In GitHub repo environment: Add the az login secrets: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID
+6. In GitHub repo environment: Add the az login secrets: 
+- AZURE_CLIENT_ID
+- AZURE_TENANT_ID
+- AZURE_SUBSCRIPTION_ID
 
 ## Azure DevOps Pipelines (.azure-devops folder)
 Azure DevOps pipelines require an Azure Service Connection to authenticate and deploy resources to Azure.

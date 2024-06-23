@@ -6,8 +6,8 @@ param location = 'West US 2'
 param tags = { Environment: 'prod', CostCenter: '0000' }
 // Workspace
 //param sharedSubscriptionId = 'SUBSCRIPTION_ID'
-param sharedResourceGroupName = 'rg-SHARED-prod-001'
-param workName = 'work-SHARED-prod-001'
+param sharedResourceGroupName = 'gtc-rg-shared-westus2-prod-001'
+param workName = 'work-shared-westus2-prod-001'
 
 // Azure Monitor
 param appiName = 'appi-semantickernel-prod-001'
@@ -24,4 +24,4 @@ param kvSku = 'standard'
 
 // App Service
 param appName = 'api-semantickernel-prod-001'
-param planName = 'plan-SHARED-prod-001'
+param planName = 'plan-shared-westus2-prod-001'

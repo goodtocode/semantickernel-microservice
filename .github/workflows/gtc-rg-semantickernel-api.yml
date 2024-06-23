@@ -3,14 +3,14 @@ on:
     branches-ignore:
     - main
     paths:
-    - .github/workflows/gtc-rg-PRODUCT-api.yml
-    - src/PRODUCT/**
+    - .github/workflows/gtc-rg-semantickernel-api.yml
+    - src/semantickernel/**
   pull_request:
     branches:
     - main    
     paths:
-    - .github/workflows/gtc-rg-PRODUCT-api.yml
-    - src/PRODUCT/**
+    - .github/workflows/gtc-rg-semantickernel-api.yml
+    - src/semantickernel/**
   workflow_dispatch:
     inputs:
       environment:
@@ -36,22 +36,22 @@ jobs:
         dotnet-version: [ '7.0.x' ]
 
     env:      
-      AZURE_WEBAPP_NAME: api-PRODUCT-dev-001
+      AZURE_WEBAPP_NAME: api-semantickernel-dev-001
       AZURE_WEBAPP_PACKAGE_PATH: '.'
-      AZURE_RG_NAME: 'gtc-rg-PRODUCT-dev-001'
+      AZURE_RG_NAME: 'gtc-rg-public-semantickernel-dev-001'
       RUNTIME_ENV: 'Development'
-      SRC_PATH: './src/PRODUCT'
-      SRC_SLN: 'COMPANY.PRODUCT.sln'      
+      SRC_PATH: './src/semantickernel'
+      SRC_SLN: 'gtc.semantickernel.sln'      
       API_PATH: 'Presentation/WebApi'
       API_PROJECT: 'WebApi.csproj'
-      APPI_NAME: 'appi-PRODUCT-dev-001'
+      APPI_NAME: 'appi-semantickernel-dev-001'
       INFRA_PATH: 'Infrastructure/Persistence'
       INFRA_PROJECT: 'Persistence.csproj'
       UNIT_PATH: 'Specs/Application.Unit'
       UNIT_PROJECT: 'Application.Unit.csproj'
       SCRIPTS_PATH: './.github/scripts'
-      SQL_NAME: 'sql-PRODUCTLINE-dev-001'
-      SQLDB_NAME: 'sqldb-PRODUCT-dev-001'
+      SQL_NAME: 'sql-semantickernelLINE-dev-001'
+      SQLDB_NAME: 'sqldb-semantickernel-dev-001'
       AZURE_CRED: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
 
     steps:
@@ -147,9 +147,9 @@ jobs:
           az webapp config connection-string set -g ${{ env.AZURE_RG_NAME }} -n ${{ env.AZURE_WEBAPP_NAME }} -t SQLServer --settings DefaultConnection=$TEMP_STR
           dotnet tool install --global dotnet-ef
           dotnet tool restore          
-          dotnet ef migrations add v${{ env.VERSION }} --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context PRODUCTDbContext
-          dotnet ef migrations script --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context PRODUCTDbContext --output ${{ github.workspace }}/sql/migrations.sql --idempotent
-          dotnet ef database update --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context PRODUCTDbContext --connection $TEMP_STR
+          dotnet ef migrations add v${{ env.VERSION }} --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context semantickernelDbContext
+          dotnet ef migrations script --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context semantickernelDbContext --output ${{ github.workspace }}/sql/migrations.sql --idempotent
+          dotnet ef database update --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context semantickernelDbContext --connection $TEMP_STR
         shell: pwsh
            
       - name: Swap to production slot
