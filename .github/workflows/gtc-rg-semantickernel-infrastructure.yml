@@ -27,7 +27,7 @@ env:
   # Shared Landing Zone
   SHARED_RG_NAME: "gtc-rg-shared-westus2-dev-001"
   SHARED_RG_LOCATION: "westus2"
-  SHARED_BICEP_TEMPLATE: ".azure/templates/landingzone-shared.bicep"
+  SHARED_BICEP_TEMPLATE: ".azure/templates/landingzone-sharedsql.bicep"
   SHARED_BICEP_PARAMETERS: ".azure/variables/landingzone-shared-development.bicepparam"
   # Product Landing Zone
   PRODUCT_RG_LOCATION: "westus2"
@@ -68,13 +68,13 @@ jobs:
         uses: Azure/cli@v1.0.0
         with:
           inlineScript: |
-            az deployment group what-if --resource-group ${{ env.SHARED_RG_NAME }} --template-file ${{ env.SHARED_BICEP_TEMPLATE }} --parameters ${{ env.SHARED_BICEP_PARAMETERS }}
+            az deployment group what-if --resource-group ${{ env.SHARED_RG_NAME }} --template-file ${{ env.SHARED_BICEP_TEMPLATE }} --parameters ${{ env.SHARED_BICEP_PARAMETERS }} --parameters sqlAdminUser=${{ secrets.SQL_ADMIN_USER }} sqlAdminPassword=${{ secrets.SQL_ADMIN_PASSWORd }}
 
       - name: Deploy ${{ env.SHARED_RG_NAME }}
         uses: Azure/cli@v1.0.0
         with:
           inlineScript: |
-            az deployment group create --resource-group ${{ env.SHARED_RG_NAME }} --template-file ${{ env.SHARED_BICEP_TEMPLATE }} --parameters ${{ env.SHARED_BICEP_PARAMETERS }}
+            az deployment group create --resource-group ${{ env.SHARED_RG_NAME }} --template-file ${{ env.SHARED_BICEP_TEMPLATE }} --parameters ${{ env.SHARED_BICEP_PARAMETERS }} --parameters sqlAdminUser=${{ secrets.SQL_ADMIN_USER }} sqlAdminPassword=${{ secrets.SQL_ADMIN_PASSWORd }}
 
       # PRODUCT RG
       - name: Create ${{ env.PRODUCT_RG_NAME }}

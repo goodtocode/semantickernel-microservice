@@ -11,7 +11,7 @@ param planName string
 param planSku string 
 // Sql Server
 param sqlName string 
-param sqlAdminLogin string
+param sqlAdminUser string
 @secure()
 param sqlAdminPassword string
 
@@ -41,7 +41,7 @@ module sqlserverModule '../modules/sql-sqlserver.bicep' = {
     name: sqlName
     location: location    
     tags: tags    
-    adminLogin: sqlAdminLogin
+    adminLogin: sqlAdminUser
     adminPassword: sqlAdminPassword
   }
 }
