@@ -6,7 +6,7 @@ param name string
 @maxLength(60)
 param planName string
 
-resource name_resource 'Microsoft.Web/sites@2018-11-01' = {
+resource name_resource 'Microsoft.Web/sites@2023-12-01' = {
   name: name
   location: resourceGroup().location
   tags: {

@@ -11,7 +11,7 @@ param pfxBlob array
 
 var location = resourceGroup().location
 
-resource name_resource 'Microsoft.Web/certificates@2020-12-01' = {
+resource name_resource 'Microsoft.Web/certificates@2023-12-01' = {
   name: name
   location: location
   tags: tags

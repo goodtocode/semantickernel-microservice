@@ -22,7 +22,7 @@ param tags object = {
   tag2: 'tag-value-2'
 }
 
-resource name_appcsKeys 'Microsoft.AppConfiguration/configurationStores/keyValues@2020-07-01-preview' = [for (item, i) in appcsKeys: {
+resource name_appcsKeys 'Microsoft.AppConfiguration/configurationStores/keyValues@2023-03-01' = [for (item, i) in appcsKeys: {
   name: '${name}/${item}'
   properties: {
     value: appcsValues[i]

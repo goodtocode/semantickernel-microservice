@@ -57,7 +57,7 @@ resource name_resource 'Microsoft.Cache/redis@2020-06-01' = {
   }
 }
 
-resource microsoft_insights_diagnosticSettings_name 'microsoft.insights/diagnosticSettings@2017-05-01-preview' = {
+resource microsoft_insights_diagnosticSettings_name 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   scope: name_resource
   name: name
   properties: {

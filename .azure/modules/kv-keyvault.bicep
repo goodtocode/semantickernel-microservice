@@ -1,4 +1,7 @@
-param name string 
+@description('Name of the Key Vault. (kv)')
+@minLength(3)
+@maxLength(24)
+param name string
 
 param location string 
 

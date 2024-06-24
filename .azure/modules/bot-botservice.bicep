@@ -21,7 +21,7 @@ var appPasswordSecretId = keyVaultName_appPasswordSecret.id
 var empty = {}
 var botTags = (contains(resourceTags, 'Microsoft.BotService/botServices') ? resourceTags.Microsoft.BotService / botServices : empty)
 
-resource keyVaultName 'Microsoft.KeyVault/vaults@2019-09-01' = {
+resource keyVaultName 'Microsoft.KeyVault/vaults@2023-07-01' = {
   name: keyVaultName_var
   location: location
   properties: {
@@ -35,7 +35,7 @@ resource keyVaultName 'Microsoft.KeyVault/vaults@2019-09-01' = {
   }
 }
 
-resource keyVaultName_appPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = if (!empty(msAppValue)) {
+resource keyVaultName_appPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (!empty(msAppValue)) {
   parent: keyVaultName
   name: '${appPasswordSecret}'
   properties: {
@@ -43,7 +43,7 @@ resource keyVaultName_appPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2019-
   }
 }
 
-resource name_resource 'Microsoft.BotService/botServices@2018-07-12' = {
+resource name_resource 'Microsoft.BotService/botServices@2022-09-15' = {
   name: name
   kind: 'azurebot'
   location: 'global'

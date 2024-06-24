@@ -17,7 +17,7 @@ resource name_resource 'Microsoft.Relay/namespaces@2018-01-01-preview' = {
   properties: {}
 }
 
-resource name_RootManageSharedAccessKey 'Microsoft.Relay/namespaces/AuthorizationRules@2017-04-01' = {
+resource name_RootManageSharedAccessKey 'Microsoft.Relay/namespaces/authorizationRules@2021-11-01' = {
   parent: name_resource
   name: 'RootManageSharedAccessKey'
   location: location
@@ -30,7 +30,7 @@ resource name_RootManageSharedAccessKey 'Microsoft.Relay/namespaces/Authorizatio
   }
 }
 
-resource name_default 'Microsoft.Relay/namespaces/networkRuleSets@2018-01-01-preview' = {
+resource name_default 'Microsoft.Relay/namespaces/networkRuleSets@2021-11-01' = {
   parent: name_resource
   name: 'default'
   location: location

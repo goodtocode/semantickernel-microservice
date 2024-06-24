@@ -38,7 +38,7 @@ var normalizedAzureSearchName = ((length(puredAzureSearchName) > 40) ? substring
 var azureSearchName_var = toLower('srch-${normalizedAzureSearchName}')
 var appiName = 'appi-${name}'
 
-resource name_resource 'Microsoft.CognitiveServices/accounts@2017-04-18' = {
+resource name_resource 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   kind: 'QnAMaker'
   name: name
   location: location
@@ -57,7 +57,7 @@ resource name_resource 'Microsoft.CognitiveServices/accounts@2017-04-18' = {
   ]
 }
 
-resource azureSearchName 'Microsoft.Search/searchServices@2015-08-19' = {
+resource azureSearchName 'Microsoft.Search/searchServices@2023-11-01' = {
   name: azureSearchName_var
   location: azureSearchLocation
   tags: {}
@@ -71,7 +71,7 @@ resource azureSearchName 'Microsoft.Search/searchServices@2015-08-19' = {
   }
 }
 
-resource Microsoft_Web_sites_name 'Microsoft.Web/sites@2016-08-01' = {
+resource Microsoft_Web_sites_name 'Microsoft.Web/sites@2023-12-01' = {
   name: name
   location: location3
   properties: {

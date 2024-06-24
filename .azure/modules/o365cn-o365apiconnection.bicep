@@ -3,7 +3,7 @@ param name string = 'teams'
 var locationLower = toLower(replace(resourceGroup().location, ' ', ''))
 var nameLower_var = toLower(replace(replace(name, '-', ''), ' ', ''))
 
-resource nameLower 'Microsoft.Web/connections@2021-06-01' = {
+resource nameLower 'Microsoft.Web/connections@2016-06-01' = {
   name: nameLower_var
   location: locationLower
   kind: 'V1'

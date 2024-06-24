@@ -3,7 +3,7 @@ param name string
 var locationShortName = toLower(replace(resourceGroup().location, ' ', ''))
 var nameLower_var = toLower(replace(replace(name, '-', ''), ' ', ''))
 
-resource nameLower 'Microsoft.Web/connections@2018-07-01-preview' = {
+resource nameLower 'Microsoft.Web/connections@2016-06-01' = {
   name: nameLower_var
   location: locationShortName
   kind: 'V1'

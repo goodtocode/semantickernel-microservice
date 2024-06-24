@@ -73,7 +73,7 @@ resource name_resource 'Microsoft.Storage/storageAccounts@2021-06-01' = {
   }
 }
 
-resource name_default_container1Name 'Microsoft.Storage/storageAccounts/blobServices/containers@2018-03-01-preview' = {
+resource name_default_container1Name 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
   parent: name_default
   name: container1Name
   properties: {
@@ -84,7 +84,7 @@ resource name_default_container1Name 'Microsoft.Storage/storageAccounts/blobServ
   ]
 }
 
-resource name_default_container2Name 'Microsoft.Storage/storageAccounts/blobServices/containers@2018-03-01-preview' = {
+resource name_default_container2Name 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
   parent: name_default
   name: container2Name
   properties: {
@@ -95,7 +95,7 @@ resource name_default_container2Name 'Microsoft.Storage/storageAccounts/blobServ
   ]
 }
 
-resource name_default 'Microsoft.Storage/storageAccounts/blobServices@2021-06-01' = {
+resource name_default 'Microsoft.Storage/storageAccounts/blobServices@2023-05-01' = {
   parent: name_resource
   name: 'default'
   sku: {
@@ -108,7 +108,7 @@ resource name_default 'Microsoft.Storage/storageAccounts/blobServices@2021-06-01
   }
 }
 
-resource Microsoft_Storage_storageAccounts_fileServices_name_default 'Microsoft.Storage/storageAccounts/fileServices@2021-06-01' = {
+resource Microsoft_Storage_storageAccounts_fileServices_name_default 'Microsoft.Storage/storageAccounts/fileServices@2023-05-01' = {
   parent: name_resource
   name: 'default'
   sku: {
@@ -121,7 +121,7 @@ resource Microsoft_Storage_storageAccounts_fileServices_name_default 'Microsoft.
   }
 }
 
-resource Microsoft_Storage_storageAccounts_queueServices_name_default 'Microsoft.Storage/storageAccounts/queueServices@2021-06-01' = {
+resource Microsoft_Storage_storageAccounts_queueServices_name_default 'Microsoft.Storage/storageAccounts/queueServices@2023-05-01' = {
   parent: name_resource
   name: 'default'
   properties: {
@@ -131,7 +131,7 @@ resource Microsoft_Storage_storageAccounts_queueServices_name_default 'Microsoft
   }
 }
 
-resource Microsoft_Storage_storageAccounts_tableServices_name_default 'Microsoft.Storage/storageAccounts/tableServices@2021-06-01' = {
+resource Microsoft_Storage_storageAccounts_tableServices_name_default 'Microsoft.Storage/storageAccounts/tableServices@2023-05-01' = {
   parent: name_resource
   name: 'default'
   properties: {

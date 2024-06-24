@@ -2,7 +2,9 @@
 param name string 
 param location string 
 param tags object
-param environment string 
+@minLength(1)
+@allowed(['Development', 'QA', 'Staging', 'Production'])
+param environment string = 'Development'
 param appiKey string
 param appiConnection string
 param planId string

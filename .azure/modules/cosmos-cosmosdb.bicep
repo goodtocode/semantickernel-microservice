@@ -23,7 +23,7 @@ param maxIntervalInSeconds int = 5
 
 var offerType = 'Standard'
 
-resource name_resource 'Microsoft.DocumentDB/databaseAccounts@2015-04-08' = {
+resource name_resource 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
   name: name
   location: resourceGroup().location
   properties: {

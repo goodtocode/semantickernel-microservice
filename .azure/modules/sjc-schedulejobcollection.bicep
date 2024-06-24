@@ -22,7 +22,7 @@ param startTime string = utcNow()
 
 var nameLower = toLower(replace(replace(name, '-', ''), ' ', ''))
 
-resource name_resource 'Microsoft.Scheduler/jobCollections@2014-08-01-preview' = {
+resource name_resource 'Microsoft.Scheduler/jobCollections@2016-03-01' = {
   name: name
   location: location
   properties: {

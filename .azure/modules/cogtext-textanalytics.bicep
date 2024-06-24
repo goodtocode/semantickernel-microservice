@@ -11,7 +11,7 @@ param sku string = 'F0'
 @description('Location (region) of this resource')
 param location string = toLower(replace(resourceGroup().location, ' ', ''))
 
-resource name_resource 'Microsoft.CognitiveServices/accounts@2017-04-18' = {
+resource name_resource 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   kind: 'TextAnalytics'
   name: name
   location: location

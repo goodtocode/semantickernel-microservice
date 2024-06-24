@@ -18,7 +18,7 @@ param privacySetting string = 'None'
 
 var locationShortName = toLower(replace(location, ' ', ''))
 
-resource name_resource 'Microsoft.Web/connections@2018-07-01-preview' = {
+resource name_resource 'Microsoft.Web/connections@2016-06-01' = {
   name: name
   location: locationShortName
   kind: 'V1'

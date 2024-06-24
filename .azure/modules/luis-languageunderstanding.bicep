@@ -19,7 +19,7 @@ param authoringLocation string = 'westus'
 ])
 param authoringSku string = 'F0'
 
-resource name_resource 'Microsoft.CognitiveServices/accounts@2017-04-18' = {
+resource name_resource 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   name: name
   location: location
   kind: 'LUIS'
@@ -31,7 +31,7 @@ resource name_resource 'Microsoft.CognitiveServices/accounts@2017-04-18' = {
   }
 }
 
-resource authoringName_resource 'Microsoft.CognitiveServices/accounts@2017-04-18' = {
+resource authoringName_resource 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   name: authoringName
   location: authoringLocation
   kind: 'LUIS.Authoring'

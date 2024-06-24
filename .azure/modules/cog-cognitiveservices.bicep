@@ -6,7 +6,7 @@ param name string = 'CognitiveService-${uniqueString(resourceGroup().id)}'
 ])
 param sku string = 'S0'
 
-resource name_resource 'Microsoft.CognitiveServices/accounts@2017-04-18' = {
+resource name_resource 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   name: name
   location: resourceGroup().location
   sku: {

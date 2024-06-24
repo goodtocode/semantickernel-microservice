@@ -29,7 +29,7 @@ param funcRuntime string = 'dotnet'
 ])
 param funcVersion int = 4
 
-resource functionapp 'Microsoft.Web/sites@2023-01-01' = {
+resource functionapp 'Microsoft.Web/sites@2023-12-01' = {
   name: name 
   kind: 'functionapp'
   location: location

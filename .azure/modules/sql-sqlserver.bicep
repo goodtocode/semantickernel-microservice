@@ -2,6 +2,10 @@
 @maxLength(60)
 param name string
 
+param location string = resourceGroup().location
+
+param tags object
+
 @minLength(1)
 @maxLength(60)
 param adminLogin string
@@ -11,26 +15,30 @@ param adminLogin string
 @secure()
 param adminPassword string
 
-var nameLower_var = toLower(name)
+param startIpAddress string = '0.0.0.0'
+param endIpAddress string = '0.0.0.0'
 
-resource nameLower 'Microsoft.Sql/servers@2014-04-01-preview' = {
-  name: nameLower_var
-  location: resourceGroup().location
-  tags: {
-    displayName: 'SqlServer'
-  }
+
+var nameLower = toLower(name)
+
+resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
+  name: nameLower
+  location: location  
+  tags: tags  
   properties: {
-    adminLogin: adminLogin
-    adminPassword: adminPassword
+    administratorLogin: adminLogin
+    administratorLoginPassword: adminPassword
   }
 }
 
-resource nameLower_AllowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallrules@2014-04-01-preview' = {
-  parent: nameLower
-  location: resourceGroup().location
+resource sqlServerFirewall 'Microsoft.Sql/servers/firewallRules@2023-08-01-preview' = {
+  parent: sqlServer
   name: 'AllowAllWindowsAzureIps'
   properties: {
-    endIpAddress: '0.0.0.0'
-    startIpAddress: '0.0.0.0'
+    endIpAddress: endIpAddress
+    startIpAddress: startIpAddress
   }
 }
+
+output id string  = sqlServer.id
+output name string  = sqlServer.name
