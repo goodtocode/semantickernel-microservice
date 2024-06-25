@@ -35,7 +35,7 @@ module planModule '../modules/plan-appserviceplan.bicep' = {
   }
 }
 
-module sqlserverModule '../modules/sql-sqlserver.bicep' = {
+module sqlServerModule '../modules/sql-sqlserver.bicep' = {
   name: 'sqlServerName'
   params: {
     name: sqlName

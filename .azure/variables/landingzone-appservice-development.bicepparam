@@ -1,4 +1,4 @@
-using '../templates/landingzone-appservice.bicep'
+using '../templates/landingzone-appservicesql.bicep'
 // Common
 param rgEnvironment = 'Development'
 param location = 'West US 2'
@@ -23,3 +23,8 @@ param kvSku = 'standard'
 // App Service
 param appName = 'api-semantickernel-dev-001'
 param planName = 'plan-shared-westus2-dev-001'
+
+// SQL Server
+param sqlName = 'sql-shared-westus2-dev-001'
+param sqldbName = 'sqldb-semantickernel-dev-001'
+param sqldbSku = 'Basic'

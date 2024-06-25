@@ -23,7 +23,7 @@ param appName string
 // workspace
 param workName string
 // Sql Server
-param sqlServerName string
+param sqlName string
 param sqldbName string
 param sqldbSku string
 
@@ -84,18 +84,18 @@ module apiModule '../modules/api-appservice.bicep' = {
 }
 
 resource sqlServerResource 'Microsoft.Sql/servers@2023-08-01-preview' existing = {
-  name: sqlServerName 
+  name: sqlName 
   scope: resourceGroup(sharedSubscriptionId, sharedResourceGroupName)
 }
 
-module sqlServerModule '../modules/sqldb-sqldatabase.bicep' = {
-  name: 'sqlserver'
+module sqldbModule '../modules/sqldb-sqldatabase.bicep' = {
+  name: 'sqldb'
   params:{
     name: sqldbName
     location: location    
     tags: tags
     sku: sqldbSku
-    sqlServerName: sqlServerName
+    sqlName: sqlServerResource.name
   }
 }
 

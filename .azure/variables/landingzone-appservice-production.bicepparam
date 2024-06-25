@@ -1,11 +1,9 @@
-using '../templates/landingzone-appservice.bicep'
+using '../templates/landingzone-appservicesql.bicep'
 // Common
-//param tenantId = 'TENANT_ID'
 param rgEnvironment = 'Production'
 param location = 'West US 2'
 param tags = { Environment: 'prod', CostCenter: '0000' }
 // Workspace
-//param sharedSubscriptionId = 'SUBSCRIPTION_ID'
 param sharedResourceGroupName = 'gtc-rg-shared-westus2-prod-001'
 param workName = 'work-shared-westus2-prod-001'
 
@@ -25,3 +23,8 @@ param kvSku = 'standard'
 // App Service
 param appName = 'api-semantickernel-prod-001'
 param planName = 'plan-shared-westus2-prod-001'
+
+// SQL Server
+param sqlName = 'sql-shared-westus2-prod-001'
+param sqldbName = 'sqldb-semantickernel-prod-001'
+param sqldbSku = 'Basic'

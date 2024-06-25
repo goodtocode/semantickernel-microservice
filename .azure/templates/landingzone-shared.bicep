@@ -1,8 +1,8 @@
 targetScope='resourceGroup'
 
 // Common
-param tags object 
 param location string = resourceGroup().location
+param tags object
 // Workspace
 param workName string
 param workSku string

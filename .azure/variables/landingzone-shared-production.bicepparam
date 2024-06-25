@@ -1,4 +1,4 @@
-using '../templates/landingzone-shared.bicep'
+using '../templates/landingzone-sharedsql.bicep'
 
 // Common
 param location = 'West US 2'
@@ -11,3 +11,8 @@ param workSku = 'PerGB2018'
 // App Service
 param planName = 'plan-shared-westus2-prod-001'
 param planSku = 'S1'
+
+// SQL Server
+param sqlName = 'sql-shared-westus2-prod-001'
+param sqlAdminUser = ''
+param sqlAdminPassword = ''

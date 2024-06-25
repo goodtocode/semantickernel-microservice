@@ -12,5 +12,7 @@ param workSku = 'PerGB2018'
 param planName = 'plan-shared-westus2-dev-001'
 param planSku = 'S1'
 
-// Sql Server
+// SQL Server
 param sqlName = 'sql-shared-westus2-dev-001'
+param sqlAdminUser = ''
+param sqlAdminPassword = ''
