@@ -1,4 +1,4 @@
-using '../templates/landingzone-sharedsql.bicep'
+using '../templates/landingzone-shared.bicep'
 
 // Common
 param location = 'West US 2'
