@@ -1,14 +1,8 @@
 @minLength(1)
 @maxLength(60)
 param name string
-
 param location string = resourceGroup().location
-
 param tags object
-
-param collation string = 'SQL_Latin1_General_CP1_CI_AS'
-
-param maxSizeBytes int = 1073741824
 @description('Sku for the database')
 @allowed([
   'Basic'
@@ -16,15 +10,23 @@ param maxSizeBytes int = 1073741824
   'Premium'
 ])
 param sku string = 'Basic'
+param collation string = 'SQL_Latin1_General_CP1_CI_AS'
+param maxSizeBytes int = 1073741824
+param sqlName string
 
-param sqlResourceId string
-
-var sqldbResourceId = '${sqlResourceId}/databases/${name}'
-
+resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' existing = {
+  name: sqlName 
+  //scope: resourceGroup(sqlSubscriptionId, sqlResourceGroupName)
+}
+// param sqlSubscriptionId string = subscription().subscriptionId
+// param sqlResourceGroupName string = resourceGroup().name
+//name: '${sqlName}/${name}'
 resource sqlDatabase 'Microsoft.Sql/servers/databases@2023-08-01-preview' = {
-  name: sqldbResourceId
+  name: name
+  parent: sqlServer
   location: location
   tags: tags
+  //parent: sqlServerResource
   sku: {
     name: sku
     tier: sku // Replace with the desired SKU tier (e.g., Basic, GeneralPurpose, BusinessCritical)

@@ -33,7 +33,7 @@ resource workResource 'Microsoft.OperationalInsights/workspaces@2023-09-01' exis
 }
 
 module appiModule '../modules/appi-applicationinsights.bicep' = {
-  name: 'appiName'
+  name: 'appiModuleName'
   params:{
     location: location
     tags: tags
@@ -45,7 +45,7 @@ module appiModule '../modules/appi-applicationinsights.bicep' = {
 }
 
 module kvModule '../modules/kv-keyvault.bicep'= {
-   name:'kvName'
+   name:'kvModuleName'
    params:{
     location: location
     tags: tags
@@ -56,7 +56,7 @@ module kvModule '../modules/kv-keyvault.bicep'= {
 }
 
 module stModule '../modules/st-storageaccount.bicep' = {
-  name:'storagename'
+  name:'stModuleName'
   params:{
     tags: tags
     location: location
@@ -71,7 +71,7 @@ resource planResource 'Microsoft.Web/serverfarms@2023-01-01' existing = {
 }
 
 module apiModule '../modules/api-appservice.bicep' = {
-  name: 'app'
+  name: 'apiModuleName'
   params:{
     name: appName
     location: location    
@@ -83,19 +83,15 @@ module apiModule '../modules/api-appservice.bicep' = {
   }
 }
 
-resource sqlServerResource 'Microsoft.Sql/servers@2023-08-01-preview' existing = {
-  name: sqlName 
-  scope: resourceGroup(sharedSubscriptionId, sharedResourceGroupName)
-}
 
 module sqldbModule '../modules/sqldb-sqldatabase.bicep' = {
-  name: 'sqldb'
+  name: 'sqldbModuleName'
   params:{
     name: sqldbName
     location: location    
     tags: tags
     sku: sqldbSku
-    sqlResourceId: sqlServerResource.id
+    sqlName: sqlName
   }
 }
 

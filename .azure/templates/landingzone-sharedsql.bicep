@@ -16,7 +16,7 @@ param sqlAdminUser string
 param sqlAdminPassword string
 
 module workModule '../modules/work-loganalyticsworkspace.bicep' = {
-  name: 'logAnalyticsWorkspaceName'
+  name: 'workModuleName'
   params: {
     name: workName
     location: location
@@ -26,7 +26,7 @@ module workModule '../modules/work-loganalyticsworkspace.bicep' = {
 }
 
 module planModule '../modules/plan-appserviceplan.bicep' = {
-  name: 'appServiceName'
+  name: 'planModuleName'
   params: {
     name: planName
     sku: planSku
@@ -36,7 +36,7 @@ module planModule '../modules/plan-appserviceplan.bicep' = {
 }
 
 module sqlServerModule '../modules/sql-sqlserver.bicep' = {
-  name: 'sqlServerName'
+  name: 'sqlModuleName'
   params: {
     name: sqlName
     location: location    

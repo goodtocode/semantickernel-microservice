@@ -11,7 +11,7 @@ param planName string
 param planSku string 
 
 module workModule '../modules/work-loganalyticsworkspace.bicep' = {
-  name: 'logAnalyticsWorkspaceName'
+  name: 'workModuleName'
   params: {
     name: workName
     location: location
@@ -21,7 +21,7 @@ module workModule '../modules/work-loganalyticsworkspace.bicep' = {
 }
 
 module planModule '../modules/plan-appserviceplan.bicep' = {
-  name: 'appservicename'
+  name: 'planModuleName'
   params: {
     name: planName
     sku: planSku
