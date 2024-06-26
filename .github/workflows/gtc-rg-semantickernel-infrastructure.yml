@@ -68,13 +68,13 @@ jobs:
         uses: Azure/cli@v1.0.0
         with:
           inlineScript: |
-            az deployment group what-if --resource-group ${{ env.SHARED_RG_NAME }} --template-file ${{ env.SHARED_BICEP_TEMPLATE }} --parameters ${{ env.SHARED_BICEP_PARAMETERS }} --parameters sqlAdminUser=${{ secrets.SQL_ADMIN_USER }} sqlAdminPassword=${{ secrets.SQL_ADMIN_PASSWORD }}
+            az deployment group what-if --resource-group ${{ env.SHARED_RG_NAME }} --template-file ${{ env.SHARED_BICEP_TEMPLATE }} --parameters ${{ env.SHARED_BICEP_PARAMETERS }}
 
       - name: Deploy ${{ env.SHARED_RG_NAME }}
         uses: Azure/cli@v1.0.0
         with:
           inlineScript: |
-            az deployment group create --resource-group ${{ env.SHARED_RG_NAME }} --template-file ${{ env.SHARED_BICEP_TEMPLATE }} --parameters ${{ env.SHARED_BICEP_PARAMETERS }} --parameters sqlAdminUser=${{ secrets.SQL_ADMIN_USER }} sqlAdminPassword=${{ secrets.SQL_ADMIN_PASSWORD }}
+            az deployment group create --resource-group ${{ env.SHARED_RG_NAME }} --template-file ${{ env.SHARED_BICEP_TEMPLATE }} --parameters ${{ env.SHARED_BICEP_PARAMETERS }}
 
       # PRODUCT RG
       - name: Create ${{ env.PRODUCT_RG_NAME }}
@@ -87,11 +87,11 @@ jobs:
         uses: Azure/cli@v1.0.0
         with:
           inlineScript: |
-            az deployment group what-if --resource-group ${{ env.PRODUCT_RG_NAME }} --template-file ${{ env.PRODUCT_BICEP_TEMPLATE }} --parameters ${{ env.PRODUCT_BICEP_PARAMETERS }}
+            az deployment group what-if --resource-group ${{ env.PRODUCT_RG_NAME }} --template-file ${{ env.PRODUCT_BICEP_TEMPLATE }} --parameters ${{ env.PRODUCT_BICEP_PARAMETERS }} --parameters sqlAdminUser=${{ secrets.SQL_ADMIN_USER }} sqlAdminPassword=${{ secrets.SQL_ADMIN_PASSWORD }}
 
       - name: Deploy ${{ env.PRODUCT_RG_NAME }}
         uses: Azure/cli@v1.0.0
         with:
           inlineScript: |
-            az deployment group create --resource-group ${{ env.PRODUCT_RG_NAME }} --template-file ${{ env.PRODUCT_BICEP_TEMPLATE }} --parameters ${{ env.PRODUCT_BICEP_PARAMETERS }}
+            az deployment group create --resource-group ${{ env.PRODUCT_RG_NAME }} --template-file ${{ env.PRODUCT_BICEP_TEMPLATE }} --parameters ${{ env.PRODUCT_BICEP_PARAMETERS }} --parameters sqlAdminUser=${{ secrets.SQL_ADMIN_USER }} sqlAdminPassword=${{ secrets.SQL_ADMIN_PASSWORD }}
             az keyvault set-policy --name '${{ env.KEYVAULT_NAME }}' --object-id ${{ secrets.AZURE_SERVICE_PRINCIPAL_OBJECTID }} --secret-permissions get list

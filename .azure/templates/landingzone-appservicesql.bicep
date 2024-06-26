@@ -23,7 +23,11 @@ param appName string
 // workspace
 param workName string
 // Sql Server
-param sqlName string
+// Sql Server
+param sqlName string 
+param sqlAdminUser string
+@secure()
+param sqlAdminPassword string
 param sqldbName string
 param sqldbSku string
 
@@ -83,15 +87,16 @@ module apiModule '../modules/api-appservice.bicep' = {
   }
 }
 
-
-module sqldbModule '../modules/sqldb-sqldatabase.bicep' = {
-  name: 'sqldbModuleName'
+module sqlModule '../modules/sql-sqlserverdatabase.bicep' = {
+  name: 'sqlModuleName'
   params:{
-    name: sqldbName
+    name: sqlName
     location: location    
-    tags: tags
+    tags: tags    
+    adminLogin: sqlAdminUser
+    adminPassword: sqlAdminPassword
+    sqldbName: sqldbName
     sku: sqldbSku
-    sqlName: sqlName
   }
 }
 

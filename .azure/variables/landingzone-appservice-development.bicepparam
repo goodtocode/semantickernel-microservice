@@ -25,6 +25,8 @@ param appName = 'api-semantickernel-dev-001'
 param planName = 'plan-shared-westus2-dev-001'
 
 // SQL Server
-param sqlName = 'sql-shared-westus2-dev-001'
+param sqlName = 'sql-semantickernel-dev-001'
+param sqlAdminUser = ''
+param sqlAdminPassword = ''
 param sqldbName = 'sqldb-semantickernel-dev-001'
 param sqldbSku = 'Basic'
