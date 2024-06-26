@@ -95,7 +95,7 @@ module sqldbModule '../modules/sqldb-sqldatabase.bicep' = {
     location: location    
     tags: tags
     sku: sqldbSku
-    sqlName: sqlServerResource.name
+    sqlResourceId: sqlServerResource.id
   }
 }
 
