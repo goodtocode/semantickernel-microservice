@@ -10,6 +10,7 @@ param tags object
   'Premium'
 ])
 param sku string = 'Basic'
+param sqlCapacity int = 5
 param collation string = 'SQL_Latin1_General_CP1_CI_AS'
 param maxSizeBytes int = 1073741824
 param sqlName string
@@ -22,7 +23,7 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2023-08-01-preview' = {
     name: sku
     tier: sku // (e.g., Basic, GeneralPurpose, BusinessCritical)
     //family: 'skuFamily' // (e.g., Gen4, Gen5)
-    capacity: 1 // (e.g., 1, 2, 4)
+    capacity: sqlCapacity // (e.g., 1, 2, 4)
   }
   properties: {
     collation: collation
