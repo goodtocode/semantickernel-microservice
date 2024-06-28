@@ -47,7 +47,7 @@ jobs:
       APPI_NAME: 'appi-semantickernel-dev-001'
       INFRA_PATH: 'Infrastructure/SqlServer'
       INFRA_PROJECT: 'Infrastructure.SqlServer.csproj'
-      UNIT_PATH: './tests/Specs.Integration'
+      UNIT_PATH: '../tests/Specs.Integration'
       UNIT_PROJECT: 'Specs.Integration.csproj'
       SCRIPTS_PATH: './.github/scripts'
       SQL_NAME: 'sql-semantickernel-dev-001'
