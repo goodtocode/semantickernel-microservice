@@ -71,9 +71,10 @@ jobs:
           echo "VERSION=$version" >> $GITHUB_ENV
         shell: pwsh
 
-      - name: set configuration secrets
+      - name: pipeline configuration secrets
         run: |
           echo "OpenAI:ApiKey=${{ secrets.OPENAI_APIKEY }}" >> $GITHUB_ENV
+          gci Env:
         shell: pwsh
 
       - name: dotnet build test and publish
