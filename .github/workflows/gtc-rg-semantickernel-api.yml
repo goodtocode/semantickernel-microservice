@@ -78,6 +78,15 @@ jobs:
           echo "OpenAI:ApiKey=${{ secrets.OPENAI_APIKEY }}" >> $GITHUB_ENV
         shell: pwsh
 
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: |
+            '${{ env.SRC_PATH }}/${{ env.API_PATH }}/myapp/appsettings.json'
+            '${{ env.SRC_PATH }}/${{ env.API_PATH }}/myapp/appsettings.${{ env.RUNTIME_ENV }}.json'
+          env: |
+            OpenAI.ApiKey: ${{ secrets.OPENAI_APIKEY }}            
+
       - name: dotnet build test and publish
         run: |
           dotnet build ${{ env.SRC_PATH }}/${{ env.SRC_SLN }} --configuration Release       
