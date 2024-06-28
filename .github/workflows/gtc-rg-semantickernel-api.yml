@@ -4,13 +4,13 @@ on:
     - main
     paths:
     - .github/workflows/gtc-rg-semantickernel-api.yml
-    - src/semantickernel/**
+    - src/**
   pull_request:
     branches:
     - main    
     paths:
     - .github/workflows/gtc-rg-semantickernel-api.yml
-    - src/semantickernel/**
+    - src/**
   workflow_dispatch:
     inputs:
       environment:
@@ -33,7 +33,7 @@ jobs:
 
     strategy:
       matrix:
-        dotnet-version: [ '7.0.x' ]
+        dotnet-version: [ '8.0.x' ]
 
     env:      
       AZURE_WEBAPP_NAME: api-semantickernel-dev-001
@@ -45,9 +45,9 @@ jobs:
       API_PATH: 'Presentation/WebApi'
       API_PROJECT: 'Presentation.WebApi.csproj'
       APPI_NAME: 'appi-semantickernel-dev-001'
-      INFRA_PATH: 'Infrastructure/Persistence'
-      INFRA_PROJECT: 'Persistence.csproj'
-      UNIT_PATH: '../tests/Specs.Integration'
+      INFRA_PATH: 'Infrastructure/SqlServer'
+      INFRA_PROJECT: 'Infrastructure.SqlServer.csproj'
+      UNIT_PATH: './tests/Specs.Integration'
       UNIT_PROJECT: 'Specs.Integration.csproj'
       SCRIPTS_PATH: './.github/scripts'
       SQL_NAME: 'sql-semantickernel-dev-001'
