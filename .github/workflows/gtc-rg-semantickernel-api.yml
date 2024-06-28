@@ -71,6 +71,11 @@ jobs:
           echo "VERSION=$version" >> $GITHUB_ENV
         shell: pwsh
 
+      - name: set configuration secrets
+        run: |
+          echo "OpenAI:ApiKey=${{ secrets.OPENAI_APIKEY }}" >> $GITHUB_ENV
+        shell: pwsh
+
       - name: dotnet build test and publish
         run: |
           dotnet build ${{ env.SRC_PATH }}/${{ env.SRC_SLN }} --configuration Release       
@@ -146,6 +151,14 @@ jobs:
           $TEMP_STR=$TEMP_STR.replace("<username>", "${{ secrets.SQL_USER }}")
           $TEMP_STR=$TEMP_STR.replace("<password>", "${{ secrets.SQL_PASSWORD }}")
           az webapp config connection-string set -g ${{ env.AZURE_RG_NAME }} -n ${{ env.AZURE_WEBAPP_NAME }} -t SQLServer --settings DefaultConnection=$TEMP_STR
+        shell: pwsh
+
+      - name: ${{ env.AZURE_WEBAPP_NAME }} dotnet ef migrations
+        run: |
+          $TEMP_STR=az sql db show-connection-string --client ado.net --server ${{ env.SQL_NAME }} --name ${{ env.SQLDB_NAME }} -o tsv
+          $TEMP_STR=$TEMP_STR.replace("<username>", "${{ secrets.SQL_USER }}")
+          $TEMP_STR=$TEMP_STR.replace("<password>", "${{ secrets.SQL_PASSWORD }}")
+
           dotnet tool install --global dotnet-ef
           dotnet tool restore          
           dotnet ef migrations add v${{ env.VERSION }} --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context ${{ env.INFRA_DBCONTEXT }}
