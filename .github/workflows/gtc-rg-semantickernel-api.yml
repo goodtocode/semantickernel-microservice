@@ -73,8 +73,9 @@ jobs:
 
       - name: pipeline configuration secrets
         run: |
+          echo "ASPNETCORE_ENVIRONMENT=${{ env.RUNTIME_ENV }}" >> $GITHUB_ENV
+          echo "AZURE_FUNCTIONS_ENVIRONMENT=${{ env.RUNTIME_ENV }}" >> $GITHUB_ENV
           echo "OpenAI:ApiKey=${{ secrets.OPENAI_APIKEY }}" >> $GITHUB_ENV
-          gci Env:
         shell: pwsh
 
       - name: dotnet build test and publish
@@ -159,7 +160,6 @@ jobs:
           $TEMP_STR=az sql db show-connection-string --client ado.net --server ${{ env.SQL_NAME }} --name ${{ env.SQLDB_NAME }} -o tsv
           $TEMP_STR=$TEMP_STR.replace("<username>", "${{ secrets.SQL_USER }}")
           $TEMP_STR=$TEMP_STR.replace("<password>", "${{ secrets.SQL_PASSWORD }}")
-
           dotnet tool install --global dotnet-ef
           dotnet tool restore          
           dotnet ef migrations add v${{ env.VERSION }} --project ${{ env.SRC_PATH }}/${{ env.INFRA_PATH }}/${{ env.INFRA_PROJECT }} --startup-project ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --context ${{ env.INFRA_DBCONTEXT }}
