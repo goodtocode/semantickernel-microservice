@@ -82,8 +82,8 @@ jobs:
         uses: microsoft/variable-substitution@v1
         with:
           files: |
-            '${{ env.SRC_PATH }}/${{ env.API_PATH }}/myapp/appsettings.json'
-            '${{ env.SRC_PATH }}/${{ env.API_PATH }}/myapp/appsettings.${{ env.RUNTIME_ENV }}.json'
+            '${{ env.SRC_PATH }}/${{ env.API_PATH }}/appsettings.json'
+            '${{ env.SRC_PATH }}/${{ env.API_PATH }}/appsettings.${{ env.RUNTIME_ENV }}.json'
           env: |
             OpenAI.ApiKey: ${{ secrets.OPENAI_APIKEY }}            
 
