@@ -15,7 +15,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                 name: "Authors",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValue: new Guid("f08c50b9-e9cc-45aa-9cf5-7d47d29576d6")),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -44,7 +44,8 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChatSessions", x => x.Id);
+                    table.PrimaryKey("PK_ChatSessions", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_ChatSessions_Authors_AuthorId",
                         column: x => x.AuthorId,
@@ -69,7 +70,8 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChatMessages", x => x.Id);
+                    table.PrimaryKey("PK_ChatMessages", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_ChatMessages_ChatSessions_ChatSessionId",
                         column: x => x.ChatSessionId,
@@ -98,9 +100,37 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                 column: "ChatSessionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChatMessages_Id",
+                table: "ChatMessages",
+                column: "Id",
+                unique: true)
+                .Annotation("SqlServer:Clustered", false);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatMessages_Timestamp",
+                table: "ChatMessages",
+                column: "Timestamp",
+                unique: true)
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChatSessions_AuthorId",
                 table: "ChatSessions",
                 column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatSessions_Id",
+                table: "ChatSessions",
+                column: "Id",
+                unique: true)
+                .Annotation("SqlServer:Clustered", false);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatSessions_Timestamp",
+                table: "ChatSessions",
+                column: "Timestamp",
+                unique: true)
+                .Annotation("SqlServer:Clustered", true);
         }
 
         /// <inheritdoc />

@@ -7,9 +7,17 @@ public class ChatSessionsConfig : IEntityTypeConfiguration<ChatSessionEntity>
     public void Configure(EntityTypeBuilder<ChatSessionEntity> builder)
     {
         builder.ToTable("ChatSessions");
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id);
-        builder.Property(x => x.Timestamp);
+        builder.HasKey(x => x.Id)
+            .IsClustered(false);
+        builder.HasIndex(x => x.Id)
+            .IsClustered(false)
+            .IsUnique();
+        builder.HasIndex(x => x.Timestamp)
+            .IsClustered()
+            .IsUnique();
+        builder.Property(x => x.Id)
+            .ValueGeneratedOnAdd();
+        builder.Ignore(x => x.PartitionKey);
         builder
             .HasOne(a => a.Author)
             .WithMany(a => a.ChatSessions)
