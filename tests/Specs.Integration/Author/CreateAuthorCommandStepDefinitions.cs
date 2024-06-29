@@ -8,7 +8,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author;
 public class CreateAuthorCommandStepDefinitions : TestBase
 {
     private string _name = string.Empty;
-    private Guid _key;
+    private Guid _id;
     private bool _exists;
 
     [Given(@"I have a def ""([^""]*)""")]
@@ -23,10 +23,10 @@ public class CreateAuthorCommandStepDefinitions : TestBase
         _name = name;
     }
 
-    [Given(@"I have a Author key ""([^""]*)""")]
-    public void GivenIHaveAAuthorKey(string key)
+    [Given(@"I have a Author id ""([^""]*)""")]
+    public void GivenIHaveAAuthorKey(string id)
     {
-        _key = Guid.Parse(key);
+        _id = Guid.Parse(id);
     }
 
     [Given(@"The Author exists ""([^""]*)""")]
@@ -43,7 +43,7 @@ public class CreateAuthorCommandStepDefinitions : TestBase
         {
             var Author = new AuthorEntity()
             {
-                Key = _key,
+                Id = _id,
                 Name = "John Doe"
             };
             _context.Authors.Add(Author);
@@ -53,7 +53,7 @@ public class CreateAuthorCommandStepDefinitions : TestBase
         // Test command
         var request = new CreateAuthorCommand()
         {
-            Key = _key,
+            Id = _id,
             Name = _name
         };
 

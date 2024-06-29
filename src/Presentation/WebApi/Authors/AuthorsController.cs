@@ -36,7 +36,7 @@ public class AuthorController : ApiControllerBase
     {
         return await Mediator.Send(new GetAuthorQuery
         {
-            Key = key
+            Id = key
         });
     }
 
@@ -63,7 +63,7 @@ public class AuthorController : ApiControllerBase
     public async Task<ActionResult> Post(CreateAuthorCommand command)
     {
         var response = await Mediator.Send(command);
-        return CreatedAtAction(nameof(Get), new { response.Key }, command);
+        return CreatedAtAction(nameof(Get), new { response.Id }, command);
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ public class AuthorController : ApiControllerBase
     [ProducesDefaultResponseType]
     public async Task<IActionResult> Delete(Guid key)
     {
-        await Mediator.Send(new DeleteAuthorCommand() { Key = key });
+        await Mediator.Send(new DeleteAuthorCommand() { Id = key });
 
         return NoContent();
     }

@@ -132,7 +132,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         public void ThenEachChatSessionHasAKey()
         {
             if (_responseType != CommandResponseType.Successful) return;
-            _response?.Items.FirstOrDefault(x => x.Key == default).Should().BeNull();
+            _response?.Items.FirstOrDefault(x => x.Id == default).Should().BeNull();
         }
 
         [Then(@"Each chat session has a Date greater than start date")]

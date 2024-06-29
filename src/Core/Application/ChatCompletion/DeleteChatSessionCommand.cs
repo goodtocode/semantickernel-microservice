@@ -6,7 +6,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
 public class DeleteChatSessionCommand : IRequest
 {
-    public Guid Key { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class DeleteChatSessionCommandHandler(ISemanticKernelContext context) : IRequestHandler<DeleteChatSessionCommand>
@@ -15,7 +15,7 @@ public class DeleteChatSessionCommandHandler(ISemanticKernelContext context) : I
 
     public async Task Handle(DeleteChatSessionCommand request, CancellationToken cancellationToken)
     {
-        var chatSession = _context.ChatSessions.Find(request.Key);
+        var chatSession = _context.ChatSessions.Find(request.Id);
         GuardAgainstNotFound(chatSession);
 
         _context.ChatSessions.Remove(chatSession!);

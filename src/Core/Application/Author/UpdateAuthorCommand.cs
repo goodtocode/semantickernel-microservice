@@ -6,7 +6,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.Author;
 
 public class UpdateAuthorCommand : IRequest
 {
-    public Guid Key { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
 }
 
@@ -16,7 +16,7 @@ public class UpdateAuthorCommandHandler (ISemanticKernelContext context) : IRequ
 
     public async Task Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
     {
-        var Author = _context.Authors.Find(request.Key);
+        var Author = _context.Authors.Find(request.Id);
         GuardAgainstNotFound(Author);
 
 

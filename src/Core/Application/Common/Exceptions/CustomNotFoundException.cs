@@ -16,8 +16,8 @@ public class CustomNotFoundException : Exception
     {
     }
 
-    public CustomNotFoundException(string name, object key)
-        : base($"Entity \"{name}\" ({key}) was not found.")
+    public CustomNotFoundException(string name, object id)
+        : base($"Entity \"{name}\" ({id}) was not found.")
     {
     }
 }

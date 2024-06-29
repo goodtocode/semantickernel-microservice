@@ -3,7 +3,6 @@ using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
 using Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration;

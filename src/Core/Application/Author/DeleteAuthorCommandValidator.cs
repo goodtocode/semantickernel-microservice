@@ -4,6 +4,6 @@ public class DeleteAuthorCommandValidator : AbstractValidator<DeleteAuthorComman
 {
     public DeleteAuthorCommandValidator()
     {
-        RuleFor(x => x.Key).NotEmpty();
+        RuleFor(x => x.Id).NotEmpty();
     }
 }

@@ -4,6 +4,6 @@ public class PatchChatSessionCommandValidator : AbstractValidator<PatchChatSessi
 {
     public PatchChatSessionCommandValidator()
     {
-        RuleFor(x => x.Key).NotEmpty();
+        RuleFor(x => x.Id).NotEmpty();
     }
 }

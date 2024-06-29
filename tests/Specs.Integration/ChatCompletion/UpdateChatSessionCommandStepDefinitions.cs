@@ -1,8 +1,5 @@
-using Azure;
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using System;
-using TechTalk.SpecFlow;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
 {
@@ -19,10 +16,10 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             _def = def;
         }
 
-        [Given(@"I have a chat session key ""([^""]*)""")]
-        public void GivenIHaveAChatSessionKey(string key)
+        [Given(@"I have a chat session id ""([^""]*)""")]
+        public void GivenIHaveAChatSessionKey(string id)
         {
-            Guid.TryParse(key, out _key).Should().BeTrue();
+            Guid.TryParse(id, out _key).Should().BeTrue();
         }
 
         [Given(@"the chat session exists ""([^""]*)""")]
@@ -36,7 +33,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         {
             var request = new UpdateChatSessionCommand()
             {
-                Key = _key,
+                Id = _key,
                 Title = "My Title"
             };
 
@@ -44,7 +41,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             {
                 var chatSession = new ChatSessionEntity()
                 {
-                    Key = _key,
+                    Id = _key,
                     Title = "Initial Title",
                     Messages = [
                         new ChatMessageEntity()

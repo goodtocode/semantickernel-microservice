@@ -1,6 +1,5 @@
 using Goodtocode.SemanticKernel.Core.Application.Author;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
-using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Author
 {
@@ -9,7 +8,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
     public class UpdateAuthorCommandStepDefinitions : TestBase
     {
         private bool _exists;
-        private Guid _key;
+        private Guid _id;
 
         [Given(@"I have a def ""([^""]*)""")]
         public void GivenIHaveADef(string def)
@@ -17,10 +16,10 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
             _def = def;
         }
 
-        [Given(@"I have a Author key ""([^""]*)""")]
-        public void GivenIHaveAAuthorKey(string key)
+        [Given(@"I have a Author id ""([^""]*)""")]
+        public void GivenIHaveAAuthorKey(string id)
         {
-            Guid.TryParse(key, out _key).Should().BeTrue();
+            Guid.TryParse(id, out _id).Should().BeTrue();
         }
 
         [Given(@"the Author exists ""([^""]*)""")]
@@ -36,7 +35,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
             {
                 var Author = new AuthorEntity()
                 {
-                    Key = _key,
+                    Id = _id,
                     Name = "John Doe"
                 };
                 _context.Authors.Add(Author);
@@ -45,7 +44,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
 
             var request = new UpdateAuthorCommand()
             {
-                Key = _key,
+                Id = _id,
                 Name = "Joe Doe"
             };
 

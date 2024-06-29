@@ -7,7 +7,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 [Scope(Tag = "getChatSessionQuery")]
 public class GetChatSessionQueryStepDefinitions : TestBase
 {
-    private Guid _key;
+    private Guid _id;
     private bool _exists;
     private int _chatSessionCount;
     private ChatSessionDto? _response;
@@ -18,11 +18,11 @@ public class GetChatSessionQueryStepDefinitions : TestBase
         _def = def;
     }
 
-    [Given(@"I have a chat session key ""([^""]*)""")]
+    [Given(@"I have a chat session id ""([^""]*)""")]
     public void GivenIHaveAChatSessionKey(string chatSessionKey)
     {
         if (string.IsNullOrWhiteSpace(chatSessionKey)) return;
-        Guid.TryParse(chatSessionKey, out _key).Should().BeTrue();
+        Guid.TryParse(chatSessionKey, out _id).Should().BeTrue();
     }
 
     [Given(@"I the chat session exists ""([^""]*)""")]
@@ -54,7 +54,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
             };
             var chatSession = new ChatSessionEntity()
             {
-                Key = _key,
+                Id = _id,
                 Messages = messages,
                 Timestamp = DateTime.UtcNow,
             };
@@ -64,7 +64,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
 
         var request = new GetChatSessionQuery()
         {
-            Key = _key
+            Id = _id
         };
 
         var validator = new GetChatSessionQueryValidator();
@@ -100,7 +100,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
         if (_responseType != CommandResponseType.Successful) return;
-        _response?.Key.Should().NotBeEmpty();
+        _response?.Id.Should().NotBeEmpty();
     }
 
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]

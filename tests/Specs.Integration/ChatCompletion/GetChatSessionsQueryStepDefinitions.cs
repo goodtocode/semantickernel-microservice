@@ -113,7 +113,7 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
     [Then(@"Each chat session has a Key")]
     public void ThenEachChatSessionHasAKey()
     {
-        _response?.FirstOrDefault(x => x.Key == default).Should().BeNull();
+        _response?.FirstOrDefault(x => x.Id == default).Should().BeNull();
     }
 
     [Then(@"Each chat session has a Date greater than start date")]
