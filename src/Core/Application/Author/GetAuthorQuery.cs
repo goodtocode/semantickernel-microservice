@@ -6,7 +6,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.Author;
 
 public class GetAuthorQuery : IRequest<AuthorDto>
 {
-    public Guid Id { get; set; }
+    public Guid AuthorId { get; set; }
 }
 
 public class GetAuthorQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetAuthorQuery, AuthorDto>
@@ -16,7 +16,7 @@ public class GetAuthorQueryHandler(ISemanticKernelContext context, IMapper mappe
 
     public async Task<AuthorDto> Handle(GetAuthorQuery request, CancellationToken cancellationToken)
     {
-        var Author = await _context.Authors.FindAsync([request.Id, cancellationToken], cancellationToken: cancellationToken);
+        var Author = await _context.Authors.FindAsync([request.AuthorId, cancellationToken], cancellationToken: cancellationToken);
         GuardAgainstNotFound(Author);
 
         return _mapper.Map<AuthorDto>(Author);

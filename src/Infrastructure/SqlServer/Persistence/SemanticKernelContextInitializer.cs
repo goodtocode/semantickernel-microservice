@@ -35,31 +35,15 @@ public class SemanticKernelContextInitializer(ILogger<SemanticKernelContextIniti
 
     public async Task TrySeedAsync()
     {
-        //if (!_context.Forecasts.Any())
+        //if (!_context.Authors.Any())
         //{
-        //    for (var i = 0; i < 100; i++)
-        //    {
-        //        var forecastKey = Guid.NewGuid();
-        //        var dateToday = DateTime.Now;
-        //        var randomZipcode = GenerateRandomZipcode();
-
-        //        var weatherForecastAddValue =
-        //            ForecastValue.Create(forecastKey, dateToday.AddDays(-i).ToUniversalTime(),
-        //                Random.Shared.Next(-20, 55), new List<int>
-        //                {
-        //                    randomZipcode, randomZipcode + 1
-        //                });
-        //        var weatherForecast = new Forecast(weatherForecastAddValue.Value);
-        //        _context.Forecasts.Add(weatherForecast);
-        //    }
-
-        //    await _context.SaveChangesAsync(CancellationToken.None);
+        //var Author = new AuthorEntity()
+        //{
+        //    Id = Guid.NewGuid(),
+        //    Name = "John Doe"
+        //};
+        //_context.Authors.Add(Author);
+        //await _context.SaveChangesAsync(CancellationToken.None);
         //}
     }
-
-    //public int GenerateRandomZipcode()
-    //{
-    //    var rnd = new Random();
-    //    return rnd.Next(11111, 99999);
-    //}
 }

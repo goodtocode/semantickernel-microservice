@@ -17,30 +17,30 @@ public class ChatSessionController : ApiControllerBase
     /// <remarks>
     /// Sample request:
     ///
-    ///        "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+    ///        "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
     ///        "api-version":  1.0
     /// 
     /// </remarks>
     /// <returns>
     /// ChatSessionDto
-    ///     { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
+    ///     { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
     ///     AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
     ///     Messages: [
     ///         {
-    ///             "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+    ///             "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
     ///             "Content": "Certainly! Semantic Kernel is a great framework for AI.",
     ///         }
     ///     }]
     /// </returns>
-    [HttpGet("{key}", Name = "GetChatSessionQuery")]
+    [HttpGet("{id}", Name = "GetChatSessionQuery")]
     [ProducesResponseType(typeof(ChatSessionDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ChatSessionDto> Get(Guid key)
+    public async Task<ChatSessionDto> Get(Guid id)
     {
         return await Mediator.Send(new GetChatSessionQuery
         {
-            Id = key
+            Id = id
         });
     }
 
@@ -57,11 +57,11 @@ public class ChatSessionController : ApiControllerBase
     /// </remarks>
     /// <returns>
     /// ChatSessionDto
-    ///     { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
-    ///     AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+    ///     { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+    ///     AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
     ///     Messages: [
     ///         {
-    ///             "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+    ///             "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
     ///             "Content": "Certainly! Semantic Kernel is a great framework for AI.",
     ///         }
     ///     }]
@@ -85,12 +85,12 @@ public class ChatSessionController : ApiControllerBase
     /// </remarks>
     /// <returns>
     /// ChatSessionDto
-    ///     { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
-    ///     AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+    ///     { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+    ///     AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
     ///     Timestamp: "2024-06-03T11:21:00Z"
     ///     Messages: [
     ///         {
-    ///             "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+    ///             "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
     ///             "Content": "Certainly! Semantic Kernel is a great framework for AI.",
     ///         }
     ///     }]
@@ -112,7 +112,7 @@ public class ChatSessionController : ApiControllerBase
     ///
     ///     HttpPost Body
     ///     {
-    ///        "Key": 00000000-0000-0000-0000-000000000000,
+    ///        "Id": 00000000-0000-0000-0000-000000000000,
     ///        "Message":  "Hi, I am interested in learning about Semantic Kernel."
     ///     }
     ///
@@ -121,11 +121,11 @@ public class ChatSessionController : ApiControllerBase
     /// <param name="command"></param>
     /// <returns>
     /// ChatSessionDto
-    ///     { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
-    ///     AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+    ///     { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+    ///     AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
     ///     Messages: [
     ///         {
-    ///             "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+    ///             "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
     ///             "Content": "Certainly! Semantic Kernel is a great framework for AI.",
     ///         }
     ///     }]
@@ -148,7 +148,7 @@ public class ChatSessionController : ApiControllerBase
     ///
     ///     HttpPut Body
     ///     {
-    ///        "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+    ///        "Id": "60fb5e99-3a78-43df-a512-7d8ff498499e",
     ///        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
     ///        "Content": "Certainly! Semantic Kernel is a great framework for AI.",
     ///     }
@@ -158,7 +158,7 @@ public class ChatSessionController : ApiControllerBase
     /// <param name="command"></param>
     /// <returns>    
     ///     {
-    ///        "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+    ///        "Id": "60fb5e99-3a78-43df-a512-7d8ff498499e",
     ///        "Message":  "Hi, I am interested in learning about Semantic Kernel.",
     ///        "Content": "Certainly! Semantic Kernel is a great framework for AI.",
     ///     }</returns>
@@ -181,22 +181,22 @@ public class ChatSessionController : ApiControllerBase
     ///
     ///     HttpPatch Body
     ///     {
-    ///        "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+    ///        "Id": "60fb5e99-3a78-43df-a512-7d8ff498499e",
     ///        "Title":  "Semantic Kernel Chat Session"
     ///     }
     ///
     ///     "version":  1.0
     /// </remarks>
-    /// <param name="key"></param>
+    /// <param name="id"></param>
     /// <param name="command"></param>
     /// <returns>NoContent</returns>
-    [HttpPatch("{key}", Name = "PatchChatSessionCommand")]
+    [HttpPatch("{id}", Name = "PatchChatSessionCommand")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Patch(Guid key, PatchChatSessionCommand command)
+    public async Task<ActionResult> Patch(Guid id, PatchChatSessionCommand command)
     {
-        command.Id = key;
+        command.Id = id;
         await Mediator.Send(command);
 
         return NoContent();
@@ -206,19 +206,19 @@ public class ChatSessionController : ApiControllerBase
     /// <remarks>
     /// Sample request:
     ///
-    ///        "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+    ///        "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
     ///        "api-version":  1.0
     /// 
     /// </remarks>
     /// <returns>NoContent</returns>
-    [HttpDelete("{key}", Name = "RemoveChatSessionCommand")]
+    [HttpDelete("{id}", Name = "RemoveChatSessionCommand")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesDefaultResponseType]
-    public async Task<IActionResult> Delete(Guid key)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        await Mediator.Send(new DeleteChatSessionCommand() { Id = key });
+        await Mediator.Send(new DeleteChatSessionCommand() { Id = id });
 
         return NoContent();
     }
