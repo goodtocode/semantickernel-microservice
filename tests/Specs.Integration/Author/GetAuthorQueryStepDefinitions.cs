@@ -9,7 +9,6 @@ public class GetAuthorQueryStepDefinitions : TestBase
 {
     private Guid _id;
     private bool _exists;
-    private int _AuthorCount;
     private AuthorDto? _response;
 
     [Given(@"I have a definition ""([^""]*)""")]
@@ -18,10 +17,10 @@ public class GetAuthorQueryStepDefinitions : TestBase
         _def = def;
     }
     [Given(@"I have a Author id ""([^""]*)""")]
-    public void GivenIHaveAAuthorKey(string AuthorKey)
+    public void GivenIHaveAAuthorKey(string authorId)
     {
-        if (string.IsNullOrWhiteSpace(AuthorKey)) return;
-        Guid.TryParse(AuthorKey, out _id).Should().BeTrue();
+        if (string.IsNullOrWhiteSpace(authorId)) return;
+        Guid.TryParse(authorId, out _id).Should().BeTrue();
     }
 
     [Given(@"I the Author exists ""([^""]*)""")]
@@ -47,7 +46,7 @@ public class GetAuthorQueryStepDefinitions : TestBase
 
         var request = new GetAuthorQuery()
         {
-            Id = _id
+            AuthorId = _id
         };
 
         var validator = new GetAuthorQueryValidator();
@@ -79,7 +78,7 @@ public class GetAuthorQueryStepDefinitions : TestBase
         HandleExpectedValidationErrorsAssertions(expectedErrors);
     }
 
-    [Then(@"If the response is successful the response has a Key")]
+    [Then(@"If the response is successful the response has a Id")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
         if (_responseType != CommandResponseType.Successful) return;
