@@ -1,0 +1,200 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - 'main'
+  paths:
+    include:
+    - src/Core/**
+    - src/Infrastructure/**
+    - src/Specs/**
+    - src/Presentation/Api/**
+
+pr:
+  branches:
+    exclude:
+    - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: appcsEnvironmentVariable
+    type: string 
+    default: "AZURE_APPCS_CONNECTION_STRING_ENV_VAR"
+  - name: appcsConnection
+    type: string 
+    default: "$(appcsConnection)" # from secrets (library)
+  - name: subscriptionService
+    type: string 
+    default: "AZURE_DEVOPS_SERVICE_CONNECTION_NAME"
+  - name: apiSettings
+    type: object
+    default: 
+      - name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        value: '$(appiKey)'
+        slotSetting: false
+      - name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+        value: '$(appiConnection)'
+        slotSetting: false        
+      - name: 'ASPNETCORE_ENVIRONMENT'
+        value: '$(rgEnvironment)'
+        slotSetting: false
+      - name: '$(appcsEnvironmentVariable)'
+        value: '$(appcsConnection)'
+        slotSetting: false
+
+variables:
+  - template: ../variables/common.yml
+
+stages:
+  - stage: build
+    jobs:    
+      - job: build_api
+        steps:
+          - template: ../steps/dotnet-build-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              srcPath: '$(srcPath)'
+              srcProject: '$(apiProject)'
+
+      - job: test_api
+        dependsOn: build_api      
+        steps:
+          - template: ../steps/dotnet-test-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              testPath: '$(unitPath)'
+              testProject: '$(unitProject)'
+              restorePath: '$(srcPath)'
+              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
+              appcsConnection: '$(appcsConnection)'
+              rgEnvironment: '$(rgEnvironment)'
+
+      - job: package_api
+        dependsOn: test_api
+        steps:
+          - template: ../steps/dotnet-publish-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              artifactName: '$(artifactName)'
+              dotnetVersion: '$(dotnetVersion)'
+              restorePath: '$(srcPath)'
+              scriptsPath: '$(scriptsPath)'
+              srcPath: '$(apiPath)'
+              srcProject: '$(apiProject)'
+
+  - stage: development
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+    variables:
+      - template: ../variables/development.yml
+
+    jobs:
+      - job: build_src
+        steps:
+          - template: ../steps/dotnet-build-steps.yml
+            parameters:
+              srcPath: '$(srcPath)'
+
+      - job: test_unit
+        dependsOn: build_src
+        steps:
+          - template: ../steps/dotnet-test-steps.yml
+            parameters:
+              testPath: '$(unitPath)'
+              testProject: '$(unitProject)'
+              restorePath: '$(srcPath)'
+              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
+              appcsConnection: '$(appcsConnection)'
+              rgEnvironment: '$(rgEnvironment)'
+
+      - job: package_api
+        dependsOn: test_unit
+        steps:
+          - template: ../steps/dotnet-publish-steps.yml
+            parameters:
+              artifactsPath: '$(artifactspath)'
+              restorePath: '$(srcpath)'
+              scriptsPath: '$(scriptspath)'
+              srcPath: '$(apipath)'
+              srcProject: '$(apiProject)'
+
+      - job: settings_api
+        dependsOn: package_api
+        steps:
+          - template: ../steps/api-settings-steps.yml
+            parameters:
+              subscriptionService: '${{ parameters.subscriptionService }}'
+              rgEnvironment: '$(rgEnvironment)'
+              apiName: '$(apiName)'
+              appSettings: '${{ parameters.apiSettings }}'
+
+      - job: deploy_api
+        dependsOn: settings_api
+        steps:
+          - template: ../steps/api-deploy-steps.yml
+            parameters:              
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(archiveFile)'
+              apiName: '$(apiName)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+ 
+  - stage: production
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    variables:
+      - template: ../variables/production.yml    
+
+    jobs:
+      - job: build_src
+        steps:
+          - template: ../steps/dotnet-build-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              srcPath: '$(srcPath)'
+
+      - job: test_unit
+        dependsOn: build_src
+        steps:
+          - template: ../steps/dotnet-test-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              testPath: '$(unitPath)'
+              testProject: '$(unitProject)'
+              restorePath: '$(srcPath)'
+              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
+              appcsConnection: '$(appcsConnection)'
+              rgEnvironment: '$(rgEnvironment)'
+
+      - job: package_api
+        dependsOn: test_unit
+        steps:
+          - template: ../steps/dotnet-publish-steps.yml
+            parameters:
+              artifactsPath: '$(artifactspath)'
+              dotnetVersion: '$(dotnetVersion)'
+              restorePath: '$(srcpath)'
+              scriptsPath: '$(scriptspath)'
+              srcPath: '$(apipath)'
+              srcProject: '$(apiProject)'
+
+      - job: settings_api
+        dependsOn: package_api
+        steps:
+          - template: ../steps/api-settings-steps.yml
+            parameters:
+              subscriptionService: '${{ parameters.subscriptionService }}'
+              rgEnvironment: '$(rgEnvironment)'
+              apiName: '$(apiName)'
+              appSettings: '${{ parameters.apiSettings }}'
+
+      - job: deploy_api
+        dependsOn: settings_api
+        steps:
+          - template: ../steps/api-deploy-steps.yml
+            parameters:              
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(archiveFile)'
+              apiName: '$(apiName)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'

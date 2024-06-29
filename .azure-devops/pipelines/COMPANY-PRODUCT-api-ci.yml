@@ -1,60 +1,87 @@
 trigger:
-  batch: true
+  batch: false
   branches:
     include:
-    - '*'
+      - "*"
+    exclude:
+      - "main"
   paths:
     include:
-    - src/Core/*
-    - src/Infrastructure/*
-    - src/Specs/*
-    - src/Presentation/*
+      - src/Core/**
+      - src/Infrastructure/**
+      - src/Presentation/**
+      - tests/**
 
 pr:
   branches:
-    exclude:
-    - '*'
+    include:
+      - "main"
 
 pool:
-  vmImage: 'ubuntu-latest'
-
-variables:
-  - template: ../variables/common.yml
+  vmImage: "ubuntu-latest"
 
 stages:
   - stage: build
-    condition: ne(variables['Build.Reason'], 'PullRequest')
-    jobs:    
-      - job: build_api
+    variables:
+      - template: ../variables/common-ci.yml
+    jobs:
+      - job: build_src
         steps:
-          - template: ../steps/dotnet-build-steps.yml
-            parameters:
-              dotnetVersion: '$(dotnetVersion)'
-              srcPath: '$(srcPath)'
-              srcProject: '$(apiProject)'
+          - task: PowerShell@2
+            displayName: 'Set-Version.ps1'
+            inputs:
+              filePath: '$(scriptsPath)/Set-Version.ps1'
+              arguments: '-Path $(srcPath) -VersionToReplace 1.0.0 -Major 1 -Minor 0 -Revision 0 -CommitHash $(Build.SourceVersion) -Build $(Build.BuildNumber)'
+              workingDirectory: '$(scriptsPath)'
 
-      - job: test_api
-        dependsOn: build_api      
-        steps:
-          - template: ../steps/dotnet-test-steps.yml
-            parameters:
-              dotnetVersion: '$(dotnetVersion)'
-              testPath: '$(unitPath)'
-              testProject: '$(unitProject)'
-              restorePath: '$(srcPath)'
-              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
-              appcsConnection: '$(appcsConnection)'
-              rgEnvironment: '$(rgEnvironment)'
+          - task: UseDotNet@2
+            displayName: UseSDKVersion
+            inputs:
+              packageType: 'sdk'
+              version: $(dotnetVersion)
+              includePreviewVersions: true
 
-      - job: package_api
-        dependsOn: test_api
+          - task: DotNetCoreCLI@2
+            displayName: dotnetrestore
+            inputs:
+              command: 'restore'
+              projects: "$(srcSolution)"
+              feedsToUse: 'config'
+              nugetConfigPath: "$(nugetConfig)"
+
+          - task: DotNetCoreCLI@2
+            displayName: dotnet build
+            inputs:
+              command: 'build'
+              projects: "$(srcProject)"
+              arguments: "--configuration $(buildConfiguration)"
+
+      - job: test_src
+        dependsOn: build_src
         steps:
-          - template: ../steps/dotnet-publish-steps.yml
-            parameters:
-              artifactsPath: '$(artifactsPath)'
-              artifactName: '$(artifactName)'
-              dotnetVersion: '$(dotnetVersion)'
-              restorePath: '$(srcPath)'
-              scriptsPath: '$(scriptsPath)'
-              srcPath: '$(apiPath)'
-              srcProject: '$(apiProject)'
+          - task: DotNetCoreCLI@2
+            displayName: dotnet test
+            inputs:
+              command: 'test'
+              projects: "$(testProject)"
+              arguments: "--configuration $(buildConfiguration)"
+              publishTestResults: true
+
+      - job: publish_src
+        dependsOn: test_src
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: dotnet publish
+            inputs:
+              command: 'publish'
+              publishWebProjects: false
+              projects: "$(srcProject)"
+              arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+              zipAfterPublish: true
+
+          - task: PublishBuildArtifacts@1
+            displayName: Publishbuildartifacts
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: 'drop'
+              publishLocation: "Container"

@@ -1,0 +1,149 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*'
+  paths:
+    include:
+    - src/*
+
+pr:
+  branches:
+    exclude:
+    - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: workerSettings
+    type: object
+    default: 
+      - name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+        value: '$(appiKey)'
+        slotSetting: false
+      - name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+        value: '$(appiConnection)'
+        slotSetting: false        
+      - name: 'ASPNETCORE_ENVIRONMENT'
+        value: '$(rgEnvironment)'
+        slotSetting: false
+      - name: 'AzureWebJobsDashboard'
+        value: '$(stConnection)'
+        slotSetting: false
+      - name: '$(appcsEnvironmentVariable)'
+        value: '$(appcsConnection)'
+        slotSetting: false
+      - name: '$(stEnvironmentVariable)'
+        value: '$(stConnection)'
+        slotSetting: false
+
+variables:
+  - template: ../variables/development.yml
+  - name: buildPlatform
+    value: 'Any CPU'
+  - name: buildConfiguration
+    value: 'Release'
+
+stages:
+  - stage: development
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+    variables:
+      - template: ../variables/development.yml
+      
+    jobs:    
+      - job: build_webjob
+        steps:
+          - template: ../steps/webjob-build-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(archiveFile)'
+              dotnetVersion: '$(dotnetVersion)'
+              srcPath: '$(webjobPath)'
+              webjobName: '$(webjobName)'
+              cronSchedule: '$(webjobSchedule)'
+
+      - job: test_webjob
+        dependsOn: build_webjob
+        steps:
+          - template: ../steps/dotnet-test-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              unitPath: $(webjobPath)
+              rgEnvironment: '$(rgEnvironment)'
+              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
+              appcsConnection: '$(appcsConnection)'
+              stEnvironmentVariable: '$(stEnvironmentVariable)'
+              stConnection: '$(stConnection)'
+
+      - job: settings_webjob
+        dependsOn: build_webjob
+        steps:
+          - template: ../steps/webjob-settings-steps.yml
+            parameters:
+              subscriptionName: '$(subscriptionName)'
+              rgEnvironment: '$(rgEnvironment)'
+              webjobName: '$(webjobName)'
+              appSettings: '${{ parameters.workerSettings }}'
+
+      - job: deploy_webjob
+        dependsOn: settings_webjob
+        steps:
+          - template: ../steps/webjob-deploy-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(archiveFile)'
+              webjobName: '$(webjobName)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionName: '$(subscriptionName)'
+
+  - stage: production
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    variables:
+      - template: ../variables/production.yml    
+
+    jobs:    
+      - job: build_webjob
+        steps:
+          - template: ../steps/webjob-build-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(archiveFile)'
+              dotnetVersion: '$(dotnetVersion)'
+              srcPath: '$(webjobPath)'
+              webjobName: '$(webjobName)'
+              cronSchedule: '$(webjobSchedule)'
+
+      - job: test_webjob
+        dependsOn: build_webjob
+        steps:
+          - template: ../steps/dotnet-test-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              unitPath: $(webjobPath)
+              rgEnvironment: '$(rgEnvironment)'
+              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
+              appcsConnection: '$(appcsConnection)'
+              stEnvironmentVariable: '$(stEnvironmentVariable)'
+              stConnection: '$(stConnection)'
+
+      - job: settings_webjob
+        dependsOn: build_webjob
+        steps:
+          - template: ../steps/webjob-settings-steps.yml
+            parameters:
+              subscriptionName: '$(subscriptionName)'
+              rgEnvironment: '$(rgEnvironment)'
+              webjobName: '$(webjobName)'
+              appSettings: '${{ parameters.workerSettings }}'
+
+      - job: deploy_webjob
+        dependsOn: settings_webjob
+        steps:
+          - template: ../steps/webjob-deploy-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(archiveFile)'
+              webjobName: '$(webjobName)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionName: '$(subscriptionName)'

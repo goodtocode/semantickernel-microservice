@@ -1,0 +1,174 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*'
+  paths:
+    include:
+    - src/*
+
+pr:
+  branches:
+    exclude:
+    - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: appcsEnvironmentVariable
+    type: string 
+    default: "AZURE_APP_CONFIGURATION_CONNECTION"
+  - name: appcsConnection
+    type: string 
+    default: "$(appcsConnection)" # from secrets (library)
+  - name: subscriptionService
+    type: string 
+    default: "AZURE_DEVOPS_SERVICE_CONNECTION"
+
+variables:
+  - template: ../variables/common.yml
+
+stages:
+  - stage: development
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+    variables:
+      - template: ../variables/development.yml
+      
+    jobs:    
+      - job: build_src
+        steps:
+          - template: ../steps/dotnet-build-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              srcPath: '$(srcPath)'
+
+      - job: test_src
+        dependsOn: build_src
+        steps:
+          - template: ../steps/dotnet-test-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              testPath: '$(srcPath)'
+              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
+              appcsConnection: '$(appcsConnection)'
+              rgEnvironment: '$(rgEnvironment)'
+
+      - job: build_func
+        dependsOn: test_src
+        steps:
+          - template: ../steps/func-build-steps.yml
+            parameters:
+              archiveFile: '$(funcArchiveFile)'
+              dotnetVersion: '$(dotnetVersion)'
+              funcPath: '$(funcPath)'
+              tempPath: '$(tempPath)'
+
+      - job: deploy_func
+        dependsOn: build_func
+        steps:
+          - template: ../steps/func-deploy-steps.yml
+            parameters:
+              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(rgEnvironment) -ASPNETCORE_ENVIRONMENT $(rgEnvironment) '
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(funcArchiveFile)'
+              funcName: '$(funcName)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+
+      - job: build_webjob
+        dependsOn: test_src
+        steps:
+          - template: ../steps/webjob-build-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(webjobArchiveFile)'
+              dotnetVersion: '$(dotnetVersion)'
+              srcPath: '$(srcPath)'
+              webjobProject: '$(webjobProject)'
+              webjobName: '$(webjobName)'
+              cronSchedule: '$(webjobSchedule)'
+
+      - job: deploy_webjob
+        dependsOn: build_webjob
+        steps:
+          - template: ../steps/web-deploy-steps.yml
+            parameters:
+              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -AzureWebJobsDashboard $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(rgEnvironment) -ASPNETCORE_ENVIRONMENT $(rgEnvironment) '
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(webjobArchiveFile)'
+              webName: '$(webjobName)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+
+  - stage: production
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    variables:
+      - template: ../variables/production.yml    
+
+    jobs:
+      - job: build_src
+        steps:
+          - template: ../steps/dotnet-build-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              srcPath: '$(srcPath)'
+
+      - job: test_src
+        dependsOn: build_src
+        steps:
+          - template: ../steps/dotnet-test-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              testPath: '$(srcPath)'
+              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
+              appcsConnection: '$(appcsConnection)'
+              rgEnvironment: '$(rgEnvironment)'
+
+      - job: build_func
+        dependsOn: test_src
+        steps:
+          - template: ../steps/func-build-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(funcArchiveFile)'
+              dotnetVersion: '$(dotnetVersion)'
+              funcPath: '$(funcPath)'
+              tempPath: '$(tempPath)'
+
+      - job: deploy_func
+        dependsOn: build_func
+        steps:
+          - template: ../steps/func-deploy-steps.yml
+            parameters:
+              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(rgEnvironment) -ASPNETCORE_ENVIRONMENT $(rgEnvironment) '
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(funcArchiveFile)'
+              funcName: '$(funcName)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+
+      - job: build_webjob
+        dependsOn: test_src
+        steps:
+          - template: ../steps/webjob-build-steps.yml
+            parameters:
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(webjobArchiveFile)'
+              dotnetVersion: '$(dotnetVersion)'
+              srcPath: '$(srcPath)'
+              webjobProject: '$(webjobProject)'
+              webjobName: '$(webjobName)'
+              cronSchedule: '$(webjobSchedule)'
+
+      - job: deploy_webjob
+        dependsOn: build_webjob
+        steps:
+          - template: ../steps/web-deploy-steps.yml
+            parameters:
+              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -AzureWebJobsDashboard $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(rgEnvironment) -ASPNETCORE_ENVIRONMENT $(rgEnvironment) '
+              artifactsPath: '$(artifactsPath)'
+              archiveFile: '$(webjobArchiveFile)'
+              webName: '$(webjobName)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'

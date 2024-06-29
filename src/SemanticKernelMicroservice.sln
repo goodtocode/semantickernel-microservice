@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Core\Applica
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.WebApi", "Presentation\WebApi\Presentation.WebApi.csproj", "{9DE6F333-17B7-425D-B05F-E720346B6AF4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastucture.SqlServer", "Infrastructure\SqlServer\Infrastucture.SqlServer.csproj", "{615694FE-4180-4F1F-9ED7-984BA2DFCEA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.SqlServer", "Infrastructure\SqlServer\Infrastructure.SqlServer.csproj", "{615694FE-4180-4F1F-9ED7-984BA2DFCEA7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpClient.ClientCredentialFlow", "Common\HttpClient.ClientCredentialFlow\HttpClient.ClientCredentialFlow.csproj", "{DC86C7F8-02DF-4950-9063-93FD20124698}"
 EndProject

@@ -1,0 +1,17 @@
+variables:
+  - name: buildConfiguration
+    value: 'Release'
+  - name: scriptsPath
+    value: '$(System.DefaultWorkingDirectory)/.azure-devops/scripts'
+  - name: srcPath
+    value: '$(System.DefaultWorkingDirectory)/src'
+  - name:  srcSolution
+    value: '**/HWeatTeams.sln'    
+  - name:  srcProject
+    value: '**/Presentation.WebApi.csproj'
+  - name:  testProject
+    value: '**/Application.Specs.Unit.csproj'
+  - name:  nugetConfig
+    value: '.nuget/NuGet.config'
+  - name:  dotnetVersion
+    value: '7.x'

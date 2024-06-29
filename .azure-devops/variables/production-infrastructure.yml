@@ -1,0 +1,25 @@
+variables:
+  - name: rgEnvironment
+    value: 'Production'
+  - name: rgName  
+    value: 'rg-PRODUCT-prod-001'
+  - name: rgLocation
+    value: 'westus2'
+  - name: rgSharedName
+    value: 'rg-SHARED-prod-001'
+  - name: rgSharedLocation
+    value: 'westus2'
+  - name: kvName
+    value: 'kv-PRODUCT-prod-001'
+  - name: serviceConnectionIdentityObjectId
+    value: ''
+  - name: deployApprovers
+    value: 'approver.email@goodtocode.com;'
+  - name: sharedTemplate
+    value: '.azure/templates/landingzone-shared.bicep'
+  - name: sharedParameters
+    value: '.azure/variables/landingzone-shared-production.bicepparam'
+  - name: landingZoneTemplate
+    value: '.azure/templates/landingzone-appservice.bicep'
+  - name: landingZoneParameters
+    value: '.azure/variables/landingzone-appservice-production.bicepparam'

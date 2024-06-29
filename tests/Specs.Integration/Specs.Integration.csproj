@@ -42,7 +42,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
 		<ProjectReference Include="..\..\src\Infrastructure\SemanticKernel\Infrastructure.SemanticKernel.csproj" />
-		<ProjectReference Include="..\..\src\Infrastructure\SqlServer\Infrastucture.SqlServer.csproj" />
+		<ProjectReference Include="..\..\src\Infrastructure\SqlServer\Infrastructure.SqlServer.csproj" />
 	</ItemGroup>
 
 

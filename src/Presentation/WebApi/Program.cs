@@ -10,16 +10,8 @@ using Goodtocode.SemanticKernel.Presentation.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// When environment is set to Local, secrets arent added to the configuration
-if (builder.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "Local")
+if (builder.Environment.EnvironmentName == "Local")
     builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
-//{
-//    builder.Configuration
-//        .AddUserSecrets(Assembly.GetExecutingAssembly())
-//        .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}.json", true, true)
-//        .AddEnvironmentVariables()
-//        .AddCommandLine(args);
-//}
 
 // ToDo: Setup Authentication with Bearer Token
 // Use for B2C

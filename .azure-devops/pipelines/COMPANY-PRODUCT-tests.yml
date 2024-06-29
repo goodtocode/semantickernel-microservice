@@ -1,0 +1,42 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*'
+  paths:
+    include:
+    - tests/*
+
+pr:
+  branches:
+    exclude:
+    - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - template: ../variables/development.yml
+  - name: buildPlatform
+    value: 'Any CPU'
+  - name: buildConfiguration
+    value: 'Release'
+
+stages:
+  - stage: development
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+    variables:
+      - template: ../variables/development.yml
+      
+    jobs:
+      - job: test_integration
+        steps:
+          - template: ../steps/integration-test-steps.yml
+            parameters:
+              dotnetVersion: '$(dotnetVersion)'
+              integrationPath: '$(integrationPath)'
+              appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
+              appcsConnection: '$(appcsConnection)'
+              stEnvironmentVariable: '$(stEnvironmentVariable)'
+              stConnection: '$(stConnection)'
+              rgEnvironment: '$(rgEnvironment)'

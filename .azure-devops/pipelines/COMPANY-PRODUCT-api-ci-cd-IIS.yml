@@ -1,0 +1,296 @@
+trigger:
+  batch: false
+  branches:
+    include:
+    - 'main'
+  paths:
+    include:
+    - .azure-devops/pipelines/aacn-eventeval-api-ci-cd-IIS.yml
+    - src/Core/**
+    - src/Infrastructure/**
+    - src/Presentation/WebApi/**
+    - tests/**
+
+pr:
+  branches:
+    include:
+    - 'main'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: CreateIis
+    type: boolean
+    default: false
+  - name: ForceDeployDev
+    type: boolean
+    default: false
+  - name: ForceDeployProd
+    type: boolean
+    default: false
+
+variables:
+  - name: ConnectionStrings.Default
+    value: '$(sqlConnection)'
+
+stages:
+  - stage: build
+    variables:
+      - template: ../variables/common-ci.yml
+    jobs:
+      - job: build_src
+        steps:
+          - task: PowerShell@2
+            displayName: 'Set-Version.ps1'
+            inputs:
+              filePath: '$(scriptsPath)/Set-Version.ps1'
+              arguments: '-Path $(srcPath) -VersionToReplace 1.0.0 -Major 1 -Minor 0 -Revision 0 -CommitHash $(Build.SourceVersion) -Build $(Build.BuildNumber)'
+              workingDirectory: '$(scriptsPath)'
+
+          - task: UseDotNet@2
+            displayName: UseSDKVersion
+            inputs:
+              packageType: 'sdk'
+              version: $(dotnetVersion)
+              includePreviewVersions: true
+
+          - task: DotNetCoreCLI@2
+            displayName: dotnetrestore
+            inputs:
+              command: 'restore'
+              projects: "$(srcSolution)"
+              feedsToUse: 'config'
+              nugetConfigPath: "$(nugetConfig)"
+
+          - task: DotNetCoreCLI@2
+            displayName: dotnet build
+            inputs:
+              command: 'build'
+              projects: "$(srcProject)"
+              arguments: "--configuration $(buildConfiguration)"
+
+      - job: test_src
+        dependsOn: build_src
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: dotnet test
+            inputs:
+              command: 'test'
+              projects: "$(testProject)"
+              arguments: "--configuration $(buildConfiguration)"
+              publishTestResults: true
+
+      - job: publish_src
+        dependsOn: test_src
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: dotnet publish
+            inputs:
+              command: 'publish'
+              publishWebProjects: false
+              projects: "$(srcProject)"
+              arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+              zipAfterPublish: true
+
+          - task: PublishBuildArtifacts@1
+            displayName: Publishbuildartifacts
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: 'drop'
+              publishLocation: "Container"
+
+  - stage: deploy_dev
+    dependsOn: build
+    condition: and(succeeded(), or(eq(lower(${{ parameters.ForceDeployDev }}), 'true'), and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))))
+    variables:
+      - template: ../variables/development-cd.yml
+      
+    jobs:
+      - deployment: DeployAPI
+        environment:
+          name: Development
+          resourceName: ILSCWEB01-HWE
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: CmdLine@2
+                  displayName: Remove HTTPS Bindings 
+                  condition: ${{ parameters.CreateIis }}
+                  inputs:
+                      script: |
+                        netsh http delete sslcert ipport=0.0.0.0:443
+                        setx ASPNETCORE_ENVIRONMENT $(rgEnvironment) /M
+
+                - task: IISWebAppManagementOnMachineGroup@0
+                  displayName: IIS Web App Create - $(siteDNS)
+                  condition: ${{ parameters.CreateIis }}
+                  inputs:
+                    EnableIIS: true
+                    IISDeploymentType: 'IISWebsite'
+                    ActionIISWebsite: 'CreateOrUpdateWebsite'
+                    WebsiteName: '$(siteDNS)'
+                    WebsitePhysicalPath: '%SystemDrive%\sites\$(siteDNS)'
+                    WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                    AddBinding: true
+                    Bindings: '{"bindings":[{"protocol":"https","ipAddress":"All Unassigned","port":"443","hostname":"$(siteDNS)","sslThumbprint":"$(thumbprint)","sniFlag":false}, {"protocol":"http","ipAddress":"All Unassigned","port":"80","hostname":"$(siteDNS)","sslThumbprint":"","sniFlag":false}]}'
+                    CreateOrUpdateAppPoolForWebsite: true
+                    ConfigureAuthenticationForWebsite: true
+                    AnonymousAuthenticationForWebsite: true
+                    WindowsAuthenticationForWebsite: false
+                    AppPoolNameForWebsite: '$(siteDNS)'
+                    DotNetVersionForWebsite: 'v4.0'
+                    PipeLineModeForWebsite: 'Integrated'
+                    AppPoolIdentityForWebsite: 'SpecificUser'
+                    AppPoolUsernameForWebsite: '$(sqlUser)'
+                    AppPoolPasswordForWebsite: '$(sqlPassword)'
+
+                - task: IISWebAppManagementOnMachineGroup@0
+                  condition: ${{ parameters.CreateIis }}
+                  continueOnError: true                  
+                  inputs:
+                    IISDeploymentType: 'IISApplicationPool'
+                    ActionIISApplicationPool: 'StopAppPool'
+                    StartStopRecycleAppPoolName: '$(siteDNS)-$(productName)'                    
+
+                - task: IISWebAppManagementOnMachineGroup@0                
+                  displayName: IIS App Pool - $(siteDNS)\$(productName)
+                  condition: ${{ parameters.CreateIis }}
+                  inputs:
+                    IISDeploymentType: 'IISWebApplication'
+                    ParentWebsiteNameForApplication: '$(siteDNS)'
+                    VirtualPathForApplication: '/$(productName)'
+                    PhysicalPathForApplication: '%SystemDrive%\sites\$(siteDNS)\$(productName)'
+                    CreateOrUpdateAppPoolForApplication: true
+                    AppPoolNameForApplication: '$(siteDNS)-$(productName)'
+                    DotNetVersionForApplication: 'v4.0'
+                    PipeLineModeForApplication: 'Integrated'
+                    AppPoolIdentityForApplication: 'SpecificUser'
+                    AppPoolUsernameForApplication: '$(sqlUser)'
+                    AppPoolPasswordForApplication: '$(sqlPassword)'
+
+                - task: IISWebAppManagementOnMachineGroup@0
+                  condition: ${{ parameters.CreateIis }}
+                  inputs:
+                    IISDeploymentType: 'IISApplicationPool'
+                    ActionIISApplicationPool: 'StartAppPool'
+                    StartStopRecycleAppPoolName: '$(siteDNS)-$(productName)'
+
+                - task: FileTransform@1
+                  displayName: 'Variable transformation'
+                  inputs:
+                    folderPath: '$(Pipeline.Workspace)/**/*.zip'
+                    fileType: 'json'
+                    targetFiles: 'appsettings.$(rgEnvironment).json'
+
+                - task: IISWebAppDeploymentOnMachineGroup@0
+                  displayName: Deploy IIS Website/App - $(siteDNS)\$(productName)
+                  inputs:
+                    WebSiteName: '$(siteDNS)'
+                    VirtualApplication: '$(productName)'
+                    Package: '$(Pipeline.Workspace)/**/*.zip'
+                    TakeAppOfflineFlag: true
+
+  - stage: deploy_prod
+    dependsOn: deploy_dev
+    condition: or(eq(lower(${{ parameters.ForceDeployProd }}), 'true'), and(succeeded(), and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))))
+    variables:
+      - template: ../variables/production-cd.yml
+
+    jobs:
+      - job: deploy_approval
+        pool: server
+        timeoutInMinutes: 4320
+        steps:
+        - task: ManualValidation@0
+          inputs:
+           notifyUsers: $(deployApprovers)
+           instructions: "Team: $(System.TeamProject)\r\nRepo: $(Build.Repository.Name)\r\nRequested by: $(Build.RequestedFor)\r\nBuild: $(Build.BuildNumber)\r\nUrl: $(Build.BuildUri)\r\nA new deployment has been requested. Please approve or reject the deployment."
+           onTimeout: reject
+
+      - deployment: DeployAPI
+        dependsOn: deploy_approval
+        environment:
+          name: Production
+          resourceName: ILSCWEB01-HWE
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: CmdLine@2
+                  displayName: Remove HTTPS Bindings 
+                  condition: ${{ parameters.CreateIis }}
+                  inputs:
+                      script: |
+                        netsh http delete sslcert ipport=0.0.0.0:443
+                        setx ASPNETCORE_ENVIRONMENT $(rgEnvironment) /M
+
+                - task: IISWebAppManagementOnMachineGroup@0
+                  displayName: IIS Web App Create - $(siteDNS)
+                  condition: ${{ parameters.CreateIis }}
+                  inputs:
+                    EnableIIS: true
+                    IISDeploymentType: 'IISWebsite'
+                    ActionIISWebsite: 'CreateOrUpdateWebsite'
+                    WebsiteName: '$(siteDNS)'
+                    WebsitePhysicalPath: '%SystemDrive%\sites\$(siteDNS)'
+                    WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                    AddBinding: true
+                    Bindings: '{"bindings":[{"protocol":"https","ipAddress":"All Unassigned","port":"443","hostname":"$(siteDNS)","sslThumbprint":"$(thumbprint)","sniFlag":false}, {"protocol":"http","ipAddress":"All Unassigned","port":"80","hostname":"$(siteDNS)","sslThumbprint":"","sniFlag":false}]}'
+                    CreateOrUpdateAppPoolForWebsite: true
+                    ConfigureAuthenticationForWebsite: true
+                    AnonymousAuthenticationForWebsite: true
+                    WindowsAuthenticationForWebsite: false
+                    AppPoolNameForWebsite: '$(siteDNS)'
+                    DotNetVersionForWebsite: 'v4.0'
+                    PipeLineModeForWebsite: 'Integrated'
+                    AppPoolIdentityForWebsite: 'SpecificUser'
+                    AppPoolUsernameForWebsite: '$(sqlUser)'
+                    AppPoolPasswordForWebsite: '$(sqlPassword)'
+
+                - task: IISWebAppManagementOnMachineGroup@0
+                  condition: ${{ parameters.CreateIis }}
+                  continueOnError: true                  
+                  inputs:
+                    IISDeploymentType: 'IISApplicationPool'
+                    ActionIISApplicationPool: 'StopAppPool'
+                    StartStopRecycleAppPoolName: '$(siteDNS)-$(productName)'                    
+
+                - task: IISWebAppManagementOnMachineGroup@0                
+                  displayName: IIS App Pool - $(siteDNS)\$(productName)
+                  condition: ${{ parameters.CreateIis }}
+                  inputs:
+                    IISDeploymentType: 'IISWebApplication'
+                    ParentWebsiteNameForApplication: '$(siteDNS)'
+                    VirtualPathForApplication: '/$(productName)'
+                    PhysicalPathForApplication: '%SystemDrive%\sites\$(siteDNS)\$(productName)'
+                    CreateOrUpdateAppPoolForApplication: true
+                    AppPoolNameForApplication: '$(siteDNS)-$(productName)'
+                    DotNetVersionForApplication: 'v4.0'
+                    PipeLineModeForApplication: 'Integrated'
+                    AppPoolIdentityForApplication: 'SpecificUser'
+                    AppPoolUsernameForApplication: '$(sqlUser)'
+                    AppPoolPasswordForApplication: '$(sqlPassword)'
+
+                - task: IISWebAppManagementOnMachineGroup@0
+                  condition: ${{ parameters.CreateIis }}
+                  inputs:
+                    IISDeploymentType: 'IISApplicationPool'
+                    ActionIISApplicationPool: 'StartAppPool'
+                    StartStopRecycleAppPoolName: '$(siteDNS)-$(productName)'
+
+                - task: FileTransform@1
+                  displayName: 'Variable transformation'
+                  inputs:
+                    folderPath: '$(Pipeline.Workspace)/**/*.zip'
+                    fileType: 'json'
+                    targetFiles: 'appsettings.$(rgEnvironment).json'
+
+                - task: IISWebAppDeploymentOnMachineGroup@0
+                  displayName: Deploy IIS Website/App - $(siteDNS)\$(productName)
+                  inputs:
+                    WebSiteName: '$(siteDNS)'
+                    VirtualApplication: '$(productName)'
+                    Package: '$(Pipeline.Workspace)/**/*.zip'
+                    TakeAppOfflineFlag: true

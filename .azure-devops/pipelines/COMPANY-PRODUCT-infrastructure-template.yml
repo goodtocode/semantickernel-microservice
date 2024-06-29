@@ -1,0 +1,154 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*'
+  paths:
+    include:
+    - .azure/*
+    exclude:
+    - '*'
+
+pr:
+  branches:
+    exclude:
+    - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: releaseToDev
+    type: boolean
+    default: false
+  - name: releaseToQA
+    type: boolean
+    default: false
+  - name: releaseToStaging
+    type: boolean
+    default: false
+  - name: releaseToProd
+    type: boolean
+    default: false
+  - name: subscriptionService
+    type: string 
+    default: "AZURE-DEVOPS-SERVICE-CONNECTION-NAME"
+
+variables:
+  - template: ../variables/common.yml
+      
+stages:
+  - stage: development
+    condition: or(eq(lower(${{ parameters.releaseToDev }}), 'true'), and(or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.SourceBranch'], 'refs/heads/main')), ne(variables['Build.Reason'], 'PullRequest')))
+    variables:
+      - template: ../variables/development.yml
+
+    jobs:
+      - job: deploy_landing_zone
+        steps:
+          - template: ../steps/landingzone-infrastructure-steps.yml
+            parameters:
+              armPath: '$(armPath)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+              rgName: '$(rgName)'
+              rgLocation: '$(rgLocation)'
+              appiName: '$(appiName)'
+              kvName: '$(kvName)'
+              stName: '$(stName)'
+              workSubscriptionId: '$(subscriptionId)'
+              workName: '$(workName)'
+              workResourceGroupName: '$(workResourceGroupName)'
+              workLocation: '$(workLocation)'
+
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: '${{ parameters.subscriptionService }}'
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az keyvault set-policy --name '$(kvName)' --object-id $(objectId) --secret-permissions get list
+
+      - job: deploy_func_and_plan
+        dependsOn: deploy_landing_zone
+        steps:
+          - template: ../steps/func-infrastructure-plan-vnet-steps.yml
+            parameters:
+              armPath: '$(armPath)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+              rgName: '$(rgName)'
+              rgLocation: '$(rgLocation)'
+              rgEnvironment: '$(rgEnvironment)'
+              appiKey: '$(appiKey)'
+              appiConnection: '$(appiConnection)'
+              funcName: '$(funcName)'
+              planSku: '$(funcPlan)'
+              stName: '$(stName)'
+              vnetResourceGroupName: '$(vnetResourceGroupName)'
+              vnetName: '$(vnetName)'
+              snetName: '$(snetName)'
+              alwaysOn: 'true'
+
+  - stage: production
+    condition: or(eq(lower(${{ parameters.releaseToProd }}), 'true'), and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')))
+    variables:
+      - template: ../variables/production.yml
+
+    jobs:
+      - job: deploy_approval
+        pool: server
+        timeoutInMinutes: 4320
+        steps:
+        - task: ManualValidation@0
+          inputs:
+           notifyUsers: $(deployApprovers)
+           instructions: "Team: $(System.TeamProject)\r\nRepo: $(Build.Repository.Name)\r\nRequested by: $(Build.RequestedFor)\r\nBuild: $(Build.BuildNumber)\r\nUrl: $(Build.BuildUri)\r\nA new deployment has been requested. Please approve or reject the deployment."
+           onTimeout: reject
+
+      - job: deploy_landing_zone
+        dependsOn: deploy_approval
+        steps:          
+          - template: ../steps/landingzone-infrastructure-steps.yml
+            parameters:
+              armPath: '$(armPath)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+              rgName: '$(rgName)'
+              rgLocation: '$(rgLocation)'
+              appiName: '$(appiName)'
+              kvName: '$(kvName)'
+              stName: '$(stName)'
+              workSubscriptionId: '$(subscriptionId)'
+              workName: '$(workName)'
+              workResourceGroupName: '$(workResourceGroupName)'
+              workLocation: '$(workLocation)'
+
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: '${{ parameters.subscriptionService }}'
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az keyvault set-policy --name '$(kvName)' --object-id $(objectId) --secret-permissions get list
+      
+      - job: deploy_func_and_plan
+        dependsOn: deploy_landing_zone
+        steps:
+          - template: ../steps/func-infrastructure-plan-vnet-steps.yml
+            parameters:
+              armPath: '$(armPath)'
+              subscriptionId: '$(subscriptionId)'
+              subscriptionService: '${{ parameters.subscriptionService }}'
+              rgName: '$(rgName)'
+              rgLocation: '$(rgLocation)'
+              rgEnvironment: '$(rgEnvironment)'
+              appiKey: '$(appiKey)'
+              appiConnection: '$(appiConnection)'
+              funcName: '$(funcName)'
+              planSku: '$(funcPlan)'
+              stName: '$(stName)'
+              vnetResourceGroupName: '$(vnetResourceGroupName)'
+              vnetName: '$(vnetName)'
+              snetName: '$(snetName)'
+              alwaysOn: 'true'
