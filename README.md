@@ -1,4 +1,9 @@
 # Semantic Kernel Microservice Quick-Start
+[![.github/workflows/gtc-rg-semantickernel-infrastructure.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-infrastructure.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-infrastructure.yml)
+
+[![.github/workflows/gtc-rg-semantickernel-api.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-api.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-api.yml)
+
+
 A simple Semantic Kernel CRUD Microservice solution including Domain Models, Aggregates, Persistence Repositories and an API presentation layer. This demonstrates the most basic use cases of Semantic Kernel in an Clean Architecture Microservice.
 
 # Prerequisites
