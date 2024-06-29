@@ -83,7 +83,6 @@ jobs:
         with:
           files: '${{ env.SRC_PATH }}/${{ env.API_PATH }}/appsettings.json, ${{ env.SRC_PATH }}/${{ env.API_PATH }}/appsettings.${{ env.RUNTIME_ENV }}.json'
         env: 
-          OpenAI__ApiKey: ${{ secrets.OPENAI_APIKEY }}
           OpenAI.ApiKey: ${{ secrets.OPENAI_APIKEY }}
 
       - name: dotnet build test and publish
