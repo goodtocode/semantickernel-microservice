@@ -1,15 +1,12 @@
-using Azure;
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using System;
-using TechTalk.SpecFlow;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
 {
     [Binding]
     public class DeleteChatSessionCommandStepDefinitions : TestBase
     {
-        private Guid _key;
+        private Guid _id;
         private bool _exists;
 
         [Given(@"I have a def ""([^""]*)""")]
@@ -18,10 +15,10 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             _def = def;
         }
 
-        [Given(@"I have a chat sesion key""([^""]*)""")]
-        public void GivenIHaveAChatSesionKey(string key)
+        [Given(@"I have a chat sesion id""([^""]*)""")]
+        public void GivenIHaveAChatSesionKey(string id)
         {
-            Guid.TryParse(key, out _key).Should().BeTrue();
+            Guid.TryParse(id, out _id).Should().BeTrue();
         }
 
         [Given(@"The chat sesion exists ""([^""]*)""")]
@@ -35,14 +32,14 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         {
             var request = new DeleteChatSessionCommand()
             {
-                Key = _key
+                Id = _id
             };
 
             if (_exists)
             {
                 var chatSession = new ChatSessionEntity()
                 {
-                    Key = _key,
+                    Id = _id,
                     Title = "Initial Title",
                     Messages = [
                         new ChatMessageEntity()

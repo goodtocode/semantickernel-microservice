@@ -7,7 +7,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author;
 [Scope(Tag = "getAuthorQuery")]
 public class GetAuthorQueryStepDefinitions : TestBase
 {
-    private Guid _key;
+    private Guid _id;
     private bool _exists;
     private int _AuthorCount;
     private AuthorDto? _response;
@@ -17,11 +17,11 @@ public class GetAuthorQueryStepDefinitions : TestBase
     {
         _def = def;
     }
-    [Given(@"I have a Author key ""([^""]*)""")]
+    [Given(@"I have a Author id ""([^""]*)""")]
     public void GivenIHaveAAuthorKey(string AuthorKey)
     {
         if (string.IsNullOrWhiteSpace(AuthorKey)) return;
-        Guid.TryParse(AuthorKey, out _key).Should().BeTrue();
+        Guid.TryParse(AuthorKey, out _id).Should().BeTrue();
     }
 
     [Given(@"I the Author exists ""([^""]*)""")]
@@ -38,7 +38,7 @@ public class GetAuthorQueryStepDefinitions : TestBase
         {
             var Author = new AuthorEntity()
             {
-                Key = _key,
+                Id = _id,
                 Name = "John Doe"
             };
             _context.Authors.Add(Author);
@@ -47,7 +47,7 @@ public class GetAuthorQueryStepDefinitions : TestBase
 
         var request = new GetAuthorQuery()
         {
-            Key = _key
+            Id = _id
         };
 
         var validator = new GetAuthorQueryValidator();
@@ -83,6 +83,6 @@ public class GetAuthorQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
         if (_responseType != CommandResponseType.Successful) return;
-        _response?.Key.Should().NotBeEmpty();
+        _response?.Id.Should().NotBeEmpty();
     }
 }

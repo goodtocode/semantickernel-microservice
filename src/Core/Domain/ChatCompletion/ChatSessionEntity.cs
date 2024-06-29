@@ -7,7 +7,7 @@ public class ChatSessionEntity : DomainEntity<ChatSessionEntity>
 {
     public ChatSessionEntity() { }
 
-    public Guid AuthorKey { get; set; }
+    public Guid AuthorId { get; set; }
     public string Title { get; set; } = string.Empty;
     public DateTime Timestamp { get; set; }
     public virtual ICollection<ChatMessageEntity> Messages { get; set; } = [];

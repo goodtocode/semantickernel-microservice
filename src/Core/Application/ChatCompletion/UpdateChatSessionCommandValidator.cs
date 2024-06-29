@@ -4,7 +4,7 @@ public class UpdateChatSessionCommandValidator : AbstractValidator<UpdateChatSes
 {
     public UpdateChatSessionCommandValidator()
     {
-        RuleFor(x => x.Key).NotEmpty();
+        RuleFor(x => x.Id).NotEmpty();
         RuleFor(x => x.Title).NotEmpty();
     }
 }

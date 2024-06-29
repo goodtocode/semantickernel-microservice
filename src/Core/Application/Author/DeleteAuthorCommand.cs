@@ -6,7 +6,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.Author;
 
 public class DeleteAuthorCommand : IRequest
 {
-    public Guid Key { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class DeleteAuthorCommandHandler(ISemanticKernelContext context) : IRequestHandler<DeleteAuthorCommand>
@@ -15,7 +15,7 @@ public class DeleteAuthorCommandHandler(ISemanticKernelContext context) : IReque
 
     public async Task Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
     {
-        var Author = _context.Authors.Find(request.Key);
+        var Author = _context.Authors.Find(request.Id);
         GuardAgainstNotFound(Author);
 
         _context.Authors.Remove(Author!);

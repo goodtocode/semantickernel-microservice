@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 {
     [DbContext(typeof(SemanticKernelContext))]
-    [Migration("20240621043345_InitialCreate")]
+    [Migration("20240629171130_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -30,35 +30,69 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", b =>
                 {
-                    b.Property<Guid>("Key")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("f08c50b9-e9cc-45aa-9cf5-7d47d29576d6"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("PartitionKey")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Key");
+                    b.Property<DateTimeOffset>("Timestamp")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Id"), false);
+
+                    b.HasIndex("Timestamp")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Timestamp"));
 
                     b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.ChatMessageEntity", b =>
                 {
-                    b.Property<Guid>("Key")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ChatSessionKey")
+                    b.Property<Guid>("ChatSessionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PartitionKey")
                         .IsRequired()
@@ -70,21 +104,30 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Key");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ChatSessionKey");
+                    b.HasIndex("ChatSessionId");
 
                     b.ToTable("ChatMessages", (string)null);
                 });
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.ChatSessionEntity", b =>
                 {
-                    b.Property<Guid>("Key")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AuthorKey")
+                    b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PartitionKey")
                         .IsRequired()
@@ -97,9 +140,9 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Key");
+                    b.HasKey("Id");
 
-                    b.HasIndex("AuthorKey");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("ChatSessions", (string)null);
                 });
@@ -108,7 +151,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                 {
                     b.HasOne("Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.ChatSessionEntity", "ChatSession")
                         .WithMany("Messages")
-                        .HasForeignKey("ChatSessionKey")
+                        .HasForeignKey("ChatSessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -119,7 +162,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                 {
                     b.HasOne("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", "Author")
                         .WithMany("ChatSessions")
-                        .HasForeignKey("AuthorKey")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

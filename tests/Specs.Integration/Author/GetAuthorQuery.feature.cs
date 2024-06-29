@@ -92,14 +92,14 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void GetAuthor(string def, string response, string responseErrors, string key, string exists, string[] exampleTags)
+        public virtual void GetAuthor(string def, string response, string responseErrors, string id, string exists, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("def", def);
             argumentsOfScenario.Add("response", response);
             argumentsOfScenario.Add("responseErrors", responseErrors);
-            argumentsOfScenario.Add("key", key);
+            argumentsOfScenario.Add("id", id);
             argumentsOfScenario.Add("exists", exists);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get Author", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 7
@@ -116,7 +116,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given(string.Format("I have a definition \"{0}\"", def), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 9
- testRunner.And(string.Format("I have a Author key \"{0}\"", key), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a Author id \"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
  testRunner.And(string.Format("I the Author exists \"{0}\"", exists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -145,7 +145,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "true")]
         public void GetAuthor_Success()
         {
@@ -162,7 +162,7 @@ this.GetAuthor("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9",
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "not found")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "NotFound")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "false")]
         public void GetAuthor_NotFound()
         {
@@ -172,19 +172,19 @@ this.GetAuthor("not found", "NotFound", "", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Get Author: bad request: empty key")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Get Author: bad request: empty id")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Get Author Query")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("getAuthorQuery")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "bad request: empty key")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty key")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "bad request: empty id")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty id")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Key")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "00000000-0000-0000-0000-000000000000")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Id")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "false")]
-        public void GetAuthor_BadRequestEmptyKey()
+        public void GetAuthor_BadRequestEmptyId()
         {
 #line 7
-this.GetAuthor("bad request: empty key", "BadRequest", "Key", "00000000-0000-0000-0000-000000000000", "false", ((string[])(null)));
+this.GetAuthor("bad request: empty id", "BadRequest", "Id", "00000000-0000-0000-0000-000000000000", "false", ((string[])(null)));
 #line hidden
         }
     }

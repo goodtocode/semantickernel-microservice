@@ -4,7 +4,7 @@ public class UpdateAuthorCommandValidator : AbstractValidator<UpdateAuthorComman
 {
     public UpdateAuthorCommandValidator()
     {
-        RuleFor(x => x.Key).NotEmpty();
+        RuleFor(x => x.Id).NotEmpty();
         RuleFor(x => x.Name).NotEmpty();
     }
 }

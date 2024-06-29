@@ -40,7 +40,7 @@ public class ChatSessionController : ApiControllerBase
     {
         return await Mediator.Send(new GetChatSessionQuery
         {
-            Key = key
+            Id = key
         });
     }
 
@@ -137,7 +137,7 @@ public class ChatSessionController : ApiControllerBase
     public async Task<ActionResult> Post(CreateChatSessionCommand command)
     {
         var response = await Mediator.Send(command);
-        return CreatedAtAction(nameof(Get), new { response.Key }, response);
+        return CreatedAtAction(nameof(Get), new { response.Id }, response);
     }
 
     /// <summary>
@@ -196,7 +196,7 @@ public class ChatSessionController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Patch(Guid key, PatchChatSessionCommand command)
     {
-        command.Key = key;
+        command.Id = key;
         await Mediator.Send(command);
 
         return NoContent();
@@ -218,7 +218,7 @@ public class ChatSessionController : ApiControllerBase
     [ProducesDefaultResponseType]
     public async Task<IActionResult> Delete(Guid key)
     {
-        await Mediator.Send(new DeleteChatSessionCommand() { Key = key });
+        await Mediator.Send(new DeleteChatSessionCommand() { Id = key });
 
         return NoContent();
     }

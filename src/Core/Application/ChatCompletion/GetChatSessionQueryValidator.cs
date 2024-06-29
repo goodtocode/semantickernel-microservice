@@ -4,6 +4,6 @@ public class GetChatSessionQueryValidator : AbstractValidator<GetChatSessionQuer
 {
     public GetChatSessionQueryValidator()
     {
-        RuleFor(x => x.Key).NotEmpty();
+        RuleFor(x => x.Id).NotEmpty();
     }
 }

@@ -28,9 +28,9 @@ public class CreateTextGenerationCommandHandler(ITextGenerationService textServi
 
         return response.Text;
 
-        //var weatherTextGeneration = _context.TextGenerations.Find(request.Key);
+        //var weatherTextGeneration = _context.TextGenerations.Find(request.Id);
         //GuardAgainstWeatherTextGenerationNotFound(weatherTextGeneration);
-        //var weatherTextGenerationValue = TextGenerationValue.Create(request.Key, request.Date, (int)request.TemperatureF, request.Zipcodes);
+        //var weatherTextGenerationValue = TextGenerationValue.Create(request.Id, request.Date, (int)request.TemperatureF, request.Zipcodes);
         //if (weatherTextGenerationValue.IsFailure)
         //    throw new Exception(weatherTextGenerationValue.Error);
         //_context.TextGenerations.Add(new TextGeneration(weatherTextGenerationValue.Value));

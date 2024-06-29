@@ -6,7 +6,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
 public class UpdateChatSessionCommand : IRequest
 {
-    public Guid Key { get; set; }
+    public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public ICollection<ChatMessageDto> Messages { get; set; } = [];
 }
@@ -17,7 +17,7 @@ public class UpdateChatSessionCommandHandler (ISemanticKernelContext context) : 
 
     public async Task Handle(UpdateChatSessionCommand request, CancellationToken cancellationToken)
     {
-        var chatSession = _context.ChatSessions.Find(request.Key);
+        var chatSession = _context.ChatSessions.Find(request.Id);
         GuardAgainstNotFound(chatSession);
 
 

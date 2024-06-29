@@ -7,8 +7,17 @@ public class AuthorsConfig : IEntityTypeConfiguration<AuthorEntity>
     public void Configure(EntityTypeBuilder<AuthorEntity> builder)
     {
         builder.ToTable("Authors");
-        builder.HasKey(x => x.Key);
-        builder.Property(x => x.Key);
-        builder.Property(x => x.Name);
+        builder.HasIndex(x => x.Id)
+            .IsClustered(false)
+            .IsUnique();
+        builder.HasIndex(x => x.Timestamp)
+            .IsClustered()
+            .IsUnique();
+        builder.HasKey(x => x.Id)
+            .IsClustered(false);
+        builder.Property(x => x.Id)
+            .HasDefaultValue(Guid.NewGuid());
+        builder.Property(x => x.Name)
+            .HasColumnType(ColumnTypes.Nvarchar200);
     }
 }

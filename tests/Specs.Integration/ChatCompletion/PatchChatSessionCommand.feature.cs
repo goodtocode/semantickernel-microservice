@@ -92,14 +92,14 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void PatchChatSession(string def, string response, string responseErrors, string key, string chatSessionExists, string title, string[] exampleTags)
+        public virtual void PatchChatSession(string def, string response, string responseErrors, string id, string chatSessionExists, string title, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("def", def);
             argumentsOfScenario.Add("response", response);
             argumentsOfScenario.Add("responseErrors", responseErrors);
-            argumentsOfScenario.Add("key", key);
+            argumentsOfScenario.Add("id", id);
             argumentsOfScenario.Add("chatSessionExists", chatSessionExists);
             argumentsOfScenario.Add("title", title);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Patch Chat Session", null, tagsOfScenario, argumentsOfScenario, featureTags);
@@ -117,7 +117,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given(string.Format("I have a def \"{0}\"", def), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 8
- testRunner.And(string.Format("I have a chat session key \"{0}\"", key), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a chat session id \"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
  testRunner.And(string.Format("the chat session exists \"{0}\"", chatSessionExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -146,7 +146,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success : patch title")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:title", "New Title")]
         public void PatchChatSession_SuccessPatchTitle()
@@ -157,20 +157,20 @@ this.PatchChatSession("success : patch title", "Success", "", "038d8e7f-f18f-4a8
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Patch Chat Session: bad request: empty key")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Patch Chat Session: bad request: empty id")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Patch ChatSession Command")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("patchChatSessionCommand")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "bad request: empty key")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty key")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "bad request: empty id")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty id")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Key")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "00000000-0000-0000-0000-000000000000")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Id")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "false")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:title", "Changed Title")]
-        public void PatchChatSession_BadRequestEmptyKey()
+        public void PatchChatSession_BadRequestEmptyId()
         {
 #line 6
-this.PatchChatSession("bad request: empty key", "BadRequest", "Key", "00000000-0000-0000-0000-000000000000", "false", "Changed Title", ((string[])(null)));
+this.PatchChatSession("bad request: empty id", "BadRequest", "Id", "00000000-0000-0000-0000-000000000000", "false", "Changed Title", ((string[])(null)));
 #line hidden
         }
         
@@ -182,7 +182,7 @@ this.PatchChatSession("bad request: empty key", "BadRequest", "Key", "00000000-0
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "not found : patch title")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "NotFound")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "false")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:title", "Title")]
         public void PatchChatSession_NotFoundPatchTitle()

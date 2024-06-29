@@ -8,11 +8,14 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
     private readonly List<IDomainEvent<TModel>> _domainEvents = [];
 
     [Key]
-    public Guid Key { get; set; }
-
+    public Guid Id { get; set; }
     [IgnoreDataMember]
     public string PartitionKey { get; set; } = string.Empty;
-    
+    public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+    public DateTime? ModifiedOn { get; set; }
+    public DateTime? DeletedOn { get; set; }    
+    [IgnoreDataMember]
+    public DateTimeOffset Timestamp { get; set; } = DateTimeOffset.UtcNow;
     [IgnoreDataMember]
     public IReadOnlyList<IDomainEvent<TModel>> DomainEvents => _domainEvents;
 
@@ -20,10 +23,10 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
     {
     }
 
-    protected DomainEntity(Guid key)
+    protected DomainEntity(Guid id)
         : this()
     {
-        Key = key;
+        this.Id = id;
     }    
 
     public void RaiseDomainEvent(IDomainEvent<TModel> domainEvent)
@@ -47,10 +50,10 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
         if (GetRealType() != other.GetRealType())
             return false;
 
-        if (Key == Guid.Empty || other.Key == Guid.Empty)
+        if (Id == Guid.Empty || other.Id == Guid.Empty)
             return false;
 
-        return Key == other.Key;
+        return Id == other.Id;
     }
 
     public static bool operator ==(DomainEntity<TModel>? a, DomainEntity<TModel>? b)
@@ -71,7 +74,7 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
 
     public override int GetHashCode()
     {
-        return (GetRealType().ToString() + Key).GetHashCode();
+        return (GetRealType().ToString() + Id).GetHashCode();
     }
 
     private Type GetRealType(string namespaceRoot = "")

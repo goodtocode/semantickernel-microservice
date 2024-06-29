@@ -1,8 +1,6 @@
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 
@@ -11,7 +9,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 public class CreateChatSessionCommandStepDefinitions : TestBase
 {
     private string _message = string.Empty;
-    private Guid _key;
+    private Guid _id;
     private bool _exists;
 
     [Given(@"I have a def ""([^""]*)""")]
@@ -26,10 +24,10 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         _message = message;
     }
 
-    [Given(@"I have a chat session key ""([^""]*)""")]
-    public void GivenIHaveAChatSessionKey(string key)
+    [Given(@"I have a chat session id ""([^""]*)""")]
+    public void GivenIHaveAChatSessionKey(string id)
     {
-        _key = Guid.Parse(key);
+        _id = Guid.Parse(id);
     }
 
     [Given(@"The chat session exists ""([^""]*)""")]
@@ -46,7 +44,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         {
             var chatSession = new ChatSessionEntity()
             {
-                Key = _key,
+                Id = _id,
                 Messages =
                  [
                      new ChatMessageEntity()
@@ -65,7 +63,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         // Test command
         var request = new CreateChatSessionCommand()
         {
-            Key = _key,
+            Id = _id,
             Message = _message
         };
 

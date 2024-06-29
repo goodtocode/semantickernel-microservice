@@ -4,6 +4,6 @@ public class DeleteChatSessionCommandValidator : AbstractValidator<DeleteChatSes
 {
     public DeleteChatSessionCommandValidator()
     {
-        RuleFor(x => x.Key).NotEmpty();
+        RuleFor(x => x.Id).NotEmpty();
     }
 }

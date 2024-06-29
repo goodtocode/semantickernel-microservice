@@ -7,7 +7,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
 public class CreateChatSessionCommand : IRequest<ChatSessionDto>
 {
-    public Guid Key { get; set; }
+    public Guid Id { get; set; }
     public string? Title { get; set; }
     public string? Message { get; set; }
 }
@@ -29,7 +29,7 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
         var response = await _chatService.GetChatMessageContentAsync(chatHistory, null, null, cancellationToken);
 
         // Persist chat session
-        var chatSession = new ChatSessionEntity() { Key = request.Key == Guid.Empty ? Guid.NewGuid() : request.Key };
+        var chatSession = new ChatSessionEntity() { Id = request.Id == Guid.Empty ? Guid.NewGuid() : request.Id };
         chatSession.Messages.Add(new ChatMessageEntity()
         {
             Content = request!.Message!,
@@ -51,7 +51,7 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
         {
             throw new CustomValidationException(
             [
-                new("Key", "Key already exists")
+                new("Id", "Id already exists")
             ]);
         }
 
@@ -65,7 +65,7 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
         {
             throw new CustomValidationException(
             [
-                new("Key", "Key already exists")
+                new("Id", "Id already exists")
             ]);
         }
         return returnValue;

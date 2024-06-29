@@ -93,14 +93,14 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void CreateAuthor(string def, string response, string responseErrors, string key, string exists, string name, string[] exampleTags)
+        public virtual void CreateAuthor(string def, string response, string responseErrors, string id, string exists, string name, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("def", def);
             argumentsOfScenario.Add("response", response);
             argumentsOfScenario.Add("responseErrors", responseErrors);
-            argumentsOfScenario.Add("key", key);
+            argumentsOfScenario.Add("id", id);
             argumentsOfScenario.Add("exists", exists);
             argumentsOfScenario.Add("name", name);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Author", null, tagsOfScenario, argumentsOfScenario, featureTags);
@@ -121,7 +121,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("I have a name \"{0}\"", name), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And(string.Format("I have a Author key \"{0}\"", key), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a Author id \"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
  testRunner.And(string.Format("The Author exists \"{0}\"", exists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -147,7 +147,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "00000000-0000-0000-0000-000000000000")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "false")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:name", "John Doe")]
         public void CreateAuthor_Success()
@@ -165,7 +165,7 @@ this.CreateAuthor("success", "Success", "", "00000000-0000-0000-0000-00000000000
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty message")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Name")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "00000000-0000-0000-0000-000000000000")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "false")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:name", "")]
         public void CreateAuthor_BadRequestEmptyMessage()
@@ -183,7 +183,7 @@ this.CreateAuthor("bad request: empty message", "BadRequest", "Name", "00000000-
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "already exists")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Error")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:key", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:name", "Jane Doe")]
         public void CreateAuthor_AlreadyExists()

@@ -6,7 +6,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.Author;
 
 public class CreateAuthorCommand : IRequest<AuthorDto>
 {
-    public Guid Key { get; set; }
+    public Guid Id { get; set; }
     public string? Name { get; set; }
 }
 
@@ -21,7 +21,7 @@ public class CreateAuthorCommandHandler(ISemanticKernelContext context, IMapper 
         GuardAgainstEmptyName(request?.Name);
         
         // Persist Author
-        var Author = new AuthorEntity() { Key = request!.Key == Guid.Empty ? Guid.NewGuid() : request!.Key };
+        var Author = new AuthorEntity() { Id = request!.Id == Guid.Empty ? Guid.NewGuid() : request!.Id };
         _context.Authors.Add(Author);
         try
         {
@@ -31,7 +31,7 @@ public class CreateAuthorCommandHandler(ISemanticKernelContext context, IMapper 
         {
             throw new CustomValidationException(
             [
-                new("Key", "Key already exists")
+                new("Id", "Id already exists")
             ]);
         }
 
@@ -45,7 +45,7 @@ public class CreateAuthorCommandHandler(ISemanticKernelContext context, IMapper 
         {
             throw new CustomValidationException(
             [
-                new("Key", "Key already exists")
+                new("Id", "Id already exists")
             ]);
         }
         return returnValue;

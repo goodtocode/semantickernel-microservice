@@ -7,7 +7,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
     [Scope(Tag = "patchChatSessionCommand")]
     public class PatchChatSessionCommandStepDefinitions : TestBase
     {
-        private Guid _key;
+        private Guid _id;
         private bool _exists;
         private string _title = string.Empty;
 
@@ -17,10 +17,10 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             _def = def;
         }
 
-        [Given(@"I have a chat session key ""([^""]*)""")]
-        public void GivenIHaveAChatSessionKey(string key)
+        [Given(@"I have a chat session id ""([^""]*)""")]
+        public void GivenIHaveAChatSessionKey(string id)
         {
-            Guid.TryParse(key, out _key).Should().BeTrue();
+            Guid.TryParse(id, out _id).Should().BeTrue();
         }
 
         [Given(@"the chat session exists ""([^""]*)""")]
@@ -40,7 +40,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         {
             var request = new PatchChatSessionCommand()
             {
-                Key = _key,
+                Id = _id,
                 Title = _title
             };
 
@@ -48,7 +48,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             {
                 var chatSession = new ChatSessionEntity()
                 {
-                    Key = _key,
+                    Id = _id,
                     Title = "Initial Title",
                     Messages = [
                         new ChatMessageEntity()
