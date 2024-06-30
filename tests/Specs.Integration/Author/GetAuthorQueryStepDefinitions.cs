@@ -16,8 +16,9 @@ public class GetAuthorQueryStepDefinitions : TestBase
     {
         _def = def;
     }
+
     [Given(@"I have a Author id ""([^""]*)""")]
-    public void GivenIHaveAAuthorKey(string authorId)
+    public void GivenIHaveAAuthorId(string authorId)
     {
         if (string.IsNullOrWhiteSpace(authorId)) return;
         Guid.TryParse(authorId, out _id).Should().BeTrue();
@@ -28,7 +29,6 @@ public class GetAuthorQueryStepDefinitions : TestBase
     {
         bool.TryParse(exists, out _exists).Should().BeTrue();
     }
-
 
     [When(@"I get a Author")]
     public async Task WhenIGetAAuthor()

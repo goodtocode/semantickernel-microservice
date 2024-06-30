@@ -9,13 +9,12 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
 
     [Key]
     public Guid Id { get; set; }
-    [IgnoreDataMember]
     public string PartitionKey { get; set; } = string.Empty;
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     public DateTime? ModifiedOn { get; set; }
     public DateTime? DeletedOn { get; set; }    
-    [IgnoreDataMember]
     public DateTimeOffset Timestamp { get; set; } = DateTimeOffset.UtcNow;
+
     [IgnoreDataMember]
     public IReadOnlyList<IDomainEvent<TModel>> DomainEvents => _domainEvents;
 

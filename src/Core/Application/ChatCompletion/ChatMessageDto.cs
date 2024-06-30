@@ -9,7 +9,7 @@ public class ChatMessageDto : IMapFrom<ChatMessageEntity>
     public Guid ChatSessionId { get; set; } = Guid.Empty;
     public ChatMessageRole Role { get; set; }
     public string Content { get; set; } = string.Empty;
-    public DateTime Timestamp { get; set; }
+    public DateTimeOffset Timestamp { get; set; }
 
     public void Mapping(Profile profile)
     {
