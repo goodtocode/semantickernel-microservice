@@ -8,7 +8,7 @@ public class ChatSessionDto : IMapFrom<ChatSessionEntity>
     public Guid Id { get; set; } = Guid.Empty;
     public string Title { get; set; } = string.Empty;
     public Guid AuthorId { get; set; } = Guid.Empty;
-    public DateTime Timestamp { get; set; }
+    public DateTimeOffset Timestamp { get; set; }
     public virtual ICollection<ChatMessageDto>? Messages { get; set; }
 
     public void Mapping(Profile profile)

@@ -1,6 +1,7 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
+using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Author;
 
@@ -19,7 +20,8 @@ public class CreateAuthorCommandHandler(ISemanticKernelContext context, IMapper 
     {
         
         GuardAgainstEmptyName(request?.Name);
-        
+        GuardAgainstIdExsits(_context.Authors, request!.Id);
+
         // Persist Author
         var Author = new AuthorEntity() { Id = request!.Id == Guid.Empty ? Guid.NewGuid() : request!.Id };
         _context.Authors.Add(Author);
@@ -57,6 +59,15 @@ public class CreateAuthorCommandHandler(ISemanticKernelContext context, IMapper 
             throw new CustomValidationException(
             [
                 new("Name", "A name is required to get a response")
+            ]);
+    }
+
+    private static void GuardAgainstIdExsits(DbSet<AuthorEntity> dbSet, Guid id)
+    {
+        if (dbSet.Any(x => x.Id == id))
+            throw new CustomValidationException(
+            [
+                new("Id", "Id already exists")
             ]);
     }
 }
