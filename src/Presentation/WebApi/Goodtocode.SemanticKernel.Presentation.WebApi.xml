@@ -14,16 +14,64 @@
              <remarks>
              Sample request:
             
-                    "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
                     "api-version":  1.0
              
              </remarks>
              <returns>
              AuthorDto
                  { 
-                     Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                     Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
                      Name: John Doe
                  }
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.GetAuthorChatSessionsQuery(System.Guid)">
+             <summary>Get All Author Chat Sessions Query</summary>
+             <remarks>
+             Sample request:
+            
+                 "AuthorId": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                 "StartDate": "2024-06-01T00:00:00Z"
+                 "EndDate": "2024-12-01T00:00:00Z"
+                 "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             ChatSessionDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Timestamp: "2024-06-03T11:21:00Z"
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.GetAuthorChatSessionsPaginatedQuery(System.Guid,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Int32)">
+             <summary>Get Author Chat Sessions Paginated Query</summary>
+             <remarks>
+             Sample request:
+            
+                 "StartDate": "2024-06-01T00:00:00Z"
+                 "EndDate": "2024-12-01T00:00:00Z"
+                 "PageNumber": 1
+                 "PageSize" : 10
+                 "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             ChatSessionDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
              </returns>
         </member>
         <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.Post(Goodtocode.SemanticKernel.Core.Application.Author.CreateAuthorCommand)">
@@ -35,7 +83,7 @@
             
                  HttpPost Body
                  {
-                    "Key": 00000000-0000-0000-0000-000000000000,
+                    "Id": 00000000-0000-0000-0000-000000000000,
                     "Name":  "John Doe"
                  }
             
@@ -53,7 +101,7 @@
             
                  HttpPut Body
                  {
-                    "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+                    "Id": "60fb5e99-3a78-43df-a512-7d8ff498499e",
                     "Name":  "John Doe",
                  }
             
@@ -67,7 +115,7 @@
              <remarks>
              Sample request:
             
-                    "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
                     "api-version":  1.0
              
              </remarks>
@@ -83,17 +131,40 @@
              <remarks>
              Sample request:
             
-                    "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
                     "api-version":  1.0
              
              </remarks>
              <returns>
              ChatSessionDto
-                 { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
                  AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
                  Messages: [
                      {
-                         "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.GetAll">
+             <summary>Get All Chat Sessions Query</summary>
+             <remarks>
+             Sample request:
+            
+                 "StartDate": "2024-06-01T00:00:00Z"
+                 "EndDate": "2024-12-01T00:00:00Z"
+                 "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             ChatSessionDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Timestamp: "2024-06-03T11:21:00Z"
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
                          "Content": "Certainly! Semantic Kernel is a great framework for AI.",
                      }
                  }]
@@ -113,34 +184,11 @@
              </remarks>
              <returns>
              ChatSessionDto
-                 { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
-                 AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
                  Messages: [
                      {
-                         "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
-                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
-                     }
-                 }]
-             </returns>
-        </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.GetAll">
-             <summary>Get All Chat Sessions Query</summary>
-             <remarks>
-             Sample request:
-            
-                 "StartDate": "2024-06-01T00:00:00Z"
-                 "EndDate": "2024-12-01T00:00:00Z"
-                 "api-version":  1.0
-             
-             </remarks>
-             <returns>
-             ChatSessionDto
-                 { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
-                 AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
-                 Timestamp: "2024-06-03T11:21:00Z"
-                 Messages: [
-                     {
-                         "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
                          "Content": "Certainly! Semantic Kernel is a great framework for AI.",
                      }
                  }]
@@ -155,7 +203,7 @@
             
                  HttpPost Body
                  {
-                    "Key": 00000000-0000-0000-0000-000000000000,
+                    "Id": 00000000-0000-0000-0000-000000000000,
                     "Message":  "Hi, I am interested in learning about Semantic Kernel."
                  }
             
@@ -164,11 +212,11 @@
              <param name="command"></param>
              <returns>
              ChatSessionDto
-                 { Key: 1efb5e99-3a78-43df-a512-7d8ff498499e
-                 AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
                  Messages: [
                      {
-                         "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
                          "Content": "Certainly! Semantic Kernel is a great framework for AI.",
                      }
                  }]
@@ -183,7 +231,7 @@
             
                  HttpPut Body
                  {
-                    "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+                    "Id": "60fb5e99-3a78-43df-a512-7d8ff498499e",
                     "Message":  "Hi, I am interested in learning about Semantic Kernel.",
                     "Content": "Certainly! Semantic Kernel is a great framework for AI.",
                  }
@@ -193,7 +241,7 @@
              <param name="command"></param>
              <returns>    
                  {
-                    "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+                    "Id": "60fb5e99-3a78-43df-a512-7d8ff498499e",
                     "Message":  "Hi, I am interested in learning about Semantic Kernel.",
                     "Content": "Certainly! Semantic Kernel is a great framework for AI.",
                  }</returns>
@@ -207,13 +255,13 @@
             
                  HttpPatch Body
                  {
-                    "Key": "60fb5e99-3a78-43df-a512-7d8ff498499e",
+                    "Id": "60fb5e99-3a78-43df-a512-7d8ff498499e",
                     "Title":  "Semantic Kernel Chat Session"
                  }
             
                  "version":  1.0
              </remarks>
-             <param name="key"></param>
+             <param name="id"></param>
              <param name="command"></param>
              <returns>NoContent</returns>
         </member>
@@ -222,7 +270,7 @@
              <remarks>
              Sample request:
             
-                    "Key": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
                     "api-version":  1.0
              
              </remarks>

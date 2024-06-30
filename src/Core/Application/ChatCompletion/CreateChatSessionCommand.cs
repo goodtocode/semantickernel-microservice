@@ -20,9 +20,10 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
 
     public async Task<ChatSessionDto> Handle(CreateChatSessionCommand request, CancellationToken cancellationToken)
     {
-        
+
         GuardAgainstEmptyMessage(request?.Message);
-        
+        GuardAgainstIdExsits(_context.ChatSessions, request!.Id);
+
         // Get response
         ChatHistory chatHistory = [];
         chatHistory.AddUserMessage(request!.Message!);
@@ -43,17 +44,7 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
             Timestamp = DateTime.UtcNow
         });
         _context.ChatSessions.Add(chatSession);
-        try
-        {
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-        catch (DbUpdateException)
-        {
-            throw new CustomValidationException(
-            [
-                new("Id", "Id already exists")
-            ]);
-        }
+        await _context.SaveChangesAsync(cancellationToken);
 
         // Return session
         ChatSessionDto returnValue;
@@ -77,6 +68,15 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
             throw new CustomValidationException(
             [
                 new("Message", "A message is required to get a response")
+            ]);
+    }
+
+    private static void GuardAgainstIdExsits(DbSet<ChatSessionEntity> dbSet, Guid id)
+    {
+        if (dbSet.Any(x => x.Id == id))
+            throw new CustomValidationException(
+            [
+                new("Id", "Id already exists")
             ]);
     }
 }

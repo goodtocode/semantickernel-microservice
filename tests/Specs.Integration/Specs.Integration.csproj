@@ -59,6 +59,14 @@
 	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
 	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
 	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Author\GetAuthorChatSessionsPaginatedQuery.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Author\GetAuthorChatSessionsQuery.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
 	  <SpecFlowFeatureFiles Update="Author\UpdateAuthorCommand.feature">
 	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
 	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>

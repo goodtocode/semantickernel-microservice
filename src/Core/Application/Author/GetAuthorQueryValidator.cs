@@ -4,6 +4,6 @@ public class GetAuthorQueryValidator : AbstractValidator<GetAuthorQuery>
 {
     public GetAuthorQueryValidator()
     {
-        RuleFor(x => x.Id).NotEmpty();
+        RuleFor(x => x.AuthorId).NotEmpty();
     }
 }

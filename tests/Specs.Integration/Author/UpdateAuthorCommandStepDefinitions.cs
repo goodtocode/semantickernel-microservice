@@ -17,7 +17,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
         }
 
         [Given(@"I have a Author id ""([^""]*)""")]
-        public void GivenIHaveAAuthorKey(string id)
+        public void GivenIHaveAAuthorId(string id)
         {
             Guid.TryParse(id, out _id).Should().BeTrue();
         }

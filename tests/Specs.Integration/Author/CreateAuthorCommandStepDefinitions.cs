@@ -24,7 +24,7 @@ public class CreateAuthorCommandStepDefinitions : TestBase
     }
 
     [Given(@"I have a Author id ""([^""]*)""")]
-    public void GivenIHaveAAuthorKey(string id)
+    public void GivenIHaveAAuthorId(string id)
     {
         _id = Guid.Parse(id);
     }
