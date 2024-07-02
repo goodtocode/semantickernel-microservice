@@ -13,7 +13,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession;
 [ApiVersion("1.0")]
 public class ChatSessionController : ApiControllerBase
 {
-    /// <summary>Get Chat Completion session with history</summary>
+    /// <summary>Get Chat Session with history</summary>
     /// <remarks>
     /// Sample request:
     ///
@@ -99,15 +99,22 @@ public class ChatSessionController : ApiControllerBase
     [HttpGet("Paginated", Name = "GetChatSessionsPaginatedQuery")]
     [ProducesResponseType(typeof(PaginatedList<ChatSessionDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<PaginatedList<ChatSessionDto>>> GetSemanticKernelMicroservicePaginatedQuery([FromQuery] GetChatSessionsPaginatedQuery query)
+    public async Task<ActionResult<PaginatedList<ChatSessionDto>>> GetChatSessionsPaginatedQuery([FromQuery] GetChatSessionsPaginatedQuery query)
     {
         return await Mediator.Send(query);
     }
 
     /// <summary>
-    /// Creates new Chat Completion session with empty history
+    /// Creates new Chat Session with initial message prompt/response history
     /// </summary>
     /// <remarks>
+    /// Types of Chat Completion are:
+    ///     1. Informational Prompt: A prompt requesting information
+    ///         - Example Prompt: "What's the capital of France?"
+    ///         - Example Response: "The capital of France is Paris."
+    ///     2. Multiple Choice Prompt: A prompt with instructions for multiple-choice responses.
+    ///         - Example Prompt: “Choose an activity for the weekend: a) Hiking b) Movie night c) Cooking class d) Board games”
+    ///         - Example Response: “I'd recommend hiking! It's a great way to enjoy nature and get some exercise.”
     /// Sample request:
     ///
     ///     HttpPost Body
