@@ -1,12 +1,12 @@
-using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
-using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Application.TextGeneration;
+using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
+namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration;
 
 [Binding]
-[Scope(Tag = "createChatSessionCommand")]
-public class CreateChatSessionCommandStepDefinitions : TestBase
+[Scope(Tag = "createTextPromptCommand")]
+public class CreateTextPromptCommandStepDefinitions : TestBase
 {
     private string _message = string.Empty;
     private Guid _id;
@@ -24,58 +24,58 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         _message = message;
     }
 
-    [Given(@"I have a chat session id ""([^""]*)""")]
-    public void GivenIHaveAChatSessionKey(string id)
+    [Given(@"I have a text prompt id ""([^""]*)""")]
+    public void GivenIHaveATextPromptKey(string id)
     {
         _id = Guid.Parse(id);
     }
 
-    [Given(@"The chat session exists ""([^""]*)""")]
-    public void GivenTheChatSessionExists(string exists)
+    [Given(@"The text prompt exists ""([^""]*)""")]
+    public void GivenTheTextPromptExists(string exists)
     {
         _exists = bool.Parse(exists);
     }
 
-    [When(@"I create a chat session with the message")]
-    public async Task WhenICreateAChatSessionWithTheMessage()
+    [When(@"I create a text prompt with the message")]
+    public async Task WhenICreateATextPromptWithTheMessage()
     {
         // Setup the database if want to test existing records
         if (_exists)
         {
-            var chatSession = new ChatSessionEntity()
+            var textPrompt = new TextPromptEntity()
             {
                 Id = _id,
-                Messages =
+                Prompt = _message,
+                TextResponses =
                  [
-                     new ChatMessageEntity()
-                 {
-                     Content = _message,
-                     Role = ChatMessageRole.user,
-                     Timestamp = DateTime.Now
-                 }
+                     new TextResponseEntity()
+                     {
+                         Response = "Fantastic story here.",
+                         Timestamp = DateTime.Now
+                     }
                  ],
                 Timestamp = DateTime.UtcNow,
             };
-            _context.ChatSessions.Add(chatSession);
+            _context.TextPrompts.Add(textPrompt);
             await _context.SaveChangesAsync(CancellationToken.None);
         }
 
         // Test command
-        var request = new CreateChatSessionCommand()
+        var request = new CreateTextPromptCommand()
         {
             Id = _id,
-            Message = _message
+            Prompt = _message
         };
 
-        var validator = new CreateChatSessionCommandValidator();
+        var validator = new CreateTextPromptCommandValidator();
         _validationResponse = await validator.ValidateAsync(request);
 
         if (_validationResponse.IsValid)
         {
             try
             {
-                var chatService = new OpenAIChatCompletionService(_optionsOpenAi.ChatModelId, _optionsOpenAi.ApiKey);
-                var handler = new CreateChatSessionCommandHandler(chatService, _context, Mapper);
+                var textService = new OpenAITextGenerationService(_optionsOpenAi.ChatModelId, _optionsOpenAi.ApiKey);
+                var handler = new CreateTextPromptCommandHandler(textService, _context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;
             }
@@ -88,8 +88,8 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
             _responseType = CommandResponseType.BadRequest;
     }
 
-    [Then(@"I see the chat session created with the initial response ""([^""]*)""")]
-    public void ThenISeeTheChatSessionCreatedWithTheInitialResponse(string response)
+    [Then(@"I see the text prompt created with the initial response ""([^""]*)""")]
+    public void ThenISeeTheTextPromptCreatedWithTheInitialResponse(string response)
     {
         HandleHasResponseType(response);
     }

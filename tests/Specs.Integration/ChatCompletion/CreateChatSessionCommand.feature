@@ -9,7 +9,7 @@ Scenario: Create Chat Session
 	And I have a initial message "<message>"
 	And I have a chat session id "<id>"
 	And The chat session exists "<chatSessionExists>"
-	When I create a chat sesion with the message 
+	When I create a chat session with the message 
 	Then I see the chat session created with the initial response "<response>"
 	And if the response has validation issues I see the "<responseErrors>" in the response
  

@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
+namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
 {
     using TechTalk.SpecFlow;
     using System;
@@ -20,7 +20,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class DeleteChatSessionCommandFeature
+    public partial class DeleteTextPromptCommandFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,9 +28,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         private Microsoft.VisualStudio.TestTools.UnitTesting.TestContext _testContext;
         
         private static string[] featureTags = new string[] {
-                "deleteChatSessionCommand"};
+                "deleteTextPromptCommand"};
         
-#line 1 "DeleteChatSessionCommand.feature"
+#line 1 "DeleteTextPromptCommand.feature"
 #line hidden
         
         public virtual Microsoft.VisualStudio.TestTools.UnitTesting.TestContext TestContext
@@ -49,8 +49,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ChatCompletion", "Delete Chat Session Command", "As a chat session owner\r\nWhen I select a chat session\r\nI can delete the chat sess" +
-                    "ion", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TextGeneration", "Delete Text Prompt Command", "As a text prompt owner\r\nWhen I select a text prompt\r\nI can delete the text prompt" +
+                    "", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -65,9 +65,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         public void TestInitialize()
         {
             if (((testRunner.FeatureContext != null) 
-                        && (testRunner.FeatureContext.FeatureInfo.Title != "Delete Chat Session Command")))
+                        && (testRunner.FeatureContext.FeatureInfo.Title != "Delete Text Prompt Command")))
             {
-                global::Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.DeleteChatSessionCommandFeature.FeatureSetup(null);
+                global::Goodtocode.SemanticKernel.Specs.Integration.TextGeneration.DeleteTextPromptCommandFeature.FeatureSetup(null);
             }
         }
         
@@ -93,7 +93,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void DeleteChatSession(string def, string response, string responseErrors, string id, string exists, string[] exampleTags)
+        public virtual void DeleteTextPrompt(string def, string response, string responseErrors, string id, string exists, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -102,7 +102,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             argumentsOfScenario.Add("responseErrors", responseErrors);
             argumentsOfScenario.Add("id", id);
             argumentsOfScenario.Add("exists", exists);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete Chat Session", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete Text Prompt", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -117,13 +117,13 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given(string.Format("I have a def \"{0}\"", def), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 9
- testRunner.And(string.Format("I have a chat session id\"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a text prompt id\"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And(string.Format("The chat session exists \"{0}\"", exists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("The text prompt exists \"{0}\"", exists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.When("I delete the chat session", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I delete the text prompt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 12
  testRunner.Then(string.Format("The response is \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -136,53 +136,53 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete Chat Session: success")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete Chat Session Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("deleteChatSessionCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete Text Prompt: success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete Text Prompt Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("deleteTextPromptCommand")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "true")]
-        public void DeleteChatSession_Success()
+        public void DeleteTextPrompt_Success()
         {
 #line 7
-this.DeleteChatSession("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", ((string[])(null)));
+this.DeleteTextPrompt("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", ((string[])(null)));
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete Chat Session: not found")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete Chat Session Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("deleteChatSessionCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete Text Prompt: not found")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete Text Prompt Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("deleteTextPromptCommand")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "not found")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "not found")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "NotFound")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "false")]
-        public void DeleteChatSession_NotFound()
+        public void DeleteTextPrompt_NotFound()
         {
 #line 7
-this.DeleteChatSession("not found", "NotFound", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "false", ((string[])(null)));
+this.DeleteTextPrompt("not found", "NotFound", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "false", ((string[])(null)));
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete Chat Session: bad request: empty id")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete Chat Session Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("deleteChatSessionCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete Text Prompt: bad request: empty id")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete Text Prompt Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("deleteTextPromptCommand")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "bad request: empty id")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty id")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Id")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exists", "false")]
-        public void DeleteChatSession_BadRequestEmptyId()
+        public void DeleteTextPrompt_BadRequestEmptyId()
         {
 #line 7
-this.DeleteChatSession("bad request: empty id", "BadRequest", "Id", "00000000-0000-0000-0000-000000000000", "false", ((string[])(null)));
+this.DeleteTextPrompt("bad request: empty id", "BadRequest", "Id", "00000000-0000-0000-0000-000000000000", "false", ((string[])(null)));
 #line hidden
         }
     }

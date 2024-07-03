@@ -1,14 +1,14 @@
-﻿@deleteChatSessionCommand
-Feature: Delete Chat Session Command
-As a chat session owner
-When I select a chat session
-I can delete the chat session
+﻿@deleteTextPromptCommand
+Feature: Delete Text Prompt Command
+As a text prompt owner
+When I select a text prompt
+I can delete the text prompt
 
-Scenario: Delete Chat Session
+Scenario: Delete Text Prompt
 	Given I have a def "<def>"
-	And I have a chat session id"<id>"
-	And The chat session exists "<exists>"
-	When I delete the chat session
+	And I have a text prompt id"<id>"
+	And The text prompt exists "<exists>"
+	When I delete the text prompt
 	Then The response is "<response>"
 	And If the response has validation issues I see the "<responseErrors>" in the response
  

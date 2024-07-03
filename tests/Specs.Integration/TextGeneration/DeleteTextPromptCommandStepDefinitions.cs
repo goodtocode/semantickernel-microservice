@@ -1,10 +1,10 @@
-using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
-using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Application.TextGeneration;
+using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
+namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
 {
     [Binding]
-    public class DeleteChatSessionCommandStepDefinitions : TestBase
+    public class DeleteTextPromptCommandStepDefinitions : TestBase
     {
         private Guid _id;
         private bool _exists;
@@ -15,53 +15,53 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             _def = def;
         }
 
-        [Given(@"I have a chat session id""([^""]*)""")]
-        public void GivenIHaveAChatSessionKey(string id)
+        [Given(@"I have a text prompt id""([^""]*)""")]
+        public void GivenIHaveATextPromptKey(string id)
         {
             Guid.TryParse(id, out _id).Should().BeTrue();
         }
 
-        [Given(@"The chat session exists ""([^""]*)""")]
-        public void GivenTheChatSessionExists(string exists)
+        [Given(@"The text prompt exists ""([^""]*)""")]
+        public void GivenTheTextPromptExists(string exists)
         {
             bool.TryParse(exists, out _exists).Should().BeTrue();
         }
 
-        [When(@"I delete the chat session")]
-        public async Task WhenIDeleteTheChatSession()
+        [When(@"I delete the text prompt")]
+        public async Task WhenIDeleteTheTextPrompt()
         {
-            var request = new DeleteChatSessionCommand()
+            var request = new DeleteTextPromptCommand()
             {
                 Id = _id
             };
 
             if (_exists)
             {
-                var chatSession = new ChatSessionEntity()
+                var textPrompt = new TextPromptEntity()
                 {
                     Id = _id,
-                    Title = "Initial Title",
-                    Messages = [
-                        new ChatMessageEntity()
-                        {
-                            Content = "Initial Content",
-                            Role = ChatMessageRole.user,
-                            Timestamp = DateTime.Now
-                        }
-                    ],
+                    Prompt = "Tell me a bedtime story",
+                    TextResponses =
+                     [
+                         new TextResponseEntity()
+                 {
+                     Response = "Fantastic story here.",
+                     Timestamp = DateTime.Now
+                 }
+                     ],
                     Timestamp = DateTime.UtcNow,
                 };
-                _context.ChatSessions.Add(chatSession);
+                _context.TextPrompts.Add(textPrompt);
                 await _context.SaveChangesAsync(CancellationToken.None);
             }
 
-            var validator = new DeleteChatSessionCommandValidator();
+            var validator = new DeleteTextPromptCommandValidator();
             _validationResponse = await validator.ValidateAsync(request);
 
             if (_validationResponse.IsValid)
                 try
                 {
-                    var handler = new DeleteChatSessionCommandHandler(_context);
+                    var handler = new DeleteTextPromptCommandHandler(_context);
                     await handler.Handle(request, CancellationToken.None);
                     _responseType = CommandResponseType.Successful;
                 }

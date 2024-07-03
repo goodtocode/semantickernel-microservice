@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
+namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
 {
     using TechTalk.SpecFlow;
     using System;
@@ -20,7 +20,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class CreateChatSessionCommandFeature
+    public partial class CreateTextPromptCommandFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,9 +28,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         private Microsoft.VisualStudio.TestTools.UnitTesting.TestContext _testContext;
         
         private static string[] featureTags = new string[] {
-                "createChatSessionCommand"};
+                "createTextPromptCommand"};
         
-#line 1 "CreateChatSessionCommand.feature"
+#line 1 "CreateTextPromptCommand.feature"
 #line hidden
         
         public virtual Microsoft.VisualStudio.TestTools.UnitTesting.TestContext TestContext
@@ -49,8 +49,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ChatCompletion", "Create Chat Session Command", "As a chat user\r\nWhen I start a new chat session and enter an initial message\r\nThe" +
-                    "n I should see the chat session created with the initial response", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TextGeneration", "Create Text Prompt Command", "As a author\r\nWhen I start a new text prompt and enter an initial message\r\nThen I " +
+                    "should see the text prompt created with the initial response", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -65,9 +65,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         public void TestInitialize()
         {
             if (((testRunner.FeatureContext != null) 
-                        && (testRunner.FeatureContext.FeatureInfo.Title != "Create Chat Session Command")))
+                        && (testRunner.FeatureContext.FeatureInfo.Title != "Create Text Prompt Command")))
             {
-                global::Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion.CreateChatSessionCommandFeature.FeatureSetup(null);
+                global::Goodtocode.SemanticKernel.Specs.Integration.TextGeneration.CreateTextPromptCommandFeature.FeatureSetup(null);
             }
         }
         
@@ -93,7 +93,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void CreateChatSession(string def, string response, string responseErrors, string id, string chatSessionExists, string message, string[] exampleTags)
+        public virtual void CreateTextPrompt(string def, string response, string responseErrors, string id, string textPromptExists, string message, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -101,9 +101,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             argumentsOfScenario.Add("response", response);
             argumentsOfScenario.Add("responseErrors", responseErrors);
             argumentsOfScenario.Add("id", id);
-            argumentsOfScenario.Add("chatSessionExists", chatSessionExists);
+            argumentsOfScenario.Add("TextPromptExists", textPromptExists);
             argumentsOfScenario.Add("message", message);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Chat Session", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Text Prompt", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -121,16 +121,16 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("I have a initial message \"{0}\"", message), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And(string.Format("I have a chat session id \"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a text prompt id \"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.And(string.Format("The chat session exists \"{0}\"", chatSessionExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("The text prompt exists \"{0}\"", textPromptExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.When("I create a chat session with the message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I create a text prompt with the message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 13
- testRunner.Then(string.Format("I see the chat session created with the initial response \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then(string.Format("I see the text prompt created with the initial response \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 14
  testRunner.And(string.Format("if the response has validation issues I see the \"{0}\" in the response", responseErrors), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -140,56 +140,56 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Chat Session: success")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Chat Session Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createChatSessionCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Text Prompt: success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Text Prompt Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createTextPromptCommand")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "false")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Hello, I am interested in an interactive chat session.")]
-        public void CreateChatSession_Success()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:TextPromptExists", "false")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Hello, I am interested in an interactive text prompt.")]
+        public void CreateTextPrompt_Success()
         {
 #line 7
-this.CreateChatSession("success", "Success", "", "00000000-0000-0000-0000-000000000000", "false", "Hello, I am interested in an interactive chat session.", ((string[])(null)));
+this.CreateTextPrompt("success", "Success", "", "00000000-0000-0000-0000-000000000000", "false", "Hello, I am interested in an interactive text prompt.", ((string[])(null)));
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Chat Session: bad request: empty message")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Chat Session Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createChatSessionCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Text Prompt: bad request: empty message")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Text Prompt Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createTextPromptCommand")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "bad request: empty message")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty message")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Message")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "false")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:TextPromptExists", "false")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "")]
-        public void CreateChatSession_BadRequestEmptyMessage()
+        public void CreateTextPrompt_BadRequestEmptyMessage()
         {
 #line 7
-this.CreateChatSession("bad request: empty message", "BadRequest", "Message", "00000000-0000-0000-0000-000000000000", "false", "", ((string[])(null)));
+this.CreateTextPrompt("bad request: empty message", "BadRequest", "Message", "00000000-0000-0000-0000-000000000000", "false", "", ((string[])(null)));
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Chat Session: already exists")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Chat Session Command")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createChatSessionCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Text Prompt: already exists")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Text Prompt Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createTextPromptCommand")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "already exists")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "already exists")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Error")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionExists", "true")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Hello, I am interested in an interactive chat session.")]
-        public void CreateChatSession_AlreadyExists()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:TextPromptExists", "true")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Hello, I am interested in an interactive text prompt.")]
+        public void CreateTextPrompt_AlreadyExists()
         {
 #line 7
-this.CreateChatSession("already exists", "Error", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", "Hello, I am interested in an interactive chat session.", ((string[])(null)));
+this.CreateTextPrompt("already exists", "Error", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", "Hello, I am interested in an interactive text prompt.", ((string[])(null)));
 #line hidden
         }
     }
