@@ -74,7 +74,7 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
         {
             try
             {
-                var textService = new OpenAITextGenerationService(_optionsOpenAi.ChatModelId, _optionsOpenAi.ApiKey);
+                var textService = new OpenAITextGenerationService(_optionsOpenAi.TextGenerationModelId, _optionsOpenAi.ApiKey);
                 var handler = new CreateTextPromptCommandHandler(textService, _context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;

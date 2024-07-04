@@ -74,7 +74,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         {
             try
             {
-                var chatService = new OpenAIChatCompletionService(_optionsOpenAi.ChatModelId, _optionsOpenAi.ApiKey);
+                var chatService = new OpenAIChatCompletionService(_optionsOpenAi.ChatCompletionModelId, _optionsOpenAi.ApiKey);
                 var handler = new CreateChatSessionCommandHandler(chatService, _context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;

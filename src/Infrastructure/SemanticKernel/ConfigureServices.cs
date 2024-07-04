@@ -42,11 +42,11 @@ public static class ConfigureServices
         services.AddSingleton<IChatCompletionService>(sp =>
         {
             OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
-            return new OpenAIChatCompletionService(options.ChatModelId, options.ApiKey);
+            return new OpenAIChatCompletionService(modelId: options.ChatCompletionModelId, apiKey: options.ApiKey);
         });
         // Completing words or sentences, code completion
          services.AddOpenAITextGeneration(
-            configuration["OpenAI:ChatModelId"] ?? OpenAiModels.ChatGpt35Turbo,
+            configuration["OpenAI:ChatModelId"] ?? OpenAiModels.TextGeneration.ChatGpt35TurboInstruct,
             configuration["OpenAI:ApiKey"] ?? throw new InvalidOperationException("The 'OpenAI:ApiKey' configuration value is missing."));
         // Alternative:
         //.AddSingleton<ITextGenerationService>(sp =>
@@ -61,35 +61,35 @@ public static class ConfigureServices
         services.AddSingleton<IAudioToTextService>(sp =>
         {
             OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
-            return new OpenAIAudioToTextService(options.ChatModelId, options.ApiKey);
+            return new OpenAIAudioToTextService(modelId: options.AudioModelId, apiKey: options.ApiKey);
         })
         // Translate audio to text
         // Alternative: services.AddOpenAITextToAudio(configuration["OpenAI:ChatModelId"], configuration["OpenAI:ApiKey"])
         .AddSingleton<ITextToAudioService>(sp =>
         {
             OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
-            return new OpenAITextToAudioService(options.ChatModelId, options.ApiKey);
+            return new OpenAITextToAudioService(modelId: options.AudioModelId, apiKey: options.ApiKey);
         })
         // Embedding text into a vector for storage in CosmosDb or Qdrant
         // Alternative: services.AddOpenTextEmbeddingGeneration(configuration["OpenAI:ChatModelId"], configuration["OpenAI:ApiKey"])
         .AddSingleton<ITextEmbeddingGenerationService>(sp =>
         {
             OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
-            return new OpenAITextEmbeddingGenerationService(options.ChatModelId, options.ApiKey);
+            return new OpenAITextEmbeddingGenerationService(modelId: options.TextEmbeddingModelId, apiKey: options.ApiKey);
         })
         // Translate text to image
         // Alternative: .AddOpenAITextToImage(configuration.GetValue<string>("OpenAI:ChatModelId")!, configuration.GetValue<string>("OpenAI:ApiKey"))
         .AddSingleton<ITextToImageService>(sp =>
         {
             OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
-            return new OpenAITextToImageService(options.ChatModelId, options.ApiKey);
+            return new OpenAITextToImageService(modelId: options.ImageModelId, apiKey: options.ApiKey);
         })
         // File services
         //.AddOpenAIFiles(configuration.GetValue<string>("OpenAI:ChatModelId")!, configuration.GetValue<string>("OpenAI:ApiKey"))
         .AddSingleton(sp =>
         {
             OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
-            return new OpenAIFileService(options.ChatModelId, options.ApiKey);
+            return new OpenAIFileService(apiKey: options.ApiKey);
         });
 #pragma warning restore SKEXP0001
 #pragma warning restore SKEXP0010
