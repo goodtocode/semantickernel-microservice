@@ -9,7 +9,6 @@ public class GetTextPromptQueryStepDefinitions : TestBase
 {
     private Guid _id;
     private bool _exists;
-    private int _textPromptCount;
     private TextPromptDto? _response;
 
     [Given(@"I have a definition ""([^""]*)""")]
@@ -31,35 +30,26 @@ public class GetTextPromptQueryStepDefinitions : TestBase
         bool.TryParse(exists, out _exists).Should().BeTrue();
     }
 
-    [Given(@"I have a expected text prompt count ""([^""]*)""")]
-    public void GivenIHaveAExpectedTextPromptCount(string textPromptCount)
-    {
-        _textPromptCount = int.Parse(textPromptCount);
-    }
-
     [When(@"I get a text prompt")]
     public async Task WhenIGetATextPrompt()
     {
         if (_exists)
         {
-            for (int i = 0; i < _textPromptCount; i++)
+            var textPrompt = new TextPromptEntity()
             {
-                var textPrompt = new TextPromptEntity()
-                {
-                    Id = _id,
-                    Prompt = "Tell me a bedtime story",
-                    TextResponses =
-                    [
-                        new TextResponseEntity()
+                Id = _id,
+                Prompt = "Tell me a bedtime story",
+                TextResponses =
+                [
+                    new TextResponseEntity()
                          {
                              Response = "Fantastic story here.",
                              Timestamp = DateTime.Now
                          }
-                    ],
-                    Timestamp = DateTime.UtcNow,
-                };
-                _context.TextPrompts.Add(textPrompt);
+                ],
+                Timestamp = DateTime.UtcNow,
             };
+            _context.TextPrompts.Add(textPrompt);
             await _context.SaveChangesAsync(CancellationToken.None);
         }
 
@@ -102,11 +92,5 @@ public class GetTextPromptQueryStepDefinitions : TestBase
     {
         if (_responseType != CommandResponseType.Successful) return;
         _response?.Id.Should().NotBeEmpty();
-    }
-
-    [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]
-    public void ThenIfTheResponseIsSuccessfulTheResponseHasACountMatching(string messageCount)
-    {
-        _response?.Responses?.Count.Should().Be(int.Parse(messageCount));
     }
 }

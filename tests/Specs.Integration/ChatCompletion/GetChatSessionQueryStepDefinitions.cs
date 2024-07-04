@@ -19,7 +19,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     }
 
     [Given(@"I have a chat session id ""([^""]*)""")]
-    public void GivenIHaveAChatSessionKey(string chatSessionKey)
+    public void GivenIHaveAChatSessionId(string chatSessionKey)
     {
         if (string.IsNullOrWhiteSpace(chatSessionKey)) return;
         Guid.TryParse(chatSessionKey, out _id).Should().BeTrue();
@@ -96,8 +96,8 @@ public class GetChatSessionQueryStepDefinitions : TestBase
         HandleExpectedValidationErrorsAssertions(expectedErrors);
     }
 
-    [Then(@"If the response is successful the response has a Key")]
-    public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
+    [Then(@"If the response is successful the response has a Id")]
+    public void ThenIfTheResponseIsSuccessfulTheResponseHasAId()
     {
         if (_responseType != CommandResponseType.Successful) return;
         _response?.Id.Should().NotBeEmpty();

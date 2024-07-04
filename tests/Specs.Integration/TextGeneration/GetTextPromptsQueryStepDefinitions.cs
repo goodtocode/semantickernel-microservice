@@ -64,7 +64,7 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
                             Timestamp = DateTime.Now
                         }
                     ],
-                    Timestamp = _startDate.AddSeconds(1),
+                    Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1),
                 };
                 _context.TextPrompts.Add(textPrompt);
             };

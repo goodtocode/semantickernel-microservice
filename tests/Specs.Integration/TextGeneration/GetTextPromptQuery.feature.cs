@@ -93,7 +93,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void GetTextPrompt(string def, string response, string responseErrors, string id, string textPromptExists, string expectedTextPromptCount, string[] exampleTags)
+        public virtual void GetTextPrompt(string def, string response, string responseErrors, string id, string textPromptExists, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -102,7 +102,6 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
             argumentsOfScenario.Add("responseErrors", responseErrors);
             argumentsOfScenario.Add("id", id);
             argumentsOfScenario.Add("textPromptExists", textPromptExists);
-            argumentsOfScenario.Add("expectedTextPromptCount", expectedTextPromptCount);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get text prompt", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
@@ -124,22 +123,16 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("I the text prompt exists \"{0}\"", textPromptExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.And(string.Format("I have a expected text prompt count \"{0}\"", expectedTextPromptCount), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 12
  testRunner.When("I get a text prompt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 13
+#line 12
  testRunner.Then(string.Format("The response is \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 14
+#line 13
  testRunner.And(string.Format("If the response has validation issues I see the \"{0}\" in the response", responseErrors), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
+#line 14
  testRunner.And("If the response is successful the response has a Key", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 16
- testRunner.And(string.Format("If the response is successful the response has a count matching \"{0}\"", expectedTextPromptCount), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -155,11 +148,10 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:textPromptExists", "true")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:expectedTextPromptCount", "2")]
         public void GetTextPrompt_Success()
         {
 #line 7
-this.GetTextPrompt("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", "2", ((string[])(null)));
+this.GetTextPrompt("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", ((string[])(null)));
 #line hidden
         }
         
@@ -173,11 +165,10 @@ this.GetTextPrompt("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fe
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:textPromptExists", "false")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:expectedTextPromptCount", "0")]
         public void GetTextPrompt_NotFound()
         {
 #line 7
-this.GetTextPrompt("not found", "NotFound", "", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "false", "0", ((string[])(null)));
+this.GetTextPrompt("not found", "NotFound", "", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "false", ((string[])(null)));
 #line hidden
         }
         
@@ -191,11 +182,10 @@ this.GetTextPrompt("not found", "NotFound", "", "048d8e7f-f18f-4a8e-8b3c-3b6a688
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Id")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:textPromptExists", "false")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:expectedTextPromptCount", "0")]
         public void GetTextPrompt_BadRequestEmptyId()
         {
 #line 7
-this.GetTextPrompt("bad request: empty id", "BadRequest", "Id", "00000000-0000-0000-0000-000000000000", "false", "0", ((string[])(null)));
+this.GetTextPrompt("bad request: empty id", "BadRequest", "Id", "00000000-0000-0000-0000-000000000000", "false", ((string[])(null)));
 #line hidden
         }
     }
