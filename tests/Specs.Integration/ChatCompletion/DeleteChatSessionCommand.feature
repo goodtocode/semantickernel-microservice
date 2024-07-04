@@ -6,9 +6,9 @@ I can delete the chat session
 
 Scenario: Delete Chat Session
 	Given I have a def "<def>"
-	And I have a chat sesion id"<id>"
-	And The chat sesion exists "<exists>"
-	When I delete the chat sesion
+	And I have a chat session id"<id>"
+	And The chat session exists "<exists>"
+	When I delete the chat session
 	Then The response is "<response>"
 	And If the response has validation issues I see the "<responseErrors>" in the response
  

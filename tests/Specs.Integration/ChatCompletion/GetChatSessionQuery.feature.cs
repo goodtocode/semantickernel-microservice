@@ -136,7 +136,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("If the response has validation issues I see the \"{0}\" in the response", responseErrors), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 15
- testRunner.And("If the response is successful the response has a Key", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("If the response is successful the response has a Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 16
  testRunner.And(string.Format("If the response is successful the response has a count matching \"{0}\"", expectedChatSessionCount), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

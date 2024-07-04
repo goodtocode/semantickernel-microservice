@@ -36,8 +36,8 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         _exists = bool.Parse(exists);
     }
 
-    [When(@"I create a chat sesion with the message")]
-    public async Task WhenICreateAChatSesionWithTheMessage()
+    [When(@"I create a chat session with the message")]
+    public async Task WhenICreateAChatSessionWithTheMessage()
     {
         // Setup the database if want to test existing records
         if (_exists)
@@ -74,7 +74,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         {
             try
             {
-                var chatService = new OpenAIChatCompletionService(_optionsOpenAi.ChatModelId, _optionsOpenAi.ApiKey);
+                var chatService = new OpenAIChatCompletionService(_optionsOpenAi.ChatCompletionModelId, _optionsOpenAi.ApiKey);
                 var handler = new CreateChatSessionCommandHandler(chatService, _context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;

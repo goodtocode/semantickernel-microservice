@@ -16,6 +16,6 @@
 		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />		
-		<PackageReference Include="Microsoft.SemanticKernel" Version="1.14.1" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.15.1" />
 	</ItemGroup>
 </Project>

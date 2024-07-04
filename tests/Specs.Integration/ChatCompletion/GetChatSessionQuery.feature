@@ -12,7 +12,7 @@ Scenario: Get chat session
 	When I get a chat session
 	Then The response is "<response>"
 	And If the response has validation issues I see the "<responseErrors>" in the response
-	And If the response is successful the response has a Key
+	And If the response is successful the response has a Id
 	And If the response is successful the response has a count matching "<expectedChatSessionCount>"	
 
 Examples:

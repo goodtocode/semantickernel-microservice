@@ -4,6 +4,7 @@ using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
 {
     [Binding]
+    [Scope(Tag = "deleteChatSessionCommand")]
     public class DeleteChatSessionCommandStepDefinitions : TestBase
     {
         private Guid _id;
@@ -15,20 +16,20 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             _def = def;
         }
 
-        [Given(@"I have a chat sesion id""([^""]*)""")]
-        public void GivenIHaveAChatSesionKey(string id)
+        [Given(@"I have a chat session id""([^""]*)""")]
+        public void GivenIHaveAChatSessionKey(string id)
         {
             Guid.TryParse(id, out _id).Should().BeTrue();
         }
 
-        [Given(@"The chat sesion exists ""([^""]*)""")]
-        public void GivenTheChatSesionExists(string exists)
+        [Given(@"The chat session exists ""([^""]*)""")]
+        public void GivenTheChatSessionExists(string exists)
         {
             bool.TryParse(exists, out _exists).Should().BeTrue();
         }
 
-        [When(@"I delete the chat sesion")]
-        public async Task WhenIDeleteTheChatSesion()
+        [When(@"I delete the chat session")]
+        public async Task WhenIDeleteTheChatSession()
         {
             var request = new DeleteChatSessionCommand()
             {

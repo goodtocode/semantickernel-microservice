@@ -28,10 +28,7 @@ public class CustomPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior
         if (elapsedMilliseconds > 500)
         {
             var requestName = typeof(TRequest).Name;
-          
-         
-
-            _logger.LogWarning("WeatherChannels Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
+            _logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
                 requestName, elapsedMilliseconds, request);
         }
 

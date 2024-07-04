@@ -127,7 +127,7 @@
             </summary>
         </member>
         <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Get(System.Guid)">
-             <summary>Get Chat Completion session with history</summary>
+             <summary>Get Chat Session with history</summary>
              <remarks>
              Sample request:
             
@@ -170,7 +170,7 @@
                  }]
              </returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.GetSemanticKernelMicroservicePaginatedQuery(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.GetChatSessionsPaginatedQuery)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.GetChatSessionsPaginatedQuery(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.GetChatSessionsPaginatedQuery)">
              <summary>Get Chat Sessions Paginated Query</summary>
              <remarks>
              Sample request:
@@ -196,9 +196,16 @@
         </member>
         <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Post(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.CreateChatSessionCommand)">
              <summary>
-             Creates new Chat Completion session with empty history
+             Creates new Chat Session with initial message prompt/response history
              </summary>
              <remarks>
+             Types of Chat Completion are:
+                 1. Informational Prompt: A prompt requesting information
+                     - Example Prompt: "What's the capital of France?"
+                     - Example Response: "The capital of France is Paris."
+                 2. Multiple Choice Prompt: A prompt with instructions for multiple-choice responses.
+                     - Example Prompt: “Choose an activity for the weekend: a) Hiking b) Movie night c) Cooking class d) Board games”
+                     - Example Response: “I'd recommend hiking! It's a great way to enjoy nature and get some exercise.”
              Sample request:
             
                  HttpPost Body
@@ -349,25 +356,131 @@
         </member>
         <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.TextGeneration.TextGenerationController">
             <summary>
-            Chat completion endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
+            Text Generation endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
             </summary>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.TextGeneration.TextGenerationController.Post(Goodtocode.SemanticKernel.Core.Application.TextGeneration.CreateTextGenerationCommand)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.TextGeneration.TextGenerationController.Get(System.Guid)">
+             <summary>Get Text Generation session with history</summary>
+             <remarks>
+             Sample request:
+            
+                    "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             TextPromptDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.TextGeneration.TextGenerationController.GetAll">
+             <summary>Get All Text Generations Query</summary>
+             <remarks>
+             Sample request:
+            
+                 "StartDate": "2024-06-01T00:00:00Z"
+                 "EndDate": "2024-12-01T00:00:00Z"
+                 "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             TextPromptDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Timestamp: "2024-06-03T11:21:00Z"
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.TextGeneration.TextGenerationController.GetTextPromptsPaginatedQuery(Goodtocode.SemanticKernel.Core.Application.TextGeneration.GetTextPromptsPaginatedQuery)">
+             <summary>Get Text Generations Paginated Query</summary>
+             <remarks>
+             Sample request:
+            
+                 "StartDate": "2024-06-01T00:00:00Z"
+                 "EndDate": "2024-12-01T00:00:00Z"
+                 "PageNumber": 1
+                 "PageSize" : 10
+                 "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             TextPromptDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.TextGeneration.TextGenerationController.Post(Goodtocode.SemanticKernel.Core.Application.TextGeneration.CreateTextPromptCommand)">
              <summary>
-             Creates new Chat Completion session with empty history
+             Creates new Text Generation session
              </summary>
              <remarks>
+             Types of Text Generation are:
+                 1. Generic Prompt: A broad or open-ended request for content.
+                     - Example Prompt: “Write a short story.”
+                     - Example Response: “Once upon a time, in a quaint village, there lived a curious cat named Whiskers…”
+                 2. Specific Prompt: A prompt with clear instructions or a specific topic.
+                     - Example Prompt: “Describe the process of photosynthesis.”
+                     - Example Response: “Photosynthesis is the process by which plants convert sunlight into energy, using chlorophyll in their leaves…”
+                 3. Visual Prompt: A prompt related to an image or visual content.
+                     - Example Prompt: “Describe this image: ‘A serene sunset over the ocean.’”
+                     - Example Response: “The sun dipped below the horizon, casting hues of orange and pink across the calm waters…”
+                 4. Role-Based Prompt: A prompt where you assume a specific role or context.
+                     - Example Prompt: “Act as a travel guide.Describe the beauty of the Swiss Alps.”
+                     - Example Response: “Welcome to the majestic Swiss Alps! Snow-capped peaks, pristine lakes, and charming villages await…”
+                 5. Output Format Specification: A prompt specifying the desired output format.
+                     - Example Prompt: “Summarize the key findings of the research paper.”
+                     - Example Response: “The paper discusses novel algorithms for optimizing neural network training, achieving faster convergence…”
              Sample request:
             
                  HttpPost Body
                  {
-                    "Message": "Hi, I'm Robert. What is the weather today?",
+                    "Id": 00000000-0000-0000-0000-000000000000,
+                    "Message":  "Hi, I am interested in learning about Semantic Kernel."
                  }
             
                  "version":  1.0
              </remarks>
              <param name="command"></param>
-             <returns></returns>
+             <returns>
+             TextPromptDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.TextGeneration.TextGenerationController.Delete(System.Guid)">
+             <summary>Remove TextGeneration Command</summary>
+             <remarks>
+             Sample request:
+            
+                    "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "api-version":  1.0
+             
+             </remarks>
+             <returns>NoContent</returns>
         </member>
     </members>
 </doc>

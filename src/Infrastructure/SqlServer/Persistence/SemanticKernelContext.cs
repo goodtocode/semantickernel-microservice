@@ -2,6 +2,7 @@
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
 using System.Reflection;
+using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 
@@ -11,6 +12,8 @@ public class SemanticKernelContext : DbContext, ISemanticKernelContext
     public DbSet<AuthorEntity> Authors => Set<AuthorEntity>();
     public DbSet<ChatMessageEntity> ChatMessages => Set<ChatMessageEntity>();
     public DbSet<ChatSessionEntity> ChatSessions => Set<ChatSessionEntity>();
+    public DbSet<TextPromptEntity> TextPrompts => Set<TextPromptEntity>();
+    public DbSet<TextResponseEntity> TextResponses => Set<TextResponseEntity>();
 
     protected SemanticKernelContext() { }
 

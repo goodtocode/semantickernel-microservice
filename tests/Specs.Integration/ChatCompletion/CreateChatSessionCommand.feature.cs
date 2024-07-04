@@ -127,7 +127,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("The chat session exists \"{0}\"", chatSessionExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.When("I create a chat sesion with the message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I create a chat session with the message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 13
  testRunner.Then(string.Format("I see the chat session created with the initial response \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

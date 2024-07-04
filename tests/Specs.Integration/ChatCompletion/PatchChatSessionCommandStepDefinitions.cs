@@ -18,7 +18,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         }
 
         [Given(@"I have a chat session id ""([^""]*)""")]
-        public void GivenIHaveAChatSessionKey(string id)
+        public void GivenIHaveAChatSessionId(string id)
         {
             Guid.TryParse(id, out _id).Should().BeTrue();
         }

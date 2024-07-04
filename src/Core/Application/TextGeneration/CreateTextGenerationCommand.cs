@@ -1,48 +1,80 @@
-﻿using FluentValidation.Results;
-using Microsoft.SemanticKernel.TextGeneration;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
+using Microsoft.SemanticKernel.TextGeneration;
 
 namespace Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 
-public class CreateTextGenerationCommand : IRequest<string>
+public class CreateTextPromptCommand : IRequest<TextPromptDto>
 {
-    public string? Message { get; set; }
+    public Guid Id { get; set; }
+    public string? Prompt { get; set; }
 }
 
-public class CreateTextGenerationCommandHandler(ITextGenerationService textService) : IRequestHandler<CreateTextGenerationCommand, string>
+public class CreateTextPromptCommandHandler(ITextGenerationService textService, ISemanticKernelContext context, IMapper mapper)
+    : IRequestHandler<CreateTextPromptCommand, TextPromptDto>
 {
     private readonly ITextGenerationService _textService = textService;
+    private readonly IMapper _mapper = mapper;
+    private readonly ISemanticKernelContext _context = context;
 
-    public async Task<string> Handle(CreateTextGenerationCommand request, CancellationToken cancellationToken)
+    public async Task<TextPromptDto> Handle(CreateTextPromptCommand request, CancellationToken cancellationToken)
     {
 
-        GuardAgainstEmptyMessage(request?.Message);
-        var response = await _textService.GetTextContentAsync(request!.Message!, null, null, cancellationToken);
+        GuardAgainstEmptyPrompt(request?.Prompt);
+        GuardAgainstIdExsits(_context.TextPrompts, request!.Id);
 
-        //Id, chatcmpl-9Te5QEaE2fBhxt1mtHamj7U25NIRz
-        //{ [Created, { 5/27/2024 11:30:32 PM +00:00}]}
-        //ModelId "gpt-3.5-turbo" string
-        //Role    { assistant}
-        //Microsoft.SemanticKernel.TextGeneration.AuthorRole
-        //Content "There are 25 letters in the sentence \"hi, how many letters in this sentence?\""
+        // Get response
+        var responses = await _textService.GetTextContentsAsync(request.Prompt, null, null, cancellationToken);
 
-        return response.Text;
+        // Persist chat session
+        var textPrompt = new TextPromptEntity()
+        {
+            Id = request.Id == Guid.Empty ? Guid.NewGuid() : request.Id,
+            Prompt = request.Prompt
+        };
+        foreach(var response in responses)
+        {            
+            textPrompt.TextResponses.Add(new TextResponseEntity()
+            {
+                Response = response.ToString(),
+                Timestamp = DateTime.UtcNow
+            });
+        }
+        _context.TextPrompts.Add(textPrompt);
+        await _context.SaveChangesAsync(cancellationToken);
 
-        //var weatherTextGeneration = _context.TextGenerations.Find(request.Id);
-        //GuardAgainstWeatherTextGenerationNotFound(weatherTextGeneration);
-        //var weatherTextGenerationValue = TextGenerationValue.Create(request.Id, request.Date, (int)request.TemperatureF, request.Zipcodes);
-        //if (weatherTextGenerationValue.IsFailure)
-        //    throw new Exception(weatherTextGenerationValue.Error);
-        //_context.TextGenerations.Add(new TextGeneration(weatherTextGenerationValue.Value));
-        //await _context.SaveChangesAsync(CancellationToken.None);
-    }
-
-    private static void GuardAgainstEmptyMessage(string? message)
-    {
-        if (string.IsNullOrWhiteSpace(message))
+        // Return session
+        TextPromptDto returnValue;
+        try
+        {
+            returnValue = _mapper.Map<TextPromptDto>(textPrompt);
+        }
+        catch (Exception)
+        {
             throw new CustomValidationException(
             [
-                new("Message", "A message is required to get a response")
+                new("Id", "Id already exists")
+            ]);
+        }
+        return returnValue;
+    }
+
+    private static void GuardAgainstEmptyPrompt(string? prompt)
+    {
+        if (string.IsNullOrWhiteSpace(prompt))
+            throw new CustomValidationException(
+            [
+                new("Prompt", "A prompt is required to get a response")
+            ]);
+    }
+
+    private static void GuardAgainstIdExsits(DbSet<TextPromptEntity> dbSet, Guid id)
+    {
+        if (dbSet.Any(x => x.Id == id))
+            throw new CustomValidationException(
+            [
+                new("Id", "Id already exists")
             ]);
     }
 }
