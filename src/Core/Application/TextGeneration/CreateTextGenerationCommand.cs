@@ -11,10 +11,10 @@ public class CreateTextPromptCommand : IRequest<TextPromptDto>
     public string? Prompt { get; set; }
 }
 
-public class CreateTextPromptCommandHandler(ITextGenerationService chatService, ISemanticKernelContext context, IMapper mapper)
+public class CreateTextPromptCommandHandler(ITextGenerationService textService, ISemanticKernelContext context, IMapper mapper)
     : IRequestHandler<CreateTextPromptCommand, TextPromptDto>
 {
-    private readonly ITextGenerationService _textService = chatService;
+    private readonly ITextGenerationService _textService = textService;
     private readonly IMapper _mapper = mapper;
     private readonly ISemanticKernelContext _context = context;
 
@@ -65,7 +65,7 @@ public class CreateTextPromptCommandHandler(ITextGenerationService chatService, 
         if (string.IsNullOrWhiteSpace(prompt))
             throw new CustomValidationException(
             [
-                new("Message", "A message is required to get a response")
+                new("Prompt", "A prompt is required to get a response")
             ]);
     }
 

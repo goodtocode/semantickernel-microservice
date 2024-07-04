@@ -4,6 +4,7 @@ using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
 {
     [Binding]
+    [Scope(Tag = "deleteChatSessionCommand")]
     public class DeleteChatSessionCommandStepDefinitions : TestBase
     {
         private Guid _id;

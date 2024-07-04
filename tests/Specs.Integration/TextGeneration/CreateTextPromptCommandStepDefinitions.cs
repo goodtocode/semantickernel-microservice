@@ -8,7 +8,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration;
 [Scope(Tag = "createTextPromptCommand")]
 public class CreateTextPromptCommandStepDefinitions : TestBase
 {
-    private string _message = string.Empty;
+    private string _prompt = string.Empty;
     private Guid _id;
     private bool _exists;
 
@@ -18,10 +18,10 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
         _def = def;
     }
 
-    [Given(@"I have a initial message ""([^""]*)""")]
-    public void GivenIHaveAInitialMessage(string message)
+    [Given(@"I have a initial prompt ""([^""]*)""")]
+    public void GivenIHaveAInitialprompt(string prompt)
     {
-        _message = message;
+        _prompt = prompt;
     }
 
     [Given(@"I have a text prompt id ""([^""]*)""")]
@@ -36,8 +36,8 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
         _exists = bool.Parse(exists);
     }
 
-    [When(@"I create a text prompt with the message")]
-    public async Task WhenICreateATextPromptWithTheMessage()
+    [When(@"I create a text prompt with the prompt")]
+    public async Task WhenICreateATextPromptWithTheprompt()
     {
         // Setup the database if want to test existing records
         if (_exists)
@@ -45,7 +45,7 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
             var textPrompt = new TextPromptEntity()
             {
                 Id = _id,
-                Prompt = _message,
+                Prompt = _prompt,
                 TextResponses =
                  [
                      new TextResponseEntity()
@@ -64,7 +64,7 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
         var request = new CreateTextPromptCommand()
         {
             Id = _id,
-            Prompt = _message
+            Prompt = _prompt
         };
 
         var validator = new CreateTextPromptCommandValidator();

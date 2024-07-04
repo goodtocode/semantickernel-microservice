@@ -4,6 +4,7 @@ using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
 {
     [Binding]
+    [Scope(Tag = "deleteTextPromptCommand")]
     public class DeleteTextPromptCommandStepDefinitions : TestBase
     {
         private Guid _id;

@@ -49,8 +49,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TextGeneration", "Create Text Prompt Command", "As a author\r\nWhen I start a new text prompt and enter an initial message\r\nThen I " +
-                    "should see the text prompt created with the initial response", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TextGeneration", "Create Text Prompt Command", "As a author\r\nWhen I start a new text prompt and enter an initial prompt\r\nThen I s" +
+                    "hould see the text prompt created with the initial response", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -93,7 +93,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void CreateTextPrompt(string def, string response, string responseErrors, string id, string textPromptExists, string message, string[] exampleTags)
+        public virtual void CreateTextPrompt(string def, string response, string responseErrors, string id, string textPromptExists, string prompt, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -102,7 +102,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
             argumentsOfScenario.Add("responseErrors", responseErrors);
             argumentsOfScenario.Add("id", id);
             argumentsOfScenario.Add("TextPromptExists", textPromptExists);
-            argumentsOfScenario.Add("message", message);
+            argumentsOfScenario.Add("prompt", prompt);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Text Prompt", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
@@ -118,7 +118,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given(string.Format("I have a def \"{0}\"", def), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 9
- testRunner.And(string.Format("I have a initial message \"{0}\"", message), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a initial prompt \"{0}\"", prompt), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
  testRunner.And(string.Format("I have a text prompt id \"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -127,7 +127,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("The text prompt exists \"{0}\"", textPromptExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.When("I create a text prompt with the message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I create a text prompt with the prompt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 13
  testRunner.Then(string.Format("I see the text prompt created with the initial response \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -149,29 +149,29 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:TextPromptExists", "false")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Hello, I am interested in an interactive text prompt.")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:prompt", "Tell me a bedtime story.")]
         public void CreateTextPrompt_Success()
         {
 #line 7
-this.CreateTextPrompt("success", "Success", "", "00000000-0000-0000-0000-000000000000", "false", "Hello, I am interested in an interactive text prompt.", ((string[])(null)));
+this.CreateTextPrompt("success", "Success", "", "00000000-0000-0000-0000-000000000000", "false", "Tell me a bedtime story.", ((string[])(null)));
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Text Prompt: bad request: empty message")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Text Prompt: bad request: empty propmt")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Text Prompt Command")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createTextPromptCommand")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "bad request: empty message")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty message")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "bad request: empty propmt")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "bad request: empty propmt")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Message")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Prompt")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:TextPromptExists", "false")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "")]
-        public void CreateTextPrompt_BadRequestEmptyMessage()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:prompt", "")]
+        public void CreateTextPrompt_BadRequestEmptyPropmt()
         {
 #line 7
-this.CreateTextPrompt("bad request: empty message", "BadRequest", "Message", "00000000-0000-0000-0000-000000000000", "false", "", ((string[])(null)));
+this.CreateTextPrompt("bad request: empty propmt", "BadRequest", "Prompt", "00000000-0000-0000-0000-000000000000", "false", "", ((string[])(null)));
 #line hidden
         }
         
@@ -185,11 +185,11 @@ this.CreateTextPrompt("bad request: empty message", "BadRequest", "Message", "00
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:TextPromptExists", "true")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Hello, I am interested in an interactive text prompt.")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:prompt", "Tell me a bedtime story.")]
         public void CreateTextPrompt_AlreadyExists()
         {
 #line 7
-this.CreateTextPrompt("already exists", "Error", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", "Hello, I am interested in an interactive text prompt.", ((string[])(null)));
+this.CreateTextPrompt("already exists", "Error", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", "Tell me a bedtime story.", ((string[])(null)));
 #line hidden
         }
     }
