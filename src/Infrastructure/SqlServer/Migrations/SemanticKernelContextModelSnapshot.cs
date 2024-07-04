@@ -89,8 +89,8 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("Timestamp")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -129,8 +129,8 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("Timestamp")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -155,6 +155,94 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     b.ToTable("ChatSessions", (string)null);
                 });
 
+            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.TextGeneration.TextPromptEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Prompt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("Timestamp")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Id"), false);
+
+                    b.HasIndex("Timestamp")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Timestamp"));
+
+                    b.ToTable("TextPrompts", (string)null);
+                });
+
+            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.TextGeneration.TextResponseEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Response")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TextPromptId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("Timestamp")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Id"), false);
+
+                    b.HasIndex("TextPromptId");
+
+                    b.HasIndex("Timestamp")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Timestamp"));
+
+                    b.ToTable("TextResponses", (string)null);
+                });
+
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.ChatMessageEntity", b =>
                 {
                     b.HasOne("Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.ChatSessionEntity", "ChatSession")
@@ -177,14 +265,43 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.TextGeneration.TextPromptEntity", b =>
+                {
+                    b.HasOne("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", "Author")
+                        .WithMany("TextPrompts")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.TextGeneration.TextResponseEntity", b =>
+                {
+                    b.HasOne("Goodtocode.SemanticKernel.Core.Domain.TextGeneration.TextPromptEntity", "TextPrompt")
+                        .WithMany("TextResponses")
+                        .HasForeignKey("TextPromptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TextPrompt");
+                });
+
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", b =>
                 {
                     b.Navigation("ChatSessions");
+
+                    b.Navigation("TextPrompts");
                 });
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.ChatSessionEntity", b =>
                 {
                     b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.TextGeneration.TextPromptEntity", b =>
+                {
+                    b.Navigation("TextResponses");
                 });
 #pragma warning restore 612, 618
         }

@@ -112,7 +112,7 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YOUR_SQL_CONNECTI
 	```
 7. When an entity changes, is created or deleted, create a new migration. Suggest doing this each new version.
 	```
-	dotnet ef migrations add v1.1 --project .\src\Infrastructure\SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation\WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
+	dotnet ef migrations add v1.0.0.1 --project .\src\Infrastructure\SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation\WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
 	```
 # Running the Application
 ## Launch the backend

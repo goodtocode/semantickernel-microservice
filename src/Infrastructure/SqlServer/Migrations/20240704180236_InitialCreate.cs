@@ -20,7 +20,6 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PartitionKey = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Timestamp = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
@@ -36,11 +35,10 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PartitionKey = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Timestamp = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,6 +53,30 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TextPrompts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Prompt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Timestamp = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TextPrompts", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
+                    table.ForeignKey(
+                        name: "FK_TextPrompts_Authors_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ChatMessages",
                 columns: table => new
                 {
@@ -62,11 +84,10 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     ChatSessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PartitionKey = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Timestamp = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,6 +97,30 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                         name: "FK_ChatMessages_ChatSessions_ChatSessionId",
                         column: x => x.ChatSessionId,
                         principalTable: "ChatSessions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TextResponses",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TextPromptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Response = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Timestamp = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TextResponses", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
+                    table.ForeignKey(
+                        name: "FK_TextResponses_TextPrompts_TextPromptId",
+                        column: x => x.TextPromptId,
+                        principalTable: "TextPrompts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -131,6 +176,44 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                 column: "Timestamp",
                 unique: true)
                 .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TextPrompts_AuthorId",
+                table: "TextPrompts",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TextPrompts_Id",
+                table: "TextPrompts",
+                column: "Id",
+                unique: true)
+                .Annotation("SqlServer:Clustered", false);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TextPrompts_Timestamp",
+                table: "TextPrompts",
+                column: "Timestamp",
+                unique: true)
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TextResponses_Id",
+                table: "TextResponses",
+                column: "Id",
+                unique: true)
+                .Annotation("SqlServer:Clustered", false);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TextResponses_TextPromptId",
+                table: "TextResponses",
+                column: "TextPromptId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TextResponses_Timestamp",
+                table: "TextResponses",
+                column: "Timestamp",
+                unique: true)
+                .Annotation("SqlServer:Clustered", true);
         }
 
         /// <inheritdoc />
@@ -140,7 +223,13 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                 name: "ChatMessages");
 
             migrationBuilder.DropTable(
+                name: "TextResponses");
+
+            migrationBuilder.DropTable(
                 name: "ChatSessions");
+
+            migrationBuilder.DropTable(
+                name: "TextPrompts");
 
             migrationBuilder.DropTable(
                 name: "Authors");
