@@ -20,7 +20,6 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
 
     public async Task<ChatSessionDto> Handle(CreateChatSessionCommand request, CancellationToken cancellationToken)
     {
-
         GuardAgainstEmptyMessage(request?.Message);
         GuardAgainstIdExsits(_context.ChatSessions, request!.Id);
 
@@ -46,20 +45,7 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
         _context.ChatSessions.Add(chatSession);
         await _context.SaveChangesAsync(cancellationToken);
 
-        // Return session
-        ChatSessionDto returnValue;
-        try
-        {
-            returnValue = _mapper.Map<ChatSessionDto>(chatSession);
-        }
-        catch (Exception)
-        {
-            throw new CustomValidationException(
-            [
-                new("Id", "Id already exists")
-            ]);
-        }
-        return returnValue;
+        return _mapper.Map<ChatSessionDto>(chatSession);
     }
 
     private static void GuardAgainstEmptyMessage(string? message)

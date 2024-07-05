@@ -9,16 +9,10 @@ public class GetChatSessionsQuery : IRequest<ICollection<ChatSessionDto>>
     public DateTime? EndDate { get; set; }
 }
 
-public class GetChatSessionsQueryHandler : IRequestHandler<GetChatSessionsQuery, ICollection<ChatSessionDto>>
+public class GetChatSessionsQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetChatSessionsQuery, ICollection<ChatSessionDto>>
 {
-    private readonly ISemanticKernelContext _context;
-    private readonly IMapper _mapper;
-
-    public GetChatSessionsQueryHandler(ISemanticKernelContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
+    private readonly ISemanticKernelContext _context = context;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<ICollection<ChatSessionDto>> Handle(GetChatSessionsQuery request, CancellationToken cancellationToken)
     {

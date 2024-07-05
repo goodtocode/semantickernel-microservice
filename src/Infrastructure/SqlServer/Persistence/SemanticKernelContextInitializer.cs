@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Goodtocode.SemanticKernel.Core.Domain.Author;
+using Microsoft.Extensions.Logging;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 
@@ -35,15 +36,15 @@ public class SemanticKernelContextInitializer(ILogger<SemanticKernelContextIniti
 
     public async Task TrySeedAsync()
     {
-        //if (!_context.Authors.Any())
-        //{
-        //var Author = new AuthorEntity()
-        //{
-        //    Id = Guid.NewGuid(),
-        //    Name = "John Doe"
-        //};
-        //_context.Authors.Add(Author);
-        //await _context.SaveChangesAsync(CancellationToken.None);
-        //}
+        if (!_context.Authors.Any())
+        {
+            var Author = new AuthorEntity()
+            {
+                Id = Guid.NewGuid(),
+                Name = "John Doe"
+            };
+            _context.Authors.Add(Author);
+            await _context.SaveChangesAsync(CancellationToken.None);
+        }
     }
 }
