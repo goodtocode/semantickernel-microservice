@@ -19,6 +19,7 @@ public abstract class TestBase
 
     internal string _def { get; set; } = string.Empty;
     internal IDictionary<string, string[]> _commandErrors = new ConcurrentDictionary<string, string[]>();
+    internal Exception _exception;
     internal CommandResponseType _responseType;
     internal ValidationResult _validationResponse = new();
     internal SemanticKernelContext _context;
@@ -50,6 +51,7 @@ public abstract class TestBase
     internal CommandResponseType HandleAssignResponseType
         (Exception e)
     {
+        _exception = e;
         switch (e)
         {
             case CustomValidationException validationException:

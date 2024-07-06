@@ -25,16 +25,16 @@ public class CreateTextPromptCommandHandler(ITextGenerationService textService, 
         GuardAgainstIdExsits(_context.TextPrompts, request!.Id);
 
         // Get response
-        var responses = await _textService.GetTextContentsAsync(request.Prompt, null, null, cancellationToken);
+        var responses = await _textService.GetTextContentsAsync(request.Prompt!, null, null, cancellationToken);
 
         // Persist chat session
         var textPrompt = new TextPromptEntity()
         {
             Id = request.Id == Guid.Empty ? Guid.NewGuid() : request.Id,
-            Prompt = request.Prompt
+            Prompt = request.Prompt!
         };
-        foreach(var response in responses)
-        {            
+        foreach (var response in responses)
+        {
             textPrompt.TextResponses.Add(new TextResponseEntity()
             {
                 Response = response.ToString(),
@@ -44,20 +44,7 @@ public class CreateTextPromptCommandHandler(ITextGenerationService textService, 
         _context.TextPrompts.Add(textPrompt);
         await _context.SaveChangesAsync(cancellationToken);
 
-        // Return session
-        TextPromptDto returnValue;
-        try
-        {
-            returnValue = _mapper.Map<TextPromptDto>(textPrompt);
-        }
-        catch (Exception)
-        {
-            throw new CustomValidationException(
-            [
-                new("Id", "Id already exists")
-            ]);
-        }
-        return returnValue;
+        return _mapper.Map<TextPromptDto>(textPrompt);
     }
 
     private static void GuardAgainstEmptyPrompt(string? prompt)

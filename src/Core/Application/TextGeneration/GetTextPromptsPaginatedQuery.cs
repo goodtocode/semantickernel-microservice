@@ -13,16 +13,10 @@ public class GetTextPromptsPaginatedQuery : IRequest<PaginatedList<TextPromptDto
     public int PageSize { get; init; } = 10;
 }
 
-public class GetTextPromptsPaginatedQueryHandler : IRequestHandler<GetTextPromptsPaginatedQuery, PaginatedList<TextPromptDto>>
+public class GetTextPromptsPaginatedQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetTextPromptsPaginatedQuery, PaginatedList<TextPromptDto>>
 {
-    private readonly ISemanticKernelContext _context;
-    private readonly IMapper _mapper;
-
-    public GetTextPromptsPaginatedQueryHandler(ISemanticKernelContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
+    private readonly ISemanticKernelContext _context = context;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<PaginatedList<TextPromptDto>> Handle(GetTextPromptsPaginatedQuery request, CancellationToken cancellationToken)
     {

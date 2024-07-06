@@ -3,9 +3,9 @@ using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 
-namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
+namespace Goodtocode.SemanticKernel.Core.Application.Image;
 
-public class GetChatSessionsPaginatedQuery : IRequest<PaginatedList<ChatSessionDto>>
+public class GetTextImagesPaginatedQuery : IRequest<PaginatedList<TextImageDto>>
 {
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
@@ -13,18 +13,18 @@ public class GetChatSessionsPaginatedQuery : IRequest<PaginatedList<ChatSessionD
     public int PageSize { get; init; } = 10;
 }
 
-public class GetChatSessionsPaginatedQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetChatSessionsPaginatedQuery, PaginatedList<ChatSessionDto>>
+public class GetTextImagesPaginatedQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetTextImagesPaginatedQuery, PaginatedList<TextImageDto>>
 {
     private readonly ISemanticKernelContext _context = context;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<PaginatedList<ChatSessionDto>> Handle(GetChatSessionsPaginatedQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<TextImageDto>> Handle(GetTextImagesPaginatedQuery request, CancellationToken cancellationToken)
     {
-        var returnData = await _context.ChatSessions
+        var returnData = await _context.TextImages
             .OrderByDescending(x => x.Timestamp)
             .Where(x => (request.StartDate == null || x.Timestamp > request.StartDate)
                     && (request.EndDate == null || x.Timestamp < request.EndDate))
-            .ProjectTo<ChatSessionDto>(_mapper.ConfigurationProvider)
+            .ProjectTo<TextImageDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
 
         return returnData;
