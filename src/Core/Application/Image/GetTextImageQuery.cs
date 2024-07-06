@@ -17,15 +17,15 @@ public class GetTextImageQueryHandler(ISemanticKernelContext context, IMapper ma
     public async Task<TextImageDto> Handle(GetTextImageQuery request,
                                 CancellationToken cancellationToken)
     {
-        var TextImage = await _context.TextImages.FindAsync([request.Id, cancellationToken], cancellationToken: cancellationToken);
-        GuardAgainstNotFound(TextImage);
+        var textImage = await _context.TextImages.FindAsync([request.Id, cancellationToken], cancellationToken: cancellationToken);
+        GuardAgainstNotFound(textImage);
 
-        return _mapper.Map<TextImageDto>(TextImage);
+        return _mapper.Map<TextImageDto>(textImage);
     }
 
-    private static void GuardAgainstNotFound(TextImageEntity? TextImage)
+    private static void GuardAgainstNotFound(TextImageEntity? textImage)
     {
-        if (TextImage == null)
-            throw new CustomNotFoundException("Chat Session Not Found");
+        if (textImage == null)
+            throw new CustomNotFoundException("Text Image Not Found");
     }
 }

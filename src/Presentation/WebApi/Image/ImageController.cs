@@ -130,47 +130,11 @@ public class ImageController : ApiControllerBase
     ///         }
     ///     }]
     /// </returns>
-    [HttpPost("TextToImage", Name = "CreateTextToImageCommand")]
+    [HttpPost(Name = "CreateTextToImageCommand")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Post(CreateTextToImageCommand command)
-    {
-        var response = await Mediator.Send(command);
-        return CreatedAtAction(nameof(Get), new { response.Id }, response);
-    }
-
-    /// <summary>
-    /// Creates new Text from Image
-    /// </summary>
-    /// <remarks>
-    /// Sample request:
-    ///
-    ///     HttpPost Body
-    ///     {
-    ///        "Id": 00000000-0000-0000-0000-000000000000,
-    ///        "Message":  "Hi, I am interested in learning about Semantic Kernel."
-    ///     }
-    ///
-    ///     "version":  1.0
-    /// </remarks>
-    /// <param name="command"></param>
-    /// <returns>
-    /// TextImageDto
-    ///     { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
-    ///     AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
-    ///     Messages: [
-    ///         {
-    ///             "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
-    ///             "Content": "Certainly! Semantic Kernel is a great framework for AI.",
-    ///         }
-    ///     }]
-    /// </returns>
-    [HttpPost("ImageToText", Name = "CreateImageToTextCommand")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Post(CreateImageToTextCommand command)
     {
         var response = await Mediator.Send(command);
         return CreatedAtAction(nameof(Get), new { response.Id }, response);

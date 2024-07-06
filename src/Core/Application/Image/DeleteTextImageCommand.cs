@@ -15,16 +15,16 @@ public class DeleteTextImageCommandHandler(ISemanticKernelContext context) : IRe
 
     public async Task Handle(DeleteTextImageCommand request, CancellationToken cancellationToken)
     {
-        var TextImage = _context.TextImages.Find(request.Id);
-        GuardAgainstNotFound(TextImage);
+        var textImage = _context.TextImages.Find(request.Id);
+        GuardAgainstNotFound(textImage);
 
-        _context.TextImages.Remove(TextImage!);
+        _context.TextImages.Remove(textImage!);
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    private static void GuardAgainstNotFound(TextImageEntity? TextImage)
+    private static void GuardAgainstNotFound(TextImageEntity? textImage)
     {
-        if (TextImage == null)
-            throw new CustomNotFoundException("Chat Session Not Found");
+        if (textImage == null)
+            throw new CustomNotFoundException("Text Image Not Found");
     }
 }

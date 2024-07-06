@@ -71,6 +71,26 @@
 	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
 	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
 	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Image\CreateTextToImageCommand.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Image\DeleteTextImageCommand.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Image\GetTextImageQuery.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Image\GetTextImagesPaginatedQuery.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Image\GetTextImagesQuery.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
 	  <SpecFlowFeatureFiles Update="TextGeneration\CreateTextPromptCommand.feature">
 	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
 	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
