@@ -149,11 +149,11 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:textAudioExists", "false")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:prompt", "Create an audio of a triangle, square and a circle.")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:prompt", "Hello, I am a voice generated from text.")]
         public void CreateTextAudio_Success()
         {
 #line 7
-this.CreateTextAudio("success", "Success", "", "00000000-0000-0000-0000-000000000000", "false", "Create an audio of a triangle, square and a circle.", ((string[])(null)));
+this.CreateTextAudio("success", "Success", "", "00000000-0000-0000-0000-000000000000", "false", "Hello, I am a voice generated from text.", ((string[])(null)));
 #line hidden
         }
         
@@ -185,11 +185,11 @@ this.CreateTextAudio("bad request: empty propmt", "BadRequest", "Prompt", "00000
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:textAudioExists", "true")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:prompt", "Create an audio of a triangle, square and a circle.")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:prompt", "Hello, I am a voice generated from text.")]
         public void CreateTextAudio_AlreadyExists()
         {
 #line 7
-this.CreateTextAudio("already exists", "Error", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", "Create an audio of a triangle, square and a circle.", ((string[])(null)));
+this.CreateTextAudio("already exists", "Error", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", "Hello, I am a voice generated from text.", ((string[])(null)));
 #line hidden
         }
     }

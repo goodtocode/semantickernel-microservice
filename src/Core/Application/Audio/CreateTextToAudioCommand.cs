@@ -12,10 +12,10 @@ public class CreateTextToAudioCommand : IRequest<TextAudioDto>
 }
 
 #pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-public class CreateTextToAudioCommandHandler(ITextToAudioService AudioService, ISemanticKernelContext context, IMapper mapper)
+public class CreateTextToAudioCommandHandler(ITextToAudioService audioService, ISemanticKernelContext context, IMapper mapper)
     : IRequestHandler<CreateTextToAudioCommand, TextAudioDto>
 {
-    private readonly ITextToAudioService _AudioService = AudioService;
+    private readonly ITextToAudioService _audioService = audioService;
     private readonly IMapper _mapper = mapper;
     private readonly ISemanticKernelContext _context = context;
 
@@ -26,7 +26,7 @@ public class CreateTextToAudioCommandHandler(ITextToAudioService AudioService, I
         GuardAgainstIdExsits(_context.TextAudio, request!.Id);
 
         // Get response
-        var response = await _AudioService.GetAudioContentAsync(text: request.Prompt, cancellationToken: cancellationToken);
+        var response = await _audioService.GetAudioContentAsync(text: request.Prompt, cancellationToken: cancellationToken);
 
         // Persist chat session
         var textAudio = new TextAudioEntity()

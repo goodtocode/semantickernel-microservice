@@ -4,6 +4,7 @@ using Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 {
     [DbContext(typeof(SemanticKernelContext))]
-    partial class SemanticKernelContextModelSnapshot : ModelSnapshot
+    [Migration("20240707163424_v1.0.0.2")]
+    partial class v1002
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
