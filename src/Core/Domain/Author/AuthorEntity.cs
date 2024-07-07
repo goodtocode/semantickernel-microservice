@@ -1,4 +1,5 @@
 ﻿using Goodtocode.Domain.Types;
+using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
 using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
@@ -12,4 +13,5 @@ public class AuthorEntity : DomainEntity<AuthorEntity>
     public virtual ICollection<ChatSessionEntity> ChatSessions { get; set; } = [];
     public virtual ICollection<TextPromptEntity> TextPrompts { get; set; } = [];
     public virtual ICollection<TextImageEntity> TextImages { get; set; } = [];
+    public virtual ICollection<TextAudioEntity> TextAudio { get; set; } = [];
 }

@@ -1,13 +1,13 @@
-using Goodtocode.SemanticKernel.Core.Application.Image;
-using Goodtocode.SemanticKernel.Core.Domain.Image;
+using Goodtocode.SemanticKernel.Core.Application.Audio;
+using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System.Text;
 
-namespace Goodtocode.SemanticKernel.Specs.Integration.Image;
+namespace Goodtocode.SemanticKernel.Specs.Integration.Audio;
 
 [Binding]
-[Scope(Tag = "createTextToImageCommand")]
-public class CreateTextToImageCommandStepDefinitions : TestBase
+[Scope(Tag = "createTextToAudioCommand")]
+public class CreateTextToAudioCommandStepDefinitions : TestBase
 {
     private string _prompt = string.Empty;
     private Guid _id;
@@ -25,60 +25,56 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
         _prompt = prompt;
     }
 
-    [Given(@"I have a text image id ""([^""]*)""")]
-    public void GivenIHaveATextImageKey(string id)
+    [Given(@"I have a text audio id ""([^""]*)""")]
+    public void GivenIHaveATextAudioKey(string id)
     {
         _id = Guid.Parse(id);
     }
 
-    [Given(@"The text image exists ""([^""]*)""")]
-    public void GivenThetextImageExists(string exists)
+    [Given(@"The text audio exists ""([^""]*)""")]
+    public void GivenThetextAudioExists(string exists)
     {
         _exists = bool.Parse(exists);
     }
 
-    [When(@"I create a text image with the prompt")]
-    public async Task WhenICreateATextImageWithTheprompt()
+    [When(@"I create a text audio with the prompt")]
+    public async Task WhenICreateATextAudioWithTheprompt()
     {
         // Setup the database if want to test existing records
         if (_exists)
         {
-            var textImage = new TextImageEntity()
+            var textAudio = new TextAudioEntity()
             {
                 Id = Guid.NewGuid(),
-                Description = "Image of a simple geometric design consisting of two yellow squares and one blue square. " +
+                Description = "Audio of a simple geometric design consisting of two yellow squares and one blue square. " +
                     "The blue square is placed at a 45-degree angle, positioned centrally below the two yellow squares, creating a symmetrical arrangement. " +
                     "Each square is connected by what appears to be black lines or sticks, suggesting they may represent nodes or elements in a network or structure. " +
                     "The background is white, which contrasts with the bright colors of the squares.",
-                Width = 1024,
-                Height = 1024,
-                ImageBytes = [0x01, 0x02, 0x03, 0x04],
+                AudioBytes = [0x01, 0x02, 0x03, 0x04],
                 Timestamp = DateTime.UtcNow
             };
-            _context.TextImages.Add(textImage);
+            _context.TextAudio.Add(textAudio);
             await _context.SaveChangesAsync(CancellationToken.None);
         }
 
         // Test command
-        var request = new CreateTextToImageCommand()
+        var request = new CreateTextToAudioCommand()
         {
             Id = _id,
-            Prompt = _prompt,
-            Width = 1024,
-            Height = 1024
+            Prompt = _prompt
         };
 
-        var validator = new CreateTextToImageCommandValidator();
+        var validator = new CreateTextToAudioCommandValidator();
         _validationResponse = await validator.ValidateAsync(request);
 
         if (_validationResponse.IsValid)
         {
             try
             {
-#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-                var imageService = new OpenAITextToImageService(modelId: _optionsOpenAi.ImageModelId, apiKey: _optionsOpenAi.ApiKey);
-#pragma warning restore SKEXP0010
-                var handler = new CreateTextToImageCommandHandler(imageService, _context, Mapper);
+#pragma warning disable SKEXP0001
+                var audioService = new OpenAITextToAudioService(modelId: _optionsOpenAi.AudioModelId, apiKey: _optionsOpenAi.ApiKey);
+#pragma warning restore SKEXP0001
+                var handler = new CreateTextToAudioCommandHandler(audioService, _context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;
             }
@@ -91,8 +87,8 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
             _responseType = CommandResponseType.BadRequest;
     }
 
-    [Then(@"I see the text image created with the initial response ""([^""]*)""")]
-    public void ThenISeeTheTextImageCreatedWithTheInitialResponse(string response)
+    [Then(@"I see the text audio created with the initial response ""([^""]*)""")]
+    public void ThenISeeTheTextAudioCreatedWithTheInitialResponse(string response)
     {
         HandleHasResponseType(response);
     }

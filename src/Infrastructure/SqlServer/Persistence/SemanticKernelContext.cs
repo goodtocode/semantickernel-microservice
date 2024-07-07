@@ -1,9 +1,10 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
-using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
-using System.Reflection;
-using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
+using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
+using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
+using System.Reflection;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 
@@ -16,6 +17,7 @@ public class SemanticKernelContext : DbContext, ISemanticKernelContext
     public DbSet<TextPromptEntity> TextPrompts => Set<TextPromptEntity>();
     public DbSet<TextResponseEntity> TextResponses => Set<TextResponseEntity>();
     public DbSet<TextImageEntity> TextImages => Set<TextImageEntity>();
+    public DbSet<TextAudioEntity> TextAudio => Set<TextAudioEntity>();
 
     protected SemanticKernelContext() { }
 

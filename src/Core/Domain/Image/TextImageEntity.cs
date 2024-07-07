@@ -5,14 +5,14 @@ namespace Goodtocode.SemanticKernel.Core.Domain.Image;
 
 public class TextImageEntity : DomainEntity<TextImageEntity>
 {
-    private int _width = 256;
-    private int _height = 256;
+    private int _width = 1024;
+    private int _height = 1024;
 
     public TextImageEntity() { }
 
     public Guid AuthorId { get; set; } = Guid.Empty;
     public string Description { get; set; } = string.Empty;
-    public string? ImageBytes { get; set; }
+    public byte[]? ImageBytes { get; set; }
     public Uri? ImageUrl { get; set; }
     public int Height
     {

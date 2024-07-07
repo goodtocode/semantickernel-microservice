@@ -30,5 +30,6 @@ public struct OpenAiModels
     {
         public const string TextToSpeech1 = "tts-1";
         public const string Whisper1 = "whisper-1";
+        public const string Whisper2 = "whisper-2";
     }
 }

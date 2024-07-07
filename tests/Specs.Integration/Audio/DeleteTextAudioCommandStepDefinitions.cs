@@ -1,12 +1,12 @@
-using Goodtocode.SemanticKernel.Core.Application.Image;
-using Goodtocode.SemanticKernel.Core.Domain.Image;
+using Goodtocode.SemanticKernel.Core.Application.Audio;
+using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using System.Text;
 
-namespace Goodtocode.SemanticKernel.Specs.Integration.Image
+namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
 {
     [Binding]
-    [Scope(Tag = "deleteTextImageCommand")]
-    public class DeleteTextImageCommandStepDefinitions : TestBase
+    [Scope(Tag = "deleteTextAudioCommand")]
+    public class DeleteTextAudioCommandStepDefinitions : TestBase
     {
         private Guid _id;
         private bool _exists;
@@ -17,51 +17,49 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
             _def = def;
         }
 
-        [Given(@"I have a text image id""([^""]*)""")]
-        public void GivenIHaveATextImageKey(string id)
+        [Given(@"I have a text audio id""([^""]*)""")]
+        public void GivenIHaveATextAudioKey(string id)
         {
             Guid.TryParse(id, out _id).Should().BeTrue();
         }
 
-        [Given(@"The text image exists ""([^""]*)""")]
-        public void GivenThetextImageExists(string exists)
+        [Given(@"The text audio exists ""([^""]*)""")]
+        public void GivenThetextAudioExists(string exists)
         {
             bool.TryParse(exists, out _exists).Should().BeTrue();
         }
 
-        [When(@"I delete the text image")]
-        public async Task WhenIDeleteTheTextImage()
+        [When(@"I delete the text audio")]
+        public async Task WhenIDeleteTheTextAudio()
         {
-            var request = new DeleteTextImageCommand()
+            var request = new DeleteTextAudioCommand()
             {
                 Id = _id
             };
 
             if (_exists)
             {
-                var textImage = new TextImageEntity()
+                var textAudio = new TextAudioEntity()
                 {
                     Id = _id,
-                    Description = "Image of a simple geometric design consisting of two yellow squares and one blue square. " +
+                    Description = "Audio of a simple geometric design consisting of two yellow squares and one blue square. " +
                         "The blue square is placed at a 45-degree angle, positioned centrally below the two yellow squares, creating a symmetrical arrangement. " +
                         "Each square is connected by what appears to be black lines or sticks, suggesting they may represent nodes or elements in a network or structure. " +
                         "The background is white, which contrasts with the bright colors of the squares.",
-                    Width = 1024,
-                    Height = 1024,
-                    ImageBytes = [0x01, 0x02, 0x03, 0x04],
+                    AudioBytes = [0x01, 0x02, 0x03, 0x04],
                     Timestamp = DateTime.UtcNow
                 };
-                _context.TextImages.Add(textImage);
+                _context.TextAudio.Add(textAudio);
                 await _context.SaveChangesAsync(CancellationToken.None);
             }
 
-            var validator = new DeleteTextImageCommandValidator();
+            var validator = new DeleteTextAudioCommandValidator();
             _validationResponse = await validator.ValidateAsync(request);
 
             if (_validationResponse.IsValid)
                 try
                 {
-                    var handler = new DeleteTextImageCommandHandler(_context);
+                    var handler = new DeleteTextAudioCommandHandler(_context);
                     await handler.Handle(request, CancellationToken.None);
                     _responseType = CommandResponseType.Successful;
                 }
