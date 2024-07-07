@@ -247,4 +247,4 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 * Swashbuckle.AspNetCore.SwaggerUI
 
 
-This project is licensed with the [AGPL-3.0 license](https://github.com/goodtocode/semantickernel-microservice?tab=AGPL-3.0-1-ov-file#readme).
+This project is licensed with the [MIT license](https://mit-license.org/).
