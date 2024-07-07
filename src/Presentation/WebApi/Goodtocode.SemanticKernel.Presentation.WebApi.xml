@@ -4,6 +4,118 @@
         <name>Goodtocode.SemanticKernel.Presentation.WebApi</name>
     </assembly>
     <members>
+        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.Audio.AudioController">
+            <summary>
+            Text Audio endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
+            </summary>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Audio.AudioController.Get(System.Guid)">
+             <summary>Get Text Audio with history</summary>
+             <remarks>
+             Sample request:
+            
+                    "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             TextAudioDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorKey: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Audio.AudioController.GetAll">
+             <summary>Get All Text Audios Query</summary>
+             <remarks>
+             Sample request:
+            
+                 "StartDate": "2024-06-01T00:00:00Z"
+                 "EndDate": "2024-12-01T00:00:00Z"
+                 "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             TextAudioDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Timestamp: "2024-06-03T11:21:00Z"
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Audio.AudioController.GetTextAudioPaginatedQuery(Goodtocode.SemanticKernel.Core.Application.Audio.GetTextAudioPaginatedQuery)">
+             <summary>Get Text Audios Paginated Query</summary>
+             <remarks>
+             Sample request:
+            
+                 "StartDate": "2024-06-01T00:00:00Z"
+                 "EndDate": "2024-12-01T00:00:00Z"
+                 "PageNumber": 1
+                 "PageSize" : 10
+                 "api-version":  1.0
+             
+             </remarks>
+             <returns>
+             TextAudioDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Audio.AudioController.Post(Goodtocode.SemanticKernel.Core.Application.Audio.CreateTextToAudioCommand)">
+             <summary>
+             Creates new Audio from Text
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 HttpPost Body
+                 {
+                    "Id": 00000000-0000-0000-0000-000000000000,
+                    "Message":  "Hi, I am interested in learning about Semantic Kernel."
+                 }
+            
+                 "version":  1.0
+             </remarks>
+             <param name="command"></param>
+             <returns>
+             TextAudioDto
+                 { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+                 AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+                 Messages: [
+                     {
+                         "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+                         "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+                     }
+                 }]
+             </returns>
+        </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Audio.AudioController.Delete(System.Guid)">
+             <summary>Remove Audio Command</summary>
+             <remarks>
+             Sample request:
+            
+                    "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
+                    "api-version":  1.0
+             
+             </remarks>
+             <returns>NoContent</returns>
+        </member>
         <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController">
             <summary>
             Author endpoints to create a chat, continue a chat, delete a chat and retrieve chat history

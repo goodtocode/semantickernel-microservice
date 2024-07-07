@@ -7,6 +7,7 @@ public static class ColumnTypes
     public const string Nvarchar200 = "NVARCHAR(200)";
     public const string Nvarchar1000 = "NVARCHAR(1000)";
     public const string NvarcharMax = "NVARCHAR(MAX)";
+    public const string VarbinaryMax = "VARBINARY(MAX)";
     public const string VarcharMax = "VARCHAR(MAX)";
     public const string Uniqueidentifier = "UNIQUEIDENTIFIER";
 }

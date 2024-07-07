@@ -19,6 +19,11 @@
 	  <SpecFlowObsoleteCodeBehindFiles Remove="Author\DeleteChatSessionCommand.feature.cs" />
 	  <SpecFlowObsoleteCodeBehindFiles Remove="Author\GetChatSessionQuery.feature.cs" />
 	  <SpecFlowObsoleteCodeBehindFiles Remove="Author\UpdateChatSessionCommand.feature.cs" />
+	  <SpecFlowObsoleteCodeBehindFiles Remove="Audio\CreateTextToImageCommand.feature.cs" />
+	  <SpecFlowObsoleteCodeBehindFiles Remove="Audio\DeleteTextImageCommand.feature.cs" />
+	  <SpecFlowObsoleteCodeBehindFiles Remove="Audio\GetTextImageQuery.feature.cs" />
+	  <SpecFlowObsoleteCodeBehindFiles Remove="Audio\GetTextImagesPaginatedQuery.feature.cs" />
+	  <SpecFlowObsoleteCodeBehindFiles Remove="Audio\GetTextImagesQuery.feature.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -68,6 +73,26 @@
 	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
 	  </SpecFlowFeatureFiles>
 	  <SpecFlowFeatureFiles Update="Author\UpdateAuthorCommand.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Audio\CreateTextToAudioCommand.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Audio\DeleteTextAudioCommand.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Audio\GetTextAudioQuery.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Audio\GetTextAudioPaginatedQuery.feature">
+	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
+	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+	  </SpecFlowFeatureFiles>
+	  <SpecFlowFeatureFiles Update="Audio\GetTextAudioQuery.feature">
 	    <Visible>$(UsingMicrosoftNETSdk)</Visible>
 	    <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
 	  </SpecFlowFeatureFiles>

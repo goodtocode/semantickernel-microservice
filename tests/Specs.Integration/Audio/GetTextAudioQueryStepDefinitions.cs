@@ -1,16 +1,16 @@
-using Goodtocode.SemanticKernel.Core.Application.Image;
-using Goodtocode.SemanticKernel.Core.Domain.Image;
+using Goodtocode.SemanticKernel.Core.Application.Audio;
+using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using System.Text;
 
-namespace Goodtocode.SemanticKernel.Specs.Integration.Image;
+namespace Goodtocode.SemanticKernel.Specs.Integration.Audio;
 
 [Binding]
-[Scope(Tag = "getTextImageQuery")]
-public class GetTextImageQueryStepDefinitions : TestBase
+[Scope(Tag = "getTextAudioQuery")]
+public class GetTextAudioQueryStepDefinitions : TestBase
 {
     private Guid _id;
     private bool _exists;
-    private TextImageDto? _response;
+    private TextAudioDto? _response;
 
     [Given(@"I have a definition ""([^""]*)""")]
     public void GivenIHaveADefinition(string def)
@@ -18,51 +18,49 @@ public class GetTextImageQueryStepDefinitions : TestBase
         _def = def;
     }
 
-    [Given(@"I have a text image id ""([^""]*)""")]
-    public void GivenIHaveATextImageKey(string textPromptKey)
+    [Given(@"I have a text audio id ""([^""]*)""")]
+    public void GivenIHaveATextAudioKey(string textPromptKey)
     {
         if (string.IsNullOrWhiteSpace(textPromptKey)) return;
         Guid.TryParse(textPromptKey, out _id).Should().BeTrue();
     }
 
-    [Given(@"I the text image exists ""([^""]*)""")]
-    public void GivenIThetextImageExists(string exists)
+    [Given(@"I the text audio exists ""([^""]*)""")]
+    public void GivenIThetextAudioExists(string exists)
     {
         bool.TryParse(exists, out _exists).Should().BeTrue();
     }
 
-    [When(@"I get a text image")]
-    public async Task WhenIGetATextImage()
+    [When(@"I get a text audio")]
+    public async Task WhenIGetATextAudio()
     {
         if (_exists)
         {
-            var textImage = new TextImageEntity()
+            var textAudio = new TextAudioEntity()
             {
                 Id = _id,
-                Description = "Image of a simple geometric design consisting of two yellow squares and one blue square. " +
+                Description = "Audio of a simple geometric design consisting of two yellow squares and one blue square. " +
                     "The blue square is placed at a 45-degree angle, positioned centrally below the two yellow squares, creating a symmetrical arrangement. " +
                     "Each square is connected by what appears to be black lines or sticks, suggesting they may represent nodes or elements in a network or structure. " +
                     "The background is white, which contrasts with the bright colors of the squares.",
-                Width = 1024,
-                Height = 1024,
-                ImageBytes = [0x01, 0x02, 0x03, 0x04],
+                AudioBytes = [0x01, 0x02, 0x03, 0x04],
                 Timestamp = DateTime.UtcNow
             };
-            _context.TextImages.Add(textImage);
+            _context.TextAudio.Add(textAudio);
             await _context.SaveChangesAsync(CancellationToken.None);
         }
 
-        var request = new GetTextImageQuery()
+        var request = new GetTextAudioQuery()
         {
             Id = _id
         };
 
-        var validator = new GetTextImageQueryValidator();
+        var validator = new GetTextAudioQueryValidator();
         _validationResponse = validator.Validate(request);
         if (_validationResponse.IsValid)
             try
             {
-                var handler = new GetTextImageQueryHandler(_context, Mapper);
+                var handler = new GetTextAudioQueryHandler(_context, Mapper);
                 _response = await handler.Handle(request, CancellationToken.None);
                 _responseType = CommandResponseType.Successful;
             }

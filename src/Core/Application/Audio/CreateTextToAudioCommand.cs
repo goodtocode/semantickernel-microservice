@@ -1,59 +1,49 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
-using Goodtocode.SemanticKernel.Core.Domain.Image;
-using Microsoft.SemanticKernel.TextToImage;
-using System.Buffers.Text;
-using System.Text;
+using Goodtocode.SemanticKernel.Core.Domain.Audio;
+using Microsoft.SemanticKernel.TextToAudio;
 
-namespace Goodtocode.SemanticKernel.Core.Application.Image;
+namespace Goodtocode.SemanticKernel.Core.Application.Audio;
 
-public class CreateTextToImageCommand : IRequest<TextImageDto>
+public class CreateTextToAudioCommand : IRequest<TextAudioDto>
 {
     public Guid Id { get; set; }
     public string Prompt { get; set; } = string.Empty;
-    public int Width { get; set; }
-    public int Height { get; set; }
 }
 
 #pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-public class CreateTextToImageCommandHandler(ITextToImageService imageService, ISemanticKernelContext context, IMapper mapper)
-    : IRequestHandler<CreateTextToImageCommand, TextImageDto>
+public class CreateTextToAudioCommandHandler(ITextToAudioService AudioService, ISemanticKernelContext context, IMapper mapper)
+    : IRequestHandler<CreateTextToAudioCommand, TextAudioDto>
 {
-    private readonly ITextToImageService _imageService = imageService;
+    private readonly ITextToAudioService _AudioService = AudioService;
     private readonly IMapper _mapper = mapper;
     private readonly ISemanticKernelContext _context = context;
 
-    public async Task<TextImageDto> Handle(CreateTextToImageCommand request, CancellationToken cancellationToken)
+    public async Task<TextAudioDto> Handle(CreateTextToAudioCommand request, CancellationToken cancellationToken)
     {
 
         GuardAgainstEmptyPrompt(request?.Prompt);
-        GuardAgainstIdExsits(_context.TextImages, request!.Id);
+        GuardAgainstIdExsits(_context.TextAudio, request!.Id);
 
         // Get response
-        var response = await _imageService.GenerateImageAsync(description: request.Prompt, width: request.Width, height: request.Height, cancellationToken: cancellationToken);
-
-
-        // Handle response containing rather a Uri or a Base64 byte array
-        Uri.TryCreate(response, UriKind.Absolute, out var returnUri);
+        var response = await _AudioService.GetAudioContentAsync(text: request.Prompt, cancellationToken: cancellationToken);
 
         // Persist chat session
-        var textImage = new TextImageEntity()
+        var textAudio = new TextAudioEntity()
         {
             Id = request.Id == Guid.Empty ? Guid.NewGuid() : request.Id,
             Description = request.Prompt,
-            Width = request.Width,
-            Height = request.Height,
-            ImageBytes = Encoding.UTF8.GetBytes(response),
-            ImageUrl = returnUri
+            AudioBytes = response.Data.GetValueOrDefault().ToArray(),
+            AudioUrl = response.Uri
         };
-        _context.TextImages.Add(textImage);
+        _context.TextAudio.Add(textAudio);
         await _context.SaveChangesAsync(cancellationToken);
 
         // Return session
-        TextImageDto returnValue;
+        TextAudioDto returnValue;
         try
         {
-            returnValue = _mapper.Map<TextImageDto>(textImage);
+            returnValue = _mapper.Map<TextAudioDto>(textAudio);
         }
         catch (Exception)
         {
@@ -74,7 +64,7 @@ public class CreateTextToImageCommandHandler(ITextToImageService imageService, I
             ]);
     }
 
-    private static void GuardAgainstIdExsits(DbSet<TextImageEntity> dbSet, Guid id)
+    private static void GuardAgainstIdExsits(DbSet<TextAudioEntity> dbSet, Guid id)
     {
         if (dbSet.Any(x => x.Id == id))
             throw new CustomValidationException(

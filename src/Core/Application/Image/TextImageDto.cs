@@ -5,12 +5,12 @@ namespace Goodtocode.SemanticKernel.Core.Application.Image;
 
 public class TextImageDto : IMapFrom<TextImageEntity>
 {
-    private int _width = 256;
-    private int _height = 256;
+    private int _width = 1024;
+    private int _height = 1024;
     public Guid Id { get; set; } = Guid.Empty;
     public Guid AuthorId { get; set; } = Guid.Empty;
     public string Description { get; set; } = string.Empty;
-    public string? ImageBytes { get; set; }
+    public ReadOnlyMemory<byte>? ImageBytes { get; set; }
     public Uri? ImageUrl { get; set; }
     public int Height
     {
@@ -39,6 +39,8 @@ public void Mapping(Profile profile)
         .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Description))
         .ForMember(d => d.ImageBytes, opt => opt.MapFrom(s => s.ImageBytes))
         .ForMember(d => d.ImageUrl, opt => opt.MapFrom(s => s.ImageUrl))
+        .ForMember(d => d.Width, opt => opt.MapFrom(s => s.Width))
+        .ForMember(d => d.Height, opt => opt.MapFrom(s => s.Height))
         .ForMember(d => d.Timestamp, opt => opt.MapFrom(s => s.Timestamp));
 }
 }
