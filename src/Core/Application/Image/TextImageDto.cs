@@ -10,7 +10,7 @@ public class TextImageDto : IMapFrom<TextImageEntity>
     public Guid Id { get; set; } = Guid.Empty;
     public Guid AuthorId { get; set; } = Guid.Empty;
     public string Description { get; set; } = string.Empty;
-    public ReadOnlyMemory<byte>? ImageBytes { get; set; }
+    public byte[]? ImageBytes { get; set; }
     public Uri? ImageUrl { get; set; }
     public int Height
     {
