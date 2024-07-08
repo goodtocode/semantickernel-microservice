@@ -48,7 +48,7 @@ jobs:
       INFRA_PATH: 'Infrastructure/SqlServer'
       INFRA_PROJECT: 'Infrastructure.SqlServer.csproj'
       INFRA_DBCONTEXT: 'SemanticKernelContext'
-      UNIT_PATH: '../tests/Specs.Integration'
+      UNIT_PATH: 'Tests/Specs.Integration'
       UNIT_PROJECT: 'Specs.Integration.csproj'
       SCRIPTS_PATH: './.github/scripts'
       SQL_NAME: 'sql-semantickernel-dev-001'

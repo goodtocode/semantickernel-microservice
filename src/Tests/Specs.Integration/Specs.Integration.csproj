@@ -43,11 +43,10 @@
 		<PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
 	</ItemGroup>
 
-
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
-		<ProjectReference Include="..\..\src\Infrastructure\SemanticKernel\Infrastructure.SemanticKernel.csproj" />
-		<ProjectReference Include="..\..\src\Infrastructure\SqlServer\Infrastructure.SqlServer.csproj" />
+	  <ProjectReference Include="..\..\Core\Application\Application.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\SemanticKernel\Infrastructure.SemanticKernel.csproj" />
+	  <ProjectReference Include="..\..\Infrastructure\SqlServer\Infrastructure.SqlServer.csproj" />
 	</ItemGroup>
 
 
