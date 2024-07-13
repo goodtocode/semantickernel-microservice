@@ -1,9 +1,9 @@
 ﻿using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 
-namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviours;
+namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviors;
 
-public class CustomLoggingBehaviour<TRequest>(ILogger<TRequest> logger) : IRequestPreProcessor<TRequest> where TRequest : notnull
+public class CustomLoggingBehavior<TRequest>(ILogger<TRequest> logger) : IRequestPreProcessor<TRequest> where TRequest : notnull
 {
     private readonly ILogger _logger = logger;
 

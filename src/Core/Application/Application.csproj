@@ -9,15 +9,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>		
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="AudioToText\**" />
-	  <Compile Remove="TextEmbeddingGeneration\**" />
-	  <EmbeddedResource Remove="AudioToText\**" />
-	  <EmbeddedResource Remove="TextEmbeddingGeneration\**" />
-	  <None Remove="AudioToText\**" />
-	  <None Remove="TextEmbeddingGeneration\**" />
-	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />

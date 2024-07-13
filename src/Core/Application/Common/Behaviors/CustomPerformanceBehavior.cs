@@ -1,14 +1,14 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
-namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviours;
+namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviors;
 
-public class CustomPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class CustomPerformanceBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
     private readonly Stopwatch _timer;
     private readonly ILogger<TRequest> _logger;
 
-    public CustomPerformanceBehaviour(
+    public CustomPerformanceBehavior(
         ILogger<TRequest> logger){
         _timer = new Stopwatch();
 

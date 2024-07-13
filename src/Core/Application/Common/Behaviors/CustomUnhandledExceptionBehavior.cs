@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviours;
+namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviors;
 
-public class CustomUnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class CustomUnhandledExceptionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
     private readonly ILogger<TRequest> _logger;
 
-    public CustomUnhandledExceptionBehaviour(ILogger<TRequest> logger)
+    public CustomUnhandledExceptionBehavior(ILogger<TRequest> logger)
     {
         _logger = logger;
     }
