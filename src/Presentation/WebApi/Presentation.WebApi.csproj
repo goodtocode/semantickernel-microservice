@@ -3,6 +3,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<RootNamespace>Goodtocode.SemanticKernel.Presentation.WebApi</RootNamespace>
 		<AssemblyName>Goodtocode.SemanticKernel.Presentation.WebApi</AssemblyName>
+		<Version>1.0.0</Version>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>

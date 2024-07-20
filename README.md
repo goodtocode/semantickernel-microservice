@@ -71,10 +71,13 @@ AzureOpenAI__ApiKey
 ```
 
 ### Open AI
+Set API Key in both Presention/WebAPI and Tests/Specs.Integration projects
 ```
 cd src/Presentation/WebAPI
 dotnet user-secrets init
-dotnet user-secrets set "OpenAI:ChatModelId" "gpt-3.5-turbo"
+dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
+cd src/Tests/Specs.Integration
+dotnet user-secrets init
 dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
 ```
 Alternately you can set in Environment variables

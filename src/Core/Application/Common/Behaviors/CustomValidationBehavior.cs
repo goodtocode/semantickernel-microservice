@@ -1,13 +1,13 @@
 ﻿using ValidationException = Goodtocode.SemanticKernel.Core.Application.Common.Exceptions.CustomValidationException;
 
-namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviours;
+namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviors;
 
-public class CustomValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class CustomValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
      where TRequest : notnull
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-    public CustomValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
+    public CustomValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
     {
         _validators = validators;
     }

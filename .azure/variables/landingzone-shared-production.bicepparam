@@ -10,4 +10,4 @@ param workSku = 'PerGB2018'
 
 // App Service
 param planName = 'plan-shared-westus2-prod-001'
-param planSku = 'S1'
+param planSku = 'F1'

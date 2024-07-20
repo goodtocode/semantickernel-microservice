@@ -8,8 +8,4 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\DotNet.Extensions\DotNet.Extensions.csproj" />
-	</ItemGroup>
-
 </Project>
