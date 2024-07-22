@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Domain.Types", "Comm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.SemanticKernel", "Infrastructure.SemanticKernel\Infrastructure.SemanticKernel.csproj", "{2091EF1C-2E75-488C-A822-9628E639FB98}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Specs.Integration", "Tests.Specs.Integration\Specs.Integration.csproj", "{5DD2A9DC-4CE9-4E47-BE7D-7EEF208D287F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Specs.Integration", "Tests.Specs.Integration\Tests.Specs.Integration.csproj", "{5DD2A9DC-4CE9-4E47-BE7D-7EEF208D287F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
