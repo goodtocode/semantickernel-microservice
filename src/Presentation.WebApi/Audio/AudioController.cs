@@ -65,7 +65,7 @@ public class AudioController : ApiControllerBase
     ///         }
     ///     }]
     /// </returns>
-    [HttpGet(Name = "GetTextAudioQuery")]
+    [HttpGet(Name = "GetTextAudiosQuery")]
     [ProducesResponseType(typeof(ICollection<TextAudioDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

@@ -3,23 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Core\Domain\Domain.csproj", "{008A186A-3688-4860-B52F-BF42F38090FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Domain", "Core.Domain\Core.Domain.csproj", "{008A186A-3688-4860-B52F-BF42F38090FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Core\Application\Application.csproj", "{900FAF69-EDDA-4F1D-BED1-8CD98E453BBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Application", "Core.Application\Core.Application.csproj", "{900FAF69-EDDA-4F1D-BED1-8CD98E453BBE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.WebApi", "Presentation\WebApi\Presentation.WebApi.csproj", "{9DE6F333-17B7-425D-B05F-E720346B6AF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.WebApi", "Presentation.WebApi\Presentation.WebApi.csproj", "{9DE6F333-17B7-425D-B05F-E720346B6AF4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.SqlServer", "Infrastructure\SqlServer\Infrastructure.SqlServer.csproj", "{615694FE-4180-4F1F-9ED7-984BA2DFCEA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.SqlServer", "Infrastructure.SqlServer\Infrastructure.SqlServer.csproj", "{615694FE-4180-4F1F-9ED7-984BA2DFCEA7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpClient.ClientCredentialFlow", "Common\HttpClient.ClientCredentialFlow\HttpClient.ClientCredentialFlow.csproj", "{DC86C7F8-02DF-4950-9063-93FD20124698}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.HttpClient.ClientCredentialFlow", "Common.HttpClient.ClientCredentialFlow\Common.HttpClient.ClientCredentialFlow.csproj", "{DC86C7F8-02DF-4950-9063-93FD20124698}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{CB9291D2-F921-421A-AEAD-86B7E57737FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Domain.Types", "Common.Domain.Types\Common.Domain.Types.csproj", "{B2B0E7CA-B06A-4D81-9D6E-E3A79C3425FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Types", "Common\Domain.Types\Domain.Types.csproj", "{B2B0E7CA-B06A-4D81-9D6E-E3A79C3425FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.SemanticKernel", "Infrastructure.SemanticKernel\Infrastructure.SemanticKernel.csproj", "{2091EF1C-2E75-488C-A822-9628E639FB98}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.SemanticKernel", "Infrastructure\SemanticKernel\Infrastructure.SemanticKernel.csproj", "{2091EF1C-2E75-488C-A822-9628E639FB98}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Specs.Integration", "Tests\Specs.Integration\Specs.Integration.csproj", "{5DD2A9DC-4CE9-4E47-BE7D-7EEF208D287F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Specs.Integration", "Tests.Specs.Integration\Tests.Specs.Integration.csproj", "{5DD2A9DC-4CE9-4E47-BE7D-7EEF208D287F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,10 +60,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{DC86C7F8-02DF-4950-9063-93FD20124698} = {CB9291D2-F921-421A-AEAD-86B7E57737FF}
-		{B2B0E7CA-B06A-4D81-9D6E-E3A79C3425FC} = {CB9291D2-F921-421A-AEAD-86B7E57737FF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {394AC88B-6897-416E-B92F-1D370A044F06}

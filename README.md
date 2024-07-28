@@ -124,9 +124,9 @@ Right-click Presentation.WebApi and select Set as Default Project
 dotnet run Presentation.WebApi.csproj
 ```
 
-## Open http://localhost:7777/swagger/index.html in your browser to the Swagger API Interface
+## Open http://localhost:7777/swagger/index.html 
 Open Microsoft Edge or modern browser
-Navigate to: http://localhost:7777/swagger/index.html
+Navigate to: http://localhost:7777/swagger/index.html in your browser to the Swagger API Interface
 
 # Creating a dotnet new Template
 ## dotnet new steps
