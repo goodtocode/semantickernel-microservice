@@ -3,10 +3,15 @@
 
 [![.github/workflows/gtc-rg-semantickernel-api.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-api.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-api.yml)
 
-
 A simple Semantic Kernel CRUD Microservice solution including Domain Models, Aggregates, Persistence Repositories and an API presentation layer. This demonstrates the most basic use cases of Semantic Kernel in an Clean Architecture Microservice.
 
-# Prerequisites
+# Getting-Started 
+To get started, follow the steps below:
+1. Install Prerequisites
+2. Add your Open AI or Azure Open AI key to configuration (via *dotnet user-secrets set* command)
+3. Create your SQL Server database (via *dotnet ef* command)
+
+# Install Prerequisites
 You will need the following tools:
 ## Visual Studio
 [Visual Studio Workload IDs](https://learn.microsoft.com/en-us/visualstudio/install/workload-component-id-vs-community?view=vs-2022&preserve-view=true)
@@ -40,7 +45,7 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 ## SQL Server
 [Optional: SQL Server 2022 or above](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 
-# Application Configurations
+# Configure API Key and Connection String
 Follow these steps to get your development environment set up:
 
 ## ASPNETCORE_ENVIRONMENT set to "Local" in launchsettings.json
@@ -91,7 +96,7 @@ OpenAI__ApiKey
 dotnet user-secrets init
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YOUR_SQL_CONNECTION_STRING"
 ```
-
+# Create SQL Server Database
 ## dotnet ef migrate steps
 
 1. Open Windows Terminal in Powershell or Cmd mode
@@ -129,7 +134,7 @@ Open Microsoft Edge or modern browser
 Navigate to: http://localhost:7777/swagger/index.html in your browser to the Swagger API Interface
 
 
-# DevOps Configuration
+# DevOps Configuration for Azure IaC and CI/CD
 ## GitHub Actions (.github folder)
 The GitHub action will automatically run upon commit to a repo. The triggers are set based on changes (PRs/Merges) to the main branch.
 
@@ -141,28 +146,37 @@ Note: The AZURE_SECRETS method uses: az ad sp create-for-rbac --name "COMPANY-SU
 [New-AzureGitHubFederation.ps1](https://github.com/goodtocode/cloud-admin/blob/main/scripts/cybersecurity/Azure-GitHub-Federation/New-AzureGitHubFederation.ps1)
 ```
 Install-Module Az #-Force #Force will update the module if it is already installed
+
 Connect-AzAccount -SubscriptionId $SubscriptionId -UseDeviceAuthentication
+```
+```
 # Create a new Azure AD App Registration application and service principal
 $existingAppRegistration = Get-AzADApplication -Filter "displayName eq '$PrincipalName'"
 if (-not $existingAppRegistration) {
     New-AzADApplication -DisplayName $PrincipalName
 }
 $clientId = (Get-AzADApplication -DisplayName $PrincipalName).AppId
+
 New-AzADServicePrincipal -ApplicationId $clientId
 $objectId = (Get-AzADServicePrincipal -DisplayName $PrincipalName).Id
+
 New-AzRoleAssignment -ObjectId $objectId -RoleDefinitionName Contributor -Scope "/subscriptions/$SubscriptionId"
 $clientId = (Get-AzADApplication -DisplayName $PrincipalName).AppId
 $tenantId = (Get-AzContext).Subscription.TenantId
-
+```
+```
 # Create new App Registration Federated Credentials for the GitHub operations
 $subjectRepo = $subjectRepo = "repo:" + $Organization + "/" + $Repository + ":environment:" + $Environment
+
 New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-repo" -Subject "$subjectRepo"
 $subjectRepoMain = "repo:" + $Organization + "/" + $Repository + ":ref:refs/heads/main"
+
 New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-main" -Subject "$subjectRepoMain"
 $subjectRepoPR = "repo:" + $Organization + "/" + $Repository + ":pull_request"
+
 New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-PR" -Subject "$subjectRepoPR"
 ```
-6. In GitHub repo environment: Add the az login secrets: 
+In GitHub repo environment: Add the az login secrets: 
 - AZURE_CLIENT_ID
 - AZURE_TENANT_ID
 - AZURE_SUBSCRIPTION_ID
