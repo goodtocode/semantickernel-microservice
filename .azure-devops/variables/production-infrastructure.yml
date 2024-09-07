@@ -1,5 +1,5 @@
 variables:
-  - name: rgEnvironment
+  - name: environmentApp
     value: 'Production'
   - name: rgName  
     value: 'rg-PRODUCT-prod-001'

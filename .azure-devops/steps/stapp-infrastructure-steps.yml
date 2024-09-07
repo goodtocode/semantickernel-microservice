@@ -14,7 +14,7 @@ parameters:
   - name: rgLocation
     type: string 
     default: "West US 3"
-  - name: rgEnvironment
+  - name: environmentApp
     type: string 
     default: 'Development'
   - name: stappName

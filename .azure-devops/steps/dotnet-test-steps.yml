@@ -1,5 +1,5 @@
 parameters:
-  - name: rgEnvironment
+  - name: environmentApp
     type: string 
     default: "rg-PRODUCT-001"
   - name: testPath
@@ -67,5 +67,5 @@ steps:
     env:
       ${{ parameters.appcsEnvironmentVariable }}: ${{ parameters.appcsConnection }}
       ${{ parameters.stEnvironmentVariable }}: ${{ parameters.stConnection }}
-      ASPNETCORE_ENVIRONMENT: ${{ parameters.rgEnvironment }}
-      AZURE_FUNCTIONS_ENVIRONMENT: ${{ parameters.rgEnvironment }}
+      ASPNETCORE_ENVIRONMENT: ${{ parameters.environmentApp }}
+      AZURE_FUNCTIONS_ENVIRONMENT: ${{ parameters.environmentApp }}

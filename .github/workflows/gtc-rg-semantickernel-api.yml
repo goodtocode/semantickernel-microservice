@@ -38,7 +38,7 @@ jobs:
     env:      
       AZURE_WEBAPP_NAME: api-semantickernel-dev-001
       AZURE_WEBAPP_PACKAGE_PATH: '.'
-      AZURE_RG_NAME: 'gtc-rg-public-semantickernel-dev-001'
+      AZURE_RG_NAME: 'gtc-rg-devtest-semantickernel-dev-001'
       RUNTIME_ENV: 'Development'
       SRC_PATH: './src'
       SRC_SLN: 'SemanticKernelMicroservice.sln'      

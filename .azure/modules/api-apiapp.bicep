@@ -13,7 +13,7 @@ param appiConnection string
   'Staging'
   'Production'
 ])
-param rgEnvironment string = 'Development'
+param environmentApp string
 
 var webSiteName_var = name
 
@@ -40,7 +40,7 @@ resource webSiteName 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'ASPNETCORE_ENVIRONMENT'
-          value: rgEnvironment
+          value: environmentApp
         }
       ]
     }

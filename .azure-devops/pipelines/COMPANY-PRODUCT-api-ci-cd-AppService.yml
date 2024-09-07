@@ -38,7 +38,7 @@ parameters:
         value: '$(appiConnection)'
         slotSetting: false        
       - name: 'ASPNETCORE_ENVIRONMENT'
-        value: '$(rgEnvironment)'
+        value: '$(environmentApp)'
         slotSetting: false
       - name: '$(appcsEnvironmentVariable)'
         value: '$(appcsConnection)'
@@ -69,7 +69,7 @@ stages:
               restorePath: '$(srcPath)'
               appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
               appcsConnection: '$(appcsConnection)'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
 
       - job: package_api
         dependsOn: test_api
@@ -106,7 +106,7 @@ stages:
               restorePath: '$(srcPath)'
               appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
               appcsConnection: '$(appcsConnection)'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
 
       - job: package_api
         dependsOn: test_unit
@@ -125,7 +125,7 @@ stages:
           - template: ../steps/api-settings-steps.yml
             parameters:
               subscriptionService: '${{ parameters.subscriptionService }}'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
               apiName: '$(apiName)'
               appSettings: '${{ parameters.apiSettings }}'
 
@@ -164,7 +164,7 @@ stages:
               restorePath: '$(srcPath)'
               appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
               appcsConnection: '$(appcsConnection)'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
 
       - job: package_api
         dependsOn: test_unit
@@ -184,7 +184,7 @@ stages:
           - template: ../steps/api-settings-steps.yml
             parameters:
               subscriptionService: '${{ parameters.subscriptionService }}'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
               apiName: '$(apiName)'
               appSettings: '${{ parameters.apiSettings }}'
 

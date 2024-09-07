@@ -11,7 +11,7 @@ parameters:
   - name: rgLocation
     type: string 
     default: "West US 3"
-  - name: rgEnvironment
+  - name: environmentApp
     type: string 
     default: 'Development'
   - name: appiKey
@@ -55,7 +55,7 @@ steps:
         csmFile: "${{ parameters.armPath }}/func-functionsappplan.json"        
         csmParametersFile: "${{ parameters.armPath }}/func-functionsappplan.parameters.json"        
         deploymentMode: "Validation"
-        overrideParameters: -name "${{ parameters.funcName }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -rgEnvironment "${{ parameters.rgEnvironment }}" -sku "${{ parameters.planSku }}" -alwaysOn "${{ parameters.alwaysOn }}"
+        overrideParameters: -name "${{ parameters.funcName }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -environmentApp "${{ parameters.environmentApp }}" -sku "${{ parameters.planSku }}" -alwaysOn "${{ parameters.alwaysOn }}"
 
   - task: AzureResourceManagerTemplateDeployment@3
     displayName: "Deploy ${{ parameters.funcName }}"
@@ -70,4 +70,4 @@ steps:
         csmFile: "${{ parameters.armPath }}/func-functionsappplan.json"
         csmParametersFile: "${{ parameters.armPath }}/func-functionsappplan.parameters.json"
         deploymentMode: "Incremental"
-        overrideParameters: -name "${{ parameters.funcName }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -rgEnvironment "${{ parameters.rgEnvironment }}" -sku "${{ parameters.planSku }}" -alwaysOn "${{ parameters.alwaysOn }}"
+        overrideParameters: -name "${{ parameters.funcName }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -environmentApp "${{ parameters.environmentApp }}" -sku "${{ parameters.planSku }}" -alwaysOn "${{ parameters.alwaysOn }}"

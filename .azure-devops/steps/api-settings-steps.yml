@@ -2,7 +2,7 @@ parameters:
   - name: subscriptionService
     type: string 
     default: 'COMPANY-PRODUCT-001'
-  - name: rgEnvironment
+  - name: environmentApp
     type: string 
     default: 'Development'
   - name: apiName
@@ -18,7 +18,7 @@ parameters:
         value: '$(appiConnection)'
         slotSetting: false        
       - name: 'ASPNETCORE_ENVIRONMENT'
-        value: '$(rgEnvironment)'
+        value: '$(environmentApp)'
         slotSetting: false
       - name: '$(appcsEnvironmentVariable)'
         value: '$(appcsConnection)'
