@@ -2,12 +2,13 @@ using '../templates/landingzone-appservicesql.bicep'
 // Common
 var organizationName = 'gtc'
 var productName = 'semkernel'
+var subscriptionName = 'devtest'
 param environmentApp = 'Development'
 var environmentIac = 'dev'
 param location = 'West US 2'
 param tags = { Environment: environmentIac, CostCenter: '0000' }
 // Workspace
-param sharedResourceGroupName = '${organizationName}-rg-shared-${environmentIac}-001'
+param sharedResourceGroupName = '${organizationName}-rg-${subscriptionName}-shared-${environmentIac}-001'
 param workName = 'work-shared-${environmentIac}-001'
 
 // Azure Monitor

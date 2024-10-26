@@ -3,13 +3,13 @@ on:
     branches-ignore:
     - main
     paths:
-    - .github/workflows/gtc-rg-semantickernel-api.yml
+    - .github/workflows/gtc-rg-semkernel-api.yml
     - src/**
   pull_request:
     branches:
     - main    
     paths:
-    - .github/workflows/gtc-rg-semantickernel-api.yml
+    - .github/workflows/gtc-rg-semkernel-api.yml
     - src/**
   workflow_dispatch:
     inputs:
@@ -36,23 +36,23 @@ jobs:
         dotnet-version: [ '8.0.x' ]
 
     env:      
-      AZURE_WEBAPP_NAME: api-semantickernel-dev-001
+      AZURE_WEBAPP_NAME: api-semkernel-dev-001
       AZURE_WEBAPP_PACKAGE_PATH: '.'
-      AZURE_RG_NAME: 'gtc-rg-devtest-semantickernel-dev-001'
+      AZURE_RG_NAME: 'gtc-rg-devtest-semkernel-dev-001'
       RUNTIME_ENV: 'Development'
       SRC_PATH: './src'
       SRC_SLN: 'SemanticKernelMicroservice.sln'      
       API_PATH: 'Presentation.WebApi'
       API_PROJECT: 'Presentation.WebApi.csproj'
-      APPI_NAME: 'appi-semantickernel-dev-001'
+      APPI_NAME: 'appi-semkernel-dev-001'
       INFRA_PATH: 'Infrastructure.SqlServer'
       INFRA_PROJECT: 'Infrastructure.SqlServer.csproj'
       INFRA_DBCONTEXT: 'SemanticKernelContext'
       UNIT_PATH: 'Tests.Specs.Integration'
       UNIT_PROJECT: 'Specs.Integration.csproj'
       SCRIPTS_PATH: './.github/scripts'
-      SQL_NAME: 'sql-semantickernel-dev-001'
-      SQLDB_NAME: 'sqldb-semantickernel-dev-001'
+      SQL_NAME: 'sql-semkernel-dev-001'
+      SQLDB_NAME: 'sqldb-semkernel-dev-001'
       AZURE_CRED: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
 
     steps:

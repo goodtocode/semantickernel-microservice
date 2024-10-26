@@ -3,7 +3,7 @@ on:
     branches-ignore:
       - main
     paths:
-      - .github/workflows/gtc-rg-semantickernel-infrastructure.yml
+      - .github/workflows/gtc-rg-semkernel-iac.yml
       - .azure/**/*.bicep
       - .azure/**/*.bicepparams
   pull_request:
@@ -11,7 +11,7 @@ on:
     branches:
       - main
     paths:
-      - .github/workflows/gtc-rg-semantickernel-infrastructure.yml
+      - .github/workflows/gtc-rg-semkernel-iac.yml
       - .azure/**/*.bicep
       - .azure/**/*.bicepparams
   workflow_dispatch:
@@ -32,8 +32,8 @@ env:
   SHARED_BICEP_PARAMETERS: ".azure/variables/landingzone-shared-development.bicepparam"
   # Product Landing Zone
   PRODUCT_RG_LOCATION: "westus2"
-  PRODUCT_RG_NAME: "gtc-rg-devtest-semantickernel-dev-001"
-  KEYVAULT_NAME: "kv-semanticker-dev-001"
+  PRODUCT_RG_NAME: "gtc-rg-devtest-semkernel-dev-001"
+  KEYVAULT_NAME: "kv-semkernel-dev-001"
   PRODUCT_BICEP_TEMPLATE: ".azure/templates/landingzone-appservicesql.bicep"
   PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-appservicesql-development.bicepparam"
 
