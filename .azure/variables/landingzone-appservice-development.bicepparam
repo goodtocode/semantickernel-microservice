@@ -1,7 +1,7 @@
 using '../templates/landingzone-appservice.bicep'
 // Common
-var subscriptionName = 'devtest'
-var productName = 'semantickernel'
+var organizationName = 'gtc'
+var productName = 'semkernel'
 var environmentIac = 'dev'
 param environmentApp = 'Development'
 param location = 'West US 2'

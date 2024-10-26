@@ -1,9 +1,9 @@
-using '../templates/landingzone-appservice.bicep'
+using '../templates/landingzone-appservicesql.bicep'
 // Common
 var organizationName = 'gtc'
 var productName = 'semkernel'
-var environmentIac = 'prod'
 param environmentApp = 'Production'
+var environmentIac = 'prod'
 param location = 'West US 2'
 param tags = { Environment: environmentIac, CostCenter: '0000' }
 // Workspace
@@ -27,3 +27,10 @@ param kvSku = 'standard'
 var planSku = 'F1'
 param appName = 'api-${productName}-${environmentIac}-001'
 param planName = 'plan-shared-${planSku}-${environmentIac}-001'
+
+// SQL Server
+param sqlName = 'sql-${productName}-${environmentIac}-001'
+param sqlAdminUser = ''
+param sqlAdminPassword = ''
+param sqldbName = 'sqldb-${productName}-${environmentIac}-001'
+param sqldbSku = 'Basic'

@@ -35,7 +35,7 @@ env:
   PRODUCT_RG_NAME: "gtc-rg-devtest-semantickernel-dev-001"
   KEYVAULT_NAME: "kv-semanticker-dev-001"
   PRODUCT_BICEP_TEMPLATE: ".azure/templates/landingzone-appservicesql.bicep"
-  PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-appservice-development.bicepparam"
+  PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-appservicesql-development.bicepparam"
 
 permissions:
   id-token: write
