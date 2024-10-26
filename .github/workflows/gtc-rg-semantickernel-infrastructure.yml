@@ -24,6 +24,7 @@ on:
         description: "Running mode"
 
 env:
+  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
   # Shared Landing Zone
   SHARED_RG_NAME: "gtc-rg-devtest-shared-dev-001"
   SHARED_RG_LOCATION: "westus2"
