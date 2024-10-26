@@ -21,7 +21,7 @@ param stName = 'st${productName}${environmentIac}001'
 param stSku = 'Standard_LRS'
 
 // Key Vault
-param kvName = 'kv-${productName}-${environmentIac}-001'
+param kvName = 'kv-${productName}-${environmentIac}-002'
 param kvSku = 'standard'
 
 // App Service
