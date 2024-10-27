@@ -121,7 +121,7 @@ stages:
                   inputs:
                       script: |
                         netsh http delete sslcert ipport=0.0.0.0:443
-                        setx ASPNETCORE_ENVIRONMENT $(rgEnvironment) /M
+                        setx ASPNETCORE_ENVIRONMENT $(environmentApp) /M
 
                 - task: IISWebAppManagementOnMachineGroup@0
                   displayName: IIS Web App Create - $(siteDNS)
@@ -182,7 +182,7 @@ stages:
                   inputs:
                     folderPath: '$(Pipeline.Workspace)/**/*.zip'
                     fileType: 'json'
-                    targetFiles: 'appsettings.$(rgEnvironment).json'
+                    targetFiles: 'appsettings.$(environmentApp).json'
 
                 - task: IISWebAppDeploymentOnMachineGroup@0
                   displayName: Deploy IIS Website/App - $(siteDNS)\$(productName)
@@ -224,7 +224,7 @@ stages:
                   inputs:
                       script: |
                         netsh http delete sslcert ipport=0.0.0.0:443
-                        setx ASPNETCORE_ENVIRONMENT $(rgEnvironment) /M
+                        setx ASPNETCORE_ENVIRONMENT $(environmentApp) /M
 
                 - task: IISWebAppManagementOnMachineGroup@0
                   displayName: IIS Web App Create - $(siteDNS)
@@ -285,7 +285,7 @@ stages:
                   inputs:
                     folderPath: '$(Pipeline.Workspace)/**/*.zip'
                     fileType: 'json'
-                    targetFiles: 'appsettings.$(rgEnvironment).json'
+                    targetFiles: 'appsettings.$(environmentApp).json'
 
                 - task: IISWebAppDeploymentOnMachineGroup@0
                   displayName: Deploy IIS Website/App - $(siteDNS)\$(productName)

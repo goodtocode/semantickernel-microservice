@@ -34,7 +34,7 @@ parameters:
         value: '$(appiConnection)'
         slotSetting: false        
       - name: 'AZURE_FUNCTIONS_ENVIRONMENT'
-        value: '$(rgEnvironment)'
+        value: '$(environmentApp)'
         slotSetting: false
       - name: 'FUNCTIONS_EXTENSION_VERSION'
         value: '~$(funcVersion)'
@@ -79,7 +79,7 @@ stages:
               restorePath: '$(srcPath)'
               appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
               appcsConnection: '$(appcsConnection)'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
 
       - job: build_func
         dependsOn: test_unit
@@ -98,7 +98,7 @@ stages:
           - template: ../steps/func-settings-steps.yml
             parameters:
               subscriptionService: '${{ parameters.subscriptionService }}'              
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
               funcName: '$(funcName)'
               appSettings: '${{ parameters.funcSettings }}'
 
@@ -150,7 +150,7 @@ stages:
               restorePath: '$(srcPath)'
               appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
               appcsConnection: '$(appcsConnection)'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
 
       - job: build_func
         dependsOn: test_unit
@@ -169,7 +169,7 @@ stages:
           - template: ../steps/func-settings-steps.yml
             parameters:
               subscriptionService: '${{ parameters.subscriptionService }}'              
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
               funcName: '$(funcName)'
               appSettings: '${{ parameters.funcSettings }}'
 

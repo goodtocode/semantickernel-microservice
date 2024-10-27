@@ -40,7 +40,7 @@ stages:
         timeoutInMinutes: 4320
         steps:
           - task: ManualValidation@0
-            displayName: Approve $(rgEnvironment) Deployment
+            displayName: Approve $(environmentApp) Deployment
             inputs:
               notifyUsers: $(deployApprovers)
               instructions: "Team: $(System.TeamProject)\r\nRepo: $(Build.Repository.Name)\r\nRequested by: $(Build.RequestedFor)\r\nBuild: $(Build.BuildNumber)\r\nUrl: $(Build.BuildUri)\r\nA new deployment has been requested. Please approve or reject the deployment."
@@ -97,7 +97,7 @@ stages:
         timeoutInMinutes: 4320
         steps:
           - task: ManualValidation@0
-            displayName: Approve $(rgEnvironment) Deployment
+            displayName: Approve $(environmentApp) Deployment
             inputs:
               notifyUsers: $(deployApprovers)
               instructions: "Team: $(System.TeamProject)\r\nRepo: $(Build.Repository.Name)\r\nRequested by: $(Build.RequestedFor)\r\nBuild: $(Build.BuildNumber)\r\nUrl: $(Build.BuildUri)\r\nA new deployment has been requested. Please approve or reject the deployment."

@@ -5,7 +5,7 @@ param tenantId string = tenant().tenantId
 param location string = resourceGroup().location
 param sharedSubscriptionId string = subscription().subscriptionId
 param sharedResourceGroupName string
-param rgEnvironment string 
+param environmentApp string 
 param tags object
 // Azure Monitor
 param appiName string 
@@ -72,7 +72,7 @@ module apiModule '../modules/api-appservice.bicep' = {
     name: appName
     location: location    
     tags: tags
-    environment: rgEnvironment
+    environment: environmentApp
     appiKey:appiModule.outputs.InstrumentationKey
     appiConnection:appiModule.outputs.Connectionstring
     planId: planResource.id  

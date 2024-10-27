@@ -1,6 +1,6 @@
 variables:
   - group: aacn-PRODUCT-dev
-  - name: rgEnvironment
+  - name: environmentApp
     value: 'Development'
   - name: siteDns
     value: 'FQDN'

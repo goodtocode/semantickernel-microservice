@@ -14,7 +14,7 @@ parameters:
   - name: rgLocation
     type: string 
     default: "West US 3"
-  - name: rgEnvironment
+  - name: environmentApp
     type: string 
     default: 'Development'
   - name: appiKey
@@ -102,7 +102,7 @@ steps:
         csmFile: "${{ parameters.armPath }}/func-functionsappvnet.json"        
         csmParametersFile: "${{ parameters.armPath }}/func-functionsappvnet.parameters.json"        
         deploymentMode: "Validation"
-        overrideParameters: -name "${{ parameters.funcName }}" -location "${{ parameters.rgLocation }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -rgEnvironment "${{ parameters.rgEnvironment }}" -planName "${{ parameters.planName }}" -planResourceGroupSubscriptionId "${{ parameters.planResourceGroupSubscriptionId }}" -planResourceGroupName "${{ parameters.planResourceGroupName }}" -vnetResourceGroupName "${{ parameters.vnetResourceGroupName }}" -vnetName "${{ parameters.vnetName }}" -subnetName "${{ parameters.snetName }}"
+        overrideParameters: -name "${{ parameters.funcName }}" -location "${{ parameters.rgLocation }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -environmentApp "${{ parameters.environmentApp }}" -planName "${{ parameters.planName }}" -planResourceGroupSubscriptionId "${{ parameters.planResourceGroupSubscriptionId }}" -planResourceGroupName "${{ parameters.planResourceGroupName }}" -vnetResourceGroupName "${{ parameters.vnetResourceGroupName }}" -vnetName "${{ parameters.vnetName }}" -subnetName "${{ parameters.snetName }}"
 
   - task: AzureResourceManagerTemplateDeployment@3
     displayName: "Deploy ${{ parameters.funcName }}"
@@ -117,4 +117,4 @@ steps:
         csmFile: "${{ parameters.armPath }}/func-functionsappvnet.json"
         csmParametersFile: "${{ parameters.armPath }}/func-functionsappvnet.parameters.json"
         deploymentMode: "Incremental"
-        overrideParameters: -name "${{ parameters.funcName }}" -location "${{ parameters.rgLocation }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -rgEnvironment "${{ parameters.rgEnvironment }}" -planName "${{ parameters.planName }}" -planResourceGroupSubscriptionId "${{ parameters.planResourceGroupSubscriptionId }}" -planResourceGroupName "${{ parameters.planResourceGroupName }}" -vnetResourceGroupName "${{ parameters.vnetResourceGroupName }}" -vnetName "${{ parameters.vnetName }}" -subnetName "${{ parameters.snetName }}"
+        overrideParameters: -name "${{ parameters.funcName }}" -location "${{ parameters.rgLocation }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -environmentApp "${{ parameters.environmentApp }}" -planName "${{ parameters.planName }}" -planResourceGroupSubscriptionId "${{ parameters.planResourceGroupSubscriptionId }}" -planResourceGroupName "${{ parameters.planResourceGroupName }}" -vnetResourceGroupName "${{ parameters.vnetResourceGroupName }}" -vnetName "${{ parameters.vnetName }}" -subnetName "${{ parameters.snetName }}"

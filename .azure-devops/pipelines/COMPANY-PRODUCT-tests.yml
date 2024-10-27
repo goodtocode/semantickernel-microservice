@@ -39,4 +39,4 @@ stages:
               appcsConnection: '$(appcsConnection)'
               stEnvironmentVariable: '$(stEnvironmentVariable)'
               stConnection: '$(stConnection)'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'

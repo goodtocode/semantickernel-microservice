@@ -52,7 +52,7 @@ stages:
               arguments: '--filter TestCategory!=Integration'
               appcsEnvironmentVariable: '${{ parameters.appcsEnvironmentVariable }}'
               appcsConnection: '${{ parameters.appcsConnection }}'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
 
       - job: pack_src
         dependsOn: test_src
@@ -94,7 +94,7 @@ stages:
               arguments: '--filter TestCategory!=Integration'
               appcsEnvironmentVariable: '${{ parameters.appcsEnvironmentVariable }}'
               appcsConnection: '${{ parameters.appcsConnection }}'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
 
       - job: pack_src
         dependsOn: test_src

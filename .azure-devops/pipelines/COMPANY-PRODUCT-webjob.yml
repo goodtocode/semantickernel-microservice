@@ -26,7 +26,7 @@ parameters:
         value: '$(appiConnection)'
         slotSetting: false        
       - name: 'ASPNETCORE_ENVIRONMENT'
-        value: '$(rgEnvironment)'
+        value: '$(environmentApp)'
         slotSetting: false
       - name: 'AzureWebJobsDashboard'
         value: '$(stConnection)'
@@ -70,7 +70,7 @@ stages:
             parameters:
               dotnetVersion: '$(dotnetVersion)'
               unitPath: $(webjobPath)
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
               appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
               appcsConnection: '$(appcsConnection)'
               stEnvironmentVariable: '$(stEnvironmentVariable)'
@@ -82,7 +82,7 @@ stages:
           - template: ../steps/webjob-settings-steps.yml
             parameters:
               subscriptionName: '$(subscriptionName)'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
               webjobName: '$(webjobName)'
               appSettings: '${{ parameters.workerSettings }}'
 
@@ -121,7 +121,7 @@ stages:
             parameters:
               dotnetVersion: '$(dotnetVersion)'
               unitPath: $(webjobPath)
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
               appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
               appcsConnection: '$(appcsConnection)'
               stEnvironmentVariable: '$(stEnvironmentVariable)'
@@ -133,7 +133,7 @@ stages:
           - template: ../steps/webjob-settings-steps.yml
             parameters:
               subscriptionName: '$(subscriptionName)'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
               webjobName: '$(webjobName)'
               appSettings: '${{ parameters.workerSettings }}'
 

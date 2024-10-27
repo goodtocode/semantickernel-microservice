@@ -3,7 +3,7 @@ on:
     branches-ignore:
       - main
     paths:
-      - .github/workflows/gtc-rg-semantickernel-infrastructure.yml
+      - .github/workflows/gtc-rg-semkernel-iac.yml
       - .azure/**/*.bicep
       - .azure/**/*.bicepparams
   pull_request:
@@ -11,7 +11,7 @@ on:
     branches:
       - main
     paths:
-      - .github/workflows/gtc-rg-semantickernel-infrastructure.yml
+      - .github/workflows/gtc-rg-semkernel-iac.yml
       - .azure/**/*.bicep
       - .azure/**/*.bicepparams
   workflow_dispatch:
@@ -24,17 +24,18 @@ on:
         description: "Running mode"
 
 env:
+  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
   # Shared Landing Zone
-  SHARED_RG_NAME: "gtc-rg-shared-westus2-dev-001"
+  SHARED_RG_NAME: "gtc-rg-devtest-shared-dev-001"
   SHARED_RG_LOCATION: "westus2"
   SHARED_BICEP_TEMPLATE: ".azure/templates/landingzone-shared.bicep"
   SHARED_BICEP_PARAMETERS: ".azure/variables/landingzone-shared-development.bicepparam"
   # Product Landing Zone
   PRODUCT_RG_LOCATION: "westus2"
-  PRODUCT_RG_NAME: "gtc-rg-public-semantickernel-dev-001"
-  KEYVAULT_NAME: "kv-semanticker-dev-001"
+  PRODUCT_RG_NAME: "gtc-rg-devtest-semkernel-dev-001"
+  KEYVAULT_NAME: "kv-semkernel-dev-002"
   PRODUCT_BICEP_TEMPLATE: ".azure/templates/landingzone-appservicesql.bicep"
-  PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-appservice-development.bicepparam"
+  PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-appservicesql-development.bicepparam"
 
 permissions:
   id-token: write
@@ -59,38 +60,38 @@ jobs:
 
       # SHARED RG
       - name: Create ${{ env.SHARED_RG_NAME }}
-        uses: Azure/cli@v1.0.0
+        uses: Azure/cli@v2.1.0
         with:
           inlineScript: |
             az group create -n ${{ env.SHARED_RG_NAME }} -l ${{ env.SHARED_RG_LOCATION }}
 
       - name: Validate ${{ env.SHARED_RG_NAME }}
-        uses: Azure/cli@v1.0.0
+        uses: Azure/cli@v2.1.0
         with:
           inlineScript: |
             az deployment group what-if --resource-group ${{ env.SHARED_RG_NAME }} --template-file ${{ env.SHARED_BICEP_TEMPLATE }} --parameters ${{ env.SHARED_BICEP_PARAMETERS }}
 
       - name: Deploy ${{ env.SHARED_RG_NAME }}
-        uses: Azure/cli@v1.0.0
+        uses: Azure/cli@v2.1.0
         with:
           inlineScript: |
             az deployment group create --resource-group ${{ env.SHARED_RG_NAME }} --template-file ${{ env.SHARED_BICEP_TEMPLATE }} --parameters ${{ env.SHARED_BICEP_PARAMETERS }}
 
       # PRODUCT RG
       - name: Create ${{ env.PRODUCT_RG_NAME }}
-        uses: Azure/cli@v1.0.0
+        uses: Azure/cli@v2.1.0
         with:
           inlineScript: |
             az group create -n ${{ env.PRODUCT_RG_NAME }} -l ${{ env.PRODUCT_RG_LOCATION }}
 
       - name: Validate ${{ env.PRODUCT_RG_NAME }}
-        uses: Azure/cli@v1.0.0
+        uses: Azure/cli@v2.1.0
         with:
           inlineScript: |
             az deployment group what-if --resource-group ${{ env.PRODUCT_RG_NAME }} --template-file ${{ env.PRODUCT_BICEP_TEMPLATE }} --parameters ${{ env.PRODUCT_BICEP_PARAMETERS }} --parameters sqlAdminUser=${{ secrets.SQL_ADMIN_USER }} sqlAdminPassword=${{ secrets.SQL_ADMIN_PASSWORD }}
 
       - name: Deploy ${{ env.PRODUCT_RG_NAME }}
-        uses: Azure/cli@v1.0.0
+        uses: Azure/cli@v2.1.0
         with:
           inlineScript: |
             az deployment group create --resource-group ${{ env.PRODUCT_RG_NAME }} --template-file ${{ env.PRODUCT_BICEP_TEMPLATE }} --parameters ${{ env.PRODUCT_BICEP_PARAMETERS }} --parameters sqlAdminUser=${{ secrets.SQL_ADMIN_USER }} sqlAdminPassword=${{ secrets.SQL_ADMIN_PASSWORD }}

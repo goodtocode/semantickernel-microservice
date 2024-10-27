@@ -14,7 +14,7 @@ parameters:
   - name: rgLocation
     type: string 
     default: "West US 3"
-  - name: rgEnvironment
+  - name: environmentApp
     type: string 
     default: 'Development'
   - name: appiKey
@@ -89,7 +89,7 @@ steps:
         csmFile: "${{ parameters.armPath }}/func-functionsapp.json"        
         csmParametersFile: "${{ parameters.armPath }}/func-functionsapp.parameters.json"        
         deploymentMode: "Validation"
-        overrideParameters: -name "${{ parameters.funcName }}" -location "${{ parameters.rgLocation }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -rgEnvironment "${{ parameters.rgEnvironment }}"
+        overrideParameters: -name "${{ parameters.funcName }}" -location "${{ parameters.rgLocation }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -environmentApp "${{ parameters.environmentApp }}"
 
   - task: AzureResourceManagerTemplateDeployment@3
     displayName: "Deploy ${{ parameters.funcName }}"
@@ -104,4 +104,4 @@ steps:
         csmFile: "${{ parameters.armPath }}/func-functionsapp.json"
         csmParametersFile: "${{ parameters.armPath }}/func-functionsapp.parameters.json"
         deploymentMode: "Incremental"
-        overrideParameters: -name "${{ parameters.funcName }}" -location "${{ parameters.rgLocation }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -rgEnvironment "${{ parameters.rgEnvironment }}"
+        overrideParameters: -name "${{ parameters.funcName }}" -location "${{ parameters.rgLocation }}" -funcVersion "${{ parameters.funcVersion }}" -stName "${{ parameters.stName }}" -appiKey "${{ parameters.appiKey }}" -appiConnection "${{ parameters.appiConnection }}" -funcRuntime "${{ parameters.funcRuntime }}" -environmentApp "${{ parameters.environmentApp }}"

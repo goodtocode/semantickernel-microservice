@@ -52,7 +52,7 @@ stages:
               testPath: '$(srcPath)'
               appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
               appcsConnection: '$(appcsConnection)'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
 
       - job: build_func
         dependsOn: test_src
@@ -69,7 +69,7 @@ stages:
         steps:
           - template: ../steps/func-deploy-steps.yml
             parameters:
-              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(rgEnvironment) -ASPNETCORE_ENVIRONMENT $(rgEnvironment) '
+              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(environmentApp) -ASPNETCORE_ENVIRONMENT $(environmentApp) '
               artifactsPath: '$(artifactsPath)'
               archiveFile: '$(funcArchiveFile)'
               funcName: '$(funcName)'
@@ -94,7 +94,7 @@ stages:
         steps:
           - template: ../steps/web-deploy-steps.yml
             parameters:
-              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -AzureWebJobsDashboard $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(rgEnvironment) -ASPNETCORE_ENVIRONMENT $(rgEnvironment) '
+              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -AzureWebJobsDashboard $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(environmentApp) -ASPNETCORE_ENVIRONMENT $(environmentApp) '
               artifactsPath: '$(artifactsPath)'
               archiveFile: '$(webjobArchiveFile)'
               webName: '$(webjobName)'
@@ -123,7 +123,7 @@ stages:
               testPath: '$(srcPath)'
               appcsEnvironmentVariable: '$(appcsEnvironmentVariable)'
               appcsConnection: '$(appcsConnection)'
-              rgEnvironment: '$(rgEnvironment)'
+              environmentApp: '$(environmentApp)'
 
       - job: build_func
         dependsOn: test_src
@@ -141,7 +141,7 @@ stages:
         steps:
           - template: ../steps/func-deploy-steps.yml
             parameters:
-              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(rgEnvironment) -ASPNETCORE_ENVIRONMENT $(rgEnvironment) '
+              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(environmentApp) -ASPNETCORE_ENVIRONMENT $(environmentApp) '
               artifactsPath: '$(artifactsPath)'
               archiveFile: '$(funcArchiveFile)'
               funcName: '$(funcName)'
@@ -166,7 +166,7 @@ stages:
         steps:
           - template: ../steps/web-deploy-steps.yml
             parameters:
-              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -AzureWebJobsDashboard $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(rgEnvironment) -ASPNETCORE_ENVIRONMENT $(rgEnvironment) '
+              appSettings: '-$(appcsEnvironmentVariable) $(appcsConnection) -$(stEnvironmentVariable) $(stConnection) -AzureWebJobsDashboard $(stConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(appiKey) -APPLICATIONINSIGHTS_CONNECTION_STRING $(appiConnection) -AZURE_FUNCTIONS_ENVIRONMENT $(environmentApp) -ASPNETCORE_ENVIRONMENT $(environmentApp) '
               artifactsPath: '$(artifactsPath)'
               archiveFile: '$(webjobArchiveFile)'
               webName: '$(webjobName)'

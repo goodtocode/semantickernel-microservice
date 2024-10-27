@@ -5,7 +5,7 @@ parameters:
 - name: subscriptionService
   type: string 
   default: 'COMPANY-PRODUCT-001'
-- name: rgEnvironment
+- name: environmentApp
   type: string 
   default: 'development'
 - name: slotName
