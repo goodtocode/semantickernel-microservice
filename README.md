@@ -1,13 +1,21 @@
-# Semantic Kernel Microservice Quick-Start
-[![.github/workflows/gtc-rg-semantickernel-infrastructure.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-infrastructure.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-infrastructure.yml)
+# Semantic Kernel C# Microservice Quick-Start
+**Azure Bicep Infrastucture**
 
-[![.github/workflows/gtc-rg-semantickernel-api.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-api.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-api.yml)
+[![.github/workflows/gtc-rg-semkernel-iac.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-iac.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-iac.yml)
 
-Simple Semantic Kernel CRUD Microservice solution that demonstrates the most basic use cases of Semantic Kernel in an Clean Architecture Microservice. The microservice allows you to persist the following Azure Open AI services to SQL Server, so you can replay messages and maintain history of your interaction with AI. 
+**Clean Architecture C# Microservice**
+
+[![.github/workflows/gtc-rg-semkernel-api.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api.yml)
+
+Simple Semantic Kernel CRUD Microservice solution that demonstrates the most basic use cases of the Microsoft Semantic Kernel in a Clean Architecture C# Microservice. This microservice allows you to persist the following Azure Open AI services to SQL Server, so you can replay messages and maintain history of your interaction with AI. 
 
 Semantic Kernel is an SDK that integrates Large Language Models (LLMs) like OpenAI, Azure OpenAI, and Hugging Face with conventional programming languages like C#, Python, and Java. Semantic Kernel allows developers to define plugins that can be chained together in just a few lines of code.
 
-This microervice supports:
+[Introduction to Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
+
+[Getting Started with Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide?pivots=programming-language-csharp)
+
+This microservice supports:
 * Chat Completions: Generate responses based on user input, making it useful for chatbots and virtual assistants.
 * Text to Speech: Convert text into natural-sounding speech, enhancing user experiences.
 * Whisper (Text to Speech): Convert spoken language into text, useful for transcription and voice recognition.
@@ -60,7 +68,9 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 ```
 
 ## SQL Server
-[Optional: SQL Server 2022 or above](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+Visual Studio installs SQL Express. If you want full-featured SQL Server, install the SQL Server Developer Edition or above.
+
+[SQL Server Developer Edition or above](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 
 # Configure API Key and Connection String
 Follow these steps to get your development environment set up:
@@ -259,6 +269,13 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 * Microsoft.AspNetCore.Cors
 * Swashbuckle.AspNetCore.SwaggerGen
 * Swashbuckle.AspNetCore.SwaggerUI
+
+# Version History
+
+| Version | Date | Release Notes |
+|----------|----------|----------|
+| 1.0.0 | 2024-Aug-05 | Initial Release |
+| 1.0.1 | 2024-Oct-27 | Updated Azure IaC ESA/CAF Standards |
 
 
 This project is licensed with the [MIT license](https://mit-license.org/).
