@@ -3,7 +3,24 @@
 
 [![.github/workflows/gtc-rg-semantickernel-api.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-api.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-api.yml)
 
-A simple Semantic Kernel CRUD Microservice solution including Domain Models, Aggregates, Persistence Repositories and an API presentation layer. This demonstrates the most basic use cases of Semantic Kernel in an Clean Architecture Microservice.
+Simple Semantic Kernel CRUD Microservice solution that demonstrates the most basic use cases of Semantic Kernel in an Clean Architecture Microservice. The microservice allows you to persist the following Azure Open AI services to SQL Server, so you can replay messages and maintain history of your interaction with AI. 
+
+Semantic Kernel is an SDK that integrates Large Language Models (LLMs) like OpenAI, Azure OpenAI, and Hugging Face with conventional programming languages like C#, Python, and Java. Semantic Kernel allows developers to define plugins that can be chained together in just a few lines of code.
+
+This microervice supports:
+* Chat Completions: Generate responses based on user input, making it useful for chatbots and virtual assistants.
+* Text to Speech: Convert text into natural-sounding speech, enhancing user experiences.
+* Whisper (Text to Speech): Convert spoken language into text, useful for transcription and voice recognition.
+* Image to Text: Generate descriptions of an image.
+* Text to Image: Create an image based on a description prompt of the desired imagery.
+
+Upcoming relases will support more Semantic Kernel and Azure Open AI functionality such as:
+* Embeddings: Create vector representations of text, which can be used for semantic search and similarity matching.
+* Function Calling: Integrate custom functions into your AI models, allowing the model to call external APIs or perform specific tasks based on the context of the conversation.
+* Content Filtering: Automatically filter out inappropriate or harmful content from generated responses.
+* Fine-Tuning: Train models on your specific data to better align with your use cases and improve performance.
+* Assistants: Create and manage virtual assistants that can handle complex tasks and interactions.
+* Semantic Search: Perform searches based on the meaning of the text rather than just keywords, improving search relevance.
 
 # Getting-Started 
 To get started, follow the steps below:
