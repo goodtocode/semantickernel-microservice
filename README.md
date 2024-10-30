@@ -30,11 +30,12 @@ Upcoming relases will support more Semantic Kernel and Azure Open AI functionali
 * Assistants: Create and manage virtual assistants that can handle complex tasks and interactions.
 * Semantic Search: Perform searches based on the meaning of the text rather than just keywords, improving search relevance.
 
-# Getting-Started 
+# Getting-Started in 4 Steps
 To get started, follow the steps below:
 1. Install Prerequisites
 2. Add your Open AI or Azure Open AI key to configuration (via *dotnet user-secrets set* command)
-3. Create your SQL Server database (via *dotnet ef* command)
+3. Create your SQL Server database & schema (via *dotnet ef* command)
+4. Run Tests (Tests.Specs.Integration)
 
 # Install Prerequisites
 You will need the following tools:
