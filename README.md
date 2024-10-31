@@ -1,13 +1,21 @@
-# Semantic Kernel Microservice Quick-Start
-[![.github/workflows/gtc-rg-semantickernel-infrastructure.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-infrastructure.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-infrastructure.yml)
+# Semantic Kernel C# Microservice Quick-Start
+**Azure Bicep Infrastucture**
 
-[![.github/workflows/gtc-rg-semantickernel-api.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-api.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semantickernel-api.yml)
+[![.github/workflows/gtc-rg-semkernel-iac.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-iac.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-iac.yml)
 
-Simple Semantic Kernel CRUD Microservice solution that demonstrates the most basic use cases of Semantic Kernel in an Clean Architecture Microservice. The microservice allows you to persist the following Azure Open AI services to SQL Server, so you can replay messages and maintain history of your interaction with AI. 
+**Clean Architecture C# Microservice**
+
+[![.github/workflows/gtc-rg-semkernel-api.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api.yml)
+
+Simple Semantic Kernel CRUD Microservice solution that demonstrates the most basic use cases of the Microsoft Semantic Kernel in a Clean Architecture C# Microservice. This microservice allows you to persist the following Azure Open AI services to SQL Server, so you can replay messages and maintain history of your interaction with AI. 
 
 Semantic Kernel is an SDK that integrates Large Language Models (LLMs) like OpenAI, Azure OpenAI, and Hugging Face with conventional programming languages like C#, Python, and Java. Semantic Kernel allows developers to define plugins that can be chained together in just a few lines of code.
 
-This microervice supports:
+[Introduction to Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
+
+[Getting Started with Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide?pivots=programming-language-csharp)
+
+This microservice supports:
 * Chat Completions: Generate responses based on user input, making it useful for chatbots and virtual assistants.
 * Text to Speech: Convert text into natural-sounding speech, enhancing user experiences.
 * Whisper (Text to Speech): Convert spoken language into text, useful for transcription and voice recognition.
@@ -22,11 +30,12 @@ Upcoming relases will support more Semantic Kernel and Azure Open AI functionali
 * Assistants: Create and manage virtual assistants that can handle complex tasks and interactions.
 * Semantic Search: Perform searches based on the meaning of the text rather than just keywords, improving search relevance.
 
-# Getting-Started 
+# Getting-Started in 4 Steps
 To get started, follow the steps below:
 1. Install Prerequisites
 2. Add your Open AI or Azure Open AI key to configuration (via *dotnet user-secrets set* command)
-3. Create your SQL Server database (via *dotnet ef* command)
+3. Create your SQL Server database & schema (via *dotnet ef* command)
+4. Run Tests (Tests.Specs.Integration)
 
 # Install Prerequisites
 You will need the following tools:
@@ -60,7 +69,9 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 ```
 
 ## SQL Server
-[Optional: SQL Server 2022 or above](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+Visual Studio installs SQL Express. If you want full-featured SQL Server, install the SQL Server Developer Edition or above.
+
+[SQL Server Developer Edition or above](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 
 # Configure API Key and Connection String
 Follow these steps to get your development environment set up:
@@ -126,14 +137,14 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YOUR_SQL_CONNECTI
 
 4. Create an initial migration
 	```
-	dotnet ef migrations add InitialCreate --project .\src\Infrastructure\SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation\WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
+	dotnet ef migrations add InitialCreate --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
 	```
 
 5. Develop new entities and configurations
 6. When ready to deploy new entities and configurations
    
 	```	
-	dotnet ef database update --project .\src\Infrastructure\SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation\WebApi\Presentation.WebApi.csproj --context SemanticKernelContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernelMicroservice;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
+	dotnet ef database update --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernelMicroservice;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
 	```
 7. When an entity changes, is created or deleted, create a new migration. Suggest doing this each new version.
 	```
@@ -259,6 +270,13 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 * Microsoft.AspNetCore.Cors
 * Swashbuckle.AspNetCore.SwaggerGen
 * Swashbuckle.AspNetCore.SwaggerUI
+
+# Version History
+
+| Version | Date | Release Notes |
+|----------|----------|----------|
+| 1.0.0 | 2024-Aug-05 | Initial Release |
+| 1.0.1 | 2024-Oct-27 | Updated Azure IaC ESA/CAF Standards |
 
 
 This project is licensed with the [MIT license](https://mit-license.org/).
