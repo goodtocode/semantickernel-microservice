@@ -13,7 +13,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
         [Given(@"I have a def ""([^""]*)""")]
         public void GivenIHaveADef(string def)
         {
-            _def = def;
+            base.def = def;
         }
 
         [Given(@"I have a text prompt id""([^""]*)""")]
@@ -52,26 +52,26 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
                      ],
                     Timestamp = DateTime.UtcNow,
                 };
-                _context.TextPrompts.Add(textPrompt);
-                await _context.SaveChangesAsync(CancellationToken.None);
+                context.TextPrompts.Add(textPrompt);
+                await context.SaveChangesAsync(CancellationToken.None);
             }
 
             var validator = new DeleteTextPromptCommandValidator();
-            _validationResponse = await validator.ValidateAsync(request);
+            validationResponse = await validator.ValidateAsync(request);
 
-            if (_validationResponse.IsValid)
+            if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new DeleteTextPromptCommandHandler(_context);
+                    var handler = new DeleteTextPromptCommandHandler(context);
                     await handler.Handle(request, CancellationToken.None);
-                    _responseType = CommandResponseType.Successful;
+                    responseType = CommandResponseType.Successful;
                 }
                 catch (Exception e)
                 {
                     HandleAssignResponseType(e);
                 }
             else
-                _responseType = CommandResponseType.BadRequest;
+                responseType = CommandResponseType.BadRequest;
         }
 
         [Then(@"The response is ""([^""]*)""")]

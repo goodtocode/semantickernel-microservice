@@ -20,7 +20,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
         [Given(@"I have a definition ""([^""]*)""")]
         public void GivenIHaveADefinition(string def)
         {
-            _def = def;
+            base.def = def;
         }
 
         [Given(@"Text Prompt exist ""([^""]*)""")]
@@ -82,9 +82,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
                         ],
                         Timestamp = _startDate.AddSeconds(1),
                     };
-                    _context.TextPrompts.Add(textPrompt);                    
+                    context.TextPrompts.Add(textPrompt);                    
                 };
-                await _context.SaveChangesAsync(CancellationToken.None);
+                await context.SaveChangesAsync(CancellationToken.None);
             }
 
             var request = new GetTextPromptsPaginatedQuery()
@@ -96,20 +96,20 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
             };
 
             var validator = new GetTextPromptsPaginatedQueryValidator();
-            _validationResponse = validator.Validate(request);
-            if (_validationResponse.IsValid)
+            validationResponse = validator.Validate(request);
+            if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetTextPromptsPaginatedQueryHandler(_context, Mapper);
+                    var handler = new GetTextPromptsPaginatedQueryHandler(context, Mapper);
                     _response = await handler.Handle(request, CancellationToken.None);
-                    _responseType = CommandResponseType.Successful;
+                    responseType = CommandResponseType.Successful;
                 }
                 catch (Exception e)
                 {
-                    _responseType = HandleAssignResponseType(e);
+                    responseType = HandleAssignResponseType(e);
                 }
             else
-                _responseType = CommandResponseType.BadRequest;
+                responseType = CommandResponseType.BadRequest;
         }
 
         [Then(@"The response is ""([^""]*)""")]
@@ -127,49 +127,49 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
         [Then(@"The response has a collection of text prompt")]
         public void ThenTheResponseHasACollectionOfTextPrompts()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalCount.Should().Be(_withinDateRangeExists == false ? 0 : _response.TotalCount);
         }
 
         [Then(@"Each text prompt has a Key")]
         public void ThenEachTextPromptHasAKey()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.Items.FirstOrDefault(x => x.Id == default).Should().BeNull();
         }
 
         [Then(@"Each text prompt has a Date greater than start date")]
         public void ThenEachTextPromptHasADateGreaterThanStartDate()
         {
-            if (_responseType == CommandResponseType.Successful && _withinDateRangeExists)
+            if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
                 _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
         }
 
         [Then(@"Each text prompt has a Date less than end date")]
         public void ThenEachTextPromptHasADateLessThanEndDate()
         {
-            if (_responseType == CommandResponseType.Successful && _withinDateRangeExists)
+            if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
                 _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
         }
 
         [Then(@"The response has a Page Number")]
         public void ThenTheResponseHasAPageNumber()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.PageNumber.Should();
         }
 
         [Then(@"The response has a Total Pages")]
         public void ThenTheResponseHasATotalPages()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalPages.Should();
         }
 
         [Then(@"The response has a Total Count")]
         public void ThenTheResponseHasATotalCount()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalCount.Should();
         }
     }

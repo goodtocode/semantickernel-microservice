@@ -15,7 +15,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Given(@"I have a definition ""([^""]*)""")]
     public void GivenIHaveADefinition(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"I have a chat session id ""([^""]*)""")]
@@ -58,8 +58,8 @@ public class GetChatSessionQueryStepDefinitions : TestBase
                 Messages = messages,
                 Timestamp = DateTime.UtcNow,
             };
-            _context.ChatSessions.Add(chatSession);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            context.ChatSessions.Add(chatSession);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         var request = new GetChatSessionQuery()
@@ -68,20 +68,20 @@ public class GetChatSessionQueryStepDefinitions : TestBase
         };
 
         var validator = new GetChatSessionQueryValidator();
-        _validationResponse = validator.Validate(request);
-        if (_validationResponse.IsValid)
+        validationResponse = validator.Validate(request);
+        if (validationResponse.IsValid)
             try
             {
-                var handler = new GetChatSessionQueryHandler(_context, Mapper);
+                var handler = new GetChatSessionQueryHandler(context, Mapper);
                 _response = await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
-                _responseType = HandleAssignResponseType(e);
+                responseType = HandleAssignResponseType(e);
             }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
     [Then(@"The response is ""([^""]*)""")]
@@ -99,7 +99,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Then(@"If the response is successful the response has a Id")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAId()
     {
-        if (_responseType != CommandResponseType.Successful) return;
+        if (responseType != CommandResponseType.Successful) return;
         _response?.Id.Should().NotBeEmpty();
     }
 

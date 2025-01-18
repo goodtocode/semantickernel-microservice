@@ -17,7 +17,7 @@ public class GetTextAudiosQueryStepDefinitions : TestBase
     [Given(@"I have a definition ""([^""]*)""")]
     public void GivenIHaveADefinition(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"Text Audio exist ""([^""]*)""")]
@@ -63,9 +63,9 @@ public class GetTextAudiosQueryStepDefinitions : TestBase
                     AudioBytes = [0x01, 0x02, 0x03, 0x04],
                     Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1)
                 };
-                _context.TextAudio.Add(textAudio);
+                context.TextAudio.Add(textAudio);
             };
-            await _context.SaveChangesAsync(CancellationToken.None);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         var request = new GetTextAudiosQuery()
@@ -75,20 +75,20 @@ public class GetTextAudiosQueryStepDefinitions : TestBase
         };
 
         var validator = new GetTextAudiosQueryValidator();
-        _validationResponse = validator.Validate(request);
-        if (_validationResponse.IsValid)
+        validationResponse = validator.Validate(request);
+        if (validationResponse.IsValid)
             try
             {
-                var handler = new GetTextAudiosQueryHandler(_context, Mapper);
+                var handler = new GetTextAudiosQueryHandler(context, Mapper);
                 _response = await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
-                _responseType = HandleAssignResponseType(e);
+                responseType = HandleAssignResponseType(e);
             }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
     [Then(@"The response is ""([^""]*)""")]

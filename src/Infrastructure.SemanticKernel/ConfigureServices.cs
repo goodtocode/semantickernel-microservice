@@ -1,17 +1,15 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
+using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AudioToText;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Embeddings;
-using Microsoft.SemanticKernel.Memory;
 using Microsoft.SemanticKernel.TextGeneration;
 using Microsoft.SemanticKernel.TextToAudio;
 using Microsoft.SemanticKernel.TextToImage;
-using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
-using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.Enums;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel;
 
@@ -31,65 +29,47 @@ public static class ConfigureServices
     IConfiguration configuration)
     {
         // Add strongly-typed and validated options for downstream use via DI.
-        services.AddOptions<OpenAI>()
+        services.AddOptions<OpenAIOptions>()
         .Bind(configuration.GetSection(nameof(OpenAI)))
             .ValidateDataAnnotations()
             .ValidateOnStart();
         services.AddKernel();
 
         // Chat Completion
-        // Alternative: services.AddOpenAIChatCompletion(configuration["OpenAI:ChatModelId"], configuration["OpenAI:ApiKey"])
         services.AddSingleton<IChatCompletionService>(sp =>
         {
-            OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
+            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
             return new OpenAIChatCompletionService(modelId: options.ChatCompletionModelId, apiKey: options.ApiKey);
         });
-        // Completing words or sentences, code completion
-         services.AddOpenAITextGeneration(
-            configuration["OpenAI:ChatModelId"] ?? OpenAiModels.TextGeneration.ChatGpt35TurboInstruct,
-            configuration["OpenAI:ApiKey"] ?? throw new InvalidOperationException("The 'OpenAI:ApiKey' configuration value is missing."));
-        // Alternative:
-        //.AddSingleton<ITextGenerationService>(sp =>
-        //{
-        //    OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
-        //    return new OpenAITextGenerationService(options.ChatModelId, options.ApiKey);
-        //});
+        
+        // TextGenerationService deprecated. Use custom connector service instead.
+        services.AddSingleton<ITextGenerationService, TextGenerationService>();
+
 #pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 #pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         // Translate audio to text
-        // Alternative: services.AddOpenAIAudioToText(configuration["OpenAI:ChatModelId"], configuration["OpenAI:ApiKey"])
         services.AddSingleton<IAudioToTextService>(sp =>
         {
-            OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
+            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
             return new OpenAIAudioToTextService(modelId: options.AudioModelId, apiKey: options.ApiKey);
         })
         // Translate audio to text
-        // Alternative: services.AddOpenAITextToAudio(configuration["OpenAI:ChatModelId"], configuration["OpenAI:ApiKey"])
         .AddSingleton<ITextToAudioService>(sp =>
         {
-            OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
+            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
             return new OpenAITextToAudioService(modelId: options.AudioModelId, apiKey: options.ApiKey);
         })
         // Embedding text into a vector for storage in CosmosDb or Qdrant
-        // Alternative: services.AddOpenTextEmbeddingGeneration(configuration["OpenAI:ChatModelId"], configuration["OpenAI:ApiKey"])
         .AddSingleton<ITextEmbeddingGenerationService>(sp =>
         {
-            OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
+            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
             return new OpenAITextEmbeddingGenerationService(modelId: options.TextEmbeddingModelId, apiKey: options.ApiKey);
         })
         // Translate text to image
-        // Alternative: .AddOpenAITextToImage(configuration.GetValue<string>("OpenAI:ChatModelId")!, configuration.GetValue<string>("OpenAI:ApiKey"))
         .AddSingleton<ITextToImageService>(sp =>
         {
-            OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
+            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
             return new OpenAITextToImageService(modelId: options.ImageModelId, apiKey: options.ApiKey);
-        })
-        // File services
-        //.AddOpenAIFiles(configuration.GetValue<string>("OpenAI:ChatModelId")!, configuration.GetValue<string>("OpenAI:ApiKey"))
-        .AddSingleton(sp =>
-        {
-            OpenAI options = sp.GetRequiredService<IOptions<OpenAI>>().Value;
-            return new OpenAIFileService(apiKey: options.ApiKey);
         });
 #pragma warning restore SKEXP0001
 #pragma warning restore SKEXP0010

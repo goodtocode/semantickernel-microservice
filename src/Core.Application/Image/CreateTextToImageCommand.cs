@@ -2,7 +2,6 @@
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
 using Microsoft.SemanticKernel.TextToImage;
-using System.Buffers.Text;
 using System.Text;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Image;

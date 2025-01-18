@@ -5,8 +5,10 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
 /// <summary>
 /// Azure OpenAI settings.
 /// </summary>
-public sealed class AzureOpenAI
+public sealed class AzureOpenAIOptions
 {
+    public const string OpenAISectionName = "AzureOpenAI";
+
     [Required]
     public string ChatDeploymentName { get; set; } = string.Empty;
 

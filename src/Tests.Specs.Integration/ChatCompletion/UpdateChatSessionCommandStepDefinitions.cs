@@ -13,7 +13,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         [Given(@"I have a def ""([^""]*)""")]
         public void GivenIHaveADef(string def)
         {
-            _def = def;
+            base.def = def;
         }
 
         [Given(@"I have a chat session id ""([^""]*)""")]
@@ -53,26 +53,26 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
                     ],
                     Timestamp = DateTime.UtcNow,
                 };
-                _context.ChatSessions.Add(chatSession);
-                await _context.SaveChangesAsync(CancellationToken.None);
+                context.ChatSessions.Add(chatSession);
+                await context.SaveChangesAsync(CancellationToken.None);
             }
 
             var validator = new UpdateChatSessionCommandValidator();
-            _validationResponse = await validator.ValidateAsync(request);
+            validationResponse = await validator.ValidateAsync(request);
 
-            if (_validationResponse.IsValid)
+            if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new UpdateChatSessionCommandHandler(_context);
+                    var handler = new UpdateChatSessionCommandHandler(context);
                     await handler.Handle(request, CancellationToken.None);
-                    _responseType = CommandResponseType.Successful;
+                    responseType = CommandResponseType.Successful;
                 }
                 catch (Exception e)
                 {
                     HandleAssignResponseType(e);
                 }
             else
-                _responseType = CommandResponseType.BadRequest;
+                responseType = CommandResponseType.BadRequest;
         }
 
         [Then(@"The response is ""([^""]*)""")]

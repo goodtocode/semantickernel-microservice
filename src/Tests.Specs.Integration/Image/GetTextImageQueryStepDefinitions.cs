@@ -15,7 +15,7 @@ public class GetTextImageQueryStepDefinitions : TestBase
     [Given(@"I have a definition ""([^""]*)""")]
     public void GivenIHaveADefinition(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"I have a text image id ""([^""]*)""")]
@@ -48,8 +48,8 @@ public class GetTextImageQueryStepDefinitions : TestBase
                 ImageBytes = [0x01, 0x02, 0x03, 0x04],
                 Timestamp = DateTime.UtcNow
             };
-            _context.TextImages.Add(textImage);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            context.TextImages.Add(textImage);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         var request = new GetTextImageQuery()
@@ -58,20 +58,20 @@ public class GetTextImageQueryStepDefinitions : TestBase
         };
 
         var validator = new GetTextImageQueryValidator();
-        _validationResponse = validator.Validate(request);
-        if (_validationResponse.IsValid)
+        validationResponse = validator.Validate(request);
+        if (validationResponse.IsValid)
             try
             {
-                var handler = new GetTextImageQueryHandler(_context, Mapper);
+                var handler = new GetTextImageQueryHandler(context, Mapper);
                 _response = await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
-                _responseType = HandleAssignResponseType(e);
+                responseType = HandleAssignResponseType(e);
             }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
     [Then(@"The response is ""([^""]*)""")]
@@ -89,7 +89,7 @@ public class GetTextImageQueryStepDefinitions : TestBase
     [Then(@"If the response is successful the response has a Key")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
-        if (_responseType != CommandResponseType.Successful) return;
+        if (responseType != CommandResponseType.Successful) return;
         _response?.Id.Should().NotBeEmpty();
     }
 }

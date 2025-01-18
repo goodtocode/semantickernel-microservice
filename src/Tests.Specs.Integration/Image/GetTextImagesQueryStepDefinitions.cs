@@ -17,7 +17,7 @@ public class GetTextImagesQueryStepDefinitions : TestBase
     [Given(@"I have a definition ""([^""]*)""")]
     public void GivenIHaveADefinition(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"Text Image exist ""([^""]*)""")]
@@ -65,9 +65,9 @@ public class GetTextImagesQueryStepDefinitions : TestBase
                     ImageBytes = [0x01, 0x02, 0x03, 0x04],
                     Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1)
                 };
-                _context.TextImages.Add(textImage);
+                context.TextImages.Add(textImage);
             };
-            await _context.SaveChangesAsync(CancellationToken.None);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         var request = new GetTextImagesQuery()
@@ -77,20 +77,20 @@ public class GetTextImagesQueryStepDefinitions : TestBase
         };
 
         var validator = new GetTextImagesQueryValidator();
-        _validationResponse = validator.Validate(request);
-        if (_validationResponse.IsValid)
+        validationResponse = validator.Validate(request);
+        if (validationResponse.IsValid)
             try
             {
-                var handler = new GetTextImagesQueryHandler(_context, Mapper);
+                var handler = new GetTextImagesQueryHandler(context, Mapper);
                 _response = await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
-                _responseType = HandleAssignResponseType(e);
+                responseType = HandleAssignResponseType(e);
             }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
     [Then(@"The response is ""([^""]*)""")]
