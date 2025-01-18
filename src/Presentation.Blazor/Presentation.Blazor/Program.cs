@@ -1,4 +1,3 @@
-using Presentation.Blazor.Client.Pages;
 using Presentation.Blazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
