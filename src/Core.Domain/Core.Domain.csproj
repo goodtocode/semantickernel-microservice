@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<RootNamespace>Goodtocode.SemanticKernel.Core.Domain</RootNamespace>
 		<AssemblyName>Goodtocode.SemanticKernel.Core.Domain</AssemblyName>
 		<Version>1.0.0</Version>
@@ -11,8 +11,8 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="MediatR" Version="12.3.0" />
-		<PackageReference Include="CSharpFunctionalExtensions" Version="2.42.5" />
+		<PackageReference Include="MediatR" Version="12.4.1" />
+		<PackageReference Include="CSharpFunctionalExtensions" Version="3.4.3" />
 	</ItemGroup>
 	
 	<ItemGroup>
