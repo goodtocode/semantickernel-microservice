@@ -39,7 +39,7 @@ jobs:
       API_PATH: 'Presentation.WebApi'
       API_PROJECT: 'Presentation.WebApi.csproj'
       UNIT_PATH: 'Tests.Specs.Integration'
-      UNIT_PROJECT: 'Specs.Integration.csproj'
+      UNIT_PROJECT: 'Tests.Specs.Integration.csproj'
       SCRIPTS_PATH: './.github/scripts'
 
     steps:
