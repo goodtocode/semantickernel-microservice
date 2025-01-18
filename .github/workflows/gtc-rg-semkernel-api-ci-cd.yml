@@ -77,7 +77,7 @@ jobs:
       - name: App Settings Variable Substitution
         uses: microsoft/variable-substitution@v1
         with:
-          files: '${{ env.SRC_PATH }}/${{ env.API_PATH }}/appsettings.json, ${{ env.SRC_PATH }}/${{ env.API_PATH }}/appsettings.${{ env.RUNTIME_ENV }}.json'
+          files: '${{ env.SRC_PATH }}/${{ env.API_PATH }}/appsettings.json, ${{ env.SRC_PATH }}/${{ env.API_PATH }}/appsettings.${{ env.RUNTIME_ENV }}.json, ${{ env.SRC_PATH }}/${{ env.UNIT_PATH }}/appsettings.test.json'
         env: 
           OpenAI.ApiKey: ${{ secrets.OPENAI_APIKEY }}
 
