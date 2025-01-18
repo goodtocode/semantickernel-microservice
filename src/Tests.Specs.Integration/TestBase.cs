@@ -1,4 +1,5 @@
-﻿using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+﻿using FluentAssertions.Execution;
+using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
 using Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
@@ -74,7 +75,11 @@ public abstract class TestBase
         switch (response)
         {
             case "Success":
-                responseType.Should().Be(CommandResponseType.Successful);
+                using (new AssertionScope())
+                {
+                    responseType.Should().Be(CommandResponseType.Successful);
+                    exception?.Should().BeNull("An exception was thrown: {0}. Inner exception: {1}", exception.Message, exception.InnerException?.Message);
+                }
                 break;
             case "BadRequest":
                 responseType.Should().Be(CommandResponseType.BadRequest);
