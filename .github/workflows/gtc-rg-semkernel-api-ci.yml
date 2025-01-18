@@ -7,6 +7,17 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - .github/workflows/gtc-rg-semkernel-api-ci.yml
+      - src/**
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run'
+        required: true
+        default: 'development'
+      mode:
+        description: 'Running mode'  
 
 permissions:
   id-token: write
@@ -24,7 +35,9 @@ jobs:
     env:      
       RUNTIME_ENV: 'Development'
       SRC_PATH: './src'
-      SRC_SLN: 'SemanticKernelMicroservice.sln'      
+      SRC_SLN: 'SemanticKernelMicroservice.sln'
+      API_PATH: 'Presentation.WebApi'
+      API_PROJECT: 'Presentation.WebApi.csproj'
       UNIT_PATH: 'Tests.Specs.Integration'
       UNIT_PROJECT: 'Specs.Integration.csproj'
       SCRIPTS_PATH: './.github/scripts'
