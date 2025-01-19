@@ -92,7 +92,7 @@ jobs:
 
       - name: Test
         run: |
-          dotnet test ${{ env.SRC_PATH }}/${{ env.TEST_PATH }}/${{ env.TEST_PROJECT }} --logger "trx;LogFileName=TestResults-${{ matrix.DOTNET_VERSION }}/test_results.trx" --verbosity
+          dotnet test ${{ env.SRC_PATH }}/${{ env.TEST_PATH }}/${{ env.TEST_PROJECT }} --logger "trx;LogFileName=TestResults-${{ matrix.DOTNET_VERSION }}/test_results.trx" --verbosity normal
         shell: pwsh
 
       - name: Publish
