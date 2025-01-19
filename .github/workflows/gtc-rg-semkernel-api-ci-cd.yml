@@ -26,7 +26,6 @@ jobs:
     name: 'Build, Test and Deploy .NET'
     runs-on: ubuntu-latest
     environment: development    
-
     strategy:
       matrix:
         DOTNET_VERSION: ['9.0.x']
@@ -102,6 +101,11 @@ jobs:
           name: dotnet-results-${{ matrix.DOTNET_VERSION }}
           path: TestResults-${{ matrix.DOTNET_VERSION }}
         if: ${{ always() }}
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
 
       - name: az login
         uses: azure/login@v1
