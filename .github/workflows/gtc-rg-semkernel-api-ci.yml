@@ -73,11 +73,16 @@ jobs:
         env: 
           OpenAI.ApiKey: ${{ secrets.OPENAI_APIKEY }}
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+
       - name: Build
         run: dotnet build ${{ env.SRC_PATH }}/${{ env.SRC_SLN }} --configuration Release       
 
       - name: Test
-        run: dotnet test ${{ env.SRC_PATH }}/${{ env.TEST_PATH }}/${{ env.TEST_PROJECT }} --verbosity normal
+        run: dotnet test ${{ env.SRC_PATH }}/${{ env.TEST_PATH }}/${{ env.TEST_PROJECT }} --logger "trx;LogFileName=TestResults-${{ matrix.DOTNET_VERSION }}/test_results.trx" --verbosity
 
       - name: Upload test results
         uses: actions/upload-artifact@v3
@@ -86,11 +91,6 @@ jobs:
           path: TestResults-${{ matrix.DOTNET_VERSION }}
         if: ${{ always() }}
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: csharp
-
       - name: Perform CodeQL Analysis 
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
   
