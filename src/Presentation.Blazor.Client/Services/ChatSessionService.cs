@@ -20,7 +20,7 @@ public class ChatService(HttpClient httpClient) : IChatService
 
     public async Task<List<ChatSessionModel>> GetChatSessionsAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<List<ChatSessionModel>>("api/chat/sessions");
+        var response = new List<ChatSessionModel>(); // await _httpClient.GetFromJsonAsync<List<ChatSessionModel>>("api/chat/sessions");
         return response ?? [];
     }
 }
