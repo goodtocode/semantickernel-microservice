@@ -107,6 +107,9 @@ jobs:
         with:
           languages: csharp
 
+      - name: Perform CodeQL Analysis 
+        uses: github/codeql-action/analyze@v2
+
       - name: az login
         uses: azure/login@v1
         with:
