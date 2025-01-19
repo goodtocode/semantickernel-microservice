@@ -14,7 +14,7 @@ public class GetTextPromptQueryStepDefinitions : TestBase
     [Given(@"I have a definition ""([^""]*)""")]
     public void GivenIHaveADefinition(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"I have a text prompt id ""([^""]*)""")]
@@ -49,8 +49,8 @@ public class GetTextPromptQueryStepDefinitions : TestBase
                 ],
                 Timestamp = DateTime.UtcNow,
             };
-            _context.TextPrompts.Add(textPrompt);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            context.TextPrompts.Add(textPrompt);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         var request = new GetTextPromptQuery()
@@ -59,20 +59,20 @@ public class GetTextPromptQueryStepDefinitions : TestBase
         };
 
         var validator = new GetTextPromptQueryValidator();
-        _validationResponse = validator.Validate(request);
-        if (_validationResponse.IsValid)
+        validationResponse = validator.Validate(request);
+        if (validationResponse.IsValid)
             try
             {
-                var handler = new GetTextPromptQueryHandler(_context, Mapper);
+                var handler = new GetTextPromptQueryHandler(context, Mapper);
                 _response = await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
-                _responseType = HandleAssignResponseType(e);
+                responseType = HandleAssignResponseType(e);
             }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
     [Then(@"The response is ""([^""]*)""")]
@@ -90,7 +90,7 @@ public class GetTextPromptQueryStepDefinitions : TestBase
     [Then(@"If the response is successful the response has a Key")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
-        if (_responseType != CommandResponseType.Successful) return;
+        if (responseType != CommandResponseType.Successful) return;
         _response?.Id.Should().NotBeEmpty();
     }
 }

@@ -21,7 +21,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
         [Given(@"I have a definition ""([^""]*)""")]
         public void GivenIHaveADefinition(string def)
         {
-            _def = def;
+            base.def = def;
         }
 
         [Given(@"Text Audio exist ""([^""]*)""")]
@@ -79,9 +79,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
                         AudioBytes = [0x01, 0x02, 0x03, 0x04],
                         Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1)
                     };
-                    _context.TextAudio.Add(textAudio);
+                    context.TextAudio.Add(textAudio);
                 };
-                await _context.SaveChangesAsync(CancellationToken.None);
+                await context.SaveChangesAsync(CancellationToken.None);
             }
 
             var request = new GetTextAudioPaginatedQuery()
@@ -93,20 +93,20 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
             };
 
             var validator = new GetTextAudioPaginatedQueryValidator();
-            _validationResponse = validator.Validate(request);
-            if (_validationResponse.IsValid)
+            validationResponse = validator.Validate(request);
+            if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetTextAudioPaginatedQueryHandler(_context, Mapper);
+                    var handler = new GetTextAudioPaginatedQueryHandler(context, Mapper);
                     _response = await handler.Handle(request, CancellationToken.None);
-                    _responseType = CommandResponseType.Successful;
+                    responseType = CommandResponseType.Successful;
                 }
                 catch (Exception e)
                 {
-                    _responseType = HandleAssignResponseType(e);
+                    responseType = HandleAssignResponseType(e);
                 }
             else
-                _responseType = CommandResponseType.BadRequest;
+                responseType = CommandResponseType.BadRequest;
         }
 
         [Then(@"The response is ""([^""]*)""")]
@@ -124,49 +124,49 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
         [Then(@"The response has a collection of text audio")]
         public void ThenTheResponseHasACollectionOfTextAudio()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalCount.Should().Be(_withinDateRangeExists == false ? 0 : _response.TotalCount);
         }
 
         [Then(@"Each text audio has a Key")]
         public void ThenEachTextAudioHasAKey()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.Items.FirstOrDefault(x => x.Id == default).Should().BeNull();
         }
 
         [Then(@"Each text audio has a Date greater than start date")]
         public void ThenEachTextAudioHasADateGreaterThanStartDate()
         {
-            if (_responseType == CommandResponseType.Successful && _withinDateRangeExists)
+            if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
                 _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
         }
 
         [Then(@"Each text audio has a Date less than end date")]
         public void ThenEachTextAudioHasADateLessThanEndDate()
         {
-            if (_responseType == CommandResponseType.Successful && _withinDateRangeExists)
+            if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
                 _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
         }
 
         [Then(@"The response has a Page Number")]
         public void ThenTheResponseHasAPageNumber()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.PageNumber.Should();
         }
 
         [Then(@"The response has a Total Pages")]
         public void ThenTheResponseHasATotalPages()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalPages.Should();
         }
 
         [Then(@"The response has a Total Count")]
         public void ThenTheResponseHasATotalCount()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalCount.Should();
         }
     }

@@ -14,7 +14,7 @@ public class CreateAuthorCommandStepDefinitions : TestBase
     [Given(@"I have a def ""([^""]*)""")]
     public void GivenIHaveADef(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"I have a name ""([^""]*)""")]
@@ -46,8 +46,8 @@ public class CreateAuthorCommandStepDefinitions : TestBase
                 Id = _id,
                 Name = "John Doe"
             };
-            _context.Authors.Add(Author);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            context.Authors.Add(Author);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         // Test command
@@ -58,15 +58,15 @@ public class CreateAuthorCommandStepDefinitions : TestBase
         };
 
         var validator = new CreateAuthorCommandValidator();
-        _validationResponse = await validator.ValidateAsync(request);
+        validationResponse = await validator.ValidateAsync(request);
 
-        if (_validationResponse.IsValid)
+        if (validationResponse.IsValid)
         {
             try
             {
-                var handler = new CreateAuthorCommandHandler( _context, Mapper);
+                var handler = new CreateAuthorCommandHandler( context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
@@ -74,7 +74,7 @@ public class CreateAuthorCommandStepDefinitions : TestBase
             }
         }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
 

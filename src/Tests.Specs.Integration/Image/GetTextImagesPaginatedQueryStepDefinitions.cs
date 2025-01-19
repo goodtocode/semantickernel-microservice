@@ -21,7 +21,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
         [Given(@"I have a definition ""([^""]*)""")]
         public void GivenIHaveADefinition(string def)
         {
-            _def = def;
+            base.def = def;
         }
 
         [Given(@"Text Image exist ""([^""]*)""")]
@@ -81,9 +81,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
                         ImageBytes = [0x01, 0x02, 0x03, 0x04],
                         Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1)
                     };
-                    _context.TextImages.Add(textImage);
+                    context.TextImages.Add(textImage);
                 };
-                await _context.SaveChangesAsync(CancellationToken.None);
+                await context.SaveChangesAsync(CancellationToken.None);
             }
 
             var request = new GetTextImagesPaginatedQuery()
@@ -95,20 +95,20 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
             };
 
             var validator = new GetTextImagesPaginatedQueryValidator();
-            _validationResponse = validator.Validate(request);
-            if (_validationResponse.IsValid)
+            validationResponse = validator.Validate(request);
+            if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetTextImagesPaginatedQueryHandler(_context, Mapper);
+                    var handler = new GetTextImagesPaginatedQueryHandler(context, Mapper);
                     _response = await handler.Handle(request, CancellationToken.None);
-                    _responseType = CommandResponseType.Successful;
+                    responseType = CommandResponseType.Successful;
                 }
                 catch (Exception e)
                 {
-                    _responseType = HandleAssignResponseType(e);
+                    responseType = HandleAssignResponseType(e);
                 }
             else
-                _responseType = CommandResponseType.BadRequest;
+                responseType = CommandResponseType.BadRequest;
         }
 
         [Then(@"The response is ""([^""]*)""")]
@@ -126,49 +126,49 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
         [Then(@"The response has a collection of text image")]
         public void ThenTheResponseHasACollectionOfTextImages()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalCount.Should().Be(_withinDateRangeExists == false ? 0 : _response.TotalCount);
         }
 
         [Then(@"Each text image has a Key")]
         public void ThenEachTextImageHasAKey()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.Items.FirstOrDefault(x => x.Id == default).Should().BeNull();
         }
 
         [Then(@"Each text image has a Date greater than start date")]
         public void ThenEachTextImageHasADateGreaterThanStartDate()
         {
-            if (_responseType == CommandResponseType.Successful && _withinDateRangeExists)
+            if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
                 _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
         }
 
         [Then(@"Each text image has a Date less than end date")]
         public void ThenEachTextImageHasADateLessThanEndDate()
         {
-            if (_responseType == CommandResponseType.Successful && _withinDateRangeExists)
+            if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
                 _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
         }
 
         [Then(@"The response has a Page Number")]
         public void ThenTheResponseHasAPageNumber()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.PageNumber.Should();
         }
 
         [Then(@"The response has a Total Pages")]
         public void ThenTheResponseHasATotalPages()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalPages.Should();
         }
 
         [Then(@"The response has a Total Count")]
         public void ThenTheResponseHasATotalCount()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalCount.Should();
         }
     }

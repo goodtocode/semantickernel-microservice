@@ -15,7 +15,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
     [Given(@"I have a def ""([^""]*)""")]
     public void GivenIHaveADef(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"I have a initial message ""([^""]*)""")]
@@ -56,8 +56,8 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
                  ],
                 Timestamp = DateTime.UtcNow,
             };
-            _context.ChatSessions.Add(chatSession);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            context.ChatSessions.Add(chatSession);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         // Test command
@@ -68,16 +68,16 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         };
 
         var validator = new CreateChatSessionCommandValidator();
-        _validationResponse = await validator.ValidateAsync(request);
+        validationResponse = await validator.ValidateAsync(request);
 
-        if (_validationResponse.IsValid)
+        if (validationResponse.IsValid)
         {
             try
             {
-                var chatService = new OpenAIChatCompletionService(_optionsOpenAi.ChatCompletionModelId, _optionsOpenAi.ApiKey);
-                var handler = new CreateChatSessionCommandHandler(chatService, _context, Mapper);
+                var chatService = new OpenAIChatCompletionService(optionsOpenAi.ChatCompletionModelId, optionsOpenAi.ApiKey);
+                var handler = new CreateChatSessionCommandHandler(chatService, context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
@@ -85,7 +85,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
             }
         }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
     [Then(@"I see the chat session created with the initial response ""([^""]*)""")]

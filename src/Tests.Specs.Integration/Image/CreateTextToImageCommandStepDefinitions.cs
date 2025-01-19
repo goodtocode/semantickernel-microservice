@@ -16,7 +16,7 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
     [Given(@"I have a def ""([^""]*)""")]
     public void GivenIHaveADef(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"I have a initial prompt ""([^""]*)""")]
@@ -55,8 +55,8 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
                 ImageBytes = [0x01, 0x02, 0x03, 0x04],
                 Timestamp = DateTime.UtcNow
             };
-            _context.TextImages.Add(textImage);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            context.TextImages.Add(textImage);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         // Test command
@@ -69,18 +69,18 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
         };
 
         var validator = new CreateTextToImageCommandValidator();
-        _validationResponse = await validator.ValidateAsync(request);
+        validationResponse = await validator.ValidateAsync(request);
 
-        if (_validationResponse.IsValid)
+        if (validationResponse.IsValid)
         {
             try
             {
 #pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-                var imageService = new OpenAITextToImageService(modelId: _optionsOpenAi.ImageModelId, apiKey: _optionsOpenAi.ApiKey);
+                var imageService = new OpenAITextToImageService(modelId: optionsOpenAi.ImageModelId, apiKey: optionsOpenAi.ApiKey);
 #pragma warning restore SKEXP0010
-                var handler = new CreateTextToImageCommandHandler(imageService, _context, Mapper);
+                var handler = new CreateTextToImageCommandHandler(imageService, context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
@@ -88,7 +88,7 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
             }
         }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
     [Then(@"I see the text image created with the initial response ""([^""]*)""")]

@@ -5,7 +5,7 @@
 
 **Clean Architecture C# Microservice**
 
-[![.github/workflows/gtc-rg-semkernel-api.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api.yml)
+[![.github/workflows/gtc-rg-semkernel-api-ci-cd.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api-ci-cd.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api-ci-cd.yml)
 
 Simple Semantic Kernel CRUD Microservice solution that demonstrates the most basic use cases of the Microsoft Semantic Kernel in a Clean Architecture C# Microservice. This microservice allows you to persist the following Azure Open AI services to SQL Server, so you can replay messages and maintain history of your interaction with AI. 
 

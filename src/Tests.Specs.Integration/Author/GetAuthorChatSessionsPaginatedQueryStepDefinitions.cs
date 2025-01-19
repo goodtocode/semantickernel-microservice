@@ -21,7 +21,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         [Given(@"I have a definition ""([^""]*)""")]
         public void GivenIHaveADefinition(string def)
         {
-            _def = def;
+            base.def = def;
         }
 
         [Given(@"Chat Sessions exist ""([^""]*)""")]
@@ -79,8 +79,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
                     Id = _id,
                     Name = "John Doe"
                 };
-                _context.Authors.Add(author);
-                await _context.SaveChangesAsync(CancellationToken.None);
+                context.Authors.Add(author);
+                await context.SaveChangesAsync(CancellationToken.None);
                 var messages = new List<ChatMessageEntity>();
                 for (int i = 0; i < 2; i++)
                 {
@@ -98,8 +98,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
                     Messages = messages,
                     Timestamp = _startDate.AddSeconds(1),
                 };
-                _context.ChatSessions.Add(chatSession);
-                await _context.SaveChangesAsync(CancellationToken.None);
+                context.ChatSessions.Add(chatSession);
+                await context.SaveChangesAsync(CancellationToken.None);
             }
 
             var request = new GetAuthorChatSessionsPaginatedQuery()
@@ -112,20 +112,20 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             };
 
             var validator = new GetAuthorChatSessionsPaginatedQueryValidator();
-            _validationResponse = validator.Validate(request);
-            if (_validationResponse.IsValid)
+            validationResponse = validator.Validate(request);
+            if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetAuthorChatSessionsPaginatedQueryHandler(_context, Mapper);
+                    var handler = new GetAuthorChatSessionsPaginatedQueryHandler(context, Mapper);
                     _response = await handler.Handle(request, CancellationToken.None);
-                    _responseType = CommandResponseType.Successful;
+                    responseType = CommandResponseType.Successful;
                 }
                 catch (Exception e)
                 {
-                    _responseType = HandleAssignResponseType(e);
+                    responseType = HandleAssignResponseType(e);
                 }
             else
-                _responseType = CommandResponseType.BadRequest;
+                responseType = CommandResponseType.BadRequest;
         }
 
         [Then(@"The response is ""([^""]*)""")]
@@ -143,49 +143,49 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         [Then(@"The response has a collection of chat sessions")]
         public void ThenTheResponseHasACollectionOfAuthorChatSessions()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalCount.Should().Be(_withinDateRangeExists == false ? 0 : _response.TotalCount);
         }
 
         [Then(@"Each chat session has a Key")]
         public void ThenEachChatSessionHasAKey()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.Items.FirstOrDefault(x => x.Id == default).Should().BeNull();
         }
 
         [Then(@"Each chat session has a Date greater than start date")]
         public void ThenEachChatSessionHasADateGreaterThanStartDate()
         {
-            if (_responseType == CommandResponseType.Successful && _withinDateRangeExists)
+            if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
                 _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
         }
 
         [Then(@"Each chat session has a Date less than end date")]
         public void ThenEachChatSessionHasADateLessThanEndDate()
         {
-            if (_responseType == CommandResponseType.Successful && _withinDateRangeExists)
+            if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
                 _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
         }
 
         [Then(@"The response has a Page Number")]
         public void ThenTheResponseHasAPageNumber()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.PageNumber.Should();
         }
 
         [Then(@"The response has a Total Pages")]
         public void ThenTheResponseHasATotalPages()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalPages.Should();
         }
 
         [Then(@"The response has a Total Count")]
         public void ThenTheResponseHasATotalCount()
         {
-            if (_responseType != CommandResponseType.Successful) return;
+            if (responseType != CommandResponseType.Successful) return;
             _response?.TotalCount.Should();
         }
     }

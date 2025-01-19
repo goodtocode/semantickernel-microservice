@@ -14,7 +14,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
         [Given(@"I have a def ""([^""]*)""")]
         public void GivenIHaveADef(string def)
         {
-            _def = def;
+            base.def = def;
         }
 
         [Given(@"I have a text image id""([^""]*)""")]
@@ -51,26 +51,26 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
                     ImageBytes = [0x01, 0x02, 0x03, 0x04],
                     Timestamp = DateTime.UtcNow
                 };
-                _context.TextImages.Add(textImage);
-                await _context.SaveChangesAsync(CancellationToken.None);
+                context.TextImages.Add(textImage);
+                await context.SaveChangesAsync(CancellationToken.None);
             }
 
             var validator = new DeleteTextImageCommandValidator();
-            _validationResponse = await validator.ValidateAsync(request);
+            validationResponse = await validator.ValidateAsync(request);
 
-            if (_validationResponse.IsValid)
+            if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new DeleteTextImageCommandHandler(_context);
+                    var handler = new DeleteTextImageCommandHandler(context);
                     await handler.Handle(request, CancellationToken.None);
-                    _responseType = CommandResponseType.Successful;
+                    responseType = CommandResponseType.Successful;
                 }
                 catch (Exception e)
                 {
                     HandleAssignResponseType(e);
                 }
             else
-                _responseType = CommandResponseType.BadRequest;
+                responseType = CommandResponseType.BadRequest;
         }
 
         [Then(@"The response is ""([^""]*)""")]

@@ -14,7 +14,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
         [Given(@"I have a def ""([^""]*)""")]
         public void GivenIHaveADef(string def)
         {
-            _def = def;
+            base.def = def;
         }
 
         [Given(@"I have a text audio id""([^""]*)""")]
@@ -49,26 +49,26 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
                     AudioBytes = [0x01, 0x02, 0x03, 0x04],
                     Timestamp = DateTime.UtcNow
                 };
-                _context.TextAudio.Add(textAudio);
-                await _context.SaveChangesAsync(CancellationToken.None);
+                context.TextAudio.Add(textAudio);
+                await context.SaveChangesAsync(CancellationToken.None);
             }
 
             var validator = new DeleteTextAudioCommandValidator();
-            _validationResponse = await validator.ValidateAsync(request);
+            validationResponse = await validator.ValidateAsync(request);
 
-            if (_validationResponse.IsValid)
+            if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new DeleteTextAudioCommandHandler(_context);
+                    var handler = new DeleteTextAudioCommandHandler(context);
                     await handler.Handle(request, CancellationToken.None);
-                    _responseType = CommandResponseType.Successful;
+                    responseType = CommandResponseType.Successful;
                 }
                 catch (Exception e)
                 {
                     HandleAssignResponseType(e);
                 }
             else
-                _responseType = CommandResponseType.BadRequest;
+                responseType = CommandResponseType.BadRequest;
         }
 
         [Then(@"The response is ""([^""]*)""")]

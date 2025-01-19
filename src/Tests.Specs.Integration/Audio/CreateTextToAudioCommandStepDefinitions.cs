@@ -16,7 +16,7 @@ public class CreateTextToAudioCommandStepDefinitions : TestBase
     [Given(@"I have a def ""([^""]*)""")]
     public void GivenIHaveADef(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"I have a initial prompt ""([^""]*)""")]
@@ -53,8 +53,8 @@ public class CreateTextToAudioCommandStepDefinitions : TestBase
                 AudioBytes = [0x01, 0x02, 0x03, 0x04],
                 Timestamp = DateTime.UtcNow
             };
-            _context.TextAudio.Add(textAudio);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            context.TextAudio.Add(textAudio);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         // Test command
@@ -65,18 +65,18 @@ public class CreateTextToAudioCommandStepDefinitions : TestBase
         };
 
         var validator = new CreateTextToAudioCommandValidator();
-        _validationResponse = await validator.ValidateAsync(request);
+        validationResponse = await validator.ValidateAsync(request);
 
-        if (_validationResponse.IsValid)
+        if (validationResponse.IsValid)
         {
             try
             {
-#pragma warning disable SKEXP0001
-                var audioService = new OpenAITextToAudioService(modelId: _optionsOpenAi.AudioModelId, apiKey: _optionsOpenAi.ApiKey);
-#pragma warning restore SKEXP0001
-                var handler = new CreateTextToAudioCommandHandler(audioService, _context, Mapper);
+#pragma warning disable SKEXP0010
+                var audioService = new OpenAITextToAudioService(modelId: optionsOpenAi.AudioModelId, apiKey: optionsOpenAi.ApiKey);
+#pragma warning restore SKEXP0010
+                var handler = new CreateTextToAudioCommandHandler(audioService, context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
@@ -84,7 +84,7 @@ public class CreateTextToAudioCommandStepDefinitions : TestBase
             }
         }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
     [Then(@"I see the text audio created with the initial response ""([^""]*)""")]

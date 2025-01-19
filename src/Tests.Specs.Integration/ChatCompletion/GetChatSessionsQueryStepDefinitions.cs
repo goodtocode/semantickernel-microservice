@@ -16,7 +16,7 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
     [Given(@"I have a definition ""([^""]*)""")]
     public void GivenIHaveADefinition(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"Chat Sessions exist ""([^""]*)""")]
@@ -65,8 +65,8 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
                 Messages = messages,
                 Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1),
             };
-            _context.ChatSessions.Add(chatSession);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            context.ChatSessions.Add(chatSession);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         var request = new GetChatSessionsQuery()
@@ -76,20 +76,20 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
         };
 
         var validator = new GetChatSessionsQueryValidator();
-        _validationResponse = validator.Validate(request);
-        if (_validationResponse.IsValid)
+        validationResponse = validator.Validate(request);
+        if (validationResponse.IsValid)
             try
             {
-                var handler = new GetChatSessionsQueryHandler(_context, Mapper);
+                var handler = new GetChatSessionsQueryHandler(context, Mapper);
                 _response = await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
-                _responseType = HandleAssignResponseType(e);
+                responseType = HandleAssignResponseType(e);
             }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
     [Then(@"The response is ""([^""]*)""")]

@@ -1,0 +1,96 @@
+name: CI Build, Test, and CodeQL Analysis
+
+on: 
+  push:
+    branches: 
+      - main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/gtc-rg-semkernel-api-ci.yml
+      - src/**
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run'
+        required: true
+        default: 'development'
+      mode:
+        description: 'Running mode'  
+
+permissions:
+  id-token: write
+  contents: read
+  security-events: write
+
+jobs:
+  build-test-codeql:
+    name: 'Build, Test, and CodeQL Analysis .NET'
+    runs-on: ubuntu-latest
+    environment: development
+    strategy:
+      matrix:
+        DOTNET_VERSION: ['9.0.x']
+
+    env:      
+      RUNTIME_ENV: 'Development'
+      SRC_PATH: './src'
+      SRC_SLN: 'SemanticKernelMicroservice.sln'
+      API_PATH: 'Presentation.WebApi'
+      API_PROJECT: 'Presentation.WebApi.csproj'
+      TEST_PATH: 'Tests.Specs.Integration'
+      TEST_PROJECT: 'Tests.Specs.Integration.csproj'
+      SCRIPTS_PATH: './.github/scripts'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.DOTNET_VERSION }}
+
+      - name: Set-Version.ps1
+        run: |
+          $version = ${{ env.SCRIPTS_PATH }}/Set-Version.ps1 -Path ${{ env.SRC_PATH }} -VersionToReplace 1.0.0
+          echo $version
+          echo "VERSION=$version" >> $GITHUB_ENV
+        shell: pwsh
+
+      - name: Pipeline configuration secrets
+        run: |
+          echo "ASPNETCORE_ENVIRONMENT=${{ env.RUNTIME_ENV }}" >> $GITHUB_ENV
+          echo "AZURE_FUNCTIONS_ENVIRONMENT=${{ env.RUNTIME_ENV }}" >> $GITHUB_ENV
+          echo "OpenAI:ApiKey=${{ secrets.OPENAI_APIKEY }}" >> $GITHUB_ENV
+        shell: pwsh
+
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '${{ env.SRC_PATH }}/${{ env.API_PATH }}/appsettings.json, ${{ env.SRC_PATH }}/${{ env.API_PATH }}/appsettings.${{ env.RUNTIME_ENV }}.json, ${{ env.SRC_PATH }}/${{ env.TEST_PATH }}/appsettings.test.json'
+        env: 
+          OpenAI.ApiKey: ${{ secrets.OPENAI_APIKEY }}
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+
+      - name: Build
+        run: dotnet build ${{ env.SRC_PATH }}/${{ env.SRC_SLN }} --configuration Release       
+
+      - name: Test
+        run: dotnet test ${{ env.SRC_PATH }}/${{ env.TEST_PATH }}/${{ env.TEST_PROJECT }} --logger "trx;LogFileName=TestResults-${{ matrix.DOTNET_VERSION }}/test_results.trx" --verbosity normal
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: dotnet-results-${{ matrix.DOTNET_VERSION }}
+          path: TestResults-${{ matrix.DOTNET_VERSION }}
+        if: ${{ always() }}
+
+      - name: Perform CodeQL Analysis 
+        uses: github/codeql-action/analyze@v3
+  

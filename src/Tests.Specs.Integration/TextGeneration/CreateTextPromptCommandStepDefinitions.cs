@@ -1,5 +1,6 @@
 using Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
+using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Services;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration;
@@ -15,7 +16,7 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
     [Given(@"I have a def ""([^""]*)""")]
     public void GivenIHaveADef(string def)
     {
-        _def = def;
+        base.def = def;
     }
 
     [Given(@"I have a initial prompt ""([^""]*)""")]
@@ -56,8 +57,8 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
                  ],
                 Timestamp = DateTime.UtcNow,
             };
-            _context.TextPrompts.Add(textPrompt);
-            await _context.SaveChangesAsync(CancellationToken.None);
+            context.TextPrompts.Add(textPrompt);
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         // Test command
@@ -68,16 +69,16 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
         };
 
         var validator = new CreateTextPromptCommandValidator();
-        _validationResponse = await validator.ValidateAsync(request);
+        validationResponse = await validator.ValidateAsync(request);
 
-        if (_validationResponse.IsValid)
+        if (validationResponse.IsValid)
         {
             try
             {
-                var textService = new OpenAITextGenerationService(_optionsOpenAi.TextGenerationModelId, _optionsOpenAi.ApiKey);
-                var handler = new CreateTextPromptCommandHandler(textService, _context, Mapper);
+                var textService = new TextGenerationService(new OpenAIChatCompletionService(optionsOpenAi.ChatCompletionModelId, optionsOpenAi.ApiKey));
+                var handler = new CreateTextPromptCommandHandler(textService, context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
-                _responseType = CommandResponseType.Successful;
+                responseType = CommandResponseType.Successful;
             }
             catch (Exception e)
             {
@@ -85,7 +86,7 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
             }
         }
         else
-            _responseType = CommandResponseType.BadRequest;
+            responseType = CommandResponseType.BadRequest;
     }
 
     [Then(@"I see the text prompt created with the initial response ""([^""]*)""")]

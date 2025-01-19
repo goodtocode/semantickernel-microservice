@@ -39,7 +39,7 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
         chatSession.Messages.Add(new ChatMessageEntity()
         {
             Content = response.ToString(),
-            Role = Enum.Parse<ChatMessageRole>(response.Role.ToString()),
+            Role = Enum.Parse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant()),
             Timestamp = DateTime.UtcNow
         });
         _context.ChatSessions.Add(chatSession);
