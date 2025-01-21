@@ -5,6 +5,8 @@
 
 # Documentation
 *.Presentation.WebApi.xml
+swagger.json
+.config/
 
 # User-specific files
 *.rsuser

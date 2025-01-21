@@ -16,6 +16,17 @@ public static class ConfigureServices
     /// <returns></returns>
     public static IServiceCollection AddWebUIServices(this IServiceCollection services)
     {
+        //var assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
+        //var majorVersion = $"v{assemblyVersion?.Major ?? 1}";
+        //services.AddSwaggerGen(c =>
+        //{
+        //    c.SwaggerDoc(majorVersion, new OpenApiInfo
+        //    {
+        //        Title = "Semantic Kernel Quick-start for WebAPI",
+        //        Version = majorVersion
+        //    });
+        //});
+
         services.AddControllersWithViews(setupAction =>
             {
                 setupAction.Filters.Add(
