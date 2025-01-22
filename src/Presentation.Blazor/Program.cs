@@ -1,3 +1,4 @@
+using Goodtocode.Presentation.WebApi.Client;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Client.Services;
 using Presentation.Blazor.Components;
 
@@ -8,7 +9,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost") });
+builder.Services.AddScoped(builder => new WebApiClient("http://localhost", new HttpClient()));
 builder.Services.AddScoped<IChatService, ChatService>();
 
 var app = builder.Build();

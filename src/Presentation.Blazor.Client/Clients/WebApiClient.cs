@@ -23,7 +23,7 @@ namespace Goodtocode.Presentation.WebApi.Client
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GeneratedClient 
+    public partial class WebApiClient 
     {
         #pragma warning disable 8618
         private string _baseUrl;
@@ -34,7 +34,7 @@ namespace Goodtocode.Presentation.WebApi.Client
         private System.Text.Json.JsonSerializerOptions _instanceSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public GeneratedClient(string baseUrl, System.Net.Http.HttpClient httpClient)
+        public WebApiClient(string baseUrl, System.Net.Http.HttpClient httpClient)
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = baseUrl;

@@ -1,5 +1,5 @@
-﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Client.Models;
-using System.Net.Http.Json;
+﻿using Goodtocode.Presentation.WebApi.Client;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Client.Models;
 
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Client.Services;
 public interface IChatService
@@ -8,20 +8,33 @@ public interface IChatService
     Task<List<ChatSessionModel>> GetChatSessionsAsync();
 }
 
-public class ChatService(HttpClient httpClient) : IChatService
+public class ChatService(WebApiClient client) : IChatService
 {
-    private readonly HttpClient _httpClient = httpClient;
+    private readonly WebApiClient _client = client;
 
     public async Task SendMessageAsync(string message)
     {
-        var response = await _httpClient.PostAsJsonAsync("api/chat/send", new { Message = message });
-        response.EnsureSuccessStatusCode();
+        await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = message });
     }
 
     public async Task<List<ChatSessionModel>> GetChatSessionsAsync()
     {
-        var response = new List<ChatSessionModel>(); // await _httpClient.GetFromJsonAsync<List<ChatSessionModel>>("api/chat/sessions");
-        return response ?? [];
+        var response =  await _client.GetChatSessionsQueryAsync();
+        
+        return response.Select(dto => new ChatSessionModel
+         {
+             Id = dto.Id,
+             Title = dto.Title,
+             AuthorId = dto.AuthorId,
+             Timestamp = dto.Timestamp,
+             IsActive = false,
+             Messages = dto.Messages?.Select(m => new ChatMessageModel
+             {
+                 Id = m.Id,
+                 Content = m.Content,
+                 Timestamp = m.Timestamp
+             }).ToList()
+         }).ToList();
     }
 }
 
