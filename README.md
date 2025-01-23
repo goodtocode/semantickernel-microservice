@@ -51,7 +51,7 @@ winget install Microsoft.VisualStudioCode --override '/SILENT /mergetasks="!runc
 
 ## .NET SDK
 ```
-winget install Microsoft.DotNet.SDK.8 --silent
+winget install Microsoft.DotNet.SDK.9 --silent
 ```
 
 ## dotnet ef cli

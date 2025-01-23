@@ -11,7 +11,7 @@ public interface IChatService
 public class ChatService(WebApiClient client) : IChatService
 {
     private readonly WebApiClient _client = client;
-
+    
     public async Task SendMessageAsync(string message)
     {
         await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = message });
