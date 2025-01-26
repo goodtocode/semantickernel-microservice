@@ -10,8 +10,8 @@ public class AuthorEntity : DomainEntity<AuthorEntity>
 {
     public string Name { get; set; } = string.Empty;
 
-    public virtual ICollection<ChatSessionEntity> ChatSessions { get; set; } = [];
-    public virtual ICollection<TextPromptEntity> TextPrompts { get; set; } = [];
-    public virtual ICollection<TextImageEntity> TextImages { get; set; } = [];
-    public virtual ICollection<TextAudioEntity> TextAudio { get; set; } = [];
+    public virtual ICollection<ChatSessionEntity> ChatSessions { get; private set; } = [];
+    public virtual ICollection<TextPromptEntity> TextPrompts { get; private set; } = [];
+    public virtual ICollection<TextImageEntity> TextImages { get; private set; } = [];
+    public virtual ICollection<TextAudioEntity> TextAudio { get; private set; } = [];
 }

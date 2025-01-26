@@ -6,6 +6,8 @@ public class TextPromptsConfig : IEntityTypeConfiguration<TextPromptEntity>
 {
     public void Configure(EntityTypeBuilder<TextPromptEntity> builder)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+
         builder.ToTable("TextPrompts");
         builder.HasKey(x => x.Id)
             .IsClustered(false);

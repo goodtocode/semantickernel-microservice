@@ -6,6 +6,8 @@ public class TextResponsesConfig : IEntityTypeConfiguration<TextResponseEntity>
 {
     public void Configure(EntityTypeBuilder<TextResponseEntity> builder)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+
         builder.ToTable("TextResponses");
         builder.HasKey(x => x.Id)
             .IsClustered(false);

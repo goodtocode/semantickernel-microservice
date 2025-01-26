@@ -7,7 +7,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
 /// </summary>
 public sealed class OpenAIOptions
 {
-    public const string OpenAISectionName = "OpenAI";
+    public const string SectionName = "OpenAI";
 
     [Required]
     public string ChatCompletionModelId { get; set; } = string.Empty;

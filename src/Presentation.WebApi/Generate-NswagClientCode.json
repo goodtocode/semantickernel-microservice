@@ -93,7 +93,7 @@
       "templateDirectory": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../Presentation.Blazor.Client/Clients/WebApiClient.cs",
+      "output": "../Presentation.Blazor.Rcl/Clients/WebApiClient.cs",
       "newLineBehavior": "Auto"
     }
   }

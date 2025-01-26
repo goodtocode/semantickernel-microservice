@@ -46,7 +46,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
                         "The blue square is placed at a 45-degree angle, positioned centrally below the two yellow squares, creating a symmetrical arrangement. " +
                         "Each square is connected by what appears to be black lines or sticks, suggesting they may represent nodes or elements in a network or structure. " +
                         "The background is white, which contrasts with the bright colors of the squares.",
-                    AudioBytes = [0x01, 0x02, 0x03, 0x04],
+                    AudioBytes = new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]),
                     Timestamp = DateTime.UtcNow
                 };
                 context.TextAudio.Add(textAudio);

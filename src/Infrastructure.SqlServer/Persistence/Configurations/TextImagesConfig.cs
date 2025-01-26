@@ -6,6 +6,8 @@ public class TextImagesConfig : IEntityTypeConfiguration<TextImageEntity>
 {
     public void Configure(EntityTypeBuilder<TextImageEntity> builder)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+
         builder.ToTable("TextImages");
         builder.HasKey(x => x.Id)
             .IsClustered(false);

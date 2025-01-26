@@ -7,7 +7,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
 /// </summary>
 public sealed class AzureOpenAIOptions
 {
-    public const string OpenAISectionName = "AzureOpenAI";
+    public const string SectionName = "AzureOpenAI";
 
     [Required]
     public string ChatDeploymentName { get; set; } = string.Empty;

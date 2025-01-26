@@ -13,7 +13,7 @@ param (
  	[string]$SwaggerJsonPath = 'swagger',
     [string]$ApiAssembly = 'bin\Debug\net9.0\Goodtocode.SemanticKernel.Presentation.WebApi.dll',
 	[string]$ApiVersion = 'v1',
-	[string]$ClientPathFile = '../Presentation.Blazor.Client/Clients/WebApiClient.cs',
+	[string]$ClientPathFile = '../Presentation.Blazor.Rcl/Clients/WebApiClient.cs',
 	[string]$ClientNamespace = 'Goodtocode.Presentation.WebApi.Client'
 )
 ####################################################################################

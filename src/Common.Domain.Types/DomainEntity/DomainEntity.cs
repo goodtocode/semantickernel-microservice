@@ -28,7 +28,7 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
         this.Id = id;
     }    
 
-    public void RaiseDomainEvent(IDomainEvent<TModel> domainEvent)
+    public void AddDomainEvent(IDomainEvent<TModel> domainEvent)
     {
         _domainEvents.Add(domainEvent);
     }
@@ -73,14 +73,21 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
 
     public override int GetHashCode()
     {
-        return (GetRealType().ToString() + Id).GetHashCode();
+        unchecked
+        {
+            int hash = 17;
+            hash = hash * 23 + GetRealType().ToString().GetHashCode(StringComparison.Ordinal);
+            hash = hash * 23 + Id.GetHashCode();
+            return hash;
+        }
     }
+
 
     private Type GetRealType(string namespaceRoot = "")
     {
         var type = GetType();
 
-        if (type.ToString().Contains(namespaceRoot))
+        if (type.ToString().Contains(namespaceRoot, StringComparison.InvariantCulture))
             return type.BaseType ?? type.GetType();
 
         return type;

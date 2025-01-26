@@ -5,12 +5,21 @@ namespace Goodtocode.SemanticKernel.Core.Domain.Audio;
 
 public class TextAudioEntity : DomainEntity<TextAudioEntity>
 {
+    private byte[]? _audioBytes;
+
     public TextAudioEntity() { }
 
     public Guid AuthorId { get; set; } = Guid.Empty;
+
     public string Description { get; set; } = string.Empty;
-    public byte[]? AudioBytes { get; set; }
+
+    public ReadOnlyMemory<byte>? AudioBytes
+    {
+        get => _audioBytes;
+        set => _audioBytes = value.HasValue ? value.Value.ToArray() : null;
+    }
+
     public Uri? AudioUrl { get; set; }
 
-    public virtual AuthorEntity Author { get; set; } = new();
+    public virtual AuthorEntity Author { get; set; } = default!;
 }
