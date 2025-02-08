@@ -52,7 +52,7 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
                     "The background is white, which contrasts with the bright colors of the squares.",
                 Width = 1024,
                 Height = 1024,
-                ImageBytes = [0x01, 0x02, 0x03, 0x04],
+                ImageBytes = new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]),
                 Timestamp = DateTime.UtcNow
             };
             context.TextImages.Add(textImage);

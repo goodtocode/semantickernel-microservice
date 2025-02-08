@@ -5,7 +5,7 @@ namespace Goodtocode.SemanticKernel.Core.Domain.Audio;
 
 public class TextAudioEntity : DomainEntity<TextAudioEntity>
 {
-    private byte[]? _audioBytes;
+    private ReadOnlyMemory<byte>? _audioBytes;
 
     public TextAudioEntity() { }
 
