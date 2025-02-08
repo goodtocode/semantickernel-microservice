@@ -1,6 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
+		<RootNamespace>Goodtocode.SemanticKernel.Presentation.Blazor.Rcl</RootNamespace>
+		<AssemblyName>Goodtocode.SemanticKernel.Presentation.Blazor.Rcl</AssemblyName>
+		<Version>1.0.0</Version>
 		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>

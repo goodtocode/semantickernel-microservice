@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
 		<RootNamespace>Goodtocode.SemanticKernel.Infrastructure.SqlServer</RootNamespace>
 		<AssemblyName>Goodtocode.SemanticKernel.Infrastructure.SqlServer</AssemblyName>
 		<Version>1.0.0</Version>
+		<TargetFramework>net9.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>

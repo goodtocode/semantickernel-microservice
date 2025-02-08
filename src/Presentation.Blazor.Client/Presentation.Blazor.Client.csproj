@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
+		<RootNamespace>Goodtocode.SemanticKernel.Presentation.Blazor.Client</RootNamespace>
+		<AssemblyName>Goodtocode.SemanticKernel.Presentation.Blazor.Client</AssemblyName>
+		<Version>1.0.0</Version>
 		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
 		<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
 		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
 	</PropertyGroup>
@@ -13,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Presentation.Blazor.Rcl\Presentation.Blazor.Rcl.csproj" />
+		<ProjectReference Include="..\Presentation.Blazor.Rcl\Presentation.Blazor.Rcl.csproj" />
 	</ItemGroup>
 
 </Project>

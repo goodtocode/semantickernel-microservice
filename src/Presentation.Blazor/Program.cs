@@ -1,5 +1,5 @@
 using Goodtocode.SemanticKernel.Presentation.Blazor.Client.Services;
-using Presentation.Blazor.Components;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Components;
 using Presentation.Blazor.Rcl;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +35,6 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Presentation.Blazor.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(Goodtocode.SemanticKernel.Presentation.Blazor.Client._Imports).Assembly);
 
 app.Run();

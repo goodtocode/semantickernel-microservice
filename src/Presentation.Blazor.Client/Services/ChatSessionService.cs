@@ -14,12 +14,12 @@ public class ChatService(WebApiClient client) : IChatService
     
     public async Task SendMessageAsync(string message)
     {
-        await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = message });
+        await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = message }).ConfigureAwait(false);
     }
 
     public async Task<List<ChatSessionModel>> GetChatSessionsAsync()
     {
-        var response =  await _client.GetChatSessionsQueryAsync();
+        var response =  await _client.GetChatSessionsQueryAsync().ConfigureAwait(false);
         
         return response.Select(dto => new ChatSessionModel
          {
