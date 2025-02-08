@@ -1,6 +1,6 @@
 using Goodtocode.SemanticKernel.Presentation.Blazor.Client.Services;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Rcl;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Presentation.Blazor.Rcl;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 

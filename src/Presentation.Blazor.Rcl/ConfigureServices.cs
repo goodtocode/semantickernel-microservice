@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Presentation.Blazor.Rcl;
+namespace Goodtocode.SemanticKernel.Presentation.Blazor.Rcl;
 
 public static class ConfigureServices
 {
@@ -20,7 +20,7 @@ public static class ConfigureServices
         {
             var options = builder.GetRequiredService<IOptions<WebApiOptions>>().Value;
             return new WebApiClient(options.BaseUrl.ToString(), new HttpClient());
-            });
+        });
 
         return services;
     }

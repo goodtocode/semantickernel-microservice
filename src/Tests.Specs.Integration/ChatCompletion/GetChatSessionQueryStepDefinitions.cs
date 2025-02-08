@@ -1,5 +1,6 @@
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using System.Globalization;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 
@@ -34,7 +35,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Given(@"I have a expected chat session count ""([^""]*)""")]
     public void GivenIHaveAExpectedChatSessionCount(string chatSessionCount)
     {
-        _chatSessionCount = int.Parse(chatSessionCount);
+        _chatSessionCount = int.Parse(chatSessionCount, CultureInfo.InvariantCulture);
     }
 
     [When(@"I get a chat session")]
@@ -106,6 +107,6 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasACountMatching(string messageCount)
     {
-        _response?.Messages?.Count.Should().Be(int.Parse(messageCount));
+        _response?.Messages?.Count.Should().Be(int.Parse(messageCount, CultureInfo.InvariantCulture));
     }
 }

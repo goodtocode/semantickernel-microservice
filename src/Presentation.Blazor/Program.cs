@@ -1,6 +1,6 @@
 using Goodtocode.SemanticKernel.Presentation.Blazor.Client.Services;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Components;
-using Presentation.Blazor.Rcl;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Rcl;
 
 var builder = WebApplication.CreateBuilder(args);
 

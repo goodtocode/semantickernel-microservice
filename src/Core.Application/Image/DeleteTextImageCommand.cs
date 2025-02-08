@@ -15,7 +15,7 @@ public class DeleteTextImageCommandHandler(ISemanticKernelContext context) : IRe
 
     public async Task Handle(DeleteTextImageCommand request, CancellationToken cancellationToken)
     {
-        var textImage = await _context.TextImages.FindAsync(request.Id);
+        var textImage = await _context.TextImages.FindAsync([request.Id], cancellationToken);
         GuardAgainstNotFound(textImage);
 
         _context.TextImages.Remove(textImage!);

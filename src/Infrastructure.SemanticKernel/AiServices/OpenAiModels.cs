@@ -1,4 +1,4 @@
-﻿namespace Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.Enums;
+﻿namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.AiServices;
 
 public struct OpenAiModels
 {

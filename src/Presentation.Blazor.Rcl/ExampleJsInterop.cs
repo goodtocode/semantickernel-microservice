@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace Presentation.Blazor.Rcl
+namespace Goodtocode.SemanticKernel.Presentation.Blazor.Rcl
 {
     // This class provides an example of how JavaScript functionality can be wrapped
     // in a .NET class for easy consumption. The associated JavaScript module is
@@ -9,15 +9,10 @@ namespace Presentation.Blazor.Rcl
     // This class can be registered as scoped DI service and then injected into Blazor
     // components for use.
 
-    public class ExampleJsInterop : IAsyncDisposable
+    public class ExampleJsInterop(IJSRuntime jsRuntime) : IAsyncDisposable
     {
-        private readonly Lazy<Task<IJSObjectReference>> moduleTask;
-
-        public ExampleJsInterop(IJSRuntime jsRuntime)
-        {
-            moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
+        private readonly Lazy<Task<IJSObjectReference>> moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
                 "import", "./_content/Presentation.Blazor.Rcl/exampleJsInterop.js").AsTask());
-        }
 
         public async ValueTask<string> Prompt(string message)
         {
@@ -32,6 +27,7 @@ namespace Presentation.Blazor.Rcl
                 var module = await moduleTask.Value;
                 await module.DisposeAsync();
             }
+            GC.SuppressFinalize(this);
         }
     }
 }
