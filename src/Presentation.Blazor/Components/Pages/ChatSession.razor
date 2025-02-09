@@ -8,25 +8,44 @@
 
 <h1>How can I help?</h1>
 
-<div class="input-group mb-3">
-    <input @bind="Message" type="text" class="form-control" placeholder="Type your message here..." aria-label="Type your message here..." aria-describedby="button-send">
-    <button class="btn btn-primary" type="button" id="button-send" @onclick="SubmitMessage">Send</button>
-</div>
+<div class="row">
+    <div class="col-9">
+        <div class="chat-history">
+            @foreach (var message in chatMessages)
+            {
+                <div class="message">
+                    <strong>@message.Role:</strong> @message.Content
+                </div>
+            }
+        </div>
 
-<ul>
-    @foreach (var session in chatSessions)
-    {
-        <li>@session.Title (@session.IsActive ? "Active" : "Inactive")</li>
-    }
-</ul>
+        <div class="input-group mb-3">
+            <input @bind="Message" type="text" class="form-control" placeholder="Type your message here..." aria-label="Type your message here..." aria-describedby="button-send">
+            <button class="btn btn-primary" type="button" id="button-send" @onclick="SubmitMessage">Send</button>
+        </div>
+    </div>
+    <div class="col-3">
+        <ul>
+            @foreach (var session in chatSessions)
+            {
+                <li>@session.Title (@session.IsActive ? "Active" : "Inactive")</li>
+            }
+        </ul>
+    </div>
+</div>
 
 @code {
     private string? Message { get; set; }
     private List<ChatSessionModel> chatSessions = new List<ChatSessionModel>();
+    private List<ChatMessageModel> chatMessages = new List<ChatMessageModel>();
 
     protected override async Task OnInitializedAsync()
     {
         chatSessions = await ChatService.GetChatSessionsAsync();
+        if (chatSessions.Any())
+        {
+            chatMessages = chatSessions.First().Messages?.ToList() ?? new List<ChatMessageModel>();
+        }
     }
 
     private async Task SubmitMessage()
@@ -35,6 +54,8 @@
         {
             await ChatService.SendMessageAsync(Message);
             Message = string.Empty;
+            // Refresh chat messages
+            //chatMessages = await ChatService.GetChatMessagesAsync(chatSessions.First().Id);
         }
     }
 }

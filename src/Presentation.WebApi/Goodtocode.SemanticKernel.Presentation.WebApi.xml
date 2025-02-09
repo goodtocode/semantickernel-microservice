@@ -233,12 +233,12 @@
              </remarks>
              <returns>NoContent</returns>
         </member>
-        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController">
+        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.ChatCompletion.ChatSessionController">
             <summary>
             Chat completion endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
             </summary>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Get(System.Guid)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatCompletion.ChatSessionController.Get(System.Guid)">
              <summary>Get Chat Session with history</summary>
              <remarks>
              Sample request:
@@ -259,7 +259,7 @@
                  }]
              </returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.GetAll">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatCompletion.ChatSessionController.GetAll">
              <summary>Get All Chat Sessions Query</summary>
              <remarks>
              Sample request:
@@ -282,7 +282,7 @@
                  }]
              </returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.GetChatSessionsPaginatedQuery(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.GetChatSessionsPaginatedQuery)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatCompletion.ChatSessionController.GetChatSessionsPaginatedQuery(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.GetChatSessionsPaginatedQuery)">
              <summary>Get Chat Sessions Paginated Query</summary>
              <remarks>
              Sample request:
@@ -306,7 +306,7 @@
                  }]
              </returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Post(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.CreateChatSessionCommand)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatCompletion.ChatSessionController.Post(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.CreateChatSessionCommand)">
              <summary>
              Creates new Chat Session with initial message prompt/response history
              </summary>
@@ -341,7 +341,7 @@
                  }]
              </returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Put(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.UpdateChatSessionCommand)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatCompletion.ChatSessionController.Put(Goodtocode.SemanticKernel.Core.Application.ChatCompletion.UpdateChatSessionCommand)">
              <summary>
              Update ChatSession Command
              </summary>
@@ -365,7 +365,7 @@
                     "Content": "Certainly! Semantic Kernel is a great framework for AI.",
                  }</returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Patch(System.Guid,Goodtocode.SemanticKernel.Core.Application.ChatCompletion.PatchChatSessionCommand)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatCompletion.ChatSessionController.Patch(System.Guid,Goodtocode.SemanticKernel.Core.Application.ChatCompletion.PatchChatSessionCommand)">
              <summary>
              Patch Chat Session Command
              </summary>
@@ -384,7 +384,7 @@
              <param name="command"></param>
              <returns>NoContent</returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession.ChatSessionController.Delete(System.Guid)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ChatCompletion.ChatSessionController.Delete(System.Guid)">
              <summary>Remove ChatSession Command</summary>
              <remarks>
              Sample request:
