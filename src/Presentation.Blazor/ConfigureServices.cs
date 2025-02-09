@@ -1,10 +1,8 @@
-﻿using Goodtocode.Presentation.WebApi.Client;
-using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
+using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 using Microsoft.Extensions.Options;
 
-namespace Goodtocode.SemanticKernel.Presentation.Blazor.Rcl;
+namespace Goodtocode.SemanticKernel.Presentation.Blazor;
 
 public static class ConfigureServices
 {

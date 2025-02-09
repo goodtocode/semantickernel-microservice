@@ -9,7 +9,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Presentation.Blazor.Client\Presentation.Blazor.Client.csproj" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.1" />
 	</ItemGroup>
 

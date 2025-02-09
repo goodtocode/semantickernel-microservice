@@ -1,6 +1,6 @@
-using Goodtocode.SemanticKernel.Presentation.Blazor.Client.Services;
+using Goodtocode.SemanticKernel.Presentation.Blazor;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Components;
-using Goodtocode.SemanticKernel.Presentation.Blazor.Rcl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +34,7 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Goodtocode.SemanticKernel.Presentation.Blazor.Client._Imports).Assembly);
+    .AddInteractiveWebAssemblyRenderMode();
+    //.AddAdditionalAssemblies(typeof(_Imports).Assembly);
 
 app.Run();

@@ -14,7 +14,7 @@ param (
     [string]$ApiAssembly = 'bin\Debug\net9.0\Goodtocode.SemanticKernel.Presentation.WebApi.dll',
 	[string]$ApiVersion = 'v1',
 	[string]$ClientPathFile = '../Presentation.Blazor.Rcl/Clients/WebApiClient.cs',
-	[string]$ClientNamespace = 'Goodtocode.Presentation.WebApi.Client'
+	[string]$ClientNamespace = 'Goodtocode.SemanticKernel.Presentation.WebApi.Client'
 )
 ####################################################################################
 Set-ExecutionPolicy Unrestricted -Scope Process -Force

@@ -1,7 +1,7 @@
-﻿using Goodtocode.Presentation.WebApi.Client;
-using Goodtocode.SemanticKernel.Presentation.Blazor.Client.Models;
+﻿using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Models;
 
-namespace Goodtocode.SemanticKernel.Presentation.Blazor.Client.Services;
+namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 public interface IChatService
 {
     Task SendMessageAsync(string message);
