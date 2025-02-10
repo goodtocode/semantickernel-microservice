@@ -1,4 +1,4 @@
-﻿namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services.Utilities;
+﻿namespace Goodtocode.SemanticKernel.Presentation.Blazor.Utilities;
 
 public static class LocalStorageFunctions
 {

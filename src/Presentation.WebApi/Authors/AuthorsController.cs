@@ -3,7 +3,7 @@ using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Presentation.WebApi.Common;
 
-namespace Goodtocode.SemanticKernel.Presentation.WebApi.Author;
+namespace Goodtocode.SemanticKernel.Presentation.WebApi.Authors;
 
 /// <summary>
 /// Author endpoints to create a chat, continue a chat, delete a chat and retrieve chat history

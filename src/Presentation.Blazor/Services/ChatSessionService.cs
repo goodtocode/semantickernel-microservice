@@ -1,5 +1,5 @@
 ﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Models;
-using Goodtocode.SemanticKernel.Presentation.Blazor.Services.Utilities;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities;
 using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services;
@@ -21,10 +21,10 @@ public class ChatService(WebApiClient client, UserUtility userUtilityService) : 
 
     public async Task<List<ChatSessionModel>> GetChatSessionsAsync()
     {
-        var userId = await _userUtilityService.GetUniqueUserIdAsync();
-        var response = await _client.GetChatSessionsQueryAsync().ConfigureAwait(false);
-
-        return response.Select(dto => new ChatSessionModel
+        var userId = await _userUtilityService.GetUserIdAsync();
+        var response = await _client.GetAuthorChatSessionsPaginatedQueryAsync(userId, DateTime.UtcNow.AddDays(-30), DateTime.UtcNow, 1, 20).ConfigureAwait(false);
+        
+        return response.Items.Select(dto => new ChatSessionModel
         {
             Id = dto.Id,
             Title = dto.Title,

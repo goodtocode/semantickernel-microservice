@@ -116,12 +116,12 @@
              </remarks>
              <returns>NoContent</returns>
         </member>
-        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController">
+        <member name="T:Goodtocode.SemanticKernel.Presentation.WebApi.Authors.AuthorController">
             <summary>
             Author endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
             </summary>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.Get(System.Guid)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Authors.AuthorController.Get(System.Guid)">
              <summary>Get Author session with history</summary>
              <remarks>
              Sample request:
@@ -138,7 +138,7 @@
                  }
              </returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.GetAuthorChatSessionsQuery(System.Guid)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Authors.AuthorController.GetAuthorChatSessionsQuery(System.Guid)">
              <summary>Get All Author Chat Sessions Query</summary>
              <remarks>
              Sample request:
@@ -162,7 +162,7 @@
                  }]
              </returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.GetAuthorChatSessionsPaginatedQuery(System.Guid,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Int32)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Authors.AuthorController.GetAuthorChatSessionsPaginatedQuery(System.Guid,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Int32)">
              <summary>Get Author Chat Sessions Paginated Query</summary>
              <remarks>
              Sample request:
@@ -186,7 +186,7 @@
                  }]
              </returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.Post(Goodtocode.SemanticKernel.Core.Application.Author.CreateAuthorCommand)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Authors.AuthorController.Post(Goodtocode.SemanticKernel.Core.Application.Author.CreateAuthorCommand)">
              <summary>
              Creates new Author session with empty history
              </summary>
@@ -204,7 +204,7 @@
              <param name="command"></param>
              <returns></returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.Put(Goodtocode.SemanticKernel.Core.Application.Author.UpdateAuthorCommand)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Authors.AuthorController.Put(Goodtocode.SemanticKernel.Core.Application.Author.UpdateAuthorCommand)">
              <summary>
              Update Author Command
              </summary>
@@ -222,7 +222,7 @@
              <param name="command"></param>
              <returns></returns>
         </member>
-        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Author.AuthorController.Delete(System.Guid)">
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.Authors.AuthorController.Delete(System.Guid)">
              <summary>Remove Author Command</summary>
              <remarks>
              Sample request:
