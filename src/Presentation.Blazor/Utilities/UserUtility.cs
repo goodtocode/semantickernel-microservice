@@ -1,22 +1,27 @@
-﻿using Microsoft.JSInterop;
+﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Utilities;
 
-public class UserUtility(IJSRuntime jsRuntime)
+public interface IUserUtility
 {
-    private readonly IJSRuntime _jsRuntime = jsRuntime;
+    Task<Guid> GetUserIdAsync();
+}
+
+public class UserUtility(ILocalStorageService storageService) : IUserUtility
+{
+    private readonly ILocalStorageService _storageService = storageService;
 
     public const string UserIdKey = $"userId";
 
     public async Task<Guid> GetUserIdAsync()
     {
-        var storedUserId = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", UserIdKey);
+        var storedUserId = await _storageService.GetItemAsync(UserIdKey);
         if (!Guid.TryParse(storedUserId, out Guid userId))
         {
             userId = Guid.NewGuid();
-            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", UserIdKey, storedUserId);
+            await _storageService.SetItemAsync(UserIdKey, userId.ToString());
         }
 
-        return userId!;
+        return userId;
     }
 }

@@ -3,9 +3,10 @@ using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities;
 using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services;
+
 public interface IChatService
 {
-    Task SendMessageAsync(string message);
+    Task SendMessageAsync(ChatMessageModel message);
     Task<List<ChatSessionModel>> GetChatSessionsAsync();
 }
 
@@ -14,17 +15,17 @@ public class ChatService(WebApiClient client, UserUtility userUtilityService) : 
     private readonly WebApiClient _client = client;
     private readonly UserUtility _userUtilityService = userUtilityService;
 
-    public async Task SendMessageAsync(string message)
+    public async Task SendMessageAsync(ChatMessageModel message)
     {
-        await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = message }).ConfigureAwait(false);
+        await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = message.Content }).ConfigureAwait(false);
     }
 
     public async Task<List<ChatSessionModel>> GetChatSessionsAsync()
     {
         var userId = await _userUtilityService.GetUserIdAsync();
         var response = await _client.GetAuthorChatSessionsPaginatedQueryAsync(userId, DateTime.UtcNow.AddDays(-30), DateTime.UtcNow, 1, 20).ConfigureAwait(false);
-        
-        return response.Items.Select(dto => new ChatSessionModel
+
+        return [.. response.Items.Select(dto => new ChatSessionModel
         {
             Id = dto.Id,
             Title = dto.Title,
@@ -37,7 +38,7 @@ public class ChatService(WebApiClient client, UserUtility userUtilityService) : 
                 Content = m.Content,
                 Timestamp = m.Timestamp
             }).ToList()
-        }).ToList();
+        })];
     }
 }
 

@@ -1,8 +1,10 @@
 ﻿@page "/chat"
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Models
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Services
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities
 @using Microsoft.AspNetCore.Components.Web
 @inject IChatService ChatService
+@inject UserUtility UserService
 
 <PageTitle>Semantic Kernel Chat Session</PageTitle>
 
@@ -38,13 +40,15 @@
     private string? Message { get; set; }
     private List<ChatSessionModel> chatSessions = new List<ChatSessionModel>();
     private List<ChatMessageModel> chatMessages = new List<ChatMessageModel>();
+    private ChatSessionModel? currentSession;
 
     protected override async Task OnInitializedAsync()
     {
         chatSessions = await ChatService.GetChatSessionsAsync();
         if (chatSessions.Any())
         {
-            chatMessages = chatSessions.First().Messages?.ToList() ?? new List<ChatMessageModel>();
+            currentSession = chatSessions.First();
+            chatMessages = currentSession.Messages?.ToList() ?? new List<ChatMessageModel>();
         }
     }
 
@@ -52,10 +56,34 @@
     {
         if (!string.IsNullOrEmpty(Message))
         {
-            await ChatService.SendMessageAsync(Message);
+            if (currentSession == null)
+            {
+                // Create new session
+                currentSession = new ChatSessionModel
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "New Session",
+                    AuthorId = Guid.NewGuid(),
+                    Timestamp = DateTimeOffset.Now,
+                    IsActive = true,
+                    Messages = new List<ChatMessageModel>()
+                };
+                chatSessions.Add(currentSession);
+            }
+
+            var newMessage = new ChatMessageModel
+            {
+                Id = Guid.NewGuid(),
+                ChatSessionId = currentSession.Id,
+                Role = "User",
+                Content = Message,
+                Timestamp = DateTimeOffset.Now
+            };
+
+            currentSession.Messages?.Add(newMessage);
+            await ChatService.SendMessageAsync(newMessage);
             Message = string.Empty;
-            // Refresh chat messages
-            //chatMessages = await ChatService.GetChatMessagesAsync(chatSessions.First().Id);
+            chatMessages = await ChatService.GetChatMessagesAsync(currentSession.Id);
         }
     }
 }

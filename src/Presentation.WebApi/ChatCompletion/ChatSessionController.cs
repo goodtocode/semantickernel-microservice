@@ -148,7 +148,7 @@ public class ChatSessionController : ApiControllerBase
     }
 
     /// <summary>
-    /// Update ChatSession Command
+    /// Update ChatSession Command, typically with changing the title or adding a new message
     /// </summary>
     /// <remarks>
     /// Sample request:
