@@ -13,7 +13,7 @@
 <div class="row">
     <div class="col-9">
         <div class="chat-history">
-            @foreach (var message in chatMessages)
+            @foreach (var message in currentSession?.Messages)
             {
                 <div class="message">
                     <strong>@message.Role:</strong> @message.Content
@@ -39,7 +39,6 @@
 @code {
     private string? Message { get; set; }
     private List<ChatSessionModel> chatSessions = new List<ChatSessionModel>();
-    private List<ChatMessageModel> chatMessages = new List<ChatMessageModel>();
     private ChatSessionModel? currentSession;
 
     protected override async Task OnInitializedAsync()
@@ -48,7 +47,6 @@
         if (chatSessions.Any())
         {
             currentSession = chatSessions.First();
-            chatMessages = currentSession.Messages?.ToList() ?? new List<ChatMessageModel>();
         }
     }
 
@@ -83,7 +81,6 @@
             currentSession.Messages?.Add(newMessage);
             await ChatService.SendMessageAsync(newMessage);
             Message = string.Empty;
-            chatMessages = await ChatService.GetChatMessagesAsync(currentSession.Id);
         }
     }
 }

@@ -1,6 +1,7 @@
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using System.Security.Cryptography;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
 {
@@ -65,23 +66,37 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         {
             if (_exists)
             {
-                var messages = new List<ChatMessageEntity>();
-                for (int i = 0; i < 2; i++)
+                // Setup Session
+                var chatSession = new ChatSessionEntity()
                 {
-                    messages.Add(new ChatMessageEntity()
-                    {
-                        Content = "Test Message",
-                        Role = ChatMessageRole.user,
-                        Timestamp = DateTime.Now
-                    });
+                    Messages =
+                     [
+                         new ChatMessageEntity()
+                         {
+                             Content = "Test Message",
+                             Role = ChatMessageRole.user,
+                             Timestamp = DateTime.Now
+                         }
+                     ],
+                    Timestamp = DateTime.UtcNow,
                 };
-                var ChatMessage = new ChatMessageEntity()
-                {
-                    Messages = messages,
-                    Timestamp = _startDate.AddSeconds(1),
-                };
-                context.ChatMessages.Add(ChatMessage);
+                context.ChatSessions.Add(chatSession);
                 await context.SaveChangesAsync(CancellationToken.None);
+
+                // Setup Messages
+                var messages = new List<ChatMessageEntity>();
+                for (int i = 0; i < 10; i++)
+                {
+                    var ChatMessage = new ChatMessageEntity()
+                    {
+                        ChatSessionId = chatSession.Id,
+                        Content = $"Test Message {i}",
+                        Role = ChatMessageRole.user,
+                        Timestamp = DateTime.UtcNow,
+                    };
+                    context.ChatMessages.Add(ChatMessage);
+                    await context.SaveChangesAsync(CancellationToken.None);
+                };
             }
 
             var request = new GetChatMessagesPaginatedQuery()

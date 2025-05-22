@@ -60,12 +60,7 @@ public class GetChatMessagesQueryStepDefinitions : TestBase
                     Timestamp = DateTime.Now
                 });
             };
-            var ChatMessage = new ChatMessageEntity()
-            {
-                Messages = messages,
-                Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1),
-            };
-            context.ChatMessages.Add(ChatMessage);
+            context.ChatMessages.AddRange(messages);
             await context.SaveChangesAsync(CancellationToken.None);
         }
 

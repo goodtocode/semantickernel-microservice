@@ -49,7 +49,7 @@ public class CreateChatMessageCommandHandler(IChatCompletionService chatService,
 
     private static void GuardAgainstSessionNotFound(DbSet<ChatSessionEntity> dbSet, Guid sessionId)
     {
-        if (dbSet.Any(x => x.Id == sessionId))
+        if (sessionId != Guid.Empty && !dbSet.Any(x => x.Id == sessionId))
             throw new CustomValidationException(
             [
                 new("ChatSessionId", "Chat Session does not exist")

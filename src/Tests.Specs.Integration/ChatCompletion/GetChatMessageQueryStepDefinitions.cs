@@ -75,8 +75,7 @@ public class GetChatMessageQueryStepDefinitions : TestBase
                 };
                 context.ChatMessages.Add(ChatMessage);
                 await context.SaveChangesAsync(CancellationToken.None);
-            }
-            ;
+            };
         }
 
         var request = new GetChatMessageQuery()
