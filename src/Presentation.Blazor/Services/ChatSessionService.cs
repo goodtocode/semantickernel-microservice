@@ -8,6 +8,7 @@ public interface IChatService
 {
     Task SendMessageAsync(ChatMessageModel message);
     Task<List<ChatSessionModel>> GetChatSessionsAsync();
+    Task<List<ChatMessageModel>>GetChatMessagesAsync(Guid chatSessionId);
 }
 
 public class ChatService(WebApiClient client, UserUtility userUtilityService) : IChatService
@@ -39,6 +40,11 @@ public class ChatService(WebApiClient client, UserUtility userUtilityService) : 
                 Timestamp = m.Timestamp
             }).ToList()
         })];
+    }
+
+    public Task<List<ChatMessageModel>> GetChatMessagesAsync(Guid chatSessionId)
+    {
+        throw new NotImplementedException();
     }
 }
 

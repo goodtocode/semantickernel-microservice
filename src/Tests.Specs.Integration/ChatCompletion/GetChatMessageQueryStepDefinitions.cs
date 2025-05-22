@@ -121,8 +121,8 @@ public class GetChatMessageQueryStepDefinitions : TestBase
     }
 
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]
-    public void ThenIfTheResponseIsSuccessfulTheResponseHasACountMatching(string messageCount)
+    public void ThenIfTheResponseIsSuccessfulTheResponseHasACountMatching(string messageContent)
     {
-        _response?.Messages?.Count.Should().Be(int.Parse(messageCount, CultureInfo.InvariantCulture));
+       _response?.Content?.Should().Be(messageContent);
     }
 }
