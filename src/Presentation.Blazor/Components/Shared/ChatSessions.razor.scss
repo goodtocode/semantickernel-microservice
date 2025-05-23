@@ -1,0 +1,30 @@
+.session-list {
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 0.25rem;
+    background-color: var(--bs-light);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.session-list::-webkit-scrollbar {
+    width: 8px;
+}
+.session-list::-webkit-scrollbar-thumb {
+    background-color: var(--bs-primary);
+    border-radius: 4px;
+}
+.session-list::-webkit-scrollbar-track {
+    background-color: var(--bs-light);
+}
+.session-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.session-item.rounded-custom {
+    border-radius: 0.25rem;
+    overflow: hidden;
+}

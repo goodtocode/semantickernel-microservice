@@ -1,0 +1,31 @@
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Models
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Services
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities
+@using Microsoft.AspNetCore.Components.Web
+
+@code
+{
+    [Parameter] public IEnumerable<ChatSessionModel> Sessions { get; set; } = new List<ChatSessionModel>();
+    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }
+
+    private async Task SelectSessionAsync(ChatSessionModel selectedSession)
+    {        
+        selectedSession.IsActive = true;
+
+        await OnSessionSelected.InvokeAsync(selectedSession);
+    }
+}
+
+<div class="session-list">
+    @if (Sessions != null)
+    {
+        foreach (var session in Sessions)
+        {
+            <div class="session-item rounded-custom @(session.IsActive ? "bg-primary text-white" : "bg-light")"
+                 @onclick="() => SelectSessionAsync(session)"
+                 style="cursor: pointer;">
+                <p>@(string.IsNullOrWhiteSpace(session.Title) ? "(no title)" : session.Title)</p>
+            </div>
+        }
+    }
+</div>

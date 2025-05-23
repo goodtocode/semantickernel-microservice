@@ -10,11 +10,11 @@
 ####################################################################################
 
 param (
- 	[string]$SwaggerJsonPath = 'swagger',
+    [string]$SwaggerJsonPath = 'swagger',
     [string]$ApiAssembly = 'bin\Debug\net9.0\Goodtocode.SemanticKernel.Presentation.WebApi.dll',
-	[string]$ApiVersion = 'v1',
-	[string]$ClientPathFile = '../Presentation.Blazor/Clients/WebApiClient.cs',
-	[string]$ClientNamespace = 'Goodtocode.SemanticKernel.Presentation.WebApi.Client'
+    [string]$ApiVersion = 'v1',
+    [string]$ClientPathFile = '../Presentation.Blazor/Clients/WebApiClient.cs',
+    [string]$ClientNamespace = 'Goodtocode.SemanticKernel.Presentation.WebApi.Client'
 )
 ####################################################################################
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
@@ -22,19 +22,22 @@ $VerbosePreference = 'SilentlyContinue' # 'Continue'
 ####################################################################################
 
 $swaggerJsonPathFile = "$SwaggerJsonPath/$ApiVersion/swagger.json"
-
-# Setup tools
 dotnet new tool-manifest --force
-
-# Set environment vars necessary for WebApi to run
 $env:ASPNETCORE_ENVIRONMENT = "Development"
 $env:OpenAI__ApiKey = "123"
+if (!(Test-Path -Path "$SwaggerJsonPath/$ApiVersion")) {
+    New-Item -ItemType Directory -Path "$SwaggerJsonPath/$ApiVersion" | Out-Null
+}
 
-# Generate swagger.json
-dotnet tool install swashbuckle.aspnetcore.cli
+dotnet restore
+dotnet build --configuration Debug
+
+dotnet tool install swashbuckle.aspnetcore.cli --local --version 8.1.2
 dotnet swagger tofile --output $swaggerJsonPathFile $ApiAssembly $ApiVersion
+if (!(Test-Path -Path $swaggerJsonPathFile)) {
+    Write-Error "swagger.json was not generated. Please check for build errors or missing dependencies."
+    exit 1
+}
 
-# Generate class
-dotnet tool install Nswag.ConsoleCore
-#nswag openapi2csclient /input:$swaggerJsonPathFile /output:$ClientPathFile /namespace:$ClientNamespace # No longer supported? /generateCodeSettings.jsonSerializerSettings:systemtextjson
+dotnet tool install nswag.consolecore --local
 nswag run Generate-NswagClientCode.json

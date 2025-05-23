@@ -7,22 +7,14 @@ public interface IChatService
 {    
     Task<List<ChatSessionModel>> GetChatSessionsAsync();
     Task<List<ChatMessageModel>> GetChatSessionAsync(Guid chatSessionId);
-    Task SendMessageAsync(ChatSessionModel session, ChatMessageModel message);
+    Task CreateSessionAsync(ChatSessionModel newSession, string firstMessage);
+    Task SendMessageAsync(ChatSessionModel session, string newMessage);
 }
 
 public class ChatService(WebApiClient client, IUserService userUtilityService) : IChatService
 {
     private readonly WebApiClient _client = client;
     private readonly IUserService _userService = userUtilityService;
-
-
-    public async Task SendMessageAsync(ChatSessionModel session, ChatMessageModel newMessage)
-    {
-        if (session == null)
-            await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = newMessage.Content }).ConfigureAwait(false);
-        else
-            await _client.CreateChatMessageCommandAsync(new CreateChatMessageCommand{ChatSessionId = session.Id, Message = newMessage.Content}).ConfigureAwait(false);
-    }
 
     public async Task<List<ChatSessionModel>> GetChatSessionsAsync()
     {
@@ -35,7 +27,13 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
             Title = dto.Title,
             AuthorId = dto.AuthorId,
             Timestamp = dto.Timestamp,
-            IsActive = false
+            IsActive = false,
+            Messages = [.. dto.Messages.Select(m => new ChatMessageModel
+            {
+                Id = m.Id,
+                Content = m.Content,
+                Timestamp = m.Timestamp
+            })]
         })];
     }
 
@@ -50,6 +48,16 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
                 Content = dto.Content,
                 Timestamp = dto.Timestamp
             })];
+    }
+
+    public async Task CreateSessionAsync(ChatSessionModel newSession, string firstMessage)
+    {
+        await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = firstMessage }).ConfigureAwait(false);
+    }
+
+    public async Task SendMessageAsync(ChatSessionModel session, string newMessage)
+    {
+        await _client.CreateChatMessageCommandAsync(new CreateChatMessageCommand { ChatSessionId = session.Id, Message = newMessage }).ConfigureAwait(false);
     }
 }
 

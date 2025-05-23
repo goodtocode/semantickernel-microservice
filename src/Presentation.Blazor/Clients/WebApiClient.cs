@@ -1419,6 +1419,512 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         }
 
         /// <summary>
+        /// Get Chat Message
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// <br/>            
+        /// <br/>       "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
+        /// <br/>       "api-version":  1.0
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<ChatMessageDto> GetChatMessageQueryAsync(System.Guid id)
+        {
+            return GetChatMessageQueryAsync(id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get Chat Message
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// <br/>            
+        /// <br/>       "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e
+        /// <br/>       "api-version":  1.0
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<ChatMessageDto> GetChatMessageQueryAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "api/v1/ChatMessage/{id}"
+                    urlBuilder_.Append("api/v1/ChatMessage/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ChatMessageDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Get All Chat Messages for a session Query
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// <br/>            
+        /// <br/>    "StartDate": "2024-06-01T00:00:00Z"
+        /// <br/>    "EndDate": "2024-12-01T00:00:00Z"
+        /// <br/>    "api-version":  1.0
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ChatMessageDto>> GetChatMessagesQueryAsync()
+        {
+            return GetChatMessagesQueryAsync(System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get All Chat Messages for a session Query
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// <br/>            
+        /// <br/>    "StartDate": "2024-06-01T00:00:00Z"
+        /// <br/>    "EndDate": "2024-12-01T00:00:00Z"
+        /// <br/>    "api-version":  1.0
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ChatMessageDto>> GetChatMessagesQueryAsync(System.Threading.CancellationToken cancellationToken)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "api/v1/ChatMessage"
+                    urlBuilder_.Append("api/v1/ChatMessage");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<ChatMessageDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Creates new Chat Message with initial message prompt/response history
+        /// </summary>
+        /// <remarks>
+        /// Types of Chat Completion are:
+        /// <br/>    1. Informational Prompt: A prompt requesting information
+        /// <br/>        - Example Prompt: "What's the capital of France?"
+        /// <br/>        - Example Response: "The capital of France is Paris."
+        /// <br/>    2. Multiple Choice Prompt: A prompt with instructions for multiple-choice responses.
+        /// <br/>        - Example Prompt: “Choose an activity for the weekend: a) Hiking b) Movie night c) Cooking class d) Board games”
+        /// <br/>        - Example Response: “I'd recommend hiking! It's a great way to enjoy nature and get some exercise.”
+        /// <br/>Sample request:
+        /// <br/>            
+        /// <br/>    HttpPost Body
+        /// <br/>    {
+        /// <br/>       "Id": 00000000-0000-0000-0000-000000000000,
+        /// <br/>       "Message":  "Hi, I am interested in learning about Semantic Kernel."
+        /// <br/>    }
+        /// <br/>            
+        /// <br/>    "version":  1.0
+        /// </remarks>
+        /// <returns>Created</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task CreateChatMessageCommandAsync(CreateChatMessageCommand body)
+        {
+            return CreateChatMessageCommandAsync(body, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Creates new Chat Message with initial message prompt/response history
+        /// </summary>
+        /// <remarks>
+        /// Types of Chat Completion are:
+        /// <br/>    1. Informational Prompt: A prompt requesting information
+        /// <br/>        - Example Prompt: "What's the capital of France?"
+        /// <br/>        - Example Response: "The capital of France is Paris."
+        /// <br/>    2. Multiple Choice Prompt: A prompt with instructions for multiple-choice responses.
+        /// <br/>        - Example Prompt: “Choose an activity for the weekend: a) Hiking b) Movie night c) Cooking class d) Board games”
+        /// <br/>        - Example Response: “I'd recommend hiking! It's a great way to enjoy nature and get some exercise.”
+        /// <br/>Sample request:
+        /// <br/>            
+        /// <br/>    HttpPost Body
+        /// <br/>    {
+        /// <br/>       "Id": 00000000-0000-0000-0000-000000000000,
+        /// <br/>       "Message":  "Hi, I am interested in learning about Semantic Kernel."
+        /// <br/>    }
+        /// <br/>            
+        /// <br/>    "version":  1.0
+        /// </remarks>
+        /// <returns>Created</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task CreateChatMessageCommandAsync(CreateChatMessageCommand body, System.Threading.CancellationToken cancellationToken)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "api/v1/ChatMessage"
+                    urlBuilder_.Append("api/v1/ChatMessage");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 201)
+                        {
+                            return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Get Chat Messages Paginated Query
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// <br/>            
+        /// <br/>    "StartDate": "2024-06-01T00:00:00Z"
+        /// <br/>    "EndDate": "2024-12-01T00:00:00Z"
+        /// <br/>    "PageNumber": 1
+        /// <br/>    "PageSize" : 10
+        /// <br/>    "api-version":  1.0
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<ChatMessageDtoPaginatedList> GetChatMessagesPaginatedQueryAsync(System.DateTimeOffset? startDate, System.DateTimeOffset? endDate, int? pageNumber, int? pageSize)
+        {
+            return GetChatMessagesPaginatedQueryAsync(startDate, endDate, pageNumber, pageSize, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get Chat Messages Paginated Query
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// <br/>            
+        /// <br/>    "StartDate": "2024-06-01T00:00:00Z"
+        /// <br/>    "EndDate": "2024-12-01T00:00:00Z"
+        /// <br/>    "PageNumber": 1
+        /// <br/>    "PageSize" : 10
+        /// <br/>    "api-version":  1.0
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<ChatMessageDtoPaginatedList> GetChatMessagesPaginatedQueryAsync(System.DateTimeOffset? startDate, System.DateTimeOffset? endDate, int? pageNumber, int? pageSize, System.Threading.CancellationToken cancellationToken)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "api/v1/ChatMessage/Paginated"
+                    urlBuilder_.Append("api/v1/ChatMessage/Paginated");
+                    urlBuilder_.Append('?');
+                    if (startDate != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("StartDate")).Append('=').Append(System.Uri.EscapeDataString(startDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (endDate != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("EndDate")).Append('=').Append(System.Uri.EscapeDataString(endDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (pageNumber != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("PageNumber")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(pageNumber, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (pageSize != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("PageSize")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(pageSize, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ChatMessageDtoPaginatedList>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Get Chat Session with history
         /// </summary>
         /// <remarks>
@@ -2037,7 +2543,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         }
 
         /// <summary>
-        /// Update ChatSession Command
+        /// Update ChatSession Command, typically with changing the title or adding a new message
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -2060,7 +2566,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Update ChatSession Command
+        /// Update ChatSession Command, typically with changing the title or adding a new message
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -3667,6 +4173,33 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ByteReadOnlyMemory
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("Length")]
+        public int Length { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("IsEmpty")]
+        public bool IsEmpty { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("Span")]
+        public ByteReadOnlySpan Span { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ByteReadOnlySpan
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("Length")]
+        public int Length { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("IsEmpty")]
+        public bool IsEmpty { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ChatMessageDto
     {
 
@@ -3684,6 +4217,30 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
 
         [System.Text.Json.Serialization.JsonPropertyName("Timestamp")]
         public System.DateTimeOffset Timestamp { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ChatMessageDtoPaginatedList
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("Items")]
+        public System.Collections.Generic.ICollection<ChatMessageDto> Items { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("PageNumber")]
+        public int PageNumber { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("TotalPages")]
+        public int TotalPages { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("TotalCount")]
+        public int TotalCount { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("HasPreviousPage")]
+        public bool HasPreviousPage { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("HasNextPage")]
+        public bool HasNextPage { get; set; }
 
     }
 
@@ -3755,6 +4312,21 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
 
         [System.Text.Json.Serialization.JsonPropertyName("Name")]
         public string Name { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateChatMessageCommand
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("Id")]
+        public System.Guid Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("ChatSessionId")]
+        public System.Guid ChatSessionId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("Message")]
+        public string Message { get; set; }
 
     }
 
@@ -3871,7 +4443,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         public string Description { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("AudioBytes")]
-        public byte[] AudioBytes { get; set; }
+        public ByteReadOnlyMemory AudioBytes { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("AudioUrl")]
         public System.Uri AudioUrl { get; set; }
@@ -3919,7 +4491,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         public string Description { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("ImageBytes")]
-        public byte[] ImageBytes { get; set; }
+        public ByteReadOnlyMemory ImageBytes { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("ImageUrl")]
         public System.Uri ImageUrl { get; set; }
