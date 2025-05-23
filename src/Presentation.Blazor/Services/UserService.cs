@@ -1,13 +1,11 @@
-﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
+﻿namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 
-namespace Goodtocode.SemanticKernel.Presentation.Blazor.Utilities;
-
-public interface IUserUtility
+public interface IUserService
 {
     Task<Guid> GetUserIdAsync();
 }
 
-public class UserUtility(ILocalStorageService storageService) : IUserUtility
+public class UserService(ILocalStorageService storageService) : IUserService
 {
     private readonly ILocalStorageService _storageService = storageService;
 

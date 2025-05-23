@@ -1,5 +1,4 @@
 ﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Models;
-using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities;
 using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services;
@@ -11,10 +10,10 @@ public interface IChatService
     Task<List<ChatMessageModel>> GetChatSessionAsync(Guid chatSessionId);
 }
 
-public class ChatService(WebApiClient client, UserUtility userUtilityService) : IChatService
+public class ChatService(WebApiClient client, IUserService userUtilityService) : IChatService
 {
     private readonly WebApiClient _client = client;
-    private readonly UserUtility _userService = userUtilityService;
+    private readonly IUserService _userService = userUtilityService;
 
     public async Task SendMessageAsync(ChatMessageModel message)
     {

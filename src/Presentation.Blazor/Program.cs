@@ -10,6 +10,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddPresentationWebApiServices(builder.Configuration);
+
+builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IChatService, ChatService>();
 
 var app = builder.Build();
