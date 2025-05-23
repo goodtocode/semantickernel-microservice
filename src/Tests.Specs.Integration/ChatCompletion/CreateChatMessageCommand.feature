@@ -14,7 +14,7 @@ Scenario: Create Chat Message
 	And if the response has validation issues I see the "<responseErrors>" in the response
  
 Examples:
-	| def                        | response   | responseErrors | id                                  | ChatMessageExists | message                                                |
-	| success                    | Success    |                | 00000000-0000-0000-0000-000000000000 | false             | Hello, I am interested in an interactive Chat Message. |
+	| def                        | response   | responseErrors | id                                   | ChatMessageExists | message                                                |
+	| success                    | Success    |                | 00000000-0000-0000-0000-000000000000 | true              | Hello, I am interested in an interactive Chat Message. |
 	| bad request: empty message | BadRequest | Message        | 00000000-0000-0000-0000-000000000000 | false             |                                                        |
 	| already exists             | Error      |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | true              | Hello, I am interested in an interactive Chat Message. |

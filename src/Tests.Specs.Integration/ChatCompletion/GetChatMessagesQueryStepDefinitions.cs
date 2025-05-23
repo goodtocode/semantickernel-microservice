@@ -11,6 +11,7 @@ public class GetChatMessagesQueryStepDefinitions : TestBase
     private bool _withinDateRangeExists;
     private DateTime _endDate;
     private DateTime _startDate;
+    private readonly Guid _chatSessionId = Guid.NewGuid();
     private ICollection<ChatMessageDto>? _response;
 
     [Given(@"I have a definition ""([^""]*)""")]
@@ -50,17 +51,31 @@ public class GetChatMessagesQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            var messages = new List<ChatMessageEntity>();
-            for (int i = 0; i < 2; i++)
+            var timestamp = _withinDateRangeExists ? _startDate.AddMinutes(1) : _startDate.AddMinutes(-1);
+            var chatSession = new ChatSessionEntity()
             {
-                messages.Add(new ChatMessageEntity()
-                {
-                    Content = "Test Message",
-                    Role = ChatMessageRole.user,
-                    Timestamp = DateTime.Now
-                });
+                Id = _chatSessionId,
+                Messages =
+                 [
+                     new ChatMessageEntity()
+                     {
+                        ChatSessionId = _chatSessionId,
+                        Content = "Message 1",
+                        Role = ChatMessageRole.user,
+                        Timestamp = timestamp
+                     },
+                     new ChatMessageEntity()
+                     {
+                        ChatSessionId = _chatSessionId,
+                        Content = "Message 2",
+                        Role = ChatMessageRole.user,
+                        Timestamp = timestamp
+                     }
+
+                ],
+                Timestamp = timestamp,
             };
-            context.ChatMessages.AddRange(messages);
+            context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }
 

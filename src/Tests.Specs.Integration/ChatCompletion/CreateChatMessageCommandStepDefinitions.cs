@@ -10,7 +10,7 @@ public class CreateChatMessageCommandStepDefinitions : TestBase
 {
     private string _message = string.Empty;
     private Guid _id;
-    private Guid _chatSessionId = Guid.NewGuid();
+    private readonly Guid _chatSessionId = Guid.NewGuid();
     private bool _exists;
 
     [Given(@"I have a def ""([^""]*)""")]

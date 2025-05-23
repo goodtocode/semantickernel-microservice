@@ -10,6 +10,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
     public class GetChatMessagesPaginatedQueryStepDefinitions : TestBase
     {
         private bool _exists;
+        private readonly Guid _chatSessionId = Guid.NewGuid();
         private DateTime _startDate;
         private DateTime _endDate;
         private bool _withinDateRangeExists;
@@ -66,37 +67,23 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         {
             if (_exists)
             {
-                // Setup Session
                 var chatSession = new ChatSessionEntity()
                 {
+                    Id = _chatSessionId,
                     Messages =
                      [
                          new ChatMessageEntity()
-                         {
-                             Content = "Test Message",
-                             Role = ChatMessageRole.user,
-                             Timestamp = DateTime.Now
-                         }
-                     ],
-                    Timestamp = DateTime.UtcNow,
+                     {
+                        ChatSessionId = _chatSessionId,
+                        Content = "Message",
+                        Role = ChatMessageRole.user,
+                        Timestamp = _startDate.AddMinutes(1)
+                     }
+                    ],
+                    Timestamp = _startDate.AddMinutes(1),
                 };
                 context.ChatSessions.Add(chatSession);
                 await context.SaveChangesAsync(CancellationToken.None);
-
-                // Setup Messages
-                var messages = new List<ChatMessageEntity>();
-                for (int i = 0; i < 10; i++)
-                {
-                    var ChatMessage = new ChatMessageEntity()
-                    {
-                        ChatSessionId = chatSession.Id,
-                        Content = $"Test Message {i}",
-                        Role = ChatMessageRole.user,
-                        Timestamp = DateTime.UtcNow,
-                    };
-                    context.ChatMessages.Add(ChatMessage);
-                    await context.SaveChangesAsync(CancellationToken.None);
-                };
             }
 
             var request = new GetChatMessagesPaginatedQuery()

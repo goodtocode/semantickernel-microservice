@@ -93,7 +93,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void GetChatMessage(string def, string response, string responseErrors, string id, string chatMessageExists, string expectedChatMessageContents, string[] exampleTags)
+        public virtual void GetChatMessage(string def, string response, string responseErrors, string id, string chatMessageExists, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -101,8 +101,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             argumentsOfScenario.Add("response", response);
             argumentsOfScenario.Add("responseErrors", responseErrors);
             argumentsOfScenario.Add("id", id);
-            argumentsOfScenario.Add("ChatMessageExists", chatMessageExists);
-            argumentsOfScenario.Add("expectedChatMessageContents", expectedChatMessageContents);
+            argumentsOfScenario.Add("chatMessageExists", chatMessageExists);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get Chat Message", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
@@ -121,25 +120,19 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("I have a Chat Message id \"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And(string.Format("I the Chat Message exists \"{0}\"", chatMessageExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("The Chat Message exists \"{0}\"", chatMessageExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.And(string.Format("I have a expected Chat Message contents \"{0}\"", expectedChatMessageContents), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 12
  testRunner.When("I get a Chat Message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 13
+#line 12
  testRunner.Then(string.Format("The response is \"{0}\"", response), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 14
+#line 13
  testRunner.And(string.Format("If the response has validation issues I see the \"{0}\" in the response", responseErrors), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
+#line 14
  testRunner.And("If the response is successful the response has a Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 16
- testRunner.And(string.Format("If the response is successful the response has contents matching \"{0}\"", expectedChatMessageContents), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -154,12 +147,11 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ChatMessageExists", "true")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:expectedChatMessageContents", "Hello, I am interested in an interactive chat session.")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatMessageExists", "true")]
         public void GetChatMessage_Success()
         {
 #line 7
-this.GetChatMessage("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", "Hello, I am interested in an interactive chat session.", ((string[])(null)));
+this.GetChatMessage("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "true", ((string[])(null)));
 #line hidden
         }
         
@@ -172,12 +164,11 @@ this.GetChatMessage("success", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889f
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "NotFound")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ChatMessageExists", "false")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:expectedChatMessageContents", "")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatMessageExists", "false")]
         public void GetChatMessage_NotFound()
         {
 #line 7
-this.GetChatMessage("not found", "NotFound", "", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "false", "", ((string[])(null)));
+this.GetChatMessage("not found", "NotFound", "", "048d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "false", ((string[])(null)));
 #line hidden
         }
         
@@ -190,12 +181,11 @@ this.GetChatMessage("not found", "NotFound", "", "048d8e7f-f18f-4a8e-8b3c-3b6a68
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "BadRequest")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "Id")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ChatMessageExists", "false")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:expectedChatMessageContents", "")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatMessageExists", "false")]
         public void GetChatMessage_BadRequestEmptyId()
         {
 #line 7
-this.GetChatMessage("bad request: empty id", "BadRequest", "Id", "00000000-0000-0000-0000-000000000000", "false", "", ((string[])(null)));
+this.GetChatMessage("bad request: empty id", "BadRequest", "Id", "00000000-0000-0000-0000-000000000000", "false", ((string[])(null)));
 #line hidden
         }
     }

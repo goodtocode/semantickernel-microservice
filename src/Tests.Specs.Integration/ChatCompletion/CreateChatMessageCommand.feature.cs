@@ -148,12 +148,12 @@ this.ScenarioInitialize(scenarioInfo);
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ChatMessageExists", "false")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ChatMessageExists", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Hello, I am interested in an interactive Chat Message.")]
         public void CreateChatMessage_Success()
         {
 #line 7
-this.CreateChatMessage("success", "Success", "", "00000000-0000-0000-0000-000000000000", "false", "Hello, I am interested in an interactive Chat Message.", ((string[])(null)));
+this.CreateChatMessage("success", "Success", "", "00000000-0000-0000-0000-000000000000", "true", "Hello, I am interested in an interactive Chat Message.", ((string[])(null)));
 #line hidden
         }
         

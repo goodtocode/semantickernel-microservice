@@ -10,7 +10,7 @@ public class GetChatMessageQueryStepDefinitions : TestBase
 {
     private Guid _id;
     private bool _exists;
-    private int _ChatMessageCount;
+    private readonly Guid _chatSessionId = Guid.NewGuid();
     private ChatMessageDto? _response;
 
     [Given(@"I have a definition ""([^""]*)""")]
@@ -26,16 +26,10 @@ public class GetChatMessageQueryStepDefinitions : TestBase
         Guid.TryParse(ChatMessageKey, out _id).Should().BeTrue();
     }
 
-    [Given(@"I the Chat Message exists ""([^""]*)""")]
+    [Given(@"The Chat Message exists ""([^""]*)""")]
     public void GivenITheChatMessageExists(string exists)
     {
         bool.TryParse(exists, out _exists).Should().BeTrue();
-    }
-
-    [Given(@"I have a expected Chat Message count ""([^""]*)""")]
-    public void GivenIHaveAExpectedChatMessageCount(string ChatMessageCount)
-    {
-        _ChatMessageCount = int.Parse(ChatMessageCount, CultureInfo.InvariantCulture);
     }
 
     [When(@"I get a Chat Message")]
@@ -43,39 +37,26 @@ public class GetChatMessageQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            // Setup Session
+            var timestamp = DateTimeOffset.UtcNow;
             var chatSession = new ChatSessionEntity()
             {
-                Id = _id,
+                Id = _chatSessionId,
                 Messages =
                  [
                      new ChatMessageEntity()
                      {
-                         Content = "Test Message",
-                         Role = ChatMessageRole.user,
-                         Timestamp = DateTime.Now
+                         Id = _id,
+                        ChatSessionId = _chatSessionId,
+                        Content = "Message 1",
+                        Role = ChatMessageRole.user,
+                        Timestamp = timestamp
                      }
-                 ],
-                Timestamp = DateTime.UtcNow,
+
+                ],
+                Timestamp = timestamp,
             };
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
-
-            // Setup Messages
-            var messages = new List<ChatMessageEntity>();
-            for (int i = 0; i < _ChatMessageCount; i++)
-            {
-                var ChatMessage = new ChatMessageEntity()
-                {
-                    Id = _id,
-                    ChatSessionId = chatSession.Id,
-                    Content = "Test Message",
-                    Role = ChatMessageRole.user,
-                    Timestamp = DateTime.UtcNow,
-                };
-                context.ChatMessages.Add(ChatMessage);
-                await context.SaveChangesAsync(CancellationToken.None);
-            };
         }
 
         var request = new GetChatMessageQuery()
