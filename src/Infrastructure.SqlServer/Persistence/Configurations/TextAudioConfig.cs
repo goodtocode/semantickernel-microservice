@@ -29,7 +29,9 @@ public class TextAudioConfig : IEntityTypeConfiguration<TextAudioEntity>
             .WithMany(a => a.TextAudio)
             .HasForeignKey(a => a.AuthorId);
         builder.Property(x => x.AudioBytes)
-            .HasColumnType(ColumnTypes.VarbinaryMax);
-
+            .HasColumnType(ColumnTypes.VarbinaryMax)
+            .HasConversion(
+            v => v.HasValue ? v.Value.ToArray() : null,
+            v => v != null ? new ReadOnlyMemory<byte>(v) : null);
     }
 }
