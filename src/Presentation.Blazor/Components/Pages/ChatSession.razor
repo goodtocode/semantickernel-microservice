@@ -24,7 +24,7 @@
         <ul>
             @foreach (var session in chatSessions)
             {
-                <li>@session.Title (@session.IsActive ? "Active" : "Inactive")</li>
+                <li>@session.Title - @(session.IsActive ? "Active" : "Inactive")</li>
             }
         </ul>
     </div>
@@ -76,7 +76,7 @@
             };
 
             currentSession.Messages?.Add(newMessage);
-            await ChatService.SendMessageAsync(newMessage);
+            await ChatService.SendMessageAsync(currentSession, newMessage);
             Message = string.Empty;
         }
     }

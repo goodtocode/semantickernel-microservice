@@ -4,10 +4,10 @@ using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 
 public interface IChatService
-{
-    Task SendMessageAsync(ChatMessageModel message);
+{    
     Task<List<ChatSessionModel>> GetChatSessionsAsync();
     Task<List<ChatMessageModel>> GetChatSessionAsync(Guid chatSessionId);
+    Task SendMessageAsync(ChatSessionModel session, ChatMessageModel message);
 }
 
 public class ChatService(WebApiClient client, IUserService userUtilityService) : IChatService
@@ -15,9 +15,13 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
     private readonly WebApiClient _client = client;
     private readonly IUserService _userService = userUtilityService;
 
-    public async Task SendMessageAsync(ChatMessageModel message)
+
+    public async Task SendMessageAsync(ChatSessionModel session, ChatMessageModel newMessage)
     {
-        await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = message.Content }).ConfigureAwait(false);
+        if (session == null)
+            await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = newMessage.Content }).ConfigureAwait(false);
+        else
+            await _client.CreateChatMessageCommandAsync(new CreateChatMessageCommand{ChatSessionId = session.Id, Message = newMessage.Content}).ConfigureAwait(false);
     }
 
     public async Task<List<ChatSessionModel>> GetChatSessionsAsync()

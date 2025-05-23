@@ -5,7 +5,7 @@
 #   2. Change directory to the script folder:
 #      CD C:\Scripts (wherever your script is)
 #   3. In powershell, run script: 
-#      .\Update-LoadBalancer.ps1 -IPAddress 111.222.333.4444 -ServerId 12345 -ApiKey 00000000-0000-0000-0000-000000000000 -ApiId 12345
+#      .\Generate-NswagClientCode.ps1
 # Imperva Swagger: https://docs.imperva.com/bundle/cloud-application-security/page/cloud-v1-api-definition.htm
 ####################################################################################
 
@@ -13,7 +13,7 @@ param (
  	[string]$SwaggerJsonPath = 'swagger',
     [string]$ApiAssembly = 'bin\Debug\net9.0\Goodtocode.SemanticKernel.Presentation.WebApi.dll',
 	[string]$ApiVersion = 'v1',
-	[string]$ClientPathFile = '../Presentation.Blazor.Rcl/Clients/WebApiClient.cs',
+	[string]$ClientPathFile = '../Presentation.Blazor/Clients/WebApiClient.cs',
 	[string]$ClientNamespace = 'Goodtocode.SemanticKernel.Presentation.WebApi.Client'
 )
 ####################################################################################
