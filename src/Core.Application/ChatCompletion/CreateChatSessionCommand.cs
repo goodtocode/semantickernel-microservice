@@ -8,6 +8,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 public class CreateChatSessionCommand : IRequest<ChatSessionDto>
 {
     public Guid Id { get; set; }
+    public Guid AuthorId { get; set; }
     public string? Title { get; set; }
     public string? Message { get; set; }
 }
@@ -20,6 +21,7 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
 
     public async Task<ChatSessionDto> Handle(CreateChatSessionCommand request, CancellationToken cancellationToken)
     {
+        GuardAgainstMissingAuthor(request.AuthorId);
         GuardAgainstEmptyMessage(request?.Message);
         GuardAgainstIdExsits(_context.ChatSessions, request!.Id);
 
@@ -46,6 +48,15 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
         await _context.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map<ChatSessionDto>(chatSession);
+    }
+
+    private static void GuardAgainstMissingAuthor(Guid authorId)
+    {
+        if (authorId == Guid.Empty)
+            throw new CustomValidationException(
+            [
+                new("AuthorId", "AuthorId required for sessions")
+            ]);
     }
 
     private static void GuardAgainstEmptyMessage(string? message)

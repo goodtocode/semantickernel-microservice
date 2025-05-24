@@ -16,25 +16,34 @@
 <div class="row">
     <div class="col-9">
         <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
-        <ChatMessageInput Sessions="chatSessions" />
+        <ChatMessageInput Sessions="chatSessions OnMessageSubmitted="HandleMessageSubmitted" />
     </div>
     <div class="col-3">
         <ChatSessions Sessions="chatSessions" />
     </div>
 </div>
 
-@code {    
+@code {
     private ChatSessionsModel chatSessions = new ChatSessionsModel();
+
+    private async Task GetSessionsAsync()
+    {
+        chatSessions = new ChatSessionsModel();
+        chatSessions.AddRange(await chatService.GetChatSessionsAsync());
+        chatSessions.SetActive(1);
+        StateHasChanged();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            chatSessions.AddRange(await chatService.GetChatSessionsAsync());
-            chatSessions.First().IsActive = true;
-            StateHasChanged();
+            await GetSessionsAsync();
         }
     }
 
-    
+    private async Task HandleMessageSubmitted()
+    {
+        await GetSessionsAsync();
+    }
 }

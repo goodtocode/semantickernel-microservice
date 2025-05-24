@@ -4337,6 +4337,9 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         [System.Text.Json.Serialization.JsonPropertyName("Id")]
         public System.Guid Id { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("AuthorId")]
+        public System.Guid AuthorId { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("Title")]
         public string Title { get; set; }
 

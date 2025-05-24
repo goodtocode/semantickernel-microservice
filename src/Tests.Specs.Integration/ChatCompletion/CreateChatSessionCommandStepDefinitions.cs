@@ -10,6 +10,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
 {
     private string _message = string.Empty;
     private Guid _id;
+    private readonly Guid _authorId = Guid.NewGuid();
     private bool _exists;
 
     [Given(@"I have a def ""([^""]*)""")]
@@ -45,6 +46,8 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
             var chatSession = new ChatSessionEntity()
             {
                 Id = _id,
+                AuthorId = _authorId,
+                Title = def,
                 Messages =
                  [
                      new ChatMessageEntity()
@@ -64,6 +67,8 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         var request = new CreateChatSessionCommand()
         {
             Id = _id,
+            Title = def,
+            AuthorId = _authorId,
             Message = _message
         };
 

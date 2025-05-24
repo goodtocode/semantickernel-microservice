@@ -84,12 +84,20 @@ public class ChatSessionsModel : Collection<ChatSessionModel>
         }
     }
 
-    public void SetActiveSession(ChatSessionModel session)
+    public void SetActive(ChatSessionModel session)
     {
         if (!ReferenceEquals(session, ActiveSession))
         {
             session.IsActive = true;
         }
+    }
+
+    public void SetActive(int index)
+    {
+        if (index > 0 && index < Count)
+        {
+            SetActive(this[index]);
+        }        
     }
 
     public ChatSessionModel? ActiveSession => this.FirstOrDefault(x => x.IsActive);

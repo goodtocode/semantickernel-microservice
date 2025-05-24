@@ -52,7 +52,14 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
 
     public async Task CreateSessionAsync(ChatSessionModel newSession, string firstMessage)
     {
-        await _client.CreateChatSessionCommandAsync(new CreateChatSessionCommand { Message = firstMessage }).ConfigureAwait(false);
+        var command = new CreateChatSessionCommand
+        {
+            Id = newSession.Id,      
+            AuthorId = newSession.AuthorId,
+            Title = newSession.Title,
+            Message = firstMessage
+        };
+        await _client.CreateChatSessionCommandAsync(command).ConfigureAwait(false);
     }
 
     public async Task SendMessageAsync(ChatSessionModel session, string newMessage)

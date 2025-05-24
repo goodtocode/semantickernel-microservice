@@ -29,12 +29,17 @@ if (!(Test-Path -Path "$SwaggerJsonPath/$ApiVersion")) {
     New-Item -ItemType Directory -Path "$SwaggerJsonPath/$ApiVersion" | Out-Null
 }
 
+dotnet add package Swashbuckle.AspNetCore --version 8.1.2
 dotnet restore
 dotnet build --configuration Debug
 
 dotnet tool install swashbuckle.aspnetcore.cli --local --version 8.1.2
-dotnet swagger tofile --output $swaggerJsonPathFile $ApiAssembly $ApiVersion
-if (!(Test-Path -Path $swaggerJsonPathFile)) {
+dotnet swagger tofile --output $swaggerJsonPathFile --openapi 3.0.0 $ApiAssembly $ApiVersion
+
+if (Test-Path -Path $swaggerJsonPathFile) {
+    Write-Host "swagger.json generated successfully with OpenAPI 3.0.0."
+}
+else {
     Write-Error "swagger.json was not generated. Please check for build errors or missing dependencies."
     exit 1
 }

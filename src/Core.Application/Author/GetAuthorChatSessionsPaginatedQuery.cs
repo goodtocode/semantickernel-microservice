@@ -23,7 +23,8 @@ public class GetAuthorChatSessionsPaginatedQueryHandler(ISemanticKernelContext c
     {
         var returnData = await _context.ChatSessions
             .OrderByDescending(x => x.Timestamp)
-            .Where(x => (request.StartDate == null || x.Timestamp > request.StartDate)
+            .Where(x => x.AuthorId == request.AuthorId
+                    && (request.StartDate == null || x.Timestamp > request.StartDate)
                     && (request.EndDate == null || x.Timestamp < request.EndDate))
             .ProjectTo<ChatSessionDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
