@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col-9">
         <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
-        <ChatMessageInput Sessions="chatSessions OnMessageSubmitted="HandleMessageSubmitted" />
+        <ChatMessageInput Sessions="chatSessions" OnMessageSubmitted="HandleMessageSubmitted" />
     </div>
     <div class="col-3">
         <ChatSessions Sessions="chatSessions" />
