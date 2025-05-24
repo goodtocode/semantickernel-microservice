@@ -1,13 +1,13 @@
 ﻿@page "/chat"
 @rendermode InteractiveServer
+
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Shared
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Models
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Services
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities
 @using Microsoft.AspNetCore.Components.Web
-@inject IChatService ChatService
-@inject IUserService UserService
 
+@inject IChatService chatService
 
 <PageTitle>Semantic Kernel Chat Session</PageTitle>
 
@@ -16,62 +16,25 @@
 <div class="row">
     <div class="col-9">
         <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
-        <div class="input-group mb-3">
-            <input @bind="Message" type="text" class="form-control" placeholder="Type your message here..." aria-label="Type your message here..." aria-describedby="button-send">
-            <button class="btn btn-primary" type="button" id="button-send" @onclick="SubmitMessage">Send</button>
-        </div>
+        <ChatMessageInput Sessions="chatSessions" />
     </div>
     <div class="col-3">
         <ChatSessions Sessions="chatSessions" />
     </div>
 </div>
 
-@code {
-    private string? Message { get; set; }
+@code {    
     private ChatSessionsModel chatSessions = new ChatSessionsModel();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            chatSessions.AddRange(await ChatService.GetChatSessionsAsync());
+            chatSessions.AddRange(await chatService.GetChatSessionsAsync());
             chatSessions.First().IsActive = true;
             StateHasChanged();
         }
     }
 
-    private async Task SubmitMessage()
-    {
-        if (!string.IsNullOrEmpty(Message))
-        {
-            if (chatSessions.ActiveSession == null)
-            {
-                var newSession = new ChatSessionModel
-                    {
-                        Id = Guid.NewGuid(),
-                        Title = "New Session",
-                        AuthorId = Guid.NewGuid(),
-                        Timestamp = DateTimeOffset.Now,
-                        IsActive = true,
-                        Messages = new List<ChatMessageModel>()
-                    };
-                chatSessions.Add(newSession);
-                await ChatService.CreateSessionAsync(newSession, Message);
-            }
-            else
-            {
-                var newMessage = new ChatMessageModel
-                    {
-                        Id = Guid.NewGuid(),
-                        ChatSessionId = chatSessions.ActiveSession.Id,
-                        Role = "User",
-                        Content = Message,
-                        Timestamp = DateTimeOffset.Now
-                    };
-                chatSessions.ActiveSession?.Messages?.Add(newMessage);
-                await ChatService.SendMessageAsync(chatSessions.ActiveSession!, Message);
-            }
-            Message = string.Empty;
-        }
-    }
+    
 }
