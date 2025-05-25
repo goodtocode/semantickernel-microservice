@@ -34,7 +34,7 @@ public class CreateChatMessageCommandHandler(IChatCompletionService chatService,
         chatHistory.AddUserMessage(request!.Message!);
         var response = await _chatService.GetChatMessageContentAsync(chatHistory, null, null, cancellationToken);
 
-        var chatMessage = ChatMessageEntity.Create(Guid.NewGuid(), chatSession.Id, Enum.Parse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant()), request.Message!);
+        var chatMessage = ChatMessageEntity.Create(Guid.NewGuid(), chatSession.Id, Enum.Parse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant()), request.Message!, DateTime.UtcNow);
         chatSession.Messages.Add(chatMessage);
         _context.ChatMessages.Add(chatMessage);
         await _context.SaveChangesAsync(cancellationToken);

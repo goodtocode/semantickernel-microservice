@@ -4,7 +4,7 @@ namespace Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 
 public class TextResponseEntity : DomainEntity<TextResponseEntity>
 {
-    private TextResponseEntity() { }
+    protected TextResponseEntity() { }
 
     public Guid TextPromptId { get; set; } = Guid.Empty;
     public string Response { get; set; } = string.Empty;
@@ -14,7 +14,7 @@ public class TextResponseEntity : DomainEntity<TextResponseEntity>
     {
         return new TextResponseEntity
         {
-            Id = id,
+            Id = id == Guid.Empty ? Guid.NewGuid() : id,
             TextPromptId = textPromptId,
             Response = response
         };

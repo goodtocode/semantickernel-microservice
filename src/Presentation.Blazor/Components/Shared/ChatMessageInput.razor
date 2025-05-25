@@ -43,7 +43,7 @@
                 {
                     Id = Guid.NewGuid(),
                     Title = "New Session",
-                    AuthorId = Guid.NewGuid(),
+                    AuthorId = await userService.GetUserIdAsync(),
                     Timestamp = DateTimeOffset.Now,
                     IsActive = true,
                     Messages = new List<ChatMessageModel>()

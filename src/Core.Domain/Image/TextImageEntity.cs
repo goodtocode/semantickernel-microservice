@@ -8,7 +8,7 @@ public class TextImageEntity : DomainEntity<TextImageEntity>
     private int _width = 1024;
     private int _height = 1024;
 
-    private TextImageEntity() { }
+    protected TextImageEntity() { }
 
     public Guid AuthorId { get; set; } = Guid.Empty;
     public string Description { get; set; } = string.Empty;

@@ -5,7 +5,7 @@ namespace Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 
 public class TextPromptEntity : DomainEntity<TextPromptEntity>
 {
-    private TextPromptEntity() { }
+    protected TextPromptEntity() { }
 
     public Guid AuthorId { get; set; } = Guid.Empty;
     public string Prompt { get; set; } = string.Empty;

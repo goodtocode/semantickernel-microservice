@@ -10,10 +10,13 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddPresentationWebApiServices(builder.Configuration);
 
-builder.Services.AddScoped<ChatSessionEventService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<ChatSessionEventService>();
 builder.Services.AddScoped<IChatService, ChatService>();
+
 
 
 var app = builder.Build();
@@ -29,7 +32,6 @@ else
 }
 
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 

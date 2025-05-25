@@ -8,7 +8,7 @@ namespace Goodtocode.SemanticKernel.Core.Domain.Author;
 
 public class AuthorEntity : DomainEntity<AuthorEntity>
 {
-    private AuthorEntity() { }
+    protected AuthorEntity() { }
     
     public string Name { get; set; } = string.Empty;
 

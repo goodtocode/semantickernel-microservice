@@ -65,7 +65,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         {
             if (_exists)
             {
-                var chatSession = ChatSessionEntity.Create(Guid.NewGuid(), Guid.NewGuid(), "Test Session", "First Message", "First Response", DateTime.UtcNow.AddSeconds(1));
+                var chatSession = ChatSessionEntity.Create(Guid.NewGuid(), Guid.NewGuid(), "Test Session", "First Message", "First Response", _startDate.AddMinutes(1));
                 context.ChatSessions.Add(chatSession);
                 await context.SaveChangesAsync(CancellationToken.None);
             }
