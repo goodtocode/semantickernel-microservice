@@ -39,16 +39,12 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
 
             if (_exists)
             {
-                var textAudio = new TextAudioEntity()
-                {
-                    Id = _id,
-                    Description = "Audio of a simple geometric design consisting of two yellow squares and one blue square. " +
+                var textAudio = TextAudioEntity.Create(_id, Guid.NewGuid(), "Audio of a simple geometric design consisting of two yellow squares and one blue square. " +
                         "The blue square is placed at a 45-degree angle, positioned centrally below the two yellow squares, creating a symmetrical arrangement. " +
                         "Each square is connected by what appears to be black lines or sticks, suggesting they may represent nodes or elements in a network or structure. " +
                         "The background is white, which contrasts with the bright colors of the squares.",
-                    AudioBytes = [0x01, 0x02, 0x03, 0x04],
-                    Timestamp = DateTime.UtcNow
-                };
+                    new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]),
+                    DateTime.UtcNow);
                 context.TextAudio.Add(textAudio);
                 await context.SaveChangesAsync(CancellationToken.None);
             }

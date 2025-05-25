@@ -68,20 +68,11 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    var textPrompt = new TextPromptEntity()
-                    {
-                        Id = Guid.NewGuid(),
-                        Prompt = "Tell me a bedtime story",
-                        TextResponses =
+                    var textPrompt = TextPromptEntity.Create(Guid.NewGuid(), Guid.Empty, "Tell me a bedtime story", _startDate.AddMinutes(1));
+                    textPrompt.TextResponses =
                         [
-                            new TextResponseEntity()
-                             {
-                                 Response = "Fantastic story here.",
-                                 Timestamp = DateTime.Now
-                             }
-                        ],
-                        Timestamp = _startDate.AddSeconds(1),
-                    };
+                            TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time...")
+                        ];
                     context.TextPrompts.Add(textPrompt);                    
                 };
                 await context.SaveChangesAsync(CancellationToken.None);

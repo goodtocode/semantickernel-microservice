@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
 		<RootNamespace>Goodtocode.SemanticKernel.Infrastructure.SemanticKernel</RootNamespace>
 		<AssemblyName>Goodtocode.SemanticKernel.Infrastructure.SemanticKernel</AssemblyName>
 		<Version>1.0.0</Version>
+		<TargetFramework>net9.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>		
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -15,8 +15,8 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.1" />		
-		<PackageReference Include="Microsoft.SemanticKernel" Version="1.33.0" />		
+		<PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.1" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.33.0" />
 		<PackageReference Include="System.Text.Json" Version="9.0.1" />
 	</ItemGroup>
 </Project>

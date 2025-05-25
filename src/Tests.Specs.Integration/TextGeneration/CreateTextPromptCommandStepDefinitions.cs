@@ -43,20 +43,11 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
         // Setup the database if want to test existing records
         if (_exists)
         {
-            var textPrompt = new TextPromptEntity()
-            {
-                Id = _id,
-                Prompt = _prompt,
-                TextResponses =
+            var textPrompt = TextPromptEntity.Create(_id, Guid.Empty, _prompt, DateTime.UtcNow);
+            textPrompt.TextResponses =
                  [
-                     new TextResponseEntity()
-                     {
-                         Response = "Fantastic story here.",
-                         Timestamp = DateTime.Now
-                     }
-                 ],
-                Timestamp = DateTime.UtcNow,
-            };
+                     TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Fantastic story here.")
+                 ];
             context.TextPrompts.Add(textPrompt);
             await context.SaveChangesAsync(CancellationToken.None);
         }

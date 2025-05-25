@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+	<PropertyGroup>		
 		<RootNamespace>Goodtocode.SemanticKernel.Core.Application</RootNamespace>
 		<AssemblyName>Goodtocode.SemanticKernel.Core.Application</AssemblyName>
 		<Version>1.0.0</Version>
+		<TargetFramework>net9.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>		

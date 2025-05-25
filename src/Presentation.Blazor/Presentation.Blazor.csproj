@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<RootNamespace>Goodtocode.SemanticKernel.Presentation.Blazor</RootNamespace>
+		<AssemblyName>Goodtocode.SemanticKernel.Presentation.Blazor</AssemblyName>
+		<Version>1.0.0</Version>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.SassCompiler" Version="1.89.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Clients\" />
+	</ItemGroup>
+
+</Project>

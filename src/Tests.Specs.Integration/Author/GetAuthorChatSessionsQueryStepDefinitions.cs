@@ -2,7 +2,7 @@ using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
+namespace Goodtocode.SemanticKernel.Specs.Integration.Author;
 
 [Binding]
 [Scope(Tag = "getAuthorChatSessionsQuery")]
@@ -59,30 +59,10 @@ public class GetAuthorChatSessionsQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            var author = new AuthorEntity()
-            {
-                Id = _id,
-                Name = "John Doe"
-            };
+            var author = AuthorEntity.Create(_id,"John Doe");
             context.Authors.Add(author);
             await context.SaveChangesAsync(CancellationToken.None);
-            var messages = new List<ChatMessageEntity>();
-            for (int i = 0; i < 2; i++)
-            {
-                messages.Add(new ChatMessageEntity()
-                {
-                    Content = "Test Message",
-                    Role = ChatMessageRole.user,
-                    Timestamp = DateTime.Now
-                });
-            };
-            var chatSession = new ChatSessionEntity()
-            {
-                AuthorId = _id,
-                Author = author,
-                Messages = messages,
-                Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1),
-            };
+            var chatSession = ChatSessionEntity.Create(_id, author.Id, "Test Session", "First Message", ChatMessageRole.assistant, "First Response", _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1));
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }
@@ -139,13 +119,13 @@ public class GetAuthorChatSessionsQueryStepDefinitions : TestBase
     public void ThenEachChatSessionHasADateGreaterThanStartDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
+            _response?.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).Should().NotBeNull();
     }
 
     [Then(@"Each chat session has a Date less than end date")]
     public void ThenEachChatSessionHasADateLessThanEndDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
+            _response?.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).Should().NotBeNull();
     }
 }

@@ -2,7 +2,7 @@
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Presentation.WebApi.Common;
 
-namespace Goodtocode.SemanticKernel.Presentation.WebApi.ChatSession;
+namespace Goodtocode.SemanticKernel.Presentation.WebApi.ChatCompletion;
 
 /// <summary>
 /// Chat completion endpoints to create a chat, continue a chat, delete a chat and retrieve chat history
@@ -148,7 +148,7 @@ public class ChatSessionController : ApiControllerBase
     }
 
     /// <summary>
-    /// Update ChatSession Command
+    /// Update ChatSession Command, typically with changing the title or adding a new message
     /// </summary>
     /// <remarks>
     /// Sample request:

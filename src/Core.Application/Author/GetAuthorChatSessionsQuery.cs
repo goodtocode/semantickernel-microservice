@@ -19,8 +19,8 @@ public class GetAuthorChatSessionsQueryHandler(ISemanticKernelContext context, I
     {
         var returnData = await _context.ChatSessions
             .OrderByDescending(x => x.Timestamp)
-            .Where(x => x.AuthorId == request.AuthorId &&
-                    ((request.StartDate == null || x.Timestamp > request.StartDate)
+            .Where(x => x.AuthorId == request.AuthorId
+                    && ((request.StartDate == null || x.Timestamp > request.StartDate)
                     && (request.EndDate == null || x.Timestamp < request.EndDate)))
             .ProjectTo<ChatSessionDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);

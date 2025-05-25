@@ -23,7 +23,7 @@ public class CreateAuthorCommandHandler(ISemanticKernelContext context, IMapper 
         GuardAgainstIdExsits(_context.Authors, request!.Id);
 
         // Persist Author
-        var Author = new AuthorEntity() { Id = request!.Id == Guid.Empty ? Guid.NewGuid() : request!.Id };
+        var Author = AuthorEntity.Create(request!.Id == Guid.Empty ? Guid.NewGuid() : request!.Id, string.Empty);
         _context.Authors.Add(Author);
         try
         {
@@ -37,7 +37,7 @@ public class CreateAuthorCommandHandler(ISemanticKernelContext context, IMapper 
             ]);
         }
 
-        // Return session
+
         AuthorDto returnValue;
         try
         {

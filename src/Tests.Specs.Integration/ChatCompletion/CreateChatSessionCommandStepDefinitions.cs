@@ -10,6 +10,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
 {
     private string _message = string.Empty;
     private Guid _id;
+    private readonly Guid _authorId = Guid.NewGuid();
     private bool _exists;
 
     [Given(@"I have a def ""([^""]*)""")]
@@ -42,20 +43,7 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         // Setup the database if want to test existing records
         if (_exists)
         {
-            var chatSession = new ChatSessionEntity()
-            {
-                Id = _id,
-                Messages =
-                 [
-                     new ChatMessageEntity()
-                 {
-                     Content = _message,
-                     Role = ChatMessageRole.user,
-                     Timestamp = DateTime.Now
-                 }
-                 ],
-                Timestamp = DateTime.UtcNow,
-            };
+            var chatSession = ChatSessionEntity.Create(_id, _authorId, "Test Session", _message, ChatMessageRole.assistant, "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }
@@ -64,6 +52,8 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
         var request = new CreateChatSessionCommand()
         {
             Id = _id,
+            Title = def,
+            AuthorId = _authorId,
             Message = _message
         };
 

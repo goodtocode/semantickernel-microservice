@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration;
 
-public abstract class TestBase
+public abstract class TestBase : IDisposable
 {
     public enum CommandResponseType
     {
@@ -107,4 +107,17 @@ public abstract class TestBase
         }
     }
 
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            context?.Dispose();
+        }
+    }
 }

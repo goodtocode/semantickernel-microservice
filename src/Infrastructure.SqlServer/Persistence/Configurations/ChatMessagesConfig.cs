@@ -6,6 +6,8 @@ public class ChatMessagesConfig : IEntityTypeConfiguration<ChatMessageEntity>
 {
     public void Configure(EntityTypeBuilder<ChatMessageEntity> builder)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+
         builder.ToTable("ChatMessages");
         builder.HasKey(x => x.Id)
             .IsClustered(false);

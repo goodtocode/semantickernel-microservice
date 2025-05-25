@@ -1,0 +1,18 @@
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Models
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Services
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities
+@using Microsoft.AspNetCore.Components.Web
+
+@code
+{
+    [Parameter] public IEnumerable<ChatMessageModel> Messages { get; set; } = new List<ChatMessageModel>();
+}
+
+<div class="message-list">
+    @if(Messages != null) foreach (var message in Messages)
+    {
+        <div class="message-item">
+            <strong>@message.Role:</strong> @message.Content
+        </div>
+    }
+</div>

@@ -28,9 +28,8 @@ public static class ConfigureServices
     public static IServiceCollection AddSemanticKernelServices(this IServiceCollection services,
     IConfiguration configuration)
     {
-        // Add strongly-typed and validated options for downstream use via DI.
         services.AddOptions<OpenAIOptions>()
-        .Bind(configuration.GetSection(nameof(OpenAI)))
+        .Bind(configuration.GetSection(OpenAIOptions.SectionName))
             .ValidateDataAnnotations()
             .ValidateOnStart();
         services.AddKernel();

@@ -7,7 +7,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Common;
 /// </summary>
 public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
-    private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
+    private readonly Dictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
 
     /// <summary>
     ///     ApiExceptionFilterAttribute including ValidationException, NotFoundException, UnauthorizedAccessException,
@@ -40,9 +40,9 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private void HandleException(ExceptionContext context)
     {
         var type = context.Exception.GetType();
-        if (_exceptionHandlers.ContainsKey(type))
+        if (_exceptionHandlers.TryGetValue(type, out var handler))
         {
-            _exceptionHandlers[type].Invoke(context);
+            handler.Invoke(context);
             return;
         }
 
@@ -69,7 +69,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleInvalidModelStateException(ExceptionContext context)
+    private static void HandleInvalidModelStateException(ExceptionContext context)
     {
         var details = new ValidationProblemDetails(context.ModelState)
         {
@@ -131,7 +131,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleUnknownException(ExceptionContext context)
+    private static void HandleUnknownException(ExceptionContext context)
     {
         var details = new ProblemDetails
         {

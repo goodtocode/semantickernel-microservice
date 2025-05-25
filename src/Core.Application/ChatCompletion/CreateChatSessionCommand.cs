@@ -1,5 +1,6 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+using Goodtocode.SemanticKernel.Core.Domain.Author;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using Microsoft.SemanticKernel.ChatCompletion;
 
@@ -8,6 +9,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 public class CreateChatSessionCommand : IRequest<ChatSessionDto>
 {
     public Guid Id { get; set; }
+    public Guid AuthorId { get; set; }
     public string? Title { get; set; }
     public string? Message { get; set; }
 }
@@ -20,32 +22,42 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
 
     public async Task<ChatSessionDto> Handle(CreateChatSessionCommand request, CancellationToken cancellationToken)
     {
+        GuardAgainstMissingAuthor(request.AuthorId);
         GuardAgainstEmptyMessage(request?.Message);
         GuardAgainstIdExsits(_context.ChatSessions, request!.Id);
 
-        // Get response
         ChatHistory chatHistory = [];
         chatHistory.AddUserMessage(request!.Message!);
         var response = await _chatService.GetChatMessageContentAsync(chatHistory, null, null, cancellationToken);
 
-        // Persist chat session
-        var chatSession = new ChatSessionEntity() { Id = request.Id == Guid.Empty ? Guid.NewGuid() : request.Id };
-        chatSession.Messages.Add(new ChatMessageEntity()
+        var author = await _context.Authors
+            .FirstOrDefaultAsync(x => x.Id == request.AuthorId, cancellationToken);
+        if (author == null)
         {
-            Content = request!.Message!,
-            Role = ChatMessageRole.user,
-            Timestamp = DateTime.UtcNow
-        });
-        chatSession.Messages.Add(new ChatMessageEntity()
-        {
-            Content = response.ToString(),
-            Role = Enum.Parse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant()),
-            Timestamp = DateTime.UtcNow
-        });
+            author = AuthorEntity.Create(request.AuthorId, "Default Name");
+            _context.Authors.Add(author);
+        }
+        var chatSession = ChatSessionEntity.Create(
+            request.Id,
+            request.AuthorId,
+            request.Title ?? "Untitled",
+            request.Message!,
+            Enum.TryParse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant(), out var role) ? role : ChatMessageRole.assistant,
+            response.ToString()
+        );
         _context.ChatSessions.Add(chatSession);
         await _context.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map<ChatSessionDto>(chatSession);
+    }
+
+    private static void GuardAgainstMissingAuthor(Guid authorId)
+    {
+        if (authorId == Guid.Empty)
+            throw new CustomValidationException(
+            [
+                new("AuthorId", "AuthorId required for sessions")
+            ]);
     }
 
     private static void GuardAgainstEmptyMessage(string? message)

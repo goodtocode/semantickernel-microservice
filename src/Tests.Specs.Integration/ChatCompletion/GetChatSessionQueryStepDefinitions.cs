@@ -1,5 +1,6 @@
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using System.Globalization;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 
@@ -34,7 +35,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Given(@"I have a expected chat session count ""([^""]*)""")]
     public void GivenIHaveAExpectedChatSessionCount(string chatSessionCount)
     {
-        _chatSessionCount = int.Parse(chatSessionCount);
+        _chatSessionCount = int.Parse(chatSessionCount, CultureInfo.InvariantCulture);
     }
 
     [When(@"I get a chat session")]
@@ -42,22 +43,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            var messages = new List<ChatMessageEntity>();
-            for (int i = 0; i < _chatSessionCount; i++)
-            {
-                messages.Add(new ChatMessageEntity()
-                {
-                    Content = "Test Message",
-                    Role = ChatMessageRole.user,
-                    Timestamp = DateTime.Now
-                });
-            };
-            var chatSession = new ChatSessionEntity()
-            {
-                Id = _id,
-                Messages = messages,
-                Timestamp = DateTime.UtcNow,
-            };
+            var chatSession = ChatSessionEntity.Create(_id, Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }
@@ -106,6 +92,6 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasACountMatching(string messageCount)
     {
-        _response?.Messages?.Count.Should().Be(int.Parse(messageCount));
+        _response?.Messages?.Count.Should().Be(int.Parse(messageCount, CultureInfo.InvariantCulture));
     }
 }

@@ -1,5 +1,6 @@
 using Goodtocode.SemanticKernel.Core.Application.Image;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
+using Microsoft.Identity.Client;
 using System.Text;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Image;
@@ -53,18 +54,7 @@ public class GetTextImagesQueryStepDefinitions : TestBase
         {            
             for (int i = 0; i < 2; i++)
             {
-                var textImage = new TextImageEntity()
-                {
-                    Id = Guid.NewGuid(),
-                    Description = "Image of a simple geometric design consisting of two yellow squares and one blue square. " +
-                        "The blue square is placed at a 45-degree angle, positioned centrally below the two yellow squares, creating a symmetrical arrangement. " +
-                        "Each square is connected by what appears to be black lines or sticks, suggesting they may represent nodes or elements in a network or structure. " +
-                        "The background is white, which contrasts with the bright colors of the squares.",
-                    Width = 1024,
-                    Height = 1024,
-                    ImageBytes = [0x01, 0x02, 0x03, 0x04],
-                    Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1)
-                };
+                var textImage = TextImageEntity.Create(Guid.NewGuid(), "A circle", 1024, 1024, new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]), _withinDateRangeExists == false ? _startDate.AddMinutes(-1) : _startDate.AddMinutes(1));
                 context.TextImages.Add(textImage);
             };
             await context.SaveChangesAsync(CancellationToken.None);

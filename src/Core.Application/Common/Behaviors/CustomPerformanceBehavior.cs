@@ -3,19 +3,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviors;
 
-public class CustomPerformanceBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class CustomPerformanceBehavior<TRequest, TResponse>(
+    ILogger<TRequest> logger) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
-    private readonly Stopwatch _timer;
-    private readonly ILogger<TRequest> _logger;
+    private readonly Stopwatch _timer = new();
+    private readonly ILogger<TRequest> _logger = logger;
 
-    public CustomPerformanceBehavior(
-        ILogger<TRequest> logger){
-        _timer = new Stopwatch();
-
-        _logger = logger;
+    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    {
+        return Handle(request, next, _logger, cancellationToken);
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, ILogger logger, CancellationToken cancellationToken)
     {
         _timer.Start();
 
@@ -28,8 +27,8 @@ public class CustomPerformanceBehavior<TRequest, TResponse> : IPipelineBehavior<
         if (elapsedMilliseconds > 500)
         {
             var requestName = typeof(TRequest).Name;
-            _logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
-                requestName, elapsedMilliseconds, request);
+            await Task.Run(() => 
+                logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",requestName, elapsedMilliseconds, request), cancellationToken);
         }
 
         return response;

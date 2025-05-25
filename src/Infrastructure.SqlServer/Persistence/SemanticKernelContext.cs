@@ -25,6 +25,8 @@ public class SemanticKernelContext : DbContext, ISemanticKernelContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        ArgumentNullException.ThrowIfNull(modelBuilder);
+
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(),
             x => x.Namespace == $"{GetType().Namespace}.Configurations");
     }

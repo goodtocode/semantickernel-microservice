@@ -6,6 +6,8 @@ public class AuthorsConfig : IEntityTypeConfiguration<AuthorEntity>
 {
     public void Configure(EntityTypeBuilder<AuthorEntity> builder)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+
         builder.ToTable("Authors");
         builder.HasKey(x => x.Id)
             .IsClustered(false);

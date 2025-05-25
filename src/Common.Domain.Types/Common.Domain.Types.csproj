@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+	<PropertyGroup>		
 		<RootNamespace>Goodtocode.Domain.Types</RootNamespace>
 		<AssemblyName>Goodtocode.Domain.Types</AssemblyName>
-		<Version>1.0.0</Version>		
+		<Version>1.0.0</Version>
+		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>

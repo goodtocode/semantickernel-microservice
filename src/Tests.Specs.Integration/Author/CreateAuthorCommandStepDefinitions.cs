@@ -41,12 +41,8 @@ public class CreateAuthorCommandStepDefinitions : TestBase
         // Setup the database if want to test existing records
         if (_exists)
         {
-            var Author = new AuthorEntity()
-            {
-                Id = _id,
-                Name = "John Doe"
-            };
-            context.Authors.Add(Author);
+            var author = AuthorEntity.Create(_id, "John Doe");
+            context.Authors.Add(author);
             await context.SaveChangesAsync(CancellationToken.None);
         }
 

@@ -5,14 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace GoodToCode.HttpClient.ClientCredentialFlow.Middleware;
 
-public class BearerToken
+public class BearerToken(IOptions<ClientCredential> accessTokenSetting)
 {
-    private IOptions<ClientCredential> _accessTokenSetting;
-
-    public BearerToken(IOptions<ClientCredential> accessTokenSetting)
-    {
-        _accessTokenSetting = accessTokenSetting;
-    }
+    private readonly IOptions<ClientCredential> _accessTokenSetting = accessTokenSetting;
 
     private string Token { get; set; } = string.Empty;
 

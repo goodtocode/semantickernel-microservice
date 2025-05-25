@@ -8,6 +8,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.Audio;
 public class CreateTextToAudioCommand : IRequest<TextAudioDto>
 {
     public Guid Id { get; set; }
+    public Guid AuthorId { get; set; }
     public string Prompt { get; set; } = string.Empty;
 }
 
@@ -21,7 +22,7 @@ public class CreateTextToAudioCommandHandler(ITextToAudioService audioService, I
 
     public async Task<TextAudioDto> Handle(CreateTextToAudioCommand request, CancellationToken cancellationToken)
     {
-
+        GuardAgainstMissingAuthor(request.AuthorId);
         GuardAgainstEmptyPrompt(request?.Prompt);
         GuardAgainstIdExsits(_context.TextAudio, request!.Id);
 
@@ -29,13 +30,7 @@ public class CreateTextToAudioCommandHandler(ITextToAudioService audioService, I
         var response = await _audioService.GetAudioContentAsync(text: request.Prompt, cancellationToken: cancellationToken);
 
         // Persist chat session
-        var textAudio = new TextAudioEntity()
-        {
-            Id = request.Id == Guid.Empty ? Guid.NewGuid() : request.Id,
-            Description = request.Prompt,
-            AudioBytes = response.Data.GetValueOrDefault().ToArray(),
-            AudioUrl = response.Uri
-        };
+        var textAudio = TextAudioEntity.Create(request.Id, request.AuthorId, request.Prompt, response.Data.GetValueOrDefault().ToArray(), response.Uri, DateTime.UtcNow);
         _context.TextAudio.Add(textAudio);
         await _context.SaveChangesAsync(cancellationToken);
 
@@ -53,6 +48,15 @@ public class CreateTextToAudioCommandHandler(ITextToAudioService audioService, I
             ]);
         }
         return returnValue;
+    }
+
+    private static void GuardAgainstMissingAuthor(Guid authorId)
+    {
+        if (authorId == Guid.Empty)
+            throw new CustomValidationException(
+            [
+                new("AuthorId", "AuthorId required for sessions")
+            ]);
     }
 
     private static void GuardAgainstEmptyPrompt(string? prompt)
