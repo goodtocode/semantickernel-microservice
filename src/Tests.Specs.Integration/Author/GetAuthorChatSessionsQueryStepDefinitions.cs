@@ -27,6 +27,12 @@ public class GetAuthorChatSessionsQueryStepDefinitions : TestBase
         bool.TryParse(exists, out _exists).Should().BeTrue();
     }
 
+    [Given(@"chat sessions within the date range exists ""([^""]*)""")]
+    public void GivenChatSessionsWithinTheDateRangeExists(string withinDateRangeExists)
+    {
+        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
+    }
+
     [Given(@"I have a Author id ""([^""]*)""")]
     public void GivenIHaveAAuthorId(string authorId)
     {
@@ -39,6 +45,7 @@ public class GetAuthorChatSessionsQueryStepDefinitions : TestBase
     {
         if (string.IsNullOrWhiteSpace(startDate)) return;
         DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+        _startDate = DateTime.UtcNow.AddMinutes(_withinDateRangeExists ? -1 : 1); //Handle for desired not-found scenarios
     }
 
     [Given(@"I have a end date ""([^""]*)""")]
@@ -46,12 +53,6 @@ public class GetAuthorChatSessionsQueryStepDefinitions : TestBase
     {
         if (string.IsNullOrWhiteSpace(endDate)) return;
         DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
-    }
-
-    [Given(@"chat sessions within the date range exists ""([^""]*)""")]
-    public void GivenChatSessionsWithinTheDateRangeExists(string withinDateRangeExists)
-    {
-        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
     }
 
     [When(@"I get the chat sessions")]
@@ -62,7 +63,7 @@ public class GetAuthorChatSessionsQueryStepDefinitions : TestBase
             var author = AuthorEntity.Create(_id,"John Doe");
             context.Authors.Add(author);
             await context.SaveChangesAsync(CancellationToken.None);
-            var chatSession = ChatSessionEntity.Create(_id, author.Id, "Test Session", "First Message", ChatMessageRole.assistant, "First Response", _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1));
+            var chatSession = ChatSessionEntity.Create(_id, author.Id, "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }

@@ -7,9 +7,9 @@ I get all sessions that fit the date range
 Scenario: Get text prompts
 	Given I have a definition "<def>"
 	And Text Prompt exist "<exist>"
-	And I have a start date "<startDate>"
-	And I have a end date "<endDate>"
 	And text prompt within the date range exists "<textPromptsResultExists>"
+	And I have a start date "<startDate>"
+	And I have a end date "<endDate>"	
 	When I get the text prompt
 	Then The response is "<response>"
 	And If the response has validation issues I see the "<responseErrors>" in the response

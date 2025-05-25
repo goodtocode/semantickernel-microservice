@@ -7,9 +7,9 @@ I get all sessions that fit the date range
 Scenario: Get text images
 	Given I have a definition "<def>"
 	And Text Image exist "<exist>"
+	And text image within the date range exists "<textPromptsResultExists>"
 	And I have a start date "<startDate>"
 	And I have a end date "<endDate>"
-	And text image within the date range exists "<textPromptsResultExists>"
 	When I get the text image
 	Then The response is "<response>"
 	And If the response has validation issues I see the "<responseErrors>" in the response

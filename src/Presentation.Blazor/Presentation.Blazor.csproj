@@ -14,6 +14,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Clients\" />
+	  <Folder Include="Components\Shared\" />
 	</ItemGroup>
 
 </Project>

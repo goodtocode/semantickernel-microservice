@@ -26,12 +26,18 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
         bool.TryParse(exists, out _exists).Should().BeTrue();
     }
 
+    [Given(@"text prompt within the date range exists ""([^""]*)""")]
+    public void GivenTextPromptsWithinTheDateRangeExists(string withinDateRangeExists)
+    {
+        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
+    }
+
     [Given(@"I have a start date ""([^""]*)""")]
     public void GivenIHaveAStartDate(string startDate)
     {
         if (string.IsNullOrWhiteSpace(startDate)) return;
         DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
-        _startDate = _withinDateRangeExists ? _startDate : _startDate.AddMinutes(1); //Handle for desired not-found scenarios
+        _startDate = DateTime.UtcNow.AddMinutes(_withinDateRangeExists ? -1 : 1); //Handle for desired not-found scenarios
     }
 
     [Given(@"I have a end date ""([^""]*)""")]
@@ -39,12 +45,6 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
     {
         if (string.IsNullOrWhiteSpace(endDate)) return;
         DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
-    }
-
-    [Given(@"text prompt within the date range exists ""([^""]*)""")]
-    public void GivenTextPromptsWithinTheDateRangeExists(string withinDateRangeExists)
-    {
-        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
     }
 
     [When(@"I get the text prompt")]

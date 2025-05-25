@@ -7,10 +7,10 @@ I get all sessions that fit the date range
 Scenario: Get author chat sessions
 	Given I have a definition "<def>"
 	And Chat Sessions exist "<exist>"
+	And chat sessions within the date range exists "<chatSessionsResultExists>"
 	And I have a Author id "<id>"
 	And I have a start date "<startDate>"
 	And I have a end date "<endDate>"
-	And chat sessions within the date range exists "<chatSessionsResultExists>"
 	When I get the chat sessions
 	Then The response is "<response>"
 	And If the response has validation issues I see the "<responseErrors>" in the response

@@ -7,9 +7,9 @@ I get all messages that fit the date range
 Scenario: Get Chat Messages
 	Given I have a definition "<def>"
 	And Chat Messages exist "<exist>"
-	And I have a start date "<startDate>"
-	And I have a end date "<endDate>"
 	And Chat Messages within the date range exists "<ChatMessagesResultExists>"
+	And I have a start date "<startDate>"
+	And I have a end date "<endDate>"	
 	When I get the Chat Messages
 	Then The response is "<response>"
 	And If the response has validation issues I see the "<responseErrors>" in the response
