@@ -6,12 +6,11 @@
 @code
 {
     [Parameter] public IEnumerable<ChatSessionModel> Sessions { get; set; } = new List<ChatSessionModel>();
-    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }
+    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }    
 
     private async Task SelectSessionAsync(ChatSessionModel selectedSession)
     {        
         selectedSession.IsActive = true;
-
         await OnSessionSelected.InvokeAsync(selectedSession);
     }
 }

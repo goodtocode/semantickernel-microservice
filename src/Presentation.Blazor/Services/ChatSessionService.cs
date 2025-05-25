@@ -6,7 +6,6 @@ namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 public interface IChatService
 {    
     Task<List<ChatSessionModel>> GetChatSessionsAsync();
-    Task<List<ChatMessageModel>> GetChatSessionAsync(Guid chatSessionId);
     Task CreateSessionAsync(ChatSessionModel newSession, string firstMessage);
     Task SendMessageAsync(ChatSessionModel session, string newMessage);
 }
@@ -37,19 +36,6 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
         })];
     }
 
-    public async Task<List<ChatMessageModel>> GetChatSessionAsync(Guid chatSessionId)
-    {
-        var userId = await _userService.GetUserIdAsync();
-        var response = await _client.GetChatSessionQueryAsync(chatSessionId).ConfigureAwait(false);
-
-        return [.. response.Messages.Select(dto =>  new ChatMessageModel
-            {
-                Id = dto.Id,
-                Content = dto.Content,
-                Timestamp = dto.Timestamp
-            })];
-    }
-
     public async Task CreateSessionAsync(ChatSessionModel newSession, string firstMessage)
     {
         var command = new CreateChatSessionCommand
@@ -63,7 +49,7 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
     }
 
     public async Task SendMessageAsync(ChatSessionModel session, string newMessage)
-    {
+    {        
         await _client.CreateChatMessageCommandAsync(new CreateChatMessageCommand { ChatSessionId = session.Id, Message = newMessage }).ConfigureAwait(false);
     }
 }
