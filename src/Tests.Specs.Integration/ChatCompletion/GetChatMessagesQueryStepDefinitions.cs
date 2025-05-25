@@ -53,7 +53,7 @@ public class GetChatMessagesQueryStepDefinitions : TestBase
         if (_exists)
         {
             var timestamp = _withinDateRangeExists ? _startDate.AddMinutes(1) : _startDate.AddMinutes(-1);
-            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", "First Message", "First Response", timestamp);
+            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response", timestamp);
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }

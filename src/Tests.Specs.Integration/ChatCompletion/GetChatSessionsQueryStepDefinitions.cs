@@ -50,7 +50,7 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            var chatSession = ChatSessionEntity.Create(Guid.NewGuid(), Guid.NewGuid(), "Test Session", "First Message", "First Response", _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1));
+            var chatSession = ChatSessionEntity.Create(Guid.NewGuid(), Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response", _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1));
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }

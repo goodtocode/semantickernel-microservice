@@ -3,7 +3,7 @@ using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
-namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
+namespace Goodtocode.SemanticKernel.Specs.Integration.Author
 {
     [Binding]
     [Scope(Tag = "getAuthorChatSessionsPaginatedQuery")]
@@ -77,7 +77,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
                 var author = AuthorEntity.Create(_id, "John Doe");
                 context.Authors.Add(author);
                 await context.SaveChangesAsync(CancellationToken.None);
-                var chatSession = ChatSessionEntity.Create(_id, _id, "Test Session", "First Message", "First Response", _startDate.AddMinutes(1));
+                var chatSession = ChatSessionEntity.Create(_id, _id, "Test Session", "First Message", ChatMessageRole.assistant, "First Response", _startDate.AddMinutes(1));
                 context.ChatSessions.Add(chatSession);
                 await context.SaveChangesAsync(CancellationToken.None);
             }
@@ -138,14 +138,14 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         public void ThenEachChatSessionHasADateGreaterThanStartDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
+                _response?.Items.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).Should().NotBeNull();
         }
 
         [Then(@"Each chat session has a Date less than end date")]
         public void ThenEachChatSessionHasADateLessThanEndDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
+                _response?.Items.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).Should().NotBeNull();
         }
 
         [Then(@"The response has a Page Number")]

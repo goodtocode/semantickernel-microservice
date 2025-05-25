@@ -2,6 +2,7 @@
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Models
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Services
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities
+@using Goodtocode.SemanticKernel.Presentation.WebApi.Client
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Forms
 
@@ -42,7 +43,7 @@
                 var newSession = new ChatSessionModel
                 {
                     Id = Guid.NewGuid(),
-                    Title = "New Session",
+                    Title = "No Title",
                     AuthorId = await userService.GetUserIdAsync(),
                     Timestamp = DateTimeOffset.Now,
                     IsActive = true,
@@ -57,7 +58,7 @@
                     Id = Guid.NewGuid(),
                     ChatSessionId = Sessions.ActiveSession.Id,
                     Role = "User",
-                        Content = messageModel.NewMessage,
+                    Content = messageModel.NewMessage,
                     Timestamp = DateTimeOffset.Now
                 };
                 await chatService.SendMessageAsync(Sessions.ActiveSession!, messageModel.NewMessage);

@@ -42,6 +42,7 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
             request.AuthorId,
             request.Title ?? "Untitled",
             request.Message!,
+            Enum.TryParse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant(), out var role) ? role : ChatMessageRole.assistant,
             response.ToString()
         );
         _context.ChatSessions.Add(chatSession);
