@@ -183,13 +183,13 @@ this.GetTextImages("success no date range", "Success", "", "", "", "true", "true
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2034-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:textPromptsResultExists", "true")]
         public void GetTextImages_SuccessWithDateRange()
         {
 #line 7
-this.GetTextImages("success with date range", "Success", "", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "true", ((string[])(null)));
+this.GetTextImages("success with date range", "Success", "", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "true", ((string[])(null)));
 #line hidden
         }
         
@@ -202,13 +202,13 @@ this.GetTextImages("success with date range", "Success", "", "2024-06-01T11:21:0
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2034-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:textPromptsResultExists", "false")]
         public void GetTextImages_SuccessFilteredResults()
         {
 #line 7
-this.GetTextImages("success filtered results", "Success", "", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "false", ((string[])(null)));
+this.GetTextImages("success filtered results", "Success", "", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "false", ((string[])(null)));
 #line hidden
         }
         

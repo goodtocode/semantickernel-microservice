@@ -22,6 +22,6 @@ Scenario: Get author chat sessions
 Examples:
 	| def                      | response | responseErrors | id                                   | startDate            | endDate              | exist | chatSessionsResultExists |
 	| success no date range    | Success  |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 |                      |                      | true  | true                     |
-	| success with date range  | Success  |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | 2024-06-01T11:21:00Z | 2024-06-03T11:21:00Z | true  | true                     |
-	| success filtered results | Success  |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | 2024-06-01T11:21:00Z | 2024-06-03T11:21:00Z | true  | false                    |
+	| success with date range  | Success  |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | 2024-06-01T11:21:00Z | 2034-06-03T11:21:00Z | true  | true                     |
+	| success filtered results | Success  |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | 2024-06-01T11:21:00Z | 2034-06-03T11:21:00Z | true  | false                    |
 	| success empty results    | Success  |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 |                      |                      | false | false                    |

@@ -28,7 +28,7 @@ Scenario: Get author chat sessions paginated
 Examples:
 	| def                          | response   | responseErrors | id                                   | startDate            | endDate              | exist | chatSessionsResultExists | pageNumber | pageSize |
 	| success no date range        | Success    |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 |                      |                      | true  | true                     | 1          | 10       |
-	| success with date range      | Success    |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | 2024-06-01T11:21:00Z | 2024-06-03T11:21:00Z | true  | true                     | 1          | 10       |
+	| success with date range      | Success    |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 | 2024-06-01T11:21:00Z | 2034-06-03T11:21:00Z | true  | true                     | 1          | 10       |
 	| success empty results        | Success    |                | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 |                      |                      | false | false                    | 1          | 10       |
 	| bad request page number zero | BadRequest | PageNumber     | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 |                      |                      | false | false                    | 0          | 10       |
 	| bad request page size zero   | BadRequest | PageSize       | 038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9 |                      |                      | false | false                    | 1          | 0        |

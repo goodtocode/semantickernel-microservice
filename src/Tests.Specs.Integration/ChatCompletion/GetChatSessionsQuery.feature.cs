@@ -183,13 +183,13 @@ this.GetChatSessions("success no date range", "Success", "", "", "", "true", "tr
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2034-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionsResultExists", "true")]
         public void GetChatSessions_SuccessWithDateRange()
         {
 #line 7
-this.GetChatSessions("success with date range", "Success", "", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "true", ((string[])(null)));
+this.GetChatSessions("success with date range", "Success", "", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "true", ((string[])(null)));
 #line hidden
         }
         
@@ -202,13 +202,13 @@ this.GetChatSessions("success with date range", "Success", "", "2024-06-01T11:21
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2034-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionsResultExists", "false")]
         public void GetChatSessions_SuccessFilteredResults()
         {
 #line 7
-this.GetChatSessions("success filtered results", "Success", "", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "false", ((string[])(null)));
+this.GetChatSessions("success filtered results", "Success", "", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "false", ((string[])(null)));
 #line hidden
         }
         

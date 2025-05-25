@@ -31,6 +31,7 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
     {
         if (string.IsNullOrWhiteSpace(startDate)) return;
         DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+        _startDate = _withinDateRangeExists ? _startDate : _startDate.AddMinutes(1); //Handle for desired not-found scenarios
     }
 
     [Given(@"I have a end date ""([^""]*)""")]
@@ -53,7 +54,7 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
         {            
             for (int i = 0; i < 2; i++)
             {
-                var textPrompt = TextPromptEntity.Create(Guid.NewGuid(), Guid.Empty, "Tell me a bedtime story", _withinDateRangeExists == false ? _startDate.AddMinutes(-1) : _startDate.AddMinutes(1));
+                var textPrompt = TextPromptEntity.Create(Guid.NewGuid(), Guid.Empty, "Tell me a bedtime story");
                 textPrompt.TextResponses =
                     [
                         TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time...")

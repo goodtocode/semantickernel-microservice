@@ -32,7 +32,7 @@ public class CreateTextToImageCommandHandler(ITextToImageService imageService, I
         // Handle response containing rather a Uri or a Base64 byte array
         Uri.TryCreate(response, UriKind.Absolute, out var returnUri);
 
-        var textImage = TextImageEntity.Create(request.Id, request.Prompt, request.Width, request.Height, Encoding.UTF8.GetBytes(response), returnUri, DateTime.UtcNow);
+        var textImage = TextImageEntity.Create(request.Id, request.Prompt, request.Width, request.Height, Encoding.UTF8.GetBytes(response), returnUri);
         _context.TextImages.Add(textImage);
         await _context.SaveChangesAsync(cancellationToken);
 

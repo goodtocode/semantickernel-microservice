@@ -12,14 +12,14 @@ public class TextPromptEntity : DomainEntity<TextPromptEntity>
     public virtual ICollection<TextResponseEntity> TextResponses { get; set; } = [];
     public virtual AuthorEntity? Author { get; set; }
 
-    public static TextPromptEntity Create(Guid id, Guid authorId, string prompt, DateTime timestamp)
+    public static TextPromptEntity Create(Guid id, Guid authorId, string prompt)
     {
         return new TextPromptEntity
         {
             Id = id == Guid.Empty ? Guid.NewGuid() : id,
             AuthorId = authorId,
             Prompt = prompt,
-            Timestamp = timestamp
+            Timestamp = DateTime.UtcNow
         };
     }
 }

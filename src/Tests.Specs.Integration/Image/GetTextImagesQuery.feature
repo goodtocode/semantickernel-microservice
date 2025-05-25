@@ -21,6 +21,6 @@ Scenario: Get text images
 Examples:
 	| def                      | response | responseErrors | startDate            | endDate              | exist | textPromptsResultExists |
 	| success no date range    | Success  |                |                      |                      | true  | true                     |
-	| success with date range  | Success  |                | 2024-06-01T11:21:00Z | 2024-06-03T11:21:00Z | true  | true                     |
-	| success filtered results | Success  |                | 2024-06-01T11:21:00Z | 2024-06-03T11:21:00Z | true  | false                    |
+	| success with date range  | Success  |                | 2024-06-01T11:21:00Z | 2034-06-03T11:21:00Z | true  | true                     |
+	| success filtered results | Success  |                | 2024-06-01T11:21:00Z | 2034-06-03T11:21:00Z | true  | false                    |
 	| success empty results    | Success  |                |                      |                      | false | false                    |

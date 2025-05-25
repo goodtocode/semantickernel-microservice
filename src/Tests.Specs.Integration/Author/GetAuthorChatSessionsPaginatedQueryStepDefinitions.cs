@@ -77,7 +77,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
                 var author = AuthorEntity.Create(_id, "John Doe");
                 context.Authors.Add(author);
                 await context.SaveChangesAsync(CancellationToken.None);
-                var chatSession = ChatSessionEntity.Create(_id, _id, "Test Session", "First Message", ChatMessageRole.assistant, "First Response", _startDate.AddMinutes(1));
+                var chatSession = ChatSessionEntity.Create(_id, _id, "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
                 context.ChatSessions.Add(chatSession);
                 await context.SaveChangesAsync(CancellationToken.None);
             }

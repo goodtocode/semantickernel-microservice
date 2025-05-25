@@ -39,10 +39,9 @@ public class TextImageEntity : DomainEntity<TextImageEntity>
         string description,
         int width,
         int height,
-        ReadOnlyMemory<byte>? imageBytes,
-        DateTime timestamp)
+        ReadOnlyMemory<byte>? imageBytes)
     {
-        return TextImageEntity.Create(id, description, width, height, imageBytes, null, timestamp);
+        return TextImageEntity.Create(id, description, width, height, imageBytes, null);
     }
 
     public static TextImageEntity Create(
@@ -50,10 +49,9 @@ public class TextImageEntity : DomainEntity<TextImageEntity>
         string description,
         int width,
         int height,
-        Uri? imageUrl,
-        DateTime timestamp)
+        Uri? imageUrl)
     {
-        return TextImageEntity.Create(id, description, width, height, null, imageUrl, timestamp);
+        return TextImageEntity.Create(id, description, width, height, null, imageUrl);
     }
 
     public static TextImageEntity Create(
@@ -62,8 +60,7 @@ public class TextImageEntity : DomainEntity<TextImageEntity>
         int width,
         int height,
         ReadOnlyMemory<byte>? imageBytes,
-        Uri? imageUrl,
-        DateTime timestamp)
+        Uri? imageUrl)
     {
         return new TextImageEntity
         {
@@ -73,7 +70,7 @@ public class TextImageEntity : DomainEntity<TextImageEntity>
             Height = height,
             ImageBytes = imageBytes,
             ImageUrl = imageUrl,
-            Timestamp = timestamp
+            Timestamp = DateTime.UtcNow
         };
     }
 }

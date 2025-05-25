@@ -32,13 +32,14 @@ public class GetChatMessagesQueryStepDefinitions : TestBase
     {
         if (string.IsNullOrWhiteSpace(startDate)) return;
         DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+        _startDate = _withinDateRangeExists ? _startDate : _startDate.AddMinutes(1); //Handle for desired not-found scenarios
     }
 
     [Given(@"I have a end date ""([^""]*)""")]
     public void GivenIHaveAEndDate(string endDate)
     {
         if (string.IsNullOrWhiteSpace(endDate)) return;
-        DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
+        DateTime.TryParse(endDate, out _endDate).Should().BeTrue();        
     }
 
     [Given(@"Chat Messages within the date range exists ""([^""]*)""")]
@@ -51,9 +52,8 @@ public class GetChatMessagesQueryStepDefinitions : TestBase
     public async Task WhenIGetTheChatMessages()
     {
         if (_exists)
-        {
-            var timestamp = _withinDateRangeExists ? _startDate.AddMinutes(1) : _startDate.AddMinutes(-1);
-            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response", timestamp);
+        {            
+            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }

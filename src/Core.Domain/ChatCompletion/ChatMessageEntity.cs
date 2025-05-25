@@ -9,7 +9,7 @@ public class ChatMessageEntity : DomainEntity<ChatMessageEntity>, IDomainEntity<
     public ChatMessageRole Role { get; set; }
     public string Content { get; set; } = string.Empty;
     public virtual ChatSessionEntity? ChatSession { get; set; }
-    public static ChatMessageEntity Create(Guid id, Guid chatSessionId, ChatMessageRole role, string content, DateTime timestamp)
+    public static ChatMessageEntity Create(Guid id, Guid chatSessionId, ChatMessageRole role, string content)
     {
         return new ChatMessageEntity
         {
@@ -17,7 +17,7 @@ public class ChatMessageEntity : DomainEntity<ChatMessageEntity>, IDomainEntity<
             ChatSessionId = chatSessionId,
             Role = role,
             Content = content,
-            Timestamp = timestamp
+            Timestamp = DateTime.UtcNow
         };
     }
 }
