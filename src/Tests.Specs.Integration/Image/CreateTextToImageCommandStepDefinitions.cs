@@ -43,18 +43,7 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
         // Setup the database if want to test existing records
         if (_exists)
         {
-            var textImage = new TextImageEntity()
-            {
-                Id = Guid.NewGuid(),
-                Description = "Image of a simple geometric design consisting of two yellow squares and one blue square. " +
-                    "The blue square is placed at a 45-degree angle, positioned centrally below the two yellow squares, creating a symmetrical arrangement. " +
-                    "Each square is connected by what appears to be black lines or sticks, suggesting they may represent nodes or elements in a network or structure. " +
-                    "The background is white, which contrasts with the bright colors of the squares.",
-                Width = 1024,
-                Height = 1024,
-                ImageBytes = new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]),
-                Timestamp = DateTime.UtcNow
-            };
+            var textImage = TextImageEntity.Create(Guid.NewGuid(), _prompt, 1024, 1024, new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]), DateTime.UtcNow);
             context.TextImages.Add(textImage);
             await context.SaveChangesAsync(CancellationToken.None);
         }

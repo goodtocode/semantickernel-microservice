@@ -1,4 +1,4 @@
-﻿using Goodtocode.Domain.Types;
+﻿using Goodtocode.Domain.Types.DomainEntity;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
 
 namespace Goodtocode.SemanticKernel.Core.Domain.Audio;
@@ -22,4 +22,14 @@ public class TextAudioEntity : DomainEntity<TextAudioEntity>
     public Uri? AudioUrl { get; set; }
 
     public virtual AuthorEntity Author { get; set; } = default!;
+    public static TextAudioEntity Create(Guid authorId, string description, ReadOnlyMemory<byte>? audioBytes = null, Uri? audioUrl = null)
+    {
+        return new TextAudioEntity
+        {
+            AuthorId = authorId == Guid.Empty ? Guid.NewGuid() : authorId,
+            Description = description,
+            AudioBytes = audioBytes,
+            AudioUrl = audioUrl
+        };
+    }
 }

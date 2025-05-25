@@ -35,12 +35,8 @@ public class GetAuthorQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            var Author = new AuthorEntity()
-            {
-                Id = _id,
-                Name = "John Doe"
-            };
-            context.Authors.Add(Author);
+            var author = AuthorEntity.Create(_id, "John Doe");
+            context.Authors.Add(author);
             await context.SaveChangesAsync(CancellationToken.None);
         }
 

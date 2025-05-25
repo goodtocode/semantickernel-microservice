@@ -1,5 +1,6 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+using Goodtocode.SemanticKernel.Core.Domain.Author;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using Microsoft.SemanticKernel.ChatCompletion;
 
@@ -25,25 +26,24 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
         GuardAgainstEmptyMessage(request?.Message);
         GuardAgainstIdExsits(_context.ChatSessions, request!.Id);
 
-        // Get response
         ChatHistory chatHistory = [];
         chatHistory.AddUserMessage(request!.Message!);
         var response = await _chatService.GetChatMessageContentAsync(chatHistory, null, null, cancellationToken);
 
-        // Persist chat session
-        var chatSession = new ChatSessionEntity() { Id = request.Id == Guid.Empty ? Guid.NewGuid() : request.Id };
-        chatSession.Messages.Add(new ChatMessageEntity()
+        var author = await _context.Authors
+            .FirstOrDefaultAsync(x => x.Id == request.AuthorId, cancellationToken);
+        if (author == null)
         {
-            Content = request!.Message!,
-            Role = ChatMessageRole.user,
-            Timestamp = DateTime.UtcNow
-        });
-        chatSession.Messages.Add(new ChatMessageEntity()
-        {
-            Content = response.ToString(),
-            Role = Enum.Parse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant()),
-            Timestamp = DateTime.UtcNow
-        });
+            author = AuthorEntity.Create(request.AuthorId, "Default Name");
+            _context.Authors.Add(author);
+        }
+        var chatSession = ChatSessionEntity.Create(
+            request.Id,
+            request.AuthorId,
+            request.Title ?? "Untitled",
+            request.Message!,
+            response.ToString()
+        );
         _context.ChatSessions.Add(chatSession);
         await _context.SaveChangesAsync(cancellationToken);
 

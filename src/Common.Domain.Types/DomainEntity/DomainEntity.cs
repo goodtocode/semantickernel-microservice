@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace Goodtocode.Domain.Types;
+namespace Goodtocode.Domain.Types.DomainEntity;
 
 public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
 {
@@ -25,7 +25,7 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
     protected DomainEntity(Guid id)
         : this()
     {
-        this.Id = id;
+        Id = id;
     }    
 
     public void AddDomainEvent(IDomainEvent<TModel> domainEvent)

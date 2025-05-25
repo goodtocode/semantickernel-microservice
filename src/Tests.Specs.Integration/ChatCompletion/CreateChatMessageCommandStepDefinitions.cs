@@ -43,22 +43,7 @@ public class CreateChatMessageCommandStepDefinitions : TestBase
         // Setup the database if want to test existing records
         if (_exists)
         {
-            var chatSession = new ChatSessionEntity()
-            {
-                Id = _chatSessionId,
-                Messages =
-                 [
-                     new ChatMessageEntity()
-                     {
-                        Id = _id,
-                        ChatSessionId = _chatSessionId,
-                        Content = _message,
-                        Role = ChatMessageRole.user,
-                        Timestamp = DateTime.Now
-                     }
-                ],
-                Timestamp = DateTime.UtcNow,
-            };
+            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", "First Message", "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }

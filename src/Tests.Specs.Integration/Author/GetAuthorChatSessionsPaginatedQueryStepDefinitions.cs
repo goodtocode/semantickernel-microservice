@@ -74,30 +74,10 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         {
             if (_exists)
             {
-                var author = new AuthorEntity()
-                {
-                    Id = _id,
-                    Name = "John Doe"
-                };
+                var author = AuthorEntity.Create(_id, "John Doe");
                 context.Authors.Add(author);
                 await context.SaveChangesAsync(CancellationToken.None);
-                var messages = new List<ChatMessageEntity>();
-                for (int i = 0; i < 2; i++)
-                {
-                    messages.Add(new ChatMessageEntity()
-                    {
-                        Content = "Test Message",
-                        Role = ChatMessageRole.user,
-                        Timestamp = DateTime.Now
-                    });
-                };
-                var chatSession = new ChatSessionEntity()
-                {
-                    AuthorId = _id,
-                    Author = author,
-                    Messages = messages,
-                    Timestamp = _startDate.AddSeconds(1),
-                };
+                var chatSession = ChatSessionEntity.Create(_id, _id, "Test Session", "First Message", "First Response", _startDate.AddMinutes(1));
                 context.ChatSessions.Add(chatSession);
                 await context.SaveChangesAsync(CancellationToken.None);
             }

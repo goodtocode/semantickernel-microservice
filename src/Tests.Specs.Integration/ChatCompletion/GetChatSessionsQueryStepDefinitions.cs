@@ -50,21 +50,7 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            var messages = new List<ChatMessageEntity>();
-            for (int i = 0; i < 2; i++)
-            {
-                messages.Add(new ChatMessageEntity()
-                {
-                    Content = "Test Message",
-                    Role = ChatMessageRole.user,
-                    Timestamp = DateTime.Now
-                });
-            };
-            var chatSession = new ChatSessionEntity()
-            {
-                Messages = messages,
-                Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1),
-            };
+            var chatSession = ChatSessionEntity.Create(Guid.NewGuid(), Guid.NewGuid(), "Test Session", "First Message", "First Response", _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1));
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }

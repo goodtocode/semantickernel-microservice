@@ -1,5 +1,6 @@
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using System.Security.Cryptography;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 
@@ -52,29 +53,7 @@ public class GetChatMessagesQueryStepDefinitions : TestBase
         if (_exists)
         {
             var timestamp = _withinDateRangeExists ? _startDate.AddMinutes(1) : _startDate.AddMinutes(-1);
-            var chatSession = new ChatSessionEntity()
-            {
-                Id = _chatSessionId,
-                Messages =
-                 [
-                     new ChatMessageEntity()
-                     {
-                        ChatSessionId = _chatSessionId,
-                        Content = "Message 1",
-                        Role = ChatMessageRole.user,
-                        Timestamp = timestamp
-                     },
-                     new ChatMessageEntity()
-                     {
-                        ChatSessionId = _chatSessionId,
-                        Content = "Message 2",
-                        Role = ChatMessageRole.user,
-                        Timestamp = timestamp
-                     }
-
-                ],
-                Timestamp = timestamp,
-            };
+            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", "First Message", "First Response", timestamp);
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }

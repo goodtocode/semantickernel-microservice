@@ -38,12 +38,8 @@ public class SemanticKernelContextInitializer(ILogger<SemanticKernelContextIniti
     {
         if (!_context.Authors.Any())
         {
-            var Author = new AuthorEntity()
-            {
-                Id = Guid.NewGuid(),
-                Name = "John Doe"
-            };
-            _context.Authors.Add(Author);
+            var author = AuthorEntity.Create(Guid.NewGuid(), "John Doe");
+            _context.Authors.Add(author);
             await _context.SaveChangesAsync(CancellationToken.None);
         }
     }

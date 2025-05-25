@@ -43,22 +43,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            var messages = new List<ChatMessageEntity>();
-            for (int i = 0; i < _chatSessionCount; i++)
-            {
-                messages.Add(new ChatMessageEntity()
-                {
-                    Content = "Test Message",
-                    Role = ChatMessageRole.user,
-                    Timestamp = DateTime.Now
-                });
-            };
-            var chatSession = new ChatSessionEntity()
-            {
-                Id = _id,
-                Messages = messages,
-                Timestamp = DateTime.UtcNow,
-            };
+            var chatSession = ChatSessionEntity.Create(_id, Guid.NewGuid(), "Test Session", "First Message", "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }

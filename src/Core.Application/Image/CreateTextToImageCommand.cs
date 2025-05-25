@@ -28,40 +28,15 @@ public class CreateTextToImageCommandHandler(ITextToImageService imageService, I
         GuardAgainstEmptyPrompt(request?.Prompt);
         GuardAgainstIdExsits(_context.TextImages, request!.Id);
 
-        // Get response
         var response = await _imageService.GenerateImageAsync(description: request.Prompt, width: request.Width, height: request.Height, cancellationToken: cancellationToken);
-
-
         // Handle response containing rather a Uri or a Base64 byte array
         Uri.TryCreate(response, UriKind.Absolute, out var returnUri);
 
-        // Persist chat session
-        var textImage = new TextImageEntity()
-        {
-            Id = request.Id == Guid.Empty ? Guid.NewGuid() : request.Id,
-            Description = request.Prompt,
-            Width = request.Width,
-            Height = request.Height,
-            ImageBytes = Encoding.UTF8.GetBytes(response),
-            ImageUrl = returnUri
-        };
+        var textImage = TextImageEntity.Create(request.Id, request.Prompt, request.Width, request.Height, Encoding.UTF8.GetBytes(response), returnUri, DateTime.UtcNow);
         _context.TextImages.Add(textImage);
         await _context.SaveChangesAsync(cancellationToken);
 
-        // Return session
-        TextImageDto returnValue;
-        try
-        {
-            returnValue = _mapper.Map<TextImageDto>(textImage);
-        }
-        catch (Exception)
-        {
-            throw new CustomValidationException(
-            [
-                new("Id", "Id already exists")
-            ]);
-        }
-        return returnValue;
+        return _mapper.Map<TextImageDto>(textImage);
     }
 
     private static void GuardAgainstEmptyPrompt(string? prompt)

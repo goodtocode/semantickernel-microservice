@@ -1,4 +1,4 @@
-﻿namespace Goodtocode.Domain.Types;
+﻿namespace Goodtocode.Domain.Types.DomainEntity;
 
 public interface IDomainEntity<TModel>
 {

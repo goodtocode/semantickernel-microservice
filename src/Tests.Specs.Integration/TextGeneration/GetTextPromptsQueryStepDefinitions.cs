@@ -1,5 +1,6 @@
 using Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
+using System.Security.Cryptography;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration;
 
@@ -52,20 +53,11 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
         {            
             for (int i = 0; i < 2; i++)
             {
-                var textPrompt = new TextPromptEntity()
-                {
-                    Id = Guid.NewGuid(),
-                    Prompt = "Tell me a bedtime story",
-                    TextResponses =
+                var textPrompt = TextPromptEntity.Create(Guid.NewGuid(), Guid.Empty, "Tell me a bedtime story", _startDate.AddMinutes(1));
+                textPrompt.TextResponses =
                     [
-                        new TextResponseEntity()
-                        {
-                            Response = "Fantastic story here.",
-                            Timestamp = DateTime.Now
-                        }
-                    ],
-                    Timestamp = _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1),
-                };
+                        TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time...")
+                    ];
                 context.TextPrompts.Add(textPrompt);
             };
             await context.SaveChangesAsync(CancellationToken.None);
