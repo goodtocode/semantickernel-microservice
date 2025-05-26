@@ -1,24 +1,28 @@
 ﻿@page "/chat"
 @rendermode InteractiveServer
 
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Pages.Chat.Components
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Shared
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Models
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Services
-@using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities
-@using Microsoft.AspNetCore.Components.Web
 
 @inject IChatService chatService
 
 <PageTitle>Semantic Kernel Chat Session</PageTitle>
 
-<h1>How can I help?</h1>
+<div class="row">
+    <div class="col-8 offset-4">
+        <PageH1>What can I help you with?</PageH1>
+    </div>
+</div>
 
 <div class="row">
-    <div class="col-9">
+    <div class="col-4">
+        <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
+    </div>
+    <div class="col-8">
         <ChatMessages Messages="activeMessages" />
         <ChatMessageInput Sessions="chatSessions" OnMessageSubmitted="HandleMessageSubmitted" />
-    </div>
-    <div class="col-3">
-        <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
     </div>
 </div>
 
