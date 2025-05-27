@@ -10,6 +10,7 @@ public class CreateChatSessionCommand : IRequest<ChatSessionDto>
 {
     public Guid Id { get; set; }
     public Guid AuthorId { get; set; }
+    public string? AuthorName { get; set; }
     public string? Title { get; set; }
     public string? Message { get; set; }
 }
@@ -34,13 +35,14 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
             .FirstOrDefaultAsync(x => x.Id == request.AuthorId, cancellationToken);
         if (author == null)
         {
-            author = AuthorEntity.Create(request.AuthorId, "Default Name");
+            author = AuthorEntity.Create(request.AuthorId, request.AuthorName ?? "Default Name");
             _context.Authors.Add(author);
         }
+        var title = request.Title ?? $"{request.Message![..(request.Message!.Length >= 25 ? 25 : request.Message!.Length)]}";
         var chatSession = ChatSessionEntity.Create(
             request.Id,
             request.AuthorId,
-            request.Title ?? "Untitled",
+            title,
             request.Message!,
             Enum.TryParse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant(), out var role) ? role : ChatMessageRole.assistant,
             response.ToString()

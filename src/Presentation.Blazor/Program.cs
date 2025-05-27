@@ -13,8 +13,6 @@ builder.Services.AddPresentationWebApiServices(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
 builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<ChatSessionEventService>();
 builder.Services.AddScoped<IChatService, ChatService>();
 
 

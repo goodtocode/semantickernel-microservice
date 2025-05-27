@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Models;
@@ -8,6 +9,28 @@ public class ChatSessionsModel : Collection<ChatSessionModel>
     public event EventHandler<ChatSessionModel>? SessionIsActiveChanged;
 
     private bool _isHandlingPropertyChanged;
+
+    public void RefreshItem(ChatSessionModel item)
+    {
+        if (item.Id == Guid.Empty)
+        {
+            return;
+        }
+        var existingItem = this.FirstOrDefault(x => x.Id == item.Id);
+        var existingIndex = this.IndexOf(existingItem ?? new ChatSessionModel());
+        if (existingIndex >= 0)
+        {            
+            SetItem(existingIndex, item);
+            if (existingItem!.IsActive)
+            {
+                SetActive(existingIndex);
+            }
+        }
+        else
+        {            
+            Add(item);
+        }
+    }
 
     protected override void InsertItem(int index, ChatSessionModel item)
     {
@@ -88,7 +111,9 @@ public class ChatSessionsModel : Collection<ChatSessionModel>
     {
         if (!ReferenceEquals(session, ActiveSession))
         {
+            Unsubscribe(session);
             session.IsActive = true;
+            Subscribe(session);
         }
     }
 

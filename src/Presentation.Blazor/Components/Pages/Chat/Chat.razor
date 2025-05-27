@@ -10,19 +10,21 @@
 
 <PageTitle>Semantic Kernel Chat Session</PageTitle>
 
-<div class="row">
-    <div class="col-8 offset-4">
-        <PageH1>What can I help you with?</PageH1>
+<div class="container">
+    <div class="row">
+        <div class="col-8 offset-4">
+            <PageH1>What can I help you with?</PageH1>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-4">
-        <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
-    </div>
-    <div class="col-8">
-        <ChatMessages Messages="activeMessages" />
-        <ChatMessageInput Sessions="chatSessions" OnMessageSubmitted="HandleMessageSubmitted" />
+    <div class="row">
+        <div class="col-4">
+            <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
+        </div>
+        <div class="col-8">
+            <ChatMessages Messages="activeMessages" />
+            <ChatMessageInput Sessions="chatSessions" OnMessageSubmitted="HandleMessageSubmitted" />
+        </div>
     </div>
 </div>
 
@@ -30,33 +32,26 @@
     private ChatSessionsModel chatSessions = new ChatSessionsModel();
     private ICollection<ChatMessageModel>? activeMessages;
 
-    private async Task GetSessionsAsync()
-    {
-        chatSessions = new ChatSessionsModel();
-        chatSessions.AddRange(await chatService.GetChatSessionsAsync());
-        UpdateActiveMessages();
-        StateHasChanged();
-    }
 
     protected override async Task OnInitializedAsync()
     {
-        await GetSessionsAsync();
-        StateHasChanged();
+        chatSessions = new ChatSessionsModel();
+        chatSessions.AddRange(await chatService.GetChatSessionsAsync());
+        RefreshActiveMessages();
     }
 
     private async Task HandleMessageSubmitted()
     {
-        await GetSessionsAsync();
-        StateHasChanged();
+        chatSessions.RefreshItem(await chatService.GetChatSessionAsync(chatSessions?.ActiveSession?.Id ?? Guid.Empty));
+        RefreshActiveMessages();
     }
 
     private async Task HandleSessionSelected()
     {
-        await Task.Run(() => UpdateActiveMessages());
-        StateHasChanged();
+        await Task.Run(() => RefreshActiveMessages());
     }
 
-    private void UpdateActiveMessages()
+    private void RefreshActiveMessages()
     {
         activeMessages = chatSessions.ActiveSession?.Messages;
     }

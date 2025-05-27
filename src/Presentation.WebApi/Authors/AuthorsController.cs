@@ -111,6 +111,36 @@ public class AuthorController : ApiControllerBase
         return await Mediator.Send(query);
     }
 
+    /// <summary>Get All Author Chat Session Query</summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     "AuthorId": 60fb5e99-3a78-43df-a512-7d8ff498499e
+    ///     "ChatSessionId": 1efb5e99-3a78-43df-a512-7d8ff498499e
+    ///     "api-version":  1.0
+    /// 
+    /// </remarks>
+    /// <returns>
+    /// ChatSessionDto
+    ///     { Id: 1efb5e99-3a78-43df-a512-7d8ff498499e
+    ///     AuthorId: 4dfb5e99-3a78-43df-a512-7d8ff498499e
+    ///     Timestamp: "2024-06-03T11:21:00Z"
+    ///     Messages: [
+    ///         {
+    ///             "Id": 60fb5e99-3a78-43df-a512-7d8ff498499e,
+    ///             "Content": "Certainly! Semantic Kernel is a great framework for AI.",
+    ///         }
+    ///     }]
+    /// </returns>
+    [HttpGet("{id}/ChatSessions/{chatSessionId}", Name = "GetAuthorChatSessionQuery")]
+    [ProducesResponseType(typeof(ChatSessionDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ChatSessionDto> GetAuthorChatSessionQuery(Guid id, Guid chatSessionId)
+    {
+        return await Mediator.Send(new GetAuthorChatSessionQuery() { AuthorId = id, ChatSessionId = chatSessionId });
+    }
+
     /// <summary>
     /// Creates new Author session with empty history
     /// </summary>

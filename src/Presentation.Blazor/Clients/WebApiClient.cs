@@ -1171,6 +1171,133 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         }
 
         /// <summary>
+        /// Get All Author Chat Session Query
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// <br/>            
+        /// <br/>    "AuthorId": 60fb5e99-3a78-43df-a512-7d8ff498499e
+        /// <br/>    "ChatSessionId": 1efb5e99-3a78-43df-a512-7d8ff498499e
+        /// <br/>    "api-version":  1.0
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<ChatSessionDto> GetAuthorChatSessionQueryAsync(System.Guid id, System.Guid chatSessionId)
+        {
+            return GetAuthorChatSessionQueryAsync(id, chatSessionId, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get All Author Chat Session Query
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// <br/>            
+        /// <br/>    "AuthorId": 60fb5e99-3a78-43df-a512-7d8ff498499e
+        /// <br/>    "ChatSessionId": 1efb5e99-3a78-43df-a512-7d8ff498499e
+        /// <br/>    "api-version":  1.0
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<ChatSessionDto> GetAuthorChatSessionQueryAsync(System.Guid id, System.Guid chatSessionId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            if (chatSessionId == null)
+                throw new System.ArgumentNullException("chatSessionId");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "api/v1/Author/{id}/ChatSessions/{chatSessionId}"
+                    urlBuilder_.Append("api/v1/Author/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/ChatSessions/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(chatSessionId, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ChatSessionDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
+                        }
+                        else
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Creates new Author session with empty history
         /// </summary>
         /// <remarks>
@@ -4340,6 +4467,9 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         [System.Text.Json.Serialization.JsonPropertyName("AuthorId")]
         public System.Guid AuthorId { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("AuthorName")]
+        public string AuthorName { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("Title")]
         public string Title { get; set; }
 
@@ -4366,6 +4496,9 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
 
         [System.Text.Json.Serialization.JsonPropertyName("Id")]
         public System.Guid Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("AuthorId")]
+        public System.Guid AuthorId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("Prompt")]
         public string Prompt { get; set; }
