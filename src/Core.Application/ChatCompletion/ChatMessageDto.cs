@@ -7,7 +7,7 @@ public class ChatMessageDto : IMapFrom<ChatMessageEntity>
 {
     public Guid Id { get; set; } = Guid.Empty;
     public Guid ChatSessionId { get; set; } = Guid.Empty;
-    public ChatMessageRole Role { get; set; }
+    public string Role { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public DateTimeOffset Timestamp { get; set; }
 
