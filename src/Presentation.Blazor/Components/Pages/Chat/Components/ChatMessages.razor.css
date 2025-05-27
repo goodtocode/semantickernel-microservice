@@ -23,3 +23,7 @@
         margin-top: 0;
         margin-bottom: 0;
     }
+
+.user-role {
+    max-width: 75%;
+}

@@ -4337,7 +4337,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         public System.Guid ChatSessionId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("Role")]
-        public ChatMessageRole Role { get; set; }
+        public string Role { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("Content")]
         public string Content { get; set; }
@@ -4368,20 +4368,6 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
 
         [System.Text.Json.Serialization.JsonPropertyName("HasNextPage")]
         public bool HasNextPage { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum ChatMessageRole
-    {
-
-        _0 = 0,
-
-        _1 = 1,
-
-        _2 = 2,
-
-        _3 = 3,
 
     }
 
