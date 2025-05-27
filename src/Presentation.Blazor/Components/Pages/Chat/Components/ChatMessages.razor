@@ -18,7 +18,7 @@
         {
             var isUser = IsUserMessage(message);
             <div class="d-flex mb-2 @(isUser ? "justify-content-end" : "justify-content-start")">
-                <div class="message-item p-2 rounded @(isUser ? "user-role bg-secondary text-white" : "bg-light text-dark")">
+                <div class="message-item p-2 rounded @(isUser ? "user-role bg-primary-translucent text-white" : "bg-light text-dark")">
                     @message.Content
                 </div>
             </div>

@@ -20,7 +20,7 @@
     {
         foreach (var session in Sessions)
         {
-            <div class="session-item rounded-custom @(session.IsActive ? "bg-primary text-white" : "bg-light")"
+            <div class="session-item rounded-custom @(session.IsActive ? "bg-primary-translucent text-white" : "bg-light")"
                  @onclick="() => SelectSessionAsync(session)"
                  style="cursor: pointer;">
                 <p>@(string.IsNullOrWhiteSpace(session.Title) ? "(no title)" : session.Title)</p>
