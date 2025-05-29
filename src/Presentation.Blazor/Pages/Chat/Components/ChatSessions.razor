@@ -5,17 +5,32 @@
 
 @code
 {
-    [Parameter] public IEnumerable<ChatSessionModel> Sessions { get; set; } = new List<ChatSessionModel>();
-    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }    
+    [Parameter] public IEnumerable<ChatSessionModel>? Sessions { get; set; }
+    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }
 
     private async Task SelectSessionAsync(ChatSessionModel selectedSession)
-    {        
+    {
+        await DeactivateAllSessionsAsync();
         selectedSession.IsActive = true;
         await OnSessionSelected.InvokeAsync(selectedSession);
     }
+
+    private async Task DeactivateAllSessionsAsync()
+    {
+        if (Sessions != null)
+        {
+            foreach (var session in Sessions)
+            {
+                session.IsActive = false;
+            }
+        }
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
 }
 
-<div class="session-list">
+<button class="btn btn-primary" id="button-new" @onclick="() => DeactivateAllSessionsAsync()">New Chat</button>
+<div class="session-list">    
     @if (Sessions != null)
     {
         foreach (var session in Sessions)
@@ -23,7 +38,7 @@
             <div class="session-item rounded-custom @(session.IsActive ? "bg-primary-translucent text-white" : "bg-light")"
                  @onclick="() => SelectSessionAsync(session)"
                  style="cursor: pointer;">
-                <p>@(string.IsNullOrWhiteSpace(session.Title) ? "(no title)" : session.Title)</p>
+                <p>@(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)</p>
             </div>
         }
     }
