@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace Goodtocode.SemanticKernel.Presentation.Blazor.Models;
+namespace Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models;
 
 public class ChatSessionsModel : Collection<ChatSessionModel>
 {
@@ -17,7 +17,7 @@ public class ChatSessionsModel : Collection<ChatSessionModel>
             return;
         }
         var existingItem = this.FirstOrDefault(x => x.Id == item.Id);
-        var existingIndex = this.IndexOf(existingItem ?? new ChatSessionModel());
+        var existingIndex = IndexOf(existingItem ?? new ChatSessionModel());
         if (existingIndex >= 0)
         {            
             SetItem(existingIndex, item);

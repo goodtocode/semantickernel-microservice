@@ -1,7 +1,8 @@
-﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Models;
+﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 
-namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services;
+namespace Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services;
 
 public interface IChatService
 {    

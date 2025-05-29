@@ -1,6 +1,7 @@
 using Goodtocode.SemanticKernel.Presentation.Blazor;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Components;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

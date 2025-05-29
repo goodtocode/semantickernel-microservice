@@ -1,9 +1,9 @@
 ﻿@page "/chat"
-@rendermode InteractiveServer
 
-@using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Pages.Chat.Components
-@using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Shared
-@using Goodtocode.SemanticKernel.Presentation.Blazor.Models
+@using Microsoft.AspNetCore.Components.Web
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Components
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Services
 
 @inject IChatService chatService
@@ -13,7 +13,7 @@
 <div class="container">
     <div class="row">
         <div class="col-8 offset-4">
-            <PageH1>What can I help you with?</PageH1>
+            <h1 class="mt-2 mb-4">What can I help you with?</h1>
         </div>
     </div>
 
@@ -31,7 +31,6 @@
 @code {
     private ChatSessionsModel chatSessions = new ChatSessionsModel();
     private ICollection<ChatMessageModel>? activeMessages;
-
 
     protected override async Task OnInitializedAsync()
     {
