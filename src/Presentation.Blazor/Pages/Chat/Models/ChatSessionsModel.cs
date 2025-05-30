@@ -119,7 +119,7 @@ public class ChatSessionsModel : Collection<ChatSessionModel>
 
     public void SetActive(int index)
     {
-        if (index > 0 && index < Count)
+        if (index >= 0 && index < Count)
         {
             SetActive(this[index]);
         }        

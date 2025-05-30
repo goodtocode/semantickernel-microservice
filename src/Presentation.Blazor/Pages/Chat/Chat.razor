@@ -22,7 +22,7 @@
             <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
         </div>
         <div class="col-8">
-            <ChatMessages Messages="activeMessages" />
+            <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
             <ChatMessageInput Sessions="chatSessions" OnMessageSubmitted="HandleMessageSubmitted" />
         </div>
     </div>
@@ -30,28 +30,23 @@
 
 @code {
     private ChatSessionsModel chatSessions = new ChatSessionsModel();
-    private ICollection<ChatMessageModel>? activeMessages;
 
     protected override async Task OnInitializedAsync()
     {
         chatSessions = new ChatSessionsModel();
         chatSessions.AddRange(await chatService.GetChatSessionsAsync());
-        RefreshActiveMessages();
+        StateHasChanged();
     }
+
 
     private async Task HandleMessageSubmitted()
     {
         chatSessions.RefreshItem(await chatService.GetChatSessionAsync(chatSessions?.ActiveSession?.Id ?? Guid.Empty));
-        RefreshActiveMessages();
+        StateHasChanged();
     }
 
-    private async Task HandleSessionSelected()
+    private void HandleSessionSelected()
     {
-        await Task.Run(() => RefreshActiveMessages());
-    }
-
-    private void RefreshActiveMessages()
-    {
-        activeMessages = chatSessions.ActiveSession?.Messages;
+        var x = 1;
     }
 }

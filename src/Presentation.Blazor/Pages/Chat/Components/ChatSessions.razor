@@ -3,6 +3,8 @@
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities
 @using Microsoft.AspNetCore.Components.Web
 
+@* @rendermode InteractiveServer *@
+
 @code
 {
     [Parameter] public IEnumerable<ChatSessionModel>? Sessions { get; set; }
@@ -10,12 +12,13 @@
 
     private async Task SelectSessionAsync(ChatSessionModel selectedSession)
     {
-        await DeactivateAllSessionsAsync();
+        DeactivateAllSessions();
         selectedSession.IsActive = true;
         await OnSessionSelected.InvokeAsync(selectedSession);
+        StateHasChanged();
     }
 
-    private async Task DeactivateAllSessionsAsync()
+    private void DeactivateAllSessions()
     {
         if (Sessions != null)
         {
@@ -25,11 +28,10 @@
             }
         }
         StateHasChanged();
-        await Task.CompletedTask;
     }
 }
 
-<button class="btn btn-primary" id="button-new" @onclick="() => DeactivateAllSessionsAsync()">New Chat</button>
+<button class="btn btn-primary" id="button-new" @onclick="DeactivateAllSessions">New Chat</button>
 <div class="session-list">    
     @if (Sessions != null)
     {
