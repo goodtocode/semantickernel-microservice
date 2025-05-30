@@ -16,7 +16,7 @@
 
 <EditForm Model="messageModel" OnValidSubmit="SubmitMessage" FormName="ChatMessageSubmit">
     <div class="input-group mb-3">
-        <InputText @bind-Value="messageModel.NewMessage" class="form-control" placeholder="Type your message here..." aria-label="Type your message here..." aria-describedby="button-send" @onkeyup="HandleEnterKey" />
+        <InputText @bind-Value="messageModel.NewMessage" class="form-control" placeholder="Type your message here..." aria-label="Type your message here..." aria-describedby="button-send" />
         <button class="btn btn-primary" type="submit" id="button-send">Send</button>
     </div>
     <DataAnnotationsValidator />
@@ -68,17 +68,19 @@
                 await chatService.SendMessageAsync(Sessions.ActiveSession!, messageModel.NewMessage);
             }
             messageModel.NewMessage = string.Empty;
-            editContext = new EditContext(messageModel); ;
+            editContext = new EditContext(messageModel);
             await OnMessageSubmitted.InvokeAsync();
         }
     }
 
     private async Task HandleEnterKey(KeyboardEventArgs e)
     {
-        if (e.Key == "Enter" && editContext is not null && editContext.Validate())
+        if (e.Key == "Enter" && !e.ShiftKey)
         {
-            StateHasChanged(); // Need data-bound values
-            await SubmitMessage();
+            if (editContext is not null && editContext.Validate())
+            {
+                await SubmitMessage();
+            }
         }
     }
 }
