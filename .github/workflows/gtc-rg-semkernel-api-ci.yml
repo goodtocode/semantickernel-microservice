@@ -85,7 +85,7 @@ jobs:
         run: dotnet test ${{ env.SRC_PATH }}/${{ env.TEST_PATH }}/${{ env.TEST_PROJECT }} --logger "trx;LogFileName=TestResults-${{ matrix.DOTNET_VERSION }}/test_results.trx" --verbosity normal
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: dotnet-results-${{ matrix.DOTNET_VERSION }}
           path: TestResults-${{ matrix.DOTNET_VERSION }}
