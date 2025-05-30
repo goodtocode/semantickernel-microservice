@@ -42,7 +42,7 @@ public class GetTextImageQueryStepDefinitions : TestBase
                     "The background is white, which contrasts with the bright colors of the squares.",
                 1024,
                 1024,
-                new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]), DateTime.UtcNow);
+                new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]));
             context.TextImages.Add(textImage);
             await context.SaveChangesAsync(CancellationToken.None);
         }

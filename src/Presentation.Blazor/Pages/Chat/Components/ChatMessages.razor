@@ -1,0 +1,26 @@
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Services
+@using Microsoft.AspNetCore.Components.Web
+
+@code
+{
+    [Parameter] public IEnumerable<ChatMessageModel> Messages { get; set; } = new List<ChatMessageModel>();
+
+    private bool IsUserMessage(ChatMessageModel message) =>
+        message?.Role?.ToLowerInvariant() == "user";
+}
+
+<div class="message-list">
+    @if (Messages != null)
+    {
+        foreach (var message in Messages)
+        {
+            var isUser = IsUserMessage(message);
+            <div class="d-flex mb-2 @(isUser ? "justify-content-end" : "justify-content-start")">
+                <div class="message-item p-2 rounded @(isUser ? "user-role bg-primary-translucent text-white" : "bg-light text-dark")">
+                    @message.Content
+                </div>
+            </div>
+        }
+    }
+</div>

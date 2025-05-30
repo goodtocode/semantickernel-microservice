@@ -30,7 +30,7 @@ public class CreateTextToAudioCommandHandler(ITextToAudioService audioService, I
         var response = await _audioService.GetAudioContentAsync(text: request.Prompt, cancellationToken: cancellationToken);
 
         // Persist chat session
-        var textAudio = TextAudioEntity.Create(request.Id, request.AuthorId, request.Prompt, response.Data.GetValueOrDefault().ToArray(), response.Uri, DateTime.UtcNow);
+        var textAudio = TextAudioEntity.Create(request.Id, request.AuthorId, request.Prompt, response.Data.GetValueOrDefault().ToArray(), response.Uri);
         _context.TextAudio.Add(textAudio);
         await _context.SaveChangesAsync(cancellationToken);
 

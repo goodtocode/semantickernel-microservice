@@ -13,22 +13,17 @@ public class ChatSessionEntity : DomainEntity<ChatSessionEntity>
     public virtual ICollection<ChatMessageEntity> Messages { get; set; } = [];
     public virtual AuthorEntity? Author { get; set; }
 
-    public static ChatSessionEntity Create(Guid id, Guid authorId, string title, string initialMessage, ChatMessageRole responseRole, string responseMessage, DateTime timestamp)
+    public static ChatSessionEntity Create(Guid id, Guid authorId, string title, string initialMessage, ChatMessageRole responseRole, string responseMessage)
     {
         var session = new ChatSessionEntity
         {
             Id = id == Guid.Empty ? Guid.NewGuid() : id,
             AuthorId = authorId,
             Title = title,
-            Timestamp = timestamp
+            Timestamp = DateTime.UtcNow
         };
-        session.Messages.Add(ChatMessageEntity.Create(Guid.NewGuid(), session.Id, ChatMessageRole.user, initialMessage, timestamp));
-        session.Messages.Add(ChatMessageEntity.Create(Guid.NewGuid(), session.Id, responseRole, responseMessage, timestamp));
+        session.Messages.Add(ChatMessageEntity.Create(Guid.NewGuid(), session.Id, ChatMessageRole.user, initialMessage));
+        session.Messages.Add(ChatMessageEntity.Create(Guid.NewGuid(), session.Id, responseRole, responseMessage));
         return session;
-    }
-
-    public static ChatSessionEntity Create(Guid id, Guid authorId, string title, string initialMessage, ChatMessageRole responseRole, string responseMessage)
-    {
-        return ChatSessionEntity.Create(id, authorId, title, initialMessage, responseRole, responseMessage, DateTime.UtcNow);
     }
 }

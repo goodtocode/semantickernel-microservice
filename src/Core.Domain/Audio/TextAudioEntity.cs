@@ -22,17 +22,17 @@ public class TextAudioEntity : DomainEntity<TextAudioEntity>
     public Uri? AudioUrl { get; set; }
 
     public virtual AuthorEntity Author { get; set; } = default!;
-    public static TextAudioEntity Create(Guid id, Guid authorId, string description, ReadOnlyMemory<byte>? audioBytes, DateTime timestamp)
+    public static TextAudioEntity Create(Guid id, Guid authorId, string description, ReadOnlyMemory<byte>? audioBytes)
     {
-        return TextAudioEntity.Create(id, authorId, description, audioBytes, null, timestamp);
+        return TextAudioEntity.Create(id, authorId, description, audioBytes, null);
     }
 
-    public static TextAudioEntity Create(Guid id, Guid authorId, string description,Uri? audioUrl, DateTime timestamp)
+    public static TextAudioEntity Create(Guid id, Guid authorId, string description,Uri? audioUrl)
     {
-        return TextAudioEntity.Create(id, authorId, description, null, audioUrl, timestamp);
+        return TextAudioEntity.Create(id, authorId, description, null, audioUrl);
     }
 
-    public static TextAudioEntity Create(Guid id, Guid authorId, string description, ReadOnlyMemory<byte>? audioBytes, Uri? audioUrl, DateTime timestamp)
+    public static TextAudioEntity Create(Guid id, Guid authorId, string description, ReadOnlyMemory<byte>? audioBytes, Uri? audioUrl)
     {
         return new TextAudioEntity
         {
@@ -41,7 +41,7 @@ public class TextAudioEntity : DomainEntity<TextAudioEntity>
             Description = description,
             AudioBytes = audioBytes,
             AudioUrl = audioUrl,
-            Timestamp = timestamp
+            Timestamp = DateTime.UtcNow
         };
     }
 }

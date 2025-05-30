@@ -202,7 +202,7 @@ this.GetTextPromptPaginated("success no date range", "Success", "", "", "", "tru
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2034-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:textPromptsResultExists", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:pageNumber", "1")]
@@ -210,7 +210,7 @@ this.GetTextPromptPaginated("success no date range", "Success", "", "", "", "tru
         public void GetTextPromptPaginated_SuccessWithDateRange()
         {
 #line 7
-this.GetTextPromptPaginated("success with date range", "Success", "", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "true", "1", "10", ((string[])(null)));
+this.GetTextPromptPaginated("success with date range", "Success", "", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "true", "1", "10", ((string[])(null)));
 #line hidden
         }
         

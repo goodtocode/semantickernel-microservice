@@ -208,7 +208,7 @@ this.GetAuthorChatSessionsPaginated("success no date range", "Success", "", "038
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2034-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionsResultExists", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:pageNumber", "1")]
@@ -216,7 +216,7 @@ this.GetAuthorChatSessionsPaginated("success no date range", "Success", "", "038
         public void GetAuthorChatSessionsPaginated_SuccessWithDateRange()
         {
 #line 7
-this.GetAuthorChatSessionsPaginated("success with date range", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "true", "1", "10", ((string[])(null)));
+this.GetAuthorChatSessionsPaginated("success with date range", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "true", "1", "10", ((string[])(null)));
 #line hidden
         }
         

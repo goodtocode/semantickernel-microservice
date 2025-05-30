@@ -26,11 +26,18 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
         bool.TryParse(exists, out _exists).Should().BeTrue();
     }
 
+    [Given(@"text prompt within the date range exists ""([^""]*)""")]
+    public void GivenTextPromptsWithinTheDateRangeExists(string withinDateRangeExists)
+    {
+        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
+    }
+
     [Given(@"I have a start date ""([^""]*)""")]
     public void GivenIHaveAStartDate(string startDate)
     {
         if (string.IsNullOrWhiteSpace(startDate)) return;
         DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+        _startDate = DateTime.UtcNow.AddMinutes(_withinDateRangeExists ? -1 : 1); //Handle for desired not-found scenarios
     }
 
     [Given(@"I have a end date ""([^""]*)""")]
@@ -40,12 +47,6 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
         DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
     }
 
-    [Given(@"text prompt within the date range exists ""([^""]*)""")]
-    public void GivenTextPromptsWithinTheDateRangeExists(string withinDateRangeExists)
-    {
-        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
-    }
-
     [When(@"I get the text prompt")]
     public async Task WhenIGetTheTextPrompts()
     {
@@ -53,7 +54,7 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
         {            
             for (int i = 0; i < 2; i++)
             {
-                var textPrompt = TextPromptEntity.Create(Guid.NewGuid(), Guid.Empty, "Tell me a bedtime story", _withinDateRangeExists == false ? _startDate.AddMinutes(-1) : _startDate.AddMinutes(1));
+                var textPrompt = TextPromptEntity.Create(Guid.NewGuid(), Guid.Empty, "Tell me a bedtime story");
                 textPrompt.TextResponses =
                     [
                         TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time...")

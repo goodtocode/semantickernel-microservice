@@ -1,0 +1,52 @@
+﻿@page "/chat"
+
+@using Microsoft.AspNetCore.Components.Web
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Components
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Services
+
+@inject IChatService chatService
+
+<PageTitle>Semantic Kernel Chat Session</PageTitle>
+
+<div class="container">
+    <div class="row">
+        <div class="col-8 offset-4">
+            <h1 class="mt-2 mb-4">What can I help you with?</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
+        </div>
+        <div class="col-8">
+            <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
+            <ChatMessageInput Sessions="chatSessions" OnMessageSubmitted="HandleMessageSubmitted" />
+        </div>
+    </div>
+</div>
+
+@code {
+    private ChatSessionsModel chatSessions = new ChatSessionsModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        chatSessions = new ChatSessionsModel();
+        chatSessions.AddRange(await chatService.GetChatSessionsAsync());
+        StateHasChanged();
+    }
+
+
+    private async Task HandleMessageSubmitted()
+    {
+        chatSessions.RefreshItem(await chatService.GetChatSessionAsync(chatSessions?.ActiveSession?.Id ?? Guid.Empty));
+        StateHasChanged();
+    }
+
+    private void HandleSessionSelected()
+    {
+        var x = 1;
+    }
+}

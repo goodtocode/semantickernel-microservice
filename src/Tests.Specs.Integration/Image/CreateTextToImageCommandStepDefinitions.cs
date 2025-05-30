@@ -43,7 +43,7 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
         // Setup the database if want to test existing records
         if (_exists)
         {
-            var textImage = TextImageEntity.Create(Guid.NewGuid(), _prompt, 1024, 1024, new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]), DateTime.UtcNow);
+            var textImage = TextImageEntity.Create(Guid.NewGuid(), _prompt, 1024, 1024, new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]));
             context.TextImages.Add(textImage);
             await context.SaveChangesAsync(CancellationToken.None);
         }

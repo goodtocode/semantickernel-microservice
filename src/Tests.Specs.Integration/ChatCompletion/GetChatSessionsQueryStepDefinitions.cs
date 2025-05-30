@@ -25,11 +25,18 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
         bool.TryParse(exists, out _exists).Should().BeTrue();
     }
 
+    [Given(@"chat sessions within the date range exists ""([^""]*)""")]
+    public void GivenChatSessionsWithinTheDateRangeExists(string withinDateRangeExists)
+    {
+        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
+    }
+
     [Given(@"I have a start date ""([^""]*)""")]
     public void GivenIHaveAStartDate(string startDate)
     {
         if (string.IsNullOrWhiteSpace(startDate)) return;
         DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+        _startDate = DateTime.UtcNow.AddMinutes(_withinDateRangeExists ? -1 : 1); //Handle for desired not-found scenarios
     }
 
     [Given(@"I have a end date ""([^""]*)""")]
@@ -39,18 +46,12 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
         DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
     }
 
-    [Given(@"chat sessions within the date range exists ""([^""]*)""")]
-    public void GivenChatSessionsWithinTheDateRangeExists(string withinDateRangeExists)
-    {
-        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
-    }
-
     [When(@"I get the chat sessions")]
     public async Task WhenIGetTheChatSessions()
     {
         if (_exists)
         {
-            var chatSession = ChatSessionEntity.Create(Guid.NewGuid(), Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response", _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1));
+            var chatSession = ChatSessionEntity.Create(Guid.NewGuid(), Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }

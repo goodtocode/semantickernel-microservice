@@ -9,8 +9,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AspNetCore.SassCompiler" Version="1.89.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

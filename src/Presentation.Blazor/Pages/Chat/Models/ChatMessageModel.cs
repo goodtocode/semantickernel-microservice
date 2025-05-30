@@ -1,4 +1,4 @@
-﻿namespace Goodtocode.SemanticKernel.Presentation.Blazor.Models;
+﻿namespace Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models;
 
 public class ChatMessageModel
 {

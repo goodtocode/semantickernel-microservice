@@ -16,10 +16,10 @@ public class GetAuthorQueryHandler(ISemanticKernelContext context, IMapper mappe
 
     public async Task<AuthorDto> Handle(GetAuthorQuery request, CancellationToken cancellationToken)
     {
-        var Author = await _context.Authors.FindAsync([request.AuthorId, cancellationToken], cancellationToken: cancellationToken);
-        GuardAgainstNotFound(Author);
+        var author = await _context.Authors.FindAsync([request.AuthorId, cancellationToken], cancellationToken: cancellationToken);
+        GuardAgainstNotFound(author);
 
-        return _mapper.Map<AuthorDto>(Author);
+        return _mapper.Map<AuthorDto>(author);
     }
 
     private static void GuardAgainstNotFound(AuthorEntity? Author)

@@ -123,16 +123,16 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("Chat Sessions exist \"{0}\"", exist), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And(string.Format("I have a Author id \"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("chat sessions within the date range exists \"{0}\"", chatSessionsResultExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.And(string.Format("I have a start date \"{0}\"", startDate), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a Author id \"{0}\"", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.And(string.Format("I have a end date \"{0}\"", endDate), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a start date \"{0}\"", startDate), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 13
- testRunner.And(string.Format("chat sessions within the date range exists \"{0}\"", chatSessionsResultExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a end date \"{0}\"", endDate), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 14
  testRunner.When("I get the chat sessions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -189,13 +189,13 @@ this.GetAuthorChatSessions("success no date range", "Success", "", "038d8e7f-f18
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2034-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionsResultExists", "true")]
         public void GetAuthorChatSessions_SuccessWithDateRange()
         {
 #line 7
-this.GetAuthorChatSessions("success with date range", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "true", ((string[])(null)));
+this.GetAuthorChatSessions("success with date range", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "true", ((string[])(null)));
 #line hidden
         }
         
@@ -209,13 +209,13 @@ this.GetAuthorChatSessions("success with date range", "Success", "", "038d8e7f-f
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2034-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:chatSessionsResultExists", "false")]
         public void GetAuthorChatSessions_SuccessFilteredResults()
         {
 #line 7
-this.GetAuthorChatSessions("success filtered results", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "false", ((string[])(null)));
+this.GetAuthorChatSessions("success filtered results", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "false", ((string[])(null)));
 #line hidden
         }
         

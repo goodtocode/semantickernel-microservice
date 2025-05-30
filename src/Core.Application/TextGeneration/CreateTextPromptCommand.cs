@@ -28,7 +28,7 @@ public class CreateTextPromptCommandHandler(ITextGenerationService textService, 
         var responses = await _textService.GetTextContentsAsync(request.Prompt!, null, null, cancellationToken);
 
         // Persist chat session
-        var textPrompt = TextPromptEntity.Create(request.Id, Guid.NewGuid(), request.Prompt!, DateTime.UtcNow);
+        var textPrompt = TextPromptEntity.Create(request.Id, Guid.NewGuid(), request.Prompt!);
         foreach (var response in responses)
         {
             textPrompt.TextResponses.Add(TextResponseEntity.Create(Guid.NewGuid(), textPrompt.Id, response.ToString()));

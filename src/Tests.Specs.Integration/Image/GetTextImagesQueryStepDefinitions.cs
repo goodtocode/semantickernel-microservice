@@ -27,11 +27,18 @@ public class GetTextImagesQueryStepDefinitions : TestBase
         bool.TryParse(exists, out _exists).Should().BeTrue();
     }
 
+    [Given(@"text image within the date range exists ""([^""]*)""")]
+    public void GivenTextImagesWithinTheDateRangeExists(string withinDateRangeExists)
+    {
+        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
+    }
+
     [Given(@"I have a start date ""([^""]*)""")]
     public void GivenIHaveAStartDate(string startDate)
     {
         if (string.IsNullOrWhiteSpace(startDate)) return;
         DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+        _startDate = DateTime.UtcNow.AddMinutes(_withinDateRangeExists ? -1 : 1); //Handle for desired not-found scenarios
     }
 
     [Given(@"I have a end date ""([^""]*)""")]
@@ -41,12 +48,6 @@ public class GetTextImagesQueryStepDefinitions : TestBase
         DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
     }
 
-    [Given(@"text image within the date range exists ""([^""]*)""")]
-    public void GivenTextImagesWithinTheDateRangeExists(string withinDateRangeExists)
-    {
-        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
-    }
-
     [When(@"I get the text image")]
     public async Task WhenIGetTheTextImages()
     {
@@ -54,7 +55,7 @@ public class GetTextImagesQueryStepDefinitions : TestBase
         {            
             for (int i = 0; i < 2; i++)
             {
-                var textImage = TextImageEntity.Create(Guid.NewGuid(), "A circle", 1024, 1024, new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]), _withinDateRangeExists == false ? _startDate.AddMinutes(-1) : _startDate.AddMinutes(1));
+                var textImage = TextImageEntity.Create(Guid.NewGuid(), "A circle", 1024, 1024, new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]));
                 context.TextImages.Add(textImage);
             };
             await context.SaveChangesAsync(CancellationToken.None);

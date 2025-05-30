@@ -1,0 +1,46 @@
+﻿@page "/chattest"
+
+@using Microsoft.AspNetCore.Components.Web
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Components
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Services
+
+@inject IChatService chatService
+
+<PageTitle>Semantic Kernel Chat Session</PageTitle>
+
+<button class="btn btn-primary" id="button-new" @onclick="DeactivateAllSessions">New Chat</button>
+<div class="session-list">
+    @if (chatSessions != null)
+    {
+        foreach (var session in chatSessions)
+        {
+            <div class="session-item rounded-custom @(session.IsActive ? "text-white" : "bg-light")"
+                 @onclick="() => SelectSessionAsync(session)">
+                <p>@(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)</p>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private ChatSessionsModel chatSessions = new ChatSessionsModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        chatSessions = new ChatSessionsModel();
+        chatSessions.AddRange([new ChatSessionModel() { Title = "hi" }]);
+        StateHasChanged();
+    }
+
+    private async Task SelectSessionAsync(ChatSessionModel selectedSession)
+    {
+        StateHasChanged();
+    }
+
+    private void DeactivateAllSessions()
+    {
+        StateHasChanged();
+    }
+}

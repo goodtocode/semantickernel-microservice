@@ -1,11 +1,13 @@
-﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Models;
+﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 
-namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services;
+namespace Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services;
 
 public interface IChatService
 {    
     Task<List<ChatSessionModel>> GetChatSessionsAsync();
+    Task<ChatSessionModel> GetChatSessionAsync(Guid chatSessionId);
     Task CreateSessionAsync(ChatSessionModel newSession, string firstMessage);
     Task SendMessageAsync(ChatSessionModel session, string newMessage);
 }
@@ -31,9 +33,32 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
             {
                 Id = m.Id,
                 Content = m.Content,
+                Role = m.Role,
                 Timestamp = m.Timestamp
             })]
         })];
+    }
+
+    public async Task<ChatSessionModel> GetChatSessionAsync(Guid chatSessionId)
+    {
+        var userId = await _userService.GetUserIdAsync();
+        var response = await _client.GetAuthorChatSessionQueryAsync(userId, chatSessionId).ConfigureAwait(false);
+
+        return new ChatSessionModel
+        {
+            Id = response.Id,
+            Title = response.Title,
+            AuthorId = response.AuthorId,
+            Timestamp = response.Timestamp,
+            IsActive = false,
+            Messages = [.. response.Messages.Select(m => new ChatMessageModel
+            {
+                Id = m.Id,
+                Content = m.Content,
+                Role = m.Role,
+                Timestamp = m.Timestamp
+            })]
+        };
     }
 
     public async Task CreateSessionAsync(ChatSessionModel newSession, string firstMessage)

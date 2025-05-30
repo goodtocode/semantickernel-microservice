@@ -122,13 +122,13 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("Text Image exist \"{0}\"", exist), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And(string.Format("I have a start date \"{0}\"", startDate), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("text image within the date range exists \"{0}\"", textPromptsResultExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.And(string.Format("I have a end date \"{0}\"", endDate), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a start date \"{0}\"", startDate), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.And(string.Format("text image within the date range exists \"{0}\"", textPromptsResultExists), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I have a end date \"{0}\"", endDate), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 13
  testRunner.When("I get the text image", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -183,13 +183,13 @@ this.GetTextImages("success no date range", "Success", "", "", "", "true", "true
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2034-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:textPromptsResultExists", "true")]
         public void GetTextImages_SuccessWithDateRange()
         {
 #line 7
-this.GetTextImages("success with date range", "Success", "", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "true", ((string[])(null)));
+this.GetTextImages("success with date range", "Success", "", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "true", ((string[])(null)));
 #line hidden
         }
         
@@ -202,13 +202,13 @@ this.GetTextImages("success with date range", "Success", "", "2024-06-01T11:21:0
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:startDate", "2024-06-01T11:21:00Z")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2024-06-03T11:21:00Z")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:endDate", "2034-06-03T11:21:00Z")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:exist", "true")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:textPromptsResultExists", "false")]
         public void GetTextImages_SuccessFilteredResults()
         {
 #line 7
-this.GetTextImages("success filtered results", "Success", "", "2024-06-01T11:21:00Z", "2024-06-03T11:21:00Z", "true", "false", ((string[])(null)));
+this.GetTextImages("success filtered results", "Success", "", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "false", ((string[])(null)));
 #line hidden
         }
         

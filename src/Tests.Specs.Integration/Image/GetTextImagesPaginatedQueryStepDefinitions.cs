@@ -70,7 +70,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    var textImage = TextImageEntity.Create(Guid.NewGuid(), "A Circle", 1024, 1024, new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]), _startDate.AddMinutes(1));
+                    var textImage = TextImageEntity.Create(Guid.NewGuid(), "A Circle", 1024, 1024, new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]));
                     context.TextImages.Add(textImage);
                 };
                 await context.SaveChangesAsync(CancellationToken.None);

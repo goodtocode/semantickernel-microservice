@@ -1,29 +1,26 @@
 using Goodtocode.SemanticKernel.Presentation.Blazor;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Components;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
+    .AddInteractiveServerComponents();
+    //.AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddPresentationWebApiServices(builder.Configuration);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
 builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<ChatSessionEventService>();
 builder.Services.AddScoped<IChatService, ChatService>();
-
-
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseWebAssemblyDebugging();
+    //app.UseWebAssemblyDebugging();
 }
 else
 {
@@ -36,8 +33,8 @@ app.UseHttpsRedirection();
 app.UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode();;
+app.MapRazorComponents<App>()    
+    .AddInteractiveServerRenderMode();
+///AddInteractiveWebAssemblyRendermode()
 
 app.Run();

@@ -35,6 +35,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
         {
             if (string.IsNullOrWhiteSpace(startDate)) return;
             DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+            _startDate = _withinDateRangeExists ? _startDate : _startDate.AddMinutes(1); //Handle for desired not-found scenarios
         }
 
         [Given(@"I have a end date ""([^""]*)""")]
@@ -75,8 +76,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
                             "The blue square is placed at a 45-degree angle, positioned centrally below the two yellow squares, creating a symmetrical arrangement. " +
                             "Each square is connected by what appears to be black lines or sticks, suggesting they may represent nodes or elements in a network or structure. " +
                             "The background is white, which contrasts with the bright colors of the squares.",
-                        new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]),
-                        _startDate.AddSeconds(_withinDateRangeExists == true ? 1 : -1)
+                        new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04])
                     );
                     context.TextAudio.Add(textAudio);
                 };
