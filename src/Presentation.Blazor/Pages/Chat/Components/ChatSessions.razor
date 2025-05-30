@@ -1,9 +1,6 @@
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Services
-@using Goodtocode.SemanticKernel.Presentation.Blazor.Utilities
 @using Microsoft.AspNetCore.Components.Web
-
-@* @rendermode InteractiveServer *@
 
 @code
 {
@@ -38,8 +35,7 @@
         foreach (var session in Sessions)
         {
             <div class="session-item rounded-custom @(session.IsActive ? "bg-primary-translucent text-white" : "bg-light")"
-                 @onclick="() => SelectSessionAsync(session)"
-                 style="cursor: pointer;">
+                 @onclick="() => SelectSessionAsync(session)">
                 <p>@(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)</p>
             </div>
         }
