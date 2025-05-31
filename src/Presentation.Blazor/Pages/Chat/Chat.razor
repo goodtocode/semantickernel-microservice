@@ -19,7 +19,7 @@
 
     <div class="row">
         <div class="col-4">
-            <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
+            <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" OnNewSessionPressed="HandleNewSessionPressed" />
         </div>
         <div class="col-8">
             <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
@@ -45,8 +45,12 @@
         StateHasChanged();
     }
 
+    private void HandleNewSessionPressed()
+    {
+        StateHasChanged();
+    }
+
     private void HandleSessionSelected()
     {
-        var x = 1;
     }
 }
