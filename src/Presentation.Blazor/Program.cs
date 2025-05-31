@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-    //.AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddPresentationWebApiServices(builder.Configuration);
 
@@ -20,7 +19,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    //app.UseWebAssemblyDebugging();
+    app.UseDeveloperExceptionPage();
 }
 else
 {
@@ -35,6 +34,5 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()    
     .AddInteractiveServerRenderMode();
-///AddInteractiveWebAssemblyRendermode()
 
 app.Run();
