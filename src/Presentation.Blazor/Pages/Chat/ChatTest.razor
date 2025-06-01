@@ -17,7 +17,7 @@
         foreach (var session in chatSessions)
         {
             <div class="session-item rounded-custom @(session.IsActive ? "text-white" : "bg-light")"
-                 @onclick="() => SelectSessionAsync(session)">
+                 @onclick="() => SelectSession(session)">
                 <p>@(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)</p>
             </div>
         }
@@ -29,12 +29,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        chatSessions = new ChatSessionsModel();
-        chatSessions.AddRange([new ChatSessionModel() { Title = "hi" }]);
+        await Task.Run(() =>
+        {
+            chatSessions = new ChatSessionsModel();
+            chatSessions.AddRange([new ChatSessionModel() { Title = "hi" }]);
+        });
         StateHasChanged();
     }
 
-    private async Task SelectSessionAsync(ChatSessionModel selectedSession)
+    private void SelectSession(ChatSessionModel selectedSession)
     {
         StateHasChanged();
     }

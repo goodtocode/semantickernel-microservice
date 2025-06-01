@@ -35,7 +35,7 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
             .FirstOrDefaultAsync(x => x.Id == request.AuthorId, cancellationToken);
         if (author == null)
         {
-            author = AuthorEntity.Create(request.AuthorId, request.AuthorName ?? "Not supplied");
+            author = AuthorEntity.Create(request.AuthorId, request?.AuthorName);
             _context.Authors.Add(author);
         }
         var title = request.Title ?? $"{request.Message![..(request.Message!.Length >= 25 ? 25 : request.Message!.Length)]}";

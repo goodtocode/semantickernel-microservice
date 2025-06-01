@@ -67,7 +67,6 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
         {
             Id = newSession.Id,      
             AuthorId = newSession.AuthorId,
-            Title = newSession.Title,
             Message = firstMessage
         };
         await _client.CreateChatSessionCommandAsync(command).ConfigureAwait(false);

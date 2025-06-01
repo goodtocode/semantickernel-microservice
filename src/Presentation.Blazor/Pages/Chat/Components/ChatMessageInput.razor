@@ -55,7 +55,6 @@
                 var newSession = new ChatSessionModel
                     {
                         Id = Guid.NewGuid(),
-                        Title = "No Title",
                         AuthorId = await userService.GetUserIdAsync(),
                         Timestamp = DateTimeOffset.Now,
                         IsActive = true

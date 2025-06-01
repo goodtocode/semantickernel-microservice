@@ -9,11 +9,11 @@ public class ChatSessionEntity : DomainEntity<ChatSessionEntity>
     protected ChatSessionEntity() { }
 
     public Guid AuthorId { get; set; }
-    public string Title { get; set; } = string.Empty;
+    public string? Title { get; set; } = string.Empty;
     public virtual ICollection<ChatMessageEntity> Messages { get; set; } = [];
     public virtual AuthorEntity? Author { get; set; }
 
-    public static ChatSessionEntity Create(Guid id, Guid authorId, string title, string initialMessage, ChatMessageRole responseRole, string responseMessage)
+    public static ChatSessionEntity Create(Guid id, Guid authorId, string? title, string initialMessage, ChatMessageRole responseRole, string responseMessage)
     {
         var session = new ChatSessionEntity
         {
