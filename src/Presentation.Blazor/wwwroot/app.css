@@ -20,6 +20,11 @@ a {
     text-decoration: none;
 }
 
+a:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 .bg-primary-translucent {
     background-color: rgba(var(--bs-primary-rgb), 0.8) !important;
 }
