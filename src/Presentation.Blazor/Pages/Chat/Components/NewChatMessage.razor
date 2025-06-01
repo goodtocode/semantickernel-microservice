@@ -17,8 +17,18 @@
 <div class="message-input-panel shadow-lg">
     <EditForm Model="messageModel" OnValidSubmit="SubmitMessage" FormName="ChatMessageSubmit">
         <div class="input-group mb-3">
-            <InputText @bind-Value="messageModel.NewMessage" class="form-control" placeholder="Type your message here..." aria-label="Type your message here..." aria-describedby="button-send" />
-            <button class="btn btn-primary" type="submit" id="button-send">Send</button>
+            <InputText @bind-Value="messageModel.NewMessage" class="form-control" placeholder="Type your message here..." aria-label="Type your message here..." aria-describedby="button-send" disabled="@isSubmitting" />
+            <button class="btn btn-primary" type="submit" id="button-send" disabled="@isSubmitting">
+                @if (isSubmitting)
+                {
+                    <span class="spinner-border spinner-border-sm text-light me-2" role="status" aria-hidden="true"></span>
+                    <span>Sending...</span>
+                }
+                else
+                {
+                    <span>Send</span>
+                }
+            </button>
         </div>
         <DataAnnotationsValidator />
         <ValidationSummary />
@@ -35,6 +45,7 @@
 
     private ChatMessageInputModel messageModel { get; set; } = new();
     private EditContext? editContext;
+    private bool isSubmitting = false;
 
     protected override void OnInitialized()
     {
@@ -44,26 +55,36 @@
     private async Task SubmitMessage()
     {
         if (editContext is not null && editContext.Validate())
-        {            
-            var newMessageModel = new ChatMessageModel
+        {
+            isSubmitting = true;
+            StateHasChanged();
+            try
+            {
+                var newMessageModel = new ChatMessageModel
                 {
                     Id = Guid.NewGuid(),
                     Role = "User",
                     Content = messageModel.NewMessage,
                     Timestamp = DateTimeOffset.Now
                 };
-            if (Sessions.ActiveSession == null)
-            {
-                var chatSession = await chatService.CreateSessionAsync(messageModel.NewMessage);
-                await OnSessionCreated.InvokeAsync(chatSession);
+                if (Sessions.ActiveSession == null)
+                {
+                    var chatSession = await chatService.CreateSessionAsync(messageModel.NewMessage);
+                    await OnSessionCreated.InvokeAsync(chatSession);
+                }
+                else
+                {
+                    newMessageModel.ChatSessionId = Sessions.ActiveSession.Id;
+                    await chatService.SendMessageAsync(Sessions.ActiveSession!.Id, messageModel.NewMessage);
+                    await OnMessageSubmitted.InvokeAsync();
+                }
+                ClearForm();
             }
-            else
+            finally
             {
-                newMessageModel.ChatSessionId = Sessions.ActiveSession.Id;
-                await chatService.SendMessageAsync(Sessions.ActiveSession!.Id, messageModel.NewMessage);
-                await OnMessageSubmitted.InvokeAsync();
-            } 
-            ClearForm();
+                isSubmitting = false;
+                StateHasChanged();
+            }
         }
     }
 
