@@ -9,6 +9,7 @@ public interface IChatService
     Task<List<ChatSessionModel>> GetChatSessionsAsync();
     Task<ChatSessionModel> GetChatSessionAsync(Guid chatSessionId);
     Task<ChatSessionModel> CreateSessionAsync(string firstMessage);
+    Task RenameSessionAsync(Guid chatSessionId, string newTitle);
     Task<ChatMessageModel> SendMessageAsync(Guid chatSessionId, string newMessage);
 }
 
