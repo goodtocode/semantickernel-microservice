@@ -21,12 +21,12 @@
     }
 
     .nav-item ::deep a.active {
-        color: gray;
+        color: var(--gtc-primary-bg);
         text-decoration: none;        
     }
 
     .nav-item ::deep .nav-link:hover {
-        color: gray;
+        color: var(--gtc-primary-bg);
         text-decoration: none;
     }
 

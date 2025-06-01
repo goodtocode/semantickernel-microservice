@@ -1,3 +1,10 @@
+:root {
+    --gtc-primary-bg: #0078D4;
+    --gtc-primary-border: #0078D4;
+    --gtc-primary-bg-hover: #005A9E;
+    --gtc-primary-border-hover: #005A9E;
+}
+
 html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     height: 100%;
@@ -25,12 +32,12 @@ a {
     border-radius: 0.25rem;
 }
 
-.btn-primary {
-    background-color: #0078D4;
-    border-color: #0078D4;
+.gtc-primary {
+    background-color: var(--gtc-primary-bg);
+    border-color: var(--gtc-primary-border);
 }
 
-    .btn-primary:hover {
-        background-color: #005A9E;
-        border-color: #005A9E;
-    }
+.gtc-primary:hover {
+    background-color: var(--gtc-primary-bg-hover);
+    border-color: var(--gtc-primary-border-hover);
+}
