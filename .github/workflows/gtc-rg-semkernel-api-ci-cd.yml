@@ -1,12 +1,6 @@
 name: CI/CD Build, Test and Deploy
 
 on:
-  push:
-    branches:
-    - main
-    paths:
-    - .github/workflows/gtc-rg-semkernel-api-ci-cd.yml
-    - src/**
   workflow_dispatch:
     inputs:
       environment:
