@@ -2,6 +2,8 @@
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
 @using Microsoft.AspNetCore.Components.Web
 
+@inject IChatService chatService
+
 @code
 {
     [Parameter] public IEnumerable<ChatSessionModel>? Sessions { get; set; }
@@ -46,7 +48,7 @@
     {
         if (session != null)
         {
-            //chatService.RenameSession(session);
+            chatService.RenameSession(session);
         }
         await OnRenameSession.InvokeAsync(session);
         StateHasChanged();

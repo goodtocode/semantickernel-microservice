@@ -18,12 +18,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-4">
-                    <NewSession OnNewSessionPressed="HandleNewSessionPressed" />
+                    <NewChatSession OnNewSessionPressed="HandleNewSessionPressed" />
                     <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
                 </div>
                 <div class="col-8 d-flex flex-column chat-messages-panel">                    
                     <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
-                    <ChatMessageInput Sessions="chatSessions" OnSessionCreated="HandleSessionCreated" OnMessageSubmitted="HandleMessageSubmitted" />
+                    <NewChatMessage Sessions="chatSessions" OnSessionCreated="HandleSessionCreated" OnMessageSubmitted="HandleMessageSubmitted" />
                 </div>
             </div>
         </div>

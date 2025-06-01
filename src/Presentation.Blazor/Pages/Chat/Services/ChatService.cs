@@ -45,6 +45,11 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
         return ChatSessionModel.Create(response);
     }
 
+    public async Task RenameSessionAsync(Guid chatSessionId, string newTitle)
+    {
+        await _client.PatchChatSessionCommandAsync(chatSessionId, new PatchChatSessionCommand { Id = chatSessionId,  Title = newTitle }).ConfigureAwait(false);
+    }
+
     public async Task<ChatMessageModel> SendMessageAsync(Guid chatSessionId, string newMessage)
     {        
         var response = await _client.CreateChatMessageCommandAsync(new CreateChatMessageCommand { ChatSessionId = chatSessionId, Message = newMessage }).ConfigureAwait(false);
