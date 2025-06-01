@@ -44,8 +44,7 @@
     private async Task SubmitMessage()
     {
         if (editContext is not null && editContext.Validate())
-        {
-            ClearForm();
+        {            
             var newMessageModel = new ChatMessageModel
                 {
                     Id = Guid.NewGuid(),
@@ -63,18 +62,8 @@
                 newMessageModel.ChatSessionId = Sessions.ActiveSession.Id;
                 await chatService.SendMessageAsync(Sessions.ActiveSession!.Id, messageModel.NewMessage);
                 await OnMessageSubmitted.InvokeAsync();
-            }                        
-        }
-    }
-
-    private async Task HandleEnterKey(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter" && !e.ShiftKey)
-        {
-            if (editContext is not null && editContext.Validate())
-            {
-                await SubmitMessage();
-            }
+            } 
+            ClearForm();
         }
     }
 
