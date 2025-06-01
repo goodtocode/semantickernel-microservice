@@ -129,7 +129,7 @@ public class ChatMessageController : ApiControllerBase
     ///     }]
     /// </returns>
     [HttpPost(Name = "CreateChatMessageCommand")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType<ChatMessageDto>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Post(CreateChatMessageCommand command)

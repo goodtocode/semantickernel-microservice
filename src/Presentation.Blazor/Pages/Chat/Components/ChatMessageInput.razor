@@ -7,10 +7,10 @@
 @using Microsoft.AspNetCore.Components.Web
 
 @inject IChatService chatService
-@inject IUserService userService
 
 @code {
     [Parameter] public ChatSessionsModel Sessions { get; set; } = new ChatSessionsModel();
+    [Parameter] public EventCallback<ChatSessionModel> OnSessionCreated { get; set; }
     [Parameter] public EventCallback OnMessageSubmitted { get; set; }
 }
 
@@ -45,6 +45,7 @@
     {
         if (editContext is not null && editContext.Validate())
         {
+            ClearForm();
             var newMessageModel = new ChatMessageModel
                 {
                     Id = Guid.NewGuid(),
@@ -54,23 +55,15 @@
                 };
             if (Sessions.ActiveSession == null)
             {
-                var newSession = new ChatSessionModel
-                    {
-                        Id = Guid.NewGuid(),
-                        AuthorId = await userService.GetUserIdAsync(),
-                        Timestamp = DateTimeOffset.Now,
-                        IsActive = true
-                    };
-                await chatService.CreateSessionAsync(newSession, messageModel.NewMessage);
+                var chatSession = await chatService.CreateSessionAsync(messageModel.NewMessage);
+                await OnSessionCreated.InvokeAsync(chatSession);
             }
             else
             {
                 newMessageModel.ChatSessionId = Sessions.ActiveSession.Id;
-                await chatService.SendMessageAsync(Sessions.ActiveSession!, messageModel.NewMessage);
-            }
-            messageModel.NewMessage = string.Empty;
-            editContext = new EditContext(messageModel);
-            await OnMessageSubmitted.InvokeAsync();
+                await chatService.SendMessageAsync(Sessions.ActiveSession!.Id, messageModel.NewMessage);
+                await OnMessageSubmitted.InvokeAsync();
+            }                        
         }
     }
 
@@ -83,5 +76,11 @@
                 await SubmitMessage();
             }
         }
+    }
+
+    private void ClearForm()
+    {
+        messageModel.NewMessage = string.Empty;
+        editContext = new EditContext(messageModel);
     }
 }

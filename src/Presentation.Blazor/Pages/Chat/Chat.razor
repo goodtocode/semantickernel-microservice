@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-8 d-flex flex-column chat-messages-panel">                    
                     <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
-                    <ChatMessageInput Sessions="chatSessions" OnMessageSubmitted="HandleMessageSubmitted" />
+                    <ChatMessageInput Sessions="chatSessions" OnSessionCreated="HandleSessionCreated" OnMessageSubmitted="HandleMessageSubmitted" />
                 </div>
             </div>
         </div>
@@ -49,6 +49,11 @@
     private void HandleNewSessionPressed()
     {
         StateHasChanged();
+    }
+
+    private void HandleSessionCreated(ChatSessionModel chatSession)
+    {
+
     }
 
     private void HandleSessionSelected()
