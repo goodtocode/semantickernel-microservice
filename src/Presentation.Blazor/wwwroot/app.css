@@ -20,3 +20,17 @@ a {
 .bg-secondary-translucent {
     background-color: rgba(var(--bs-secondary-rgb), 0.8) !important;
 }
+
+.input-group .form-control {
+    border-radius: 0.25rem;
+}
+
+.btn-primary {
+    background-color: #0078D4;
+    border-color: #0078D4;
+}
+
+    .btn-primary:hover {
+        background-color: #005A9E;
+        border-color: #005A9E;
+    }
