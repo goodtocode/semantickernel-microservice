@@ -10,6 +10,18 @@
     background-color: var(--bs-light);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+    .message-list::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .message-list::-webkit-scrollbar-thumb {
+        background-color: var(--bs-primary);
+        border-radius: 4px;
+    }
+
+    .message-list::-webkit-scrollbar-track {
+        background-color: var(--bs-light);
+    }
 
 .message-item {
     display: flex;
