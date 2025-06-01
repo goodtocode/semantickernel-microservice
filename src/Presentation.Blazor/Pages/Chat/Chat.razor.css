@@ -11,3 +11,18 @@
         background-color: #005A9E;
         border-color: #005A9E;
     }
+
+
+
+/*.container-fluid, .row, .chat-main-panel {
+    height: 100%;
+    min-height: 100vh;
+}
+*/
+
+.chat-messages-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 0;
+}

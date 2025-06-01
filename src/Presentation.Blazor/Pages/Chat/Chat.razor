@@ -15,15 +15,16 @@
         <div class="col-8 offset-4">
             <h1 class="mt-2 mb-4">What can I help you with?</h1>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-4">
-            <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" OnNewSessionPressed="HandleNewSessionPressed" />
-        </div>
-        <div class="col-8">
-            <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
-            <ChatMessageInput Sessions="chatSessions" OnMessageSubmitted="HandleMessageSubmitted" />
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                    <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" OnNewSessionPressed="HandleNewSessionPressed" />
+                </div>
+                <div class="col-8 d-flex flex-column chat-messages-panel">                    
+                    <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
+                    <ChatMessageInput Sessions="chatSessions" OnMessageSubmitted="HandleMessageSubmitted" />
+                </div>
+            </div>
         </div>
     </div>
 </div>
