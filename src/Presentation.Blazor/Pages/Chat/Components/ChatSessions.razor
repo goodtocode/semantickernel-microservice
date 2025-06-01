@@ -31,12 +31,12 @@
 }
 
 <button class="btn btn-primary" id="button-new" @onclick="() => NewSessionAsync()">New Chat</button>
-<div class="session-list">    
+<div class="session-list mt-3">    
     @if (Sessions?.Count() > 0)
     {
         foreach (var session in Sessions)
         {
-            <div class="session-item rounded-custom @(session.IsActive ? "bg-primary-translucent text-white" : "bg-light")"
+            <div class="session-item mt-1 rounded-custom @(session.IsActive ? "bg-primary-translucent text-white" : "bg-white")"
             @onclick="() => SelectSessionAsync(session)">
                 <p>@(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)</p>
             </div>
