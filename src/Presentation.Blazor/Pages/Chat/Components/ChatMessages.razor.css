@@ -15,7 +15,7 @@
     }
 
     .message-list::-webkit-scrollbar-thumb {
-        background-color: var(--bs-primary);
+        background-color: var(--bs-secondary);
         border-radius: 4px;
     }
 
