@@ -18,7 +18,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-4">
-                    <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" OnNewSessionPressed="HandleNewSessionPressed" />
+                    <NewSession OnNewSessionPressed="HandleNewSessionPressed" />
+                    <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
                 </div>
                 <div class="col-8 d-flex flex-column chat-messages-panel">                    
                     <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
@@ -39,24 +40,29 @@
         StateHasChanged();
     }
 
-
-    private async Task HandleMessageSubmitted()
-    {
-        chatSessions.RefreshItem(await chatService.GetChatSessionAsync(chatSessions?.ActiveSession?.Id ?? Guid.Empty));
-        StateHasChanged();
-    }
-
     private void HandleNewSessionPressed()
     {
+        chatSessions.ClearActive();
         StateHasChanged();
     }
 
     private void HandleSessionCreated(ChatSessionModel chatSession)
     {
-
+        chatSessions.Add(chatSession);
+        chatSessions.SetActive(chatSession);
+        StateHasChanged();
     }
 
-    private void HandleSessionSelected()
+    private void HandleSessionSelected(ChatSessionModel chatSession)
     {
+        chatSessions.ClearActive();
+        chatSessions.SetActive(chatSession);
+        StateHasChanged();
+    }
+
+    private async Task HandleMessageSubmitted()
+    {
+        chatSessions.RefreshItem(await chatService.GetChatSessionAsync(chatSessions?.ActiveSession?.Id ?? Guid.Empty));
+        StateHasChanged();
     }
 }

@@ -1,44 +1,29 @@
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Skeleton
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
-@using Goodtocode.SemanticKernel.Presentation.Blazor.Services
 @using Microsoft.AspNetCore.Components.Web
 
 @code
 {
     [Parameter] public IEnumerable<ChatSessionModel>? Sessions { get; set; }
-    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }
-    [Parameter] public EventCallback OnNewSessionPressed { get; set; }
+    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }    
+    [Parameter] public EventCallback<ChatSessionModel> OnRenameSession { get; set; }
 
-    private async Task SelectSessionAsync(ChatSessionModel selectedSession)
-    {
-        selectedSession.IsActive = true;
-        await OnSessionSelected.InvokeAsync(selectedSession);
-        StateHasChanged();
-    }
-
-    private async Task NewSessionAsync()
-    {
-        if (Sessions != null)
-        {
-            foreach (var session in Sessions)
-            {
-                session.IsActive = false;
-            }
-        }
-        StateHasChanged();
-        await OnNewSessionPressed.InvokeAsync();
-    }
 }
 
-<button class="btn btn-primary" id="button-new" @onclick="() => NewSessionAsync()">New Chat</button>
-<div class="session-list mt-3">    
+<div class="session-list mt-3">
     @if (Sessions?.Count() > 0)
     {
         foreach (var session in Sessions)
         {
-            <div class="session-item mt-1 rounded-custom @(session.IsActive ? "bg-primary-translucent text-white" : "bg-white")"
+            <div class="session-item mt-1 rounded-custom d-flex align-items-center justify-content-between @(session.IsSelected ? "bg-primary-translucent text-white" : "bg-white")"
             @onclick="() => SelectSessionAsync(session)">
-                <p>@(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)</p>
+                <p class="mb-0 flex-grow-1">
+                    @(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)
+                </p>
+                <button class="btn btn-link btn-sm p-0 ms-2" style="color: inherit; text-decoration: none;" title="More actions"
+                @onclick="@(() => RenameSessionAsync(session))">
+                    <span style="font-size: 1.5rem; line-height: 1;">&#x22EF;</span>
+                </button>
             </div>
         }
     }
@@ -47,3 +32,23 @@
         <SkeletonList />
     }
 </div>
+
+@code
+{
+    private async Task SelectSessionAsync(ChatSessionModel selectedSession)
+    {
+        selectedSession.IsSelected = true;
+        await OnSessionSelected.InvokeAsync(selectedSession);
+        StateHasChanged();
+    }
+
+    private async Task RenameSessionAsync(ChatSessionModel session)
+    {
+        if (session != null)
+        {
+            //chatService.RenameSession(session);
+        }
+        await OnRenameSession.InvokeAsync(session);
+        StateHasChanged();
+    }
+}
