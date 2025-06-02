@@ -86,15 +86,11 @@ jobs:
 
       - name: Test
         run: |
-          dotnet test ${{ env.SRC_PATH }}/${{ env.TEST_PATH }}/${{ env.TEST_PROJECT }} --logger "trx;LogFileName=TestResults-${{ matrix.DOTNET_VERSION }}/test_results.trx" --verbosity normal
+          mkdir -p TestResults-${{ matrix.DOTNET_VERSION }}
+          dotnet test ${{ env.SRC_PATH }}/${{ env.TEST_PATH }}/${{ env.TEST_PROJECT }} --logger "trx;LogFileName=test_results.trx" --results-directory TestResults-${{ matrix.DOTNET_VERSION }} --verbosity normal
         shell: pwsh
 
-      - name: Publish
-        run: |
-          dotnet publish ${{ env.SRC_PATH }}/${{ env.API_PATH }}/${{ env.API_PROJECT }} --configuration Release -o ${{ env.AZURE_WEBAPP_NAME }} 
-        shell: pwsh
-
-      - name: dotnet test results
+      - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
           name: dotnet-results-${{ matrix.DOTNET_VERSION }}
@@ -114,7 +110,7 @@ jobs:
     environment: development    
     strategy:
       matrix:
-        DOTNET_VERSION: ['9.0.x']
+        DOTNET_VERSION: ['9.x']
 
     env:      
       AZURE_WEBAPP_NAME: api-semkernel-dev-001
@@ -141,7 +137,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: dotnet version ${{ matrix.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.DOTNET_VERSION }}
 
