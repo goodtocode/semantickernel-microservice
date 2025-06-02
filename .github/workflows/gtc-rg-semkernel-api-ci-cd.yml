@@ -25,7 +25,7 @@ jobs:
   ci:
     name: 'CI Build, Test, Code QL, Publish'
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
     environment: development    
     strategy:
       matrix:
