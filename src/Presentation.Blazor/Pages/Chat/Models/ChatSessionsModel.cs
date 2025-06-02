@@ -6,9 +6,11 @@ namespace Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models;
 
 public class ChatSessionsModel : Collection<ChatSessionModel>
 {
-    public event EventHandler<ChatSessionModel>? SessionIsActiveChanged;
-
     private bool _isHandlingPropertyChanged;
+
+    public event EventHandler<ChatSessionModel>? SessionIsActiveChanged;
+    public ChatSessionModel? ActiveSession => this.FirstOrDefault(x => x.IsSelected);
+
 
     public void RefreshItem(ChatSessionModel item)
     {
@@ -19,15 +21,15 @@ public class ChatSessionsModel : Collection<ChatSessionModel>
         var existingItem = this.FirstOrDefault(x => x.Id == item.Id);
         var existingIndex = IndexOf(existingItem ?? new ChatSessionModel());
         if (existingIndex >= 0)
-        {            
+        {
             SetItem(existingIndex, item);
-            if (existingItem!.IsActive)
+            if (existingItem!.IsSelected)
             {
                 SetActive(existingIndex);
             }
         }
         else
-        {            
+        {
             Add(item);
         }
     }
@@ -83,18 +85,18 @@ public class ChatSessionsModel : Collection<ChatSessionModel>
     {
         if (_isHandlingPropertyChanged) return;
 
-        if (e.PropertyName == nameof(ChatSessionModel.IsActive) && sender is ChatSessionModel session)
+        if (e.PropertyName == nameof(ChatSessionModel.IsSelected) && sender is ChatSessionModel session)
         {
             _isHandlingPropertyChanged = true;
             try
             {
-                if (session.IsActive)
+                if (session.IsSelected)
                 {
                     foreach (var s in this)
                     {
-                        if (!ReferenceEquals(s, session) && s.IsActive)
+                        if (!ReferenceEquals(s, session) && s.IsSelected)
                         {
-                            s.IsActive = false;
+                            s.IsSelected = false;
                         }
                     }
                 }
@@ -112,7 +114,7 @@ public class ChatSessionsModel : Collection<ChatSessionModel>
         if (!ReferenceEquals(session, ActiveSession))
         {
             Unsubscribe(session);
-            session.IsActive = true;
+            session.IsSelected = true;
             Subscribe(session);
         }
     }
@@ -122,8 +124,15 @@ public class ChatSessionsModel : Collection<ChatSessionModel>
         if (index >= 0 && index < Count)
         {
             SetActive(this[index]);
-        }        
+        }
     }
 
-    public ChatSessionModel? ActiveSession => this.FirstOrDefault(x => x.IsActive);
+    public void ClearActive()
+    {
+        if (ActiveSession != null)
+        {
+            Unsubscribe(ActiveSession);
+            ActiveSession.IsSelected = false;
+        }
+    }
 }

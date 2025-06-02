@@ -10,13 +10,13 @@ public class AuthorEntity : DomainEntity<AuthorEntity>
 {
     protected AuthorEntity() { }
     
-    public string Name { get; set; } = string.Empty;
+    public string? Name { get; set; } = string.Empty;
 
     public virtual ICollection<ChatSessionEntity> ChatSessions { get; private set; } = [];
     public virtual ICollection<TextPromptEntity> TextPrompts { get; private set; } = [];
     public virtual ICollection<TextImageEntity> TextImages { get; private set; } = [];
     public virtual ICollection<TextAudioEntity> TextAudio { get; private set; } = [];
-    public static AuthorEntity Create(Guid id, string name)
+    public static AuthorEntity Create(Guid id, string? name)
     {
         return new AuthorEntity
         {

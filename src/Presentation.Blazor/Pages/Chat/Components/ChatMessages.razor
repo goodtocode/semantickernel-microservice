@@ -1,26 +1,59 @@
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Services
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
 
-@code
-{
+@inject IJSRuntime JSRuntime
+
+@code {
     [Parameter] public IEnumerable<ChatMessageModel> Messages { get; set; } = new List<ChatMessageModel>();
 
     private bool IsUserMessage(ChatMessageModel message) =>
         message?.Role?.ToLowerInvariant() == "user";
-}
 
-<div class="message-list">
-    @if (Messages != null)
+    private ElementReference lastMessageRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        foreach (var message in Messages)
+        if (Messages?.Any() == true)
         {
-            var isUser = IsUserMessage(message);
-            <div class="d-flex mb-2 @(isUser ? "justify-content-end" : "justify-content-start")">
-                <div class="message-item p-2 rounded @(isUser ? "user-role bg-primary-translucent text-white" : "bg-light text-dark")">
-                    @message.Content
-                </div>
-            </div>
+            await JSRuntime.InvokeVoidAsync("scrollToLastMessage", lastMessageRef);
         }
     }
+}
+
+<div class="flex-grow-1 overflow-auto messages-panel">
+    <div class="message-list">
+        @if (Messages != null)
+        {
+            var lastMessage = Messages.LastOrDefault();
+            foreach (var message in Messages)
+            {
+                var isUser = IsUserMessage(message);
+                <div class="d-flex mb-2 @(isUser ? "justify-content-end" : "justify-content-start")">
+                    @if (message == lastMessage)
+                    {
+                        <div class="message-item p-2 rounded @(isUser ? "user-role bg-primary-translucent text-white" : "bg-light text-dark")" @ref="lastMessageRef">
+                            @message.Content
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="message-item p-2 rounded @(isUser ? "user-role bg-primary-translucent text-white" : "bg-light text-dark")">
+                            @message.Content
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
 </div>
+
+
+<script>
+    window.scrollToLastMessage = (element) => {
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+</script>

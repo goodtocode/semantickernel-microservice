@@ -1,28 +1,82 @@
-﻿<div class="container-fluid">    
-    @* <a class="navbar-brand" href="https://github.com/goodtocode"><img src="img/goodtocode-logo.png" alt="GoodToCode" /></a> *@
-    <nav class="nav flex-row">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
+﻿@using Microsoft.AspNetCore.Components.Web
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-md navbar-light bg-light" @onclick:stopPropagation style="position: relative;">
+        <a class="navbar-brand d-none d-md-block ms-3 me-3" href="https://www.goodtocode.com" target="_blank" rel="noopener noreferrer">
+            <img src="img/goodtocode-logo.png" alt="GoodToCode Logo" style="height:40px;" />
+        </a>
+        <button class="navbar-toggler d-md-none" type="button" @onclick="ToggleNavMenu" aria-controls="navbarNav" aria-expanded="@navMenuOpened" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-none d-md-flex" id="navbarNav">
+            <ul class="navbar-nav ms-auto flex-row w-100 justify-content-end">
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="chat">
+                        <span class="bi bi-chat-dots-fill-nav-menu" aria-hidden="true"></span> Chat Session
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="counter">
+                        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="weather">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+                    </NavLink>
+                </li>
+            </ul>
         </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="chat">
-                <span class="bi bi-chat-dots-fill-nav-menu" aria-hidden="true"></span> Chat Session
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
+        <div class="mobile-nav d-md-none @(navMenuOpened ? "show" : "")">
+            <ul class="navbar-nav flex-column w-100">
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All" @onclick="CloseNavMenu">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="chat" @onclick="CloseNavMenu">
+                        <span class="bi bi-chat-dots-fill-nav-menu" aria-hidden="true"></span> Chat Session
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="counter" @onclick="CloseNavMenu">
+                        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="weather" @onclick="CloseNavMenu">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+                    </NavLink>
+                </li>
+            </ul>
+            <div class="w-100 d-flex justify-content-center align-items-end m-4 mb-2">
+                <a href="https://www.goodtocode.com" target="_blank" rel="noopener noreferrer">
+                    <img src="img/goodtocode-logo.png" alt="GoodToCode Logo" style="height:40px;" />
+                </a>
+            </div>
         </div>
     </nav>
+    @if (navMenuOpened)
+    {
+        <div class="nav-backdrop" @onclick="CloseNavMenu"></div>
+    }
 </div>
+
+@code {
+    private bool navMenuOpened = false;
+
+    private void ToggleNavMenu()
+    {
+        navMenuOpened = !navMenuOpened;
+    }
+
+    private void CloseNavMenu()
+    {
+        navMenuOpened = false;
+    }
+}

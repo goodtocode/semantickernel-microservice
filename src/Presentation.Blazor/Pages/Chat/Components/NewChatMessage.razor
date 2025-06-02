@@ -1,0 +1,96 @@
+@using System.ComponentModel.DataAnnotations
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Services
+@using Goodtocode.SemanticKernel.Presentation.WebApi.Client
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+
+@inject IChatService chatService
+
+@code {
+    [Parameter] public ChatSessionsModel Sessions { get; set; } = new ChatSessionsModel();
+    [Parameter] public EventCallback<ChatSessionModel> OnSessionCreated { get; set; }
+    [Parameter] public EventCallback OnMessageSubmitted { get; set; }
+}
+
+<div class="message-input-panel shadow-lg">
+    <EditForm Model="messageModel" OnValidSubmit="SubmitMessage" FormName="ChatMessageSubmit">
+        <div class="input-group mb-3">
+            <InputText @bind-Value="messageModel.NewMessage" class="form-control" placeholder="Type your message here..." aria-label="Type your message here..." aria-describedby="button-send" disabled="@isSubmitting" />
+            <button class="btn btn-primary" type="submit" id="button-send" disabled="@isSubmitting">
+                @if (isSubmitting)
+                {
+                    <span class="spinner-border spinner-border-sm text-light me-2" role="status" aria-hidden="true"></span>
+                    <span>Sending...</span>
+                }
+                else
+                {
+                    <span>Send</span>
+                }
+            </button>
+        </div>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+    </EditForm>
+</div>
+
+@code
+{
+    public class ChatMessageInputModel
+    {
+        [Required(ErrorMessage = "Message is required.")]
+        public string NewMessage { get; set; } = string.Empty;
+    }
+
+    private ChatMessageInputModel messageModel { get; set; } = new();
+    private EditContext? editContext;
+    private bool isSubmitting = false;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(messageModel);
+    }
+
+    private async Task SubmitMessage()
+    {
+        if (editContext is not null && editContext.Validate())
+        {
+            isSubmitting = true;
+            StateHasChanged();
+            try
+            {
+                var newMessageModel = new ChatMessageModel
+                {
+                    Id = Guid.NewGuid(),
+                    Role = "User",
+                    Content = messageModel.NewMessage,
+                    Timestamp = DateTimeOffset.Now
+                };
+                if (Sessions.ActiveSession == null)
+                {
+                    var chatSession = await chatService.CreateSessionAsync(messageModel.NewMessage);
+                    await OnSessionCreated.InvokeAsync(chatSession);
+                }
+                else
+                {
+                    newMessageModel.ChatSessionId = Sessions.ActiveSession.Id;
+                    await chatService.SendMessageAsync(Sessions.ActiveSession!.Id, messageModel.NewMessage);
+                    await OnMessageSubmitted.InvokeAsync();
+                }
+                ClearForm();
+            }
+            finally
+            {
+                isSubmitting = false;
+                StateHasChanged();
+            }
+        }
+    }
+
+    private void ClearForm()
+    {
+        messageModel.NewMessage = string.Empty;
+        editContext = new EditContext(messageModel);
+    }
+}

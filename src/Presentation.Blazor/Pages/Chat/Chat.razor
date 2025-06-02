@@ -15,15 +15,17 @@
         <div class="col-8 offset-4">
             <h1 class="mt-2 mb-4">What can I help you with?</h1>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-4">
-            <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
-        </div>
-        <div class="col-8">
-            <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
-            <ChatMessageInput Sessions="chatSessions" OnMessageSubmitted="HandleMessageSubmitted" />
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                    <NewChatSession OnNewSessionPressed="HandleNewSessionPressed" />
+                    <ChatSessions Sessions="chatSessions" OnSessionSelected="HandleSessionSelected" />
+                </div>
+                <div class="col-8 d-flex flex-column chat-messages-panel">                    
+                    <ChatMessages Messages="chatSessions.ActiveSession?.Messages" />
+                    <NewChatMessage Sessions="chatSessions" OnSessionCreated="HandleSessionCreated" OnMessageSubmitted="HandleMessageSubmitted" />
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -38,15 +40,29 @@
         StateHasChanged();
     }
 
+    private void HandleNewSessionPressed()
+    {
+        chatSessions.ClearActive();
+        StateHasChanged();
+    }
+
+    private void HandleSessionCreated(ChatSessionModel chatSession)
+    {
+        chatSessions.Add(chatSession);
+        chatSessions.SetActive(chatSession);
+        StateHasChanged();
+    }
+
+    private void HandleSessionSelected(ChatSessionModel chatSession)
+    {
+        chatSessions.ClearActive();
+        chatSessions.SetActive(chatSession);
+        StateHasChanged();
+    }
 
     private async Task HandleMessageSubmitted()
     {
         chatSessions.RefreshItem(await chatService.GetChatSessionAsync(chatSessions?.ActiveSession?.Id ?? Guid.Empty));
         StateHasChanged();
-    }
-
-    private void HandleSessionSelected()
-    {
-        var x = 1;
     }
 }

@@ -1,0 +1,14 @@
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
+@using Microsoft.AspNetCore.Components.Web
+
+@code
+{
+    [Parameter] public EventCallback OnNewSessionPressed { get; set; }
+
+    private async Task NewSessionAsync()
+    {
+        await OnNewSessionPressed.InvokeAsync();
+    }
+}
+
+<button class="btn btn-primary" id="button-new" @onclick="() => NewSessionAsync()">New Chat</button>

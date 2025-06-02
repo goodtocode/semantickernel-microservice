@@ -147,7 +147,7 @@ public class TextGenerationController : ApiControllerBase
     ///     }]
     /// </returns>
     [HttpPost(Name = "CreateTextPromptCommand")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType<TextPromptDto>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Post(CreateTextPromptCommand command)

@@ -34,12 +34,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.1" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.5" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
 		<PackageReference Include="FluentAssertions" Version="8.0.0" />
 		<PackageReference Include="Moq" Version="4.20.72" />
-		<PackageReference Include="MSTest.TestAdapter" Version="3.7.1" />
-		<PackageReference Include="MSTest.TestFramework" Version="3.7.1" />
+		<PackageReference Include="MSTest.TestAdapter" Version="3.9.1" />
+		<PackageReference Include="MSTest.TestFramework" Version="3.9.1" />
 		<PackageReference Include="SpecFlow.MsTest" Version="3.9.74" />
 		<PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
 	</ItemGroup>

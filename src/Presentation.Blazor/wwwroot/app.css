@@ -1,9 +1,28 @@
+:root {
+    --gtc-primary-bg: #0078D4;
+    --gtc-primary-border: #0078D4;
+    --gtc-primary-bg-hover: #005A9E;
+    --gtc-primary-border-hover: #005A9E;
+}
+
 html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
+    min-height: 100vh;
+}
+
+h1:focus {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 a {
     text-decoration: none;
+}
+
+a:focus {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .bg-primary-translucent {
@@ -12,4 +31,18 @@ a {
 
 .bg-secondary-translucent {
     background-color: rgba(var(--bs-secondary-rgb), 0.8) !important;
+}
+
+.input-group .form-control {
+    border-radius: 0.25rem;
+}
+
+.gtc-primary {
+    background-color: var(--gtc-primary-bg);
+    border-color: var(--gtc-primary-border);
+}
+
+.gtc-primary:hover {
+    background-color: var(--gtc-primary-bg-hover);
+    border-color: var(--gtc-primary-border-hover);
 }

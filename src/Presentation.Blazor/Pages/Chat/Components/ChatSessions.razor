@@ -1,43 +1,107 @@
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Skeleton
 @using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
-@using Goodtocode.SemanticKernel.Presentation.Blazor.Services
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services
 @using Microsoft.AspNetCore.Components.Web
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+
+@inject IChatService chatService
 
 @code
 {
     [Parameter] public IEnumerable<ChatSessionModel>? Sessions { get; set; }
-    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }
+    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }    
+    [Parameter] public EventCallback<ChatSessionModel> OnRenameSession { get; set; }
+
+    private Guid? editingSessionId;
+    private EditSessionModel editModel = new();
+    private EditContext? editContext;
+    private string? validationError;
+
+    private void StartEditing(ChatSessionModel session)
+    {
+        editingSessionId = session.Id;
+        editModel = new EditSessionModel { Title = session.Title };
+        editContext = new EditContext(editModel);
+        validationError = null;
+    }
+
+    private async Task EditSessionTitleAsync(ChatSessionModel session)
+    {
+        if (editContext is null)
+            return;
+
+        validationError = null;
+        if (!editContext.Validate())
+        {
+            validationError = "Title is required.";
+            return;
+        }
+        session.Title = editModel!.Title!;
+        editingSessionId = null;
+        await chatService.RenameSessionAsync(session.Id, session.Title);
+        await OnRenameSession.InvokeAsync(session);
+    }
+
+    private void CancelEditing()
+    {
+        editingSessionId = null;
+        validationError = null;
+    }
 
     private async Task SelectSessionAsync(ChatSessionModel selectedSession)
     {
-        DeactivateAllSessions();
-        selectedSession.IsActive = true;
+        selectedSession.IsSelected = true;
         await OnSessionSelected.InvokeAsync(selectedSession);
         StateHasChanged();
     }
 
-    private void DeactivateAllSessions()
+    public class EditSessionModel
     {
-        if (Sessions != null)
-        {
-            foreach (var session in Sessions)
-            {
-                session.IsActive = false;
-            }
-        }
-        StateHasChanged();
+        [Required(ErrorMessage = "Title is required.")]
+        public string? Title { get; set; }
     }
 }
 
-<button class="btn btn-primary" id="button-new" @onclick="DeactivateAllSessions">New Chat</button>
-<div class="session-list">    
-    @if (Sessions != null)
+<div class="session-list mt-3">
+    @if (Sessions?.Count() > 0)
     {
         foreach (var session in Sessions)
         {
-            <div class="session-item rounded-custom @(session.IsActive ? "bg-primary-translucent text-white" : "bg-light")"
+            <div class="session-item mt-1 rounded-custom d-flex align-items-center justify-content-between @(session.IsSelected ? "bg-primary-translucent text-white" : "bg-white")"
                  @onclick="() => SelectSessionAsync(session)">
-                <p>@(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)</p>
+                <div class="flex-grow-1 d-flex align-items-center">
+                    @if (editingSessionId == session.Id)
+                    {
+                        <EditForm EditContext="editContext" OnValidSubmit="() => EditSessionTitleAsync(session)">
+                            <div class="d-flex w-100 align-items-center">
+                                <InputText class="form-control form-control-sm me-2"
+                                           @bind-Value="editModel.Title"
+                                           required
+                                           autofocus
+                                           onkeydown="@((KeyboardEventArgs e) => { if (e.Key == "Escape") CancelEditing(); })" />
+                                <button type="submit" class="btn btn-primary btn-sm me-1">Save</button>
+                                <button type="button" class="btn btn-secondary btn-sm" @onclick="CancelEditing">Cancel</button>
+                            </div>
+                            <ValidationSummary class="text-danger small" />
+                        </EditForm>
+                    }
+                    else
+                    {
+                        <p class="mb-0" style="flex:1;">
+                            @(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)
+                        </p>
+                    }
+                </div>
+                <button class="btn btn-link btn-sm p-0 ms-2" style="color: inherit; text-decoration: none;" title="More actions"
+                        @onclick="@(() => { if (editingSessionId != session.Id) StartEditing(session); })">
+                    <span style="font-size: 1.5rem; line-height: 1;">&#x22EF;</span>
+                </button>
             </div>
         }
+    }
+    else
+    {
+        <SkeletonList />
     }
 </div>

@@ -438,7 +438,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CreateTextToAudioCommandAsync(CreateTextToAudioCommand body)
+        public virtual System.Threading.Tasks.Task<TextAudioDto> CreateTextToAudioCommandAsync(CreateTextToAudioCommand body)
         {
             return CreateTextToAudioCommandAsync(body, System.Threading.CancellationToken.None);
         }
@@ -460,7 +460,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CreateTextToAudioCommandAsync(CreateTextToAudioCommand body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<TextAudioDto> CreateTextToAudioCommandAsync(CreateTextToAudioCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -473,6 +473,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -504,7 +505,12 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 201)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<TextAudioDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)
@@ -1313,7 +1319,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CreateAuthorCommandAsync(CreateAuthorCommand body)
+        public virtual System.Threading.Tasks.Task<AuthorDto> CreateAuthorCommandAsync(CreateAuthorCommand body)
         {
             return CreateAuthorCommandAsync(body, System.Threading.CancellationToken.None);
         }
@@ -1335,7 +1341,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CreateAuthorCommandAsync(CreateAuthorCommand body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuthorDto> CreateAuthorCommandAsync(CreateAuthorCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1348,6 +1354,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -1379,7 +1386,12 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 201)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<AuthorDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)
@@ -1806,7 +1818,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CreateChatMessageCommandAsync(CreateChatMessageCommand body)
+        public virtual System.Threading.Tasks.Task<ChatMessageDto> CreateChatMessageCommandAsync(CreateChatMessageCommand body)
         {
             return CreateChatMessageCommandAsync(body, System.Threading.CancellationToken.None);
         }
@@ -1835,7 +1847,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CreateChatMessageCommandAsync(CreateChatMessageCommand body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ChatMessageDto> CreateChatMessageCommandAsync(CreateChatMessageCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1848,6 +1860,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -1879,7 +1892,12 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 201)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<ChatMessageDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)
@@ -2554,7 +2572,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CreateChatSessionCommandAsync(CreateChatSessionCommand body)
+        public virtual System.Threading.Tasks.Task<ChatSessionDto> CreateChatSessionCommandAsync(CreateChatSessionCommand body)
         {
             return CreateChatSessionCommandAsync(body, System.Threading.CancellationToken.None);
         }
@@ -2583,7 +2601,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CreateChatSessionCommandAsync(CreateChatSessionCommand body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ChatSessionDto> CreateChatSessionCommandAsync(CreateChatSessionCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -2596,6 +2614,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -2627,7 +2646,12 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 201)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<ChatSessionDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)
@@ -3293,7 +3317,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CreateTextToImageCommandAsync(CreateTextToImageCommand body)
+        public virtual System.Threading.Tasks.Task<TextImageDto> CreateTextToImageCommandAsync(CreateTextToImageCommand body)
         {
             return CreateTextToImageCommandAsync(body, System.Threading.CancellationToken.None);
         }
@@ -3315,7 +3339,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CreateTextToImageCommandAsync(CreateTextToImageCommand body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<TextImageDto> CreateTextToImageCommandAsync(CreateTextToImageCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3328,6 +3352,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -3359,7 +3384,12 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 201)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<TextImageDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)
@@ -3915,7 +3945,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CreateTextPromptCommandAsync(CreateTextPromptCommand body)
+        public virtual System.Threading.Tasks.Task<TextPromptDto> CreateTextPromptCommandAsync(CreateTextPromptCommand body)
         {
             return CreateTextPromptCommandAsync(body, System.Threading.CancellationToken.None);
         }
@@ -3953,7 +3983,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
         /// </remarks>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CreateTextPromptCommandAsync(CreateTextPromptCommand body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<TextPromptDto> CreateTextPromptCommandAsync(CreateTextPromptCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3966,6 +3996,7 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -3997,7 +4028,12 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 201)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<TextPromptDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)

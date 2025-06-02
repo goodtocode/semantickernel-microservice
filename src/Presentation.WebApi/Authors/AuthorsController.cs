@@ -158,7 +158,7 @@ public class AuthorController : ApiControllerBase
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPost(Name = "CreateAuthorCommand")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType<AuthorDto>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Post(CreateAuthorCommand command)
