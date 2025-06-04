@@ -17,7 +17,7 @@
     {
         if (Messages?.Any() == true)
         {
-            await JSRuntime.InvokeVoidAsync("scrollToLastMessage", lastMessageRef);
+            await JSRuntime.InvokeVoidAsync("scrollToLastElement", lastMessageRef);
         }
     }
 }
@@ -30,7 +30,7 @@
             foreach (var message in Messages)
             {
                 var isUser = IsUserMessage(message);
-                <div class="d-flex mb-2 @(isUser ? "justify-content-end" : "justify-content-start")">
+                <div class="d-flex mb-2 p-2 @(isUser ? "justify-content-end" : "justify-content-start")">
                     @if (message == lastMessage)
                     {
                         <div class="message-item p-2 rounded @(isUser ? "user-role bg-primary-translucent text-white" : "bg-light text-dark")" @ref="lastMessageRef">
@@ -51,7 +51,7 @@
 
 
 <script>
-    window.scrollToLastMessage = (element) => {
+    window.scrollToLastElement = (element) => {
         if (element) {
             element.scrollIntoView({ behavior: "smooth" });
         }
