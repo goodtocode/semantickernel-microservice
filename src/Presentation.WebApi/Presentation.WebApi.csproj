@@ -37,7 +37,4 @@
 		<ProjectReference Include="..\Infrastructure.SemanticKernel\Infrastructure.SemanticKernel.csproj" />
 		<ProjectReference Include="..\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="swagger\v1\" />
-	</ItemGroup>
 </Project>
