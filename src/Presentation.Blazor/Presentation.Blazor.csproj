@@ -12,8 +12,4 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.5" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Clients\" />
-	</ItemGroup>
-
 </Project>
