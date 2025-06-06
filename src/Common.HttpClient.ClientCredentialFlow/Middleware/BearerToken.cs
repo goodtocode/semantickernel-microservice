@@ -1,9 +1,9 @@
-﻿using GoodToCode.HttpClient.ClientCredentialFlow.Options;
+﻿using Goodtocode.HttpClient.ClientCredentialFlow.Options;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace GoodToCode.HttpClient.ClientCredentialFlow.Middleware;
+namespace Goodtocode.HttpClient.ClientCredentialFlow.Middleware;
 
 public class BearerToken(IOptions<ClientCredential> accessTokenSetting)
 {

@@ -1,4 +1,4 @@
-﻿namespace GoodToCode.HttpClient.ClientCredentialFlow.Options;
+﻿namespace Goodtocode.HttpClient.ClientCredentialFlow.Options;
 
 public class ClientCredential
 {
