@@ -27,8 +27,8 @@ public class CustomPerformanceBehavior<TRequest, TResponse>(
         if (elapsedMilliseconds > 500)
         {
             var requestName = typeof(TRequest).Name;
-            await Task.Run(() => 
-                logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",requestName, elapsedMilliseconds, request), cancellationToken);
+            await Task.Run(() =>
+                logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}", requestName, elapsedMilliseconds, request), cancellationToken);
         }
 
         return response;

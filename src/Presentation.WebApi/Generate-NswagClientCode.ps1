@@ -13,7 +13,7 @@ param (
     [string]$SwaggerJsonPath = 'swagger',
     [string]$ApiAssembly = 'bin\Debug\net9.0\Goodtocode.SemanticKernel.Presentation.WebApi.dll',
     [string]$ApiVersion = 'v1',
-    [string]$ClientPathFile = '../Presentation.Blazor/Clients/WebApiClient.cs',
+    [string]$ClientPathFile = '../Presentation.Blazor/Clients/WebApiClient.g.cs',
     [string]$ClientNamespace = 'Goodtocode.SemanticKernel.Presentation.WebApi.Client'
 )
 ####################################################################################
@@ -29,11 +29,13 @@ if (!(Test-Path -Path "$SwaggerJsonPath/$ApiVersion")) {
     New-Item -ItemType Directory -Path "$SwaggerJsonPath/$ApiVersion" | Out-Null
 }
 
-#dotnet add package Swashbuckle.AspNetCore --version 8.1.2
+$swashVersion = "8.1.2"
+
+dotnet add package Swashbuckle.AspNetCore --version $swashVersion
 dotnet restore
 dotnet build --configuration Debug
 
-dotnet tool install swashbuckle.aspnetcore.cli --local #--version 8.1.2
+dotnet tool install swashbuckle.aspnetcore.cli --local --version $swashVersion
 dotnet swagger tofile --output $swaggerJsonPathFile $ApiAssembly $ApiVersion
 
 if (Test-Path -Path $swaggerJsonPathFile) {    

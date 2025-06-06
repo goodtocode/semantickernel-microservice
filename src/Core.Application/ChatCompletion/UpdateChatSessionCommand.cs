@@ -11,7 +11,7 @@ public class UpdateChatSessionCommand : IRequest
     public ICollection<ChatMessageDto> Messages { get; set; } = [];
 }
 
-public class UpdateChatSessionCommandHandler (ISemanticKernelContext context) : IRequestHandler<UpdateChatSessionCommand>
+public class UpdateChatSessionCommandHandler(ISemanticKernelContext context) : IRequestHandler<UpdateChatSessionCommand>
 {
     private readonly ISemanticKernelContext _context = context;
 

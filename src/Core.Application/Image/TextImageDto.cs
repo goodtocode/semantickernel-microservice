@@ -32,15 +32,15 @@ public class TextImageDto : IMapFrom<TextImageEntity>
     }
     public DateTimeOffset Timestamp { get; set; }
 
-public void Mapping(Profile profile)
-{
-    profile.CreateMap<TextImageEntity, TextImageDto>()
-        .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-        .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Description))
-        .ForMember(d => d.ImageBytes, opt => opt.MapFrom(s => s.ImageBytes))
-        .ForMember(d => d.ImageUrl, opt => opt.MapFrom(s => s.ImageUrl))
-        .ForMember(d => d.Width, opt => opt.MapFrom(s => s.Width))
-        .ForMember(d => d.Height, opt => opt.MapFrom(s => s.Height))
-        .ForMember(d => d.Timestamp, opt => opt.MapFrom(s => s.Timestamp));
-}
+    public void Mapping(Profile profile)
+    {
+        profile.CreateMap<TextImageEntity, TextImageDto>()
+            .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
+            .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Description))
+            .ForMember(d => d.ImageBytes, opt => opt.MapFrom(s => s.ImageBytes))
+            .ForMember(d => d.ImageUrl, opt => opt.MapFrom(s => s.ImageUrl))
+            .ForMember(d => d.Width, opt => opt.MapFrom(s => s.Width))
+            .ForMember(d => d.Height, opt => opt.MapFrom(s => s.Height))
+            .ForMember(d => d.Timestamp, opt => opt.MapFrom(s => s.Timestamp));
+    }
 }

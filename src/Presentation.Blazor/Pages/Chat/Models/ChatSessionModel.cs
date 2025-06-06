@@ -1,5 +1,5 @@
-﻿using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models;
 

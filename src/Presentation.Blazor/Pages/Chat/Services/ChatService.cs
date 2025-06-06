@@ -5,7 +5,7 @@ using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services;
 
 public interface IChatService
-{    
+{
     Task<List<ChatSessionModel>> GetChatSessionsAsync();
     Task<ChatSessionModel> GetChatSessionAsync(Guid chatSessionId);
     Task<ChatSessionModel> CreateSessionAsync(string firstMessage);
@@ -41,18 +41,18 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
             AuthorId = await _userService.GetUserIdAsync(),
             Message = firstMessage
         };
-        var response = await _client.CreateChatSessionCommandAsync(command).ConfigureAwait(false);        
+        var response = await _client.CreateChatSessionCommandAsync(command).ConfigureAwait(false);
 
         return ChatSessionModel.Create(response);
     }
 
     public async Task RenameSessionAsync(Guid chatSessionId, string newTitle)
     {
-        await _client.PatchChatSessionCommandAsync(chatSessionId, new PatchChatSessionCommand { Id = chatSessionId,  Title = newTitle }).ConfigureAwait(false);
+        await _client.PatchChatSessionCommandAsync(chatSessionId, new PatchChatSessionCommand { Id = chatSessionId, Title = newTitle }).ConfigureAwait(false);
     }
 
     public async Task<ChatMessageModel> SendMessageAsync(Guid chatSessionId, string newMessage)
-    {        
+    {
         var response = await _client.CreateChatMessageCommandAsync(new CreateChatMessageCommand { ChatSessionId = chatSessionId, Message = newMessage }).ConfigureAwait(false);
 
         return ChatMessageModel.Create(response);

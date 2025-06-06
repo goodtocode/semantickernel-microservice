@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Goodtocode.SemanticKernel.Presentation.WebApi.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Goodtocode.SemanticKernel.Presentation.WebApi.Common;
 
 namespace Goodtocode.SemanticKernel.Presentation.WebApi;
 

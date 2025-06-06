@@ -1,6 +1,6 @@
+using System.Globalization;
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using System.Globalization;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 
@@ -87,6 +87,6 @@ public class GetChatMessageQueryStepDefinitions : TestBase
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasACountMatching(string messageContent)
     {
-       _response?.Content?.Should().Be(messageContent);
+        _response?.Content?.Should().Be(messageContent);
     }
 }

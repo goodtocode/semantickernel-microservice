@@ -13,7 +13,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Clients\" />
+	  <EditorConfigFiles Remove="C:\Users\rojgo\source\goodtocode\semantickernel-microservice\src\Presentation.Blazor\Clients\.editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="C:\Users\rojgo\source\goodtocode\semantickernel-microservice\src\Presentation.Blazor\Clients\.editorconfig" />
 	</ItemGroup>
 
 </Project>

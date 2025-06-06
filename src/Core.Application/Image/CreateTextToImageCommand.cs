@@ -1,8 +1,8 @@
-﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+﻿using System.Text;
+using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
 using Microsoft.SemanticKernel.TextToImage;
-using System.Text;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Image;
 

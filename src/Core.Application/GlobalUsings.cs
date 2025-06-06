@@ -1,5 +1,5 @@
-﻿global using AutoMapper;
-global using Microsoft.EntityFrameworkCore;
+﻿global using System.Reflection;
+global using AutoMapper;
 global using FluentValidation;
 global using MediatR;
-global using System.Reflection;
+global using Microsoft.EntityFrameworkCore;

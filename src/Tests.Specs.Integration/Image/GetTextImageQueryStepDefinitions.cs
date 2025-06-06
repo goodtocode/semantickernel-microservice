@@ -1,6 +1,6 @@
+using System.Text;
 using Goodtocode.SemanticKernel.Core.Application.Image;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
-using System.Text;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Image;
 

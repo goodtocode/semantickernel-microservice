@@ -273,11 +273,12 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 
 # Version History
 
-| Version | Date        | Release Notes                       |
-|---------|-------------|-------------------------------------|
-| 1.0.0   | 2024-Aug-05 | Initial Release                     |
-| 1.0.1   | 2024-Oct-27 | Updated Azure IaC ESA/CAF Standards |
-| 1.0.2   | 2025-Jan-19 | Updated to .NET 9 and SK 1.33       |
-| 1.0.3   | 2025-Jan-19 | Hid projects from New Project       |
+| Version | Date        | Release Notes                             |
+|---------|-------------|-------------------------------------------|
+| 1.0.0   | 2024-Aug-05 | Initial WebAPI Release                    |
+| 1.0.1   | 2024-Oct-27 | Updated Azure IaC ESA/CAF Standards       |
+| 1.0.2   | 2025-Jan-19 | Updated to .NET 9 and SK 1.33             |
+| 1.0.3   | 2025-Feb-09 | Remove projects from File-New Project     |
+| 1.1.0   | 2025-Jun-04 | Blazor copilot-ish UX, AuthorSession      |
 
 This project is licensed with the [MIT license](https://mit-license.org/).

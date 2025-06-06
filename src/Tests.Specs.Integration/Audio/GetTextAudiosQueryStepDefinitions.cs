@@ -1,6 +1,6 @@
+using System.Text;
 using Goodtocode.SemanticKernel.Core.Application.Audio;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
-using System.Text;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Audio;
 
@@ -51,7 +51,7 @@ public class GetTextAudiosQueryStepDefinitions : TestBase
     public async Task WhenIGetTheTextAudio()
     {
         if (_exists)
-        {            
+        {
             for (int i = 0; i < 2; i++)
             {
                 var textAudio = TextAudioEntity.Create(Guid.NewGuid(),
@@ -63,7 +63,8 @@ public class GetTextAudiosQueryStepDefinitions : TestBase
                     new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04])
                 );
                 context.TextAudio.Add(textAudio);
-            };
+            }
+            ;
             await context.SaveChangesAsync(CancellationToken.None);
         }
 

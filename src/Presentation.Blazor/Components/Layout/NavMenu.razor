@@ -1,8 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Components.Web
+
+@namespace Goodtocode.SemanticKernel.Presentation.Blazor.Components.Layout
+
 <div class="container-fluid">
     <nav class="navbar navbar-expand-md navbar-light bg-light" @onclick:stopPropagation style="position: relative;">
         <a class="navbar-brand d-none d-md-block ms-3 me-3" href="https://www.goodtocode.com" target="_blank" rel="noopener noreferrer">
-            <img src="img/goodtocode-logo.png" alt="GoodToCode Logo" style="height:40px;" />
+            <img src="img/goodtocode-logo.png" alt="Goodtocode Logo" style="height:40px;" />
         </a>
         <button class="navbar-toggler d-md-none" type="button" @onclick="ToggleNavMenu" aria-controls="navbarNav" aria-expanded="@navMenuOpened" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -56,7 +59,7 @@
             </ul>
             <div class="w-100 d-flex justify-content-center align-items-end m-4 mb-2">
                 <a href="https://www.goodtocode.com" target="_blank" rel="noopener noreferrer">
-                    <img src="img/goodtocode-logo.png" alt="GoodToCode Logo" style="height:40px;" />
+                    <img src="img/goodtocode-logo.png" alt="Goodtocode Logo" style="height:40px;" />
                 </a>
             </div>
         </div>

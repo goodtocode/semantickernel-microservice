@@ -1,0 +1,6 @@
+root = true
+
+[*.g.cs]
+# Allow the nswag generated files to have using directives inside the namespace
+csharp_using_directive_placement = inside_namespace
+dotnet_diagnostic.IDE0065.severity = none

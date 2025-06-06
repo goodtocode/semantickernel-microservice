@@ -46,7 +46,7 @@ public class UserService(ILocalStorageService storageService, IHttpContextAccess
             }
         });
 
-        
+
         return userId;
     }
 }

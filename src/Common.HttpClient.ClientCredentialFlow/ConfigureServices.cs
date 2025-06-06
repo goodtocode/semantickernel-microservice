@@ -1,9 +1,9 @@
-﻿using GoodToCode.HttpClient.ClientCredentialFlow.Options;
-using GoodToCode.HttpClient.ClientCredentialFlow.Middleware;
+﻿using Goodtocode.HttpClient.ClientCredentialFlow.Middleware;
+using Goodtocode.HttpClient.ClientCredentialFlow.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GoodToCode.HttpClient.ClientCredentialFlow;
+namespace Goodtocode.HttpClient.ClientCredentialFlow;
 
 public static class ConfigureServices
 {

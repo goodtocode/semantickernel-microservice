@@ -30,7 +30,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
 
         [When(@"I update the Author")]
         public async Task WhenIUpdateTheAuthor()
-        {            
+        {
             if (_exists)
             {
                 var author = AuthorEntity.Create(_id, "John Doe");

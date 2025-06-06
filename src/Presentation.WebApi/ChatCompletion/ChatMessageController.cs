@@ -137,4 +137,4 @@ public class ChatMessageController : ApiControllerBase
         var response = await Mediator.Send(command);
         return CreatedAtAction(nameof(Get), new { response.Id }, response);
     }
- }
+}

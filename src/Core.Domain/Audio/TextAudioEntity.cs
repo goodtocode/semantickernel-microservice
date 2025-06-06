@@ -27,7 +27,7 @@ public class TextAudioEntity : DomainEntity<TextAudioEntity>
         return TextAudioEntity.Create(id, authorId, description, audioBytes, null);
     }
 
-    public static TextAudioEntity Create(Guid id, Guid authorId, string description,Uri? audioUrl)
+    public static TextAudioEntity Create(Guid id, Guid authorId, string description, Uri? audioUrl)
     {
         return TextAudioEntity.Create(id, authorId, description, null, audioUrl);
     }
