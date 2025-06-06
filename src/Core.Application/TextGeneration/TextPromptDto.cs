@@ -15,7 +15,7 @@ public class TextPromptDto : IMapFrom<TextPromptEntity>
     {
         profile.CreateMap<TextPromptEntity, TextPromptDto>()
             .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-            .ForMember(d=> d.Prompt, opt => opt.MapFrom(s => s.Prompt))
+            .ForMember(d => d.Prompt, opt => opt.MapFrom(s => s.Prompt))
             .ForMember(d => d.Responses, opt => opt.MapFrom(s => s.TextResponses))
             .ForMember(d => d.Timestamp, opt => opt.MapFrom(s => s.Timestamp));
     }

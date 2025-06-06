@@ -9,7 +9,7 @@ namespace Goodtocode.SemanticKernel.Core.Domain.Author;
 public class AuthorEntity : DomainEntity<AuthorEntity>
 {
     protected AuthorEntity() { }
-    
+
     public string? Name { get; set; } = string.Empty;
 
     public virtual ICollection<ChatSessionEntity> ChatSessions { get; private set; } = [];

@@ -1,7 +1,7 @@
-using Goodtocode.SemanticKernel.Core.Application.TextGeneration;
-using Goodtocode.SemanticKernel.Core.Application.Common.Models;
-using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 using System.Security.Cryptography;
+using Goodtocode.SemanticKernel.Core.Application.Common.Models;
+using Goodtocode.SemanticKernel.Core.Application.TextGeneration;
+using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
 {
@@ -73,8 +73,9 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
                         [
                             TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time...")
                         ];
-                    context.TextPrompts.Add(textPrompt);                    
-                };
+                    context.TextPrompts.Add(textPrompt);
+                }
+                ;
                 await context.SaveChangesAsync(CancellationToken.None);
             }
 

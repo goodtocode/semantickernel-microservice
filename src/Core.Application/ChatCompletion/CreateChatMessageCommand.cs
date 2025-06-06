@@ -38,8 +38,8 @@ public class CreateChatMessageCommandHandler(IChatCompletionService chatService,
         chatSession.Messages.Add(chatMessage);
         _context.ChatMessages.Add(chatMessage);
 
-        var chatMessageResponse = ChatMessageEntity.Create(Guid.NewGuid(), 
-            chatSession.Id, 
+        var chatMessageResponse = ChatMessageEntity.Create(Guid.NewGuid(),
+            chatSession.Id,
             Enum.TryParse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant(), out var role) ? role : ChatMessageRole.assistant,
             response.ToString());
         chatSession.Messages.Add(chatMessageResponse);

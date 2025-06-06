@@ -1,6 +1,6 @@
+using System.Security.Cryptography;
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using System.Security.Cryptography;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 
@@ -45,14 +45,14 @@ public class GetChatMessagesQueryStepDefinitions : TestBase
     public void GivenIHaveAEndDate(string endDate)
     {
         if (string.IsNullOrWhiteSpace(endDate)) return;
-        DateTime.TryParse(endDate, out _endDate).Should().BeTrue();        
+        DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
     }
 
     [When(@"I get the Chat Messages")]
     public async Task WhenIGetTheChatMessages()
     {
         if (_exists)
-        {            
+        {
             var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);

@@ -6,7 +6,7 @@ using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
 public class GetAuthorChatSessionsPaginatedQuery : IRequest<PaginatedList<ChatSessionDto>>
-{    
+{
     public Guid AuthorId { get; set; }
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }

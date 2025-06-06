@@ -1,7 +1,7 @@
-﻿using Goodtocode.HttpClient.ClientCredentialFlow.Options;
-using Microsoft.Extensions.Options;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Goodtocode.HttpClient.ClientCredentialFlow.Options;
+using Microsoft.Extensions.Options;
 
 namespace Goodtocode.HttpClient.ClientCredentialFlow.Middleware;
 

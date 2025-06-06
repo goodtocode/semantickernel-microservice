@@ -12,4 +12,12 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.5" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <EditorConfigFiles Remove="C:\Users\rojgo\source\goodtocode\semantickernel-microservice\src\Presentation.Blazor\Clients\.editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="C:\Users\rojgo\source\goodtocode\semantickernel-microservice\src\Presentation.Blazor\Clients\.editorconfig" />
+	</ItemGroup>
+
 </Project>

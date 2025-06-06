@@ -1,8 +1,8 @@
-using Goodtocode.SemanticKernel.Core.Application.Image;
-using Goodtocode.SemanticKernel.Core.Application.Common.Models;
-using Goodtocode.SemanticKernel.Core.Domain.Image;
 using System.Security.Cryptography;
 using System.Text;
+using Goodtocode.SemanticKernel.Core.Application.Common.Models;
+using Goodtocode.SemanticKernel.Core.Application.Image;
+using Goodtocode.SemanticKernel.Core.Domain.Image;
 using Microsoft.Identity.Client;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Image
@@ -72,7 +72,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
                 {
                     var textImage = TextImageEntity.Create(Guid.NewGuid(), "A Circle", 1024, 1024, new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]));
                     context.TextImages.Add(textImage);
-                };
+                }
+                ;
                 await context.SaveChangesAsync(CancellationToken.None);
             }
 

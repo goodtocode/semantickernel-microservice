@@ -1,7 +1,7 @@
+using System.Text;
 using Goodtocode.SemanticKernel.Core.Application.Image;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using System.Text;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Image;
 

@@ -12,7 +12,7 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
     public string PartitionKey { get; set; } = string.Empty;
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     public DateTime? ModifiedOn { get; set; }
-    public DateTime? DeletedOn { get; set; }    
+    public DateTime? DeletedOn { get; set; }
     public DateTimeOffset Timestamp { get; set; } = DateTimeOffset.UtcNow;
 
     [IgnoreDataMember]
@@ -26,7 +26,7 @@ public abstract class DomainEntity<TModel> : IDomainEntity<TModel>
         : this()
     {
         Id = id;
-    }    
+    }
 
     public void AddDomainEvent(IDomainEvent<TModel> domainEvent)
     {

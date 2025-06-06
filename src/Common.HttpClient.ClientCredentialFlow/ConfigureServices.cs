@@ -1,5 +1,5 @@
-﻿using Goodtocode.HttpClient.ClientCredentialFlow.Options;
-using Goodtocode.HttpClient.ClientCredentialFlow.Middleware;
+﻿using Goodtocode.HttpClient.ClientCredentialFlow.Middleware;
+using Goodtocode.HttpClient.ClientCredentialFlow.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

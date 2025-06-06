@@ -1,8 +1,8 @@
-﻿using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using Goodtocode.SemanticKernel.Core.Domain.Audio;
+﻿using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
-using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
+using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
+using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Abstractions;
 

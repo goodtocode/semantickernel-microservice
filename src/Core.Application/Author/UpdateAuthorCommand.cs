@@ -10,7 +10,7 @@ public class UpdateAuthorCommand : IRequest
     public string Name { get; set; } = string.Empty;
 }
 
-public class UpdateAuthorCommandHandler (ISemanticKernelContext context) : IRequestHandler<UpdateAuthorCommand>
+public class UpdateAuthorCommandHandler(ISemanticKernelContext context) : IRequestHandler<UpdateAuthorCommand>
 {
     private readonly ISemanticKernelContext _context = context;
 

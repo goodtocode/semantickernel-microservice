@@ -1,10 +1,10 @@
-﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+﻿using System.Reflection;
+using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
 using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
-using System.Reflection;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 

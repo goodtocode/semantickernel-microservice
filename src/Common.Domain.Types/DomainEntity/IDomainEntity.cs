@@ -6,7 +6,7 @@ public interface IDomainEntity<TModel>
     string PartitionKey { get; }
     DateTime CreatedOn { get; }
     DateTime? ModifiedOn { get; }
-    DateTime? DeletedOn { get; }   
+    DateTime? DeletedOn { get; }
     DateTimeOffset Timestamp { get; }
     void AddDomainEvent(IDomainEvent<TModel> domainEvent);
     void ClearDomainEvents();

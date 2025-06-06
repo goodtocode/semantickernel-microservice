@@ -15,7 +15,7 @@ public class ChatSessionDto : IMapFrom<ChatSessionEntity>
     {
         profile.CreateMap<ChatSessionEntity, ChatSessionDto>()
             .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-            .ForMember(d=> d.Title, opt => opt.MapFrom(s => s.Title))
+            .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title))
             .ForMember(d => d.Messages, opt => opt.MapFrom(s => s.Messages))
             .ForMember(d => d.Timestamp, opt => opt.MapFrom(s => s.Timestamp));
     }

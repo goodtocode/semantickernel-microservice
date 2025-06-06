@@ -1,7 +1,7 @@
+using System.Text;
 using Goodtocode.SemanticKernel.Core.Application.Image;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
 using Microsoft.Identity.Client;
-using System.Text;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Image;
 
@@ -52,12 +52,13 @@ public class GetTextImagesQueryStepDefinitions : TestBase
     public async Task WhenIGetTheTextImages()
     {
         if (_exists)
-        {            
+        {
             for (int i = 0; i < 2; i++)
             {
                 var textImage = TextImageEntity.Create(Guid.NewGuid(), "A circle", 1024, 1024, new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04]));
                 context.TextImages.Add(textImage);
-            };
+            }
+            ;
             await context.SaveChangesAsync(CancellationToken.None);
         }
 

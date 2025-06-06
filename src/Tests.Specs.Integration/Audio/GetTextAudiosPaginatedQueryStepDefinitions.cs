@@ -1,8 +1,8 @@
+using System.Security.Cryptography;
+using System.Text;
 using Goodtocode.SemanticKernel.Core.Application.Audio;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
 {
@@ -79,7 +79,8 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
                         new ReadOnlyMemory<byte>([0x01, 0x02, 0x03, 0x04])
                     );
                     context.TextAudio.Add(textAudio);
-                };
+                }
+                ;
                 await context.SaveChangesAsync(CancellationToken.None);
             }
 

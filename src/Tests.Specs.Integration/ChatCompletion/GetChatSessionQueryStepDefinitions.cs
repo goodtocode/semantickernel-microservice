@@ -1,6 +1,6 @@
+using System.Globalization;
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using System.Globalization;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 

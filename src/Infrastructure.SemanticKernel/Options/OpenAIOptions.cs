@@ -20,7 +20,7 @@ public sealed class OpenAIOptions
 
     [Required]
     public string TextModerationModelId { get; set; } = string.Empty;
-    
+
     [Required]
     public string ImageModelId { get; set; } = string.Empty;
 

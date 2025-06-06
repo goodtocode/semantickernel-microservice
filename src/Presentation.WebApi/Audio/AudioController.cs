@@ -1,5 +1,5 @@
-﻿using Goodtocode.SemanticKernel.Core.Application.Common.Models;
-using Goodtocode.SemanticKernel.Core.Application.Audio;
+﻿using Goodtocode.SemanticKernel.Core.Application.Audio;
+using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Presentation.WebApi.Common;
 
 namespace Goodtocode.SemanticKernel.Presentation.WebApi.Audio;

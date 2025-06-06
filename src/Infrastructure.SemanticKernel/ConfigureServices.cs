@@ -40,7 +40,7 @@ public static class ConfigureServices
             var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
             return new OpenAIChatCompletionService(modelId: options.ChatCompletionModelId, apiKey: options.ApiKey);
         });
-        
+
         // TextGenerationService deprecated. Use custom connector service instead.
         services.AddSingleton<ITextGenerationService, TextGenerationService>();
 

@@ -1,6 +1,6 @@
+using System.Security.Cryptography;
 using Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
-using System.Security.Cryptography;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration;
 
@@ -51,7 +51,7 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
     public async Task WhenIGetTheTextPrompts()
     {
         if (_exists)
-        {            
+        {
             for (int i = 0; i < 2; i++)
             {
                 var textPrompt = TextPromptEntity.Create(Guid.NewGuid(), Guid.Empty, "Tell me a bedtime story");
@@ -60,7 +60,8 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
                         TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time...")
                     ];
                 context.TextPrompts.Add(textPrompt);
-            };
+            }
+            ;
             await context.SaveChangesAsync(CancellationToken.None);
         }
 

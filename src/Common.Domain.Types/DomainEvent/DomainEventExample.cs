@@ -79,9 +79,9 @@
 //        ... Additional code
 //    }
 
-    
+
 //     IoC Dispatcher Example
-    
+
 //    public class MediatorModule : Autofac.Module
 //    {
 //        protected override void Load(ContainerBuilder builder)
