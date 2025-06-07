@@ -1,8 +1,5 @@
-using System.Text;
 using Goodtocode.SemanticKernel.Core.Application.Audio;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Audio;
 

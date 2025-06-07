@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using FluentAssertions.Execution;
+﻿using FluentAssertions.Execution;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
@@ -8,9 +7,8 @@ using Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
-using TechTalk.SpecFlow.Assist;
+using System.Reflection;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration;
 

@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 

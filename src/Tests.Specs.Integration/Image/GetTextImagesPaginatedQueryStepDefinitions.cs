@@ -1,9 +1,6 @@
-using System.Security.Cryptography;
-using System.Text;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Core.Application.Image;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
-using Microsoft.Identity.Client;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Image
 {

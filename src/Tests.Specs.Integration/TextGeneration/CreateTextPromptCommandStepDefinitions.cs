@@ -1,8 +1,5 @@
 using Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
-using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Services;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration;
 
