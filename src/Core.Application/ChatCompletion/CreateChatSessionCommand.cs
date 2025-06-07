@@ -38,7 +38,7 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
             author = AuthorEntity.Create(request.AuthorId, request?.AuthorName);
             _context.Authors.Add(author);
         }
-        var title = request.Title ?? $"{request.Message![..(request.Message!.Length >= 25 ? 25 : request.Message!.Length)]}";
+        var title = request!.Title ?? $"{request!.Message![..(request.Message!.Length >= 25 ? 25 : request.Message!.Length)]}";
         var chatSession = ChatSessionEntity.Create(
             request.Id,
             request.AuthorId,

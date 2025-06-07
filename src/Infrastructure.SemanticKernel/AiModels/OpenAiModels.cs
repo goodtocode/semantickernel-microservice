@@ -2,7 +2,7 @@
 
 public struct OpenAiModels
 {
-    public struct ChatComplation
+    public struct ChatCompletion
     {
         public const string ChatGpt4 = "gpt-4";
         public const string ChatGpt4Turbo = "gpt-4-turbo";

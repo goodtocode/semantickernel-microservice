@@ -19,4 +19,8 @@
 		<PackageReference Include="Microsoft.SemanticKernel" Version="1.54.0" />
 		<PackageReference Include="System.Text.Json" Version="9.0.5" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Core.Application\Core.Application.csproj" />
+	</ItemGroup>
 </Project>

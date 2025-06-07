@@ -1,8 +1,11 @@
 ﻿using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
+using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AudioToText;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
@@ -32,6 +35,9 @@ public static class ConfigureServices
         .Bind(configuration.GetSection(OpenAIOptions.SectionName))
             .ValidateDataAnnotations()
             .ValidateOnStart();
+        services.AddSingleton<IAuthorsPlugin, AuthorsPlugin>();
+        services.AddSingleton<IChatSessionsPlugin, ChatSessionsPlugin>();
+        services.AddSingleton<IChatMessagesPlugin, ChatMessagesPlugin>();
         services.AddKernel();
 
         // Chat Completion
