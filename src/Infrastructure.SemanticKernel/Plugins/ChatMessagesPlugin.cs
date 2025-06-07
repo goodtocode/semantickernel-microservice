@@ -1,5 +1,6 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using System.ComponentModel;
 
@@ -7,16 +8,20 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 
 public sealed class ChatMessagesPlugin : IChatMessagesPlugin
 {
-    private readonly ISemanticKernelContext _context;
+    private readonly IServiceProvider _serviceProvider;
 
-    public ChatMessagesPlugin(ISemanticKernelContext context) => _context = context;
+    public ChatMessagesPlugin(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
     [KernelFunction("list_messages")]
     [Description("Lists the latest messages across all chat sessions. Optionally filter by start and/or end date.")]
     public async Task<IEnumerable<string>> ListRecentMessagesAsync(DateTime? startDate = null, DateTime? endDate = null,
         CancellationToken cancellationToken = default)
     {
-        var query = _context.ChatMessages.AsQueryable();
+        // Get ISemanticKernelContext directly instead of constructor DI to allow this plugin to be registered via AddSingleton() and not scoped due to EF.
+        using var scope = _serviceProvider.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ISemanticKernelContext>();
+
+        var query = context.ChatMessages.AsQueryable();
 
         if (startDate.HasValue)
             query = query.Where(x => x.Timestamp > startDate.Value);
@@ -35,7 +40,11 @@ public sealed class ChatMessagesPlugin : IChatMessagesPlugin
     public async Task<IEnumerable<string>> GetChatMessagesAsync(string sessionId,
         CancellationToken cancellationToken = default)
     {
-        var messages = await _context.ChatMessages
+        // Get ISemanticKernelContext directly instead of constructor DI to allow this plugin to be registered via AddSingleton() and not scoped due to EF.
+        using var scope = _serviceProvider.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ISemanticKernelContext>();
+
+        var messages = await context.ChatMessages
         .Where(x => x.ChatSessionId.ToString() == sessionId)
             .ToListAsync(cancellationToken);
 

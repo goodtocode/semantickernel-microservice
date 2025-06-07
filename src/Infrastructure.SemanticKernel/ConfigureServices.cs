@@ -37,9 +37,9 @@ public static class ConfigureServices
             .ValidateOnStart();
 
         // Plugins
-        services.AddScoped<IAuthorsPlugin, AuthorsPlugin>();
-        services.AddScoped<IChatSessionsPlugin, ChatSessionsPlugin>();
-        services.AddScoped<IChatMessagesPlugin, ChatMessagesPlugin>();
+        services.AddSingleton<IAuthorsPlugin, AuthorsPlugin>();
+        services.AddSingleton<IChatSessionsPlugin, ChatSessionsPlugin>();
+        services.AddSingleton<IChatMessagesPlugin, ChatMessagesPlugin>();
 
         // TextGenerationService deprecated. Use custom connector service instead.
         services.AddSingleton<ITextGenerationService, TextGenerationService>();
@@ -76,7 +76,7 @@ public static class ConfigureServices
 
         // To Register the Kernel with no plugins: services.AddKernel();
         // Register the Kernel with plugins imported: 
-        services.AddScoped<Kernel>(sp =>
+        services.AddSingleton<Kernel>(sp =>
         {
             var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
             var builder = Kernel.CreateBuilder();
