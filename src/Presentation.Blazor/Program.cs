@@ -5,6 +5,8 @@ using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddLocalEnvironment();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -14,6 +16,11 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IChatService, ChatService>();
+
+builder.Services.AddApplicationInsightsTelemetry(options =>
+{
+    options.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
+});
 
 var app = builder.Build();
 

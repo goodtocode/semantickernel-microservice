@@ -10,6 +10,21 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi;
 public static class ConfigureServices
 {
     /// <summary>
+    /// Add Local Environment Configuration to mirror Development
+    /// </summary>
+    /// <param name="builder"></param>
+    public static void AddLocalEnvironment(this WebApplicationBuilder builder)
+    {
+        if (builder.Environment.IsEnvironment("Local"))
+        {
+            builder.Configuration
+                .AddUserSecrets(Assembly.GetExecutingAssembly())
+                .AddEnvironmentVariables();
+            builder.WebHost.UseStaticWebAssets();
+        }
+    }
+
+    /// <summary>
     /// Add WebUI Services
     /// </summary>
     /// <param name="services"></param>

@@ -550,6 +550,12 @@
             Presentation Layer WebApi Configuration
             </summary>
         </member>
+        <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ConfigureServices.AddLocalEnvironment(Microsoft.AspNetCore.Builder.WebApplicationBuilder)">
+            <summary>
+            Add Local Environment Configuration to mirror Development
+            </summary>
+            <param name="builder"></param>
+        </member>
         <member name="M:Goodtocode.SemanticKernel.Presentation.WebApi.ConfigureServices.AddWebUIServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Add WebUI Services
