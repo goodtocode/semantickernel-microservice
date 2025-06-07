@@ -25,7 +25,6 @@ public class CreateTextToImageCommandHandler(Kernel kernel, ISemanticKernelConte
 
     public async Task<TextImageDto> Handle(CreateTextToImageCommand request, CancellationToken cancellationToken)
     {
-
         GuardAgainstEmptyPrompt(request?.Prompt);
         GuardAgainstIdExsits(_context.TextImages, request!.Id);
 

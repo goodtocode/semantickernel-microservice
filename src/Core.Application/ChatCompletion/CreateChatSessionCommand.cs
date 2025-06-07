@@ -31,7 +31,11 @@ public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelConte
         var service = _kernel.GetRequiredService<IChatCompletionService>();
         ChatHistory chatHistory = [];
         chatHistory.AddUserMessage(request!.Message!);
-        var response = await service.GetChatMessageContentAsync(chatHistory, null, null, cancellationToken);
+        var executionSettings = new PromptExecutionSettings
+        {
+            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+        };
+        var response = await service.GetChatMessageContentAsync(chatHistory, executionSettings, kernel, cancellationToken);
 
         var author = await _context.Authors
             .FirstOrDefaultAsync(x => x.Id == request.AuthorId, cancellationToken);

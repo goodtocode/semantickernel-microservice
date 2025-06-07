@@ -28,7 +28,11 @@ public class CreateTextPromptCommandHandler(Kernel kernel, ISemanticKernelContex
 
         // Get response
         var service = _kernel.GetRequiredService<ITextGenerationService>();
-        var responses = await service.GetTextContentsAsync(request.Prompt!, null, null, cancellationToken);
+        var executionSettings = new PromptExecutionSettings
+        {
+            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+        };
+        var responses = await service.GetTextContentsAsync(request.Prompt!, executionSettings, kernel, cancellationToken);
 
         // Persist chat session
         var textPrompt = TextPromptEntity.Create(request.Id, Guid.NewGuid(), request.Prompt!);

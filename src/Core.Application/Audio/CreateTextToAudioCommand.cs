@@ -2,6 +2,7 @@
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.TextToAudio;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Audio;
@@ -28,7 +29,11 @@ public class CreateTextToAudioCommandHandler(Kernel kernel, ISemanticKernelConte
         GuardAgainstIdExsits(_context.TextAudio, request!.Id);
 
         var service = _kernel.GetRequiredService<ITextToAudioService>();
-        var response = await service.GetAudioContentAsync(text: request.Prompt, cancellationToken: cancellationToken);
+        var executionSettings = new PromptExecutionSettings
+        {
+            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+        };
+        var response = await service.GetAudioContentAsync(request.Prompt, executionSettings, kernel, cancellationToken);
 
         var textAudio = TextAudioEntity.Create(request.Id, request.AuthorId, request.Prompt, response.Data.GetValueOrDefault().ToArray(), response.Uri);
         _context.TextAudio.Add(textAudio);

@@ -26,7 +26,7 @@ public class CreateChatMessageCommandHandler(Kernel kernel, ISemanticKernelConte
         GuardAgainstIdExsits(_context.ChatMessages, request!.Id);
 
         var chatSession = _context.ChatSessions.Find(request.ChatSessionId);
-
+        
         var chatHistory = new ChatHistory();
         foreach (ChatMessageEntity message in chatSession!.Messages)
         {
@@ -34,7 +34,11 @@ public class CreateChatMessageCommandHandler(Kernel kernel, ISemanticKernelConte
         }
         chatHistory.AddUserMessage(request!.Message!);
         var service = _kernel.GetRequiredService<IChatCompletionService>();
-        var response = await service.GetChatMessageContentAsync(chatHistory, null, null, cancellationToken);
+        var executionSettings = new PromptExecutionSettings
+        {
+            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+        };
+        var response = await service.GetChatMessageContentAsync(chatHistory, executionSettings, kernel, cancellationToken);
 
         var chatMessage = ChatMessageEntity.Create(Guid.NewGuid(), chatSession.Id, ChatMessageRole.user, request.Message!);
         chatSession.Messages.Add(chatMessage);
