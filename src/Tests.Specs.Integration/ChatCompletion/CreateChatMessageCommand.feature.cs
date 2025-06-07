@@ -158,6 +158,24 @@ this.CreateChatMessage("success", "Success", "", "00000000-0000-0000-0000-000000
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Chat Message: plugin success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Chat Message Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createChatMessageCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "plugin success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "plugin success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ChatMessageExists", "true")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Please call list_sessions that Lists all sessions, optionally by date")]
+        public void CreateChatMessage_PluginSuccess()
+        {
+#line 7
+this.CreateChatMessage("plugin success", "Success", "", "00000000-0000-0000-0000-000000000000", "true", "Please call list_sessions that Lists all sessions, optionally by date", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Chat Message: bad request: empty message")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Chat Message Command")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createChatMessageCommand")]

@@ -13,8 +13,10 @@ public sealed class ChatSessionsPlugin : IChatSessionsPlugin
     public ChatSessionsPlugin(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
     [KernelFunction("list_sessions")]
-    [Description("Lists the latest chat sessions. Optionally filter by start and/or end date.")]
-    public async Task<IEnumerable<string>> ListRecentSessionsAsync(DateTime? startDate = null, DateTime? endDate = null,
+    [Description("Retrieves a list of recent chat sessions. Optionally, filter results by start and/or end date to narrow the search.")]
+    public async Task<IEnumerable<string>> ListRecentSessionsAsync(
+        DateTime? startDate = null,
+        DateTime? endDate = null,
         CancellationToken cancellationToken = default)
     {
         // Get ISemanticKernelContext directly instead of constructor DI to allow this plugin to be registered via AddSingleton() and not scoped due to EF.
