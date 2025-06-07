@@ -28,24 +28,18 @@ public static class ConfigureServices
         return services;
     }
 
-    public static IServiceCollection AddSemanticKernelServices(this IServiceCollection services,
+    public static IServiceCollection AddSemanticKernelOpenAIServices(this IServiceCollection services,
     IConfiguration configuration)
     {
         services.AddOptions<OpenAIOptions>()
         .Bind(configuration.GetSection(OpenAIOptions.SectionName))
             .ValidateDataAnnotations()
             .ValidateOnStart();
-        services.AddSingleton<IAuthorsPlugin, AuthorsPlugin>();
-        services.AddSingleton<IChatSessionsPlugin, ChatSessionsPlugin>();
-        services.AddSingleton<IChatMessagesPlugin, ChatMessagesPlugin>();
-        services.AddKernel();
 
-        // Chat Completion
-        services.AddSingleton<IChatCompletionService>(sp =>
-        {
-            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
-            return new OpenAIChatCompletionService(modelId: options.ChatCompletionModelId, apiKey: options.ApiKey);
-        });
+        // Plugins
+        services.AddScoped<IAuthorsPlugin, AuthorsPlugin>();
+        services.AddScoped<IChatSessionsPlugin, ChatSessionsPlugin>();
+        services.AddScoped<IChatMessagesPlugin, ChatMessagesPlugin>();
 
         // TextGenerationService deprecated. Use custom connector service instead.
         services.AddSingleton<ITextGenerationService, TextGenerationService>();
@@ -64,12 +58,6 @@ public static class ConfigureServices
             var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
             return new OpenAITextToAudioService(modelId: options.AudioModelId, apiKey: options.ApiKey);
         })
-        // Embedding text into a vector for storage in CosmosDb or Qdrant
-        .AddSingleton<ITextEmbeddingGenerationService>(sp =>
-        {
-            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
-            return new OpenAITextEmbeddingGenerationService(modelId: options.TextEmbeddingModelId, apiKey: options.ApiKey);
-        })
         // Translate text to image
         .AddSingleton<ITextToImageService>(sp =>
         {
@@ -79,7 +67,46 @@ public static class ConfigureServices
 #pragma warning restore SKEXP0001
 #pragma warning restore SKEXP0010
 
-        // ToDo: Implement MemoryBuilder.WithMemoryStore(VolatileMemoryStore or SQLMemoryStore)
+        // Chat Completion
+        services.AddSingleton<IChatCompletionService>(sp =>
+        {
+            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
+            return new OpenAIChatCompletionService(modelId: options.ChatCompletionModelId, apiKey: options.ApiKey);
+        });
+
+        // To Register the Kernel with no plugins: services.AddKernel();
+        // Register the Kernel with plugins imported: 
+        services.AddScoped<Kernel>(sp =>
+        {
+            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
+            var builder = Kernel.CreateBuilder();
+
+#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            // AI Services
+            builder.Services
+                .AddOpenAIChatCompletion(modelId: options.ChatCompletionModelId, apiKey: options.ApiKey)
+                .AddOpenAIAudioToText(modelId: options.AudioModelId, apiKey: options.ApiKey)
+                .AddOpenAITextToAudio(modelId: options.AudioModelId, apiKey: options.ApiKey)                
+                .AddOpenAITextToImage(modelId: options.ImageModelId, apiKey: options.ApiKey);
+#pragma warning restore SKEXP0010
+
+            // Logging
+            builder.Services.AddLogging(logging => logging.AddConsole());
+
+            // Memory - ToDo: .WithMemoryStore(new VolatileMemoryStore());
+
+            var kernel = builder.Build();
+
+            var authorsPlugin = sp.GetRequiredService<IAuthorsPlugin>();
+            var chatSessionsPlugin = sp.GetRequiredService<IChatSessionsPlugin>();
+            var chatMessagesPlugin = sp.GetRequiredService<IChatMessagesPlugin>();
+
+            kernel.ImportPluginFromObject(authorsPlugin, nameof(AuthorsPlugin));
+            kernel.ImportPluginFromObject(chatSessionsPlugin, nameof(ChatSessionsPlugin));
+            kernel.ImportPluginFromObject(chatMessagesPlugin, nameof(ChatMessagesPlugin));
+
+            return kernel;
+        });        
 
         return services;
     }

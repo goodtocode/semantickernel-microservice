@@ -23,7 +23,7 @@ if (builder.Environment.EnvironmentName == "Local")
 
 builder.Services.AddApplicationServices();
 builder.Services.AddDbContextServices(builder.Configuration);
-builder.Services.AddSemanticKernelServices(builder.Configuration);
+builder.Services.AddSemanticKernelOpenAIServices(builder.Configuration);
 builder.Services.AddWebUIServices();
 builder.Services.AddHealthChecks();
 //AddKeyVaultConfigurationSettings(builder);
