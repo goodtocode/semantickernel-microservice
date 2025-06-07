@@ -14,7 +14,53 @@
     [Parameter] public IEnumerable<ChatSessionModel>? Sessions { get; set; }
     [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }    
     [Parameter] public EventCallback<ChatSessionModel> OnRenameSession { get; set; }
+}
 
+<div class="session-list mt-3">
+    @if (Sessions?.Count() > 0)
+    {
+        foreach (var session in Sessions)
+        {
+            <div class="session-item mt-1 rounded-custom d-flex align-items-center justify-content-between @(session.IsSelected ? "bg-primary-translucent text-white" : "bg-white")"
+                 @onclick="() => SelectSessionAsync(session)">
+                <div class="flex-grow-1 d-flex align-items-center">
+                    @if (editingSessionId == session.Id)
+                    {
+                        <EditForm EditContext="editContext" OnValidSubmit="() => EditSessionTitleAsync(session)">
+                            <div class="d-flex w-100 align-items-center">
+                                <InputText class="form-control form-control-sm me-2"
+                                           @bind-Value="editModel.Title"
+                                           required
+                                           autofocus
+                                           onkeydown="@((KeyboardEventArgs e) => { if (e.Key == "Escape") CancelEditing(); })" />
+                                <button type="submit" class="btn btn-primary btn-sm me-1">Save</button>
+                                <button type="button" class="btn btn-secondary btn-sm" @onclick="CancelEditing">Cancel</button>
+                            </div>
+                            <ValidationSummary class="text-danger small" />
+                        </EditForm>
+                    }
+                    else
+                    {
+                        <p class="mb-0" style="flex:1;">
+                            @(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)
+                        </p>
+                    }
+                </div>
+                <button class="btn btn-link btn-sm p-0 ms-2" style="color: inherit; text-decoration: none;" title="More actions"
+                        @onclick="@(() => { if (editingSessionId != session.Id) StartEditing(session); })">
+                    <span style="font-size: 1.5rem; line-height: 1;">&#x22EF;</span>
+                </button>
+            </div>
+        }
+    }
+    else
+    {
+        <SkeletonList />
+    }
+</div>
+
+@code
+{
     private Guid? editingSessionId;
     private EditSessionModel editModel = new();
     private EditContext? editContext;
@@ -64,46 +110,3 @@
         public string? Title { get; set; }
     }
 }
-
-<div class="session-list mt-3">
-    @if (Sessions?.Count() > 0)
-    {
-        foreach (var session in Sessions)
-        {
-            <div class="session-item mt-1 rounded-custom d-flex align-items-center justify-content-between @(session.IsSelected ? "bg-primary-translucent text-white" : "bg-white")"
-                 @onclick="() => SelectSessionAsync(session)">
-                <div class="flex-grow-1 d-flex align-items-center">
-                    @if (editingSessionId == session.Id)
-                    {
-                        <EditForm EditContext="editContext" OnValidSubmit="() => EditSessionTitleAsync(session)">
-                            <div class="d-flex w-100 align-items-center">
-                                <InputText class="form-control form-control-sm me-2"
-                                           @bind-Value="editModel.Title"
-                                           required
-                                           autofocus
-                                           onkeydown="@((KeyboardEventArgs e) => { if (e.Key == "Escape") CancelEditing(); })" />
-                                <button type="submit" class="btn btn-primary btn-sm me-1">Save</button>
-                                <button type="button" class="btn btn-secondary btn-sm" @onclick="CancelEditing">Cancel</button>
-                            </div>
-                            <ValidationSummary class="text-danger small" />
-                        </EditForm>
-                    }
-                    else
-                    {
-                        <p class="mb-0" style="flex:1;">
-                            @(string.IsNullOrWhiteSpace(session.Title) ? "Untitled Session" : session.Title)
-                        </p>
-                    }
-                </div>
-                <button class="btn btn-link btn-sm p-0 ms-2" style="color: inherit; text-decoration: none;" title="More actions"
-                        @onclick="@(() => { if (editingSessionId != session.Id) StartEditing(session); })">
-                    <span style="font-size: 1.5rem; line-height: 1;">&#x22EF;</span>
-                </button>
-            </div>
-        }
-    }
-    else
-    {
-        <SkeletonList />
-    }
-</div>
