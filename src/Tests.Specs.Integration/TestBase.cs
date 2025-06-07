@@ -3,8 +3,14 @@ using FluentAssertions.Execution;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
+using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 using Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.SemanticKernel;
+using TechTalk.SpecFlow.Assist;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration;
 
@@ -25,6 +31,7 @@ public abstract class TestBase : IDisposable
     internal ValidationResult validationResponse = new();
     internal SemanticKernelContext context;
     internal IConfiguration configuration;
+    internal Kernel kernel = new();
     internal OpenAIOptions optionsOpenAi = new();
 
     public TestBase()
@@ -45,6 +52,29 @@ public abstract class TestBase : IDisposable
             .Build();
 
         configuration.GetSection(nameof(OpenAI)).Bind(optionsOpenAi);
+
+        var builder = Kernel.CreateBuilder();
+#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+        builder.Services
+            .AddOpenAIChatCompletion(modelId: optionsOpenAi.ChatCompletionModelId, apiKey: optionsOpenAi.ApiKey)
+            .AddOpenAIAudioToText(modelId: optionsOpenAi.AudioModelId, apiKey: optionsOpenAi.ApiKey)
+            .AddOpenAITextToAudio(modelId: optionsOpenAi.AudioModelId, apiKey: optionsOpenAi.ApiKey)
+            .AddOpenAITextToImage(modelId: optionsOpenAi.ImageModelId, apiKey: optionsOpenAi.ApiKey);
+#pragma warning restore SKEXP0010
+        builder.Services.AddLogging(logging =>
+        {
+            logging.SetMinimumLevel(LogLevel.Debug);
+        });
+        kernel = builder.Build();
+
+        var serviceProvider = builder.Services.BuildServiceProvider();
+        var authorsPlugin = new AuthorsPlugin(serviceProvider);
+        var chatSessionsPlugin = new ChatSessionsPlugin(serviceProvider);
+        var chatMessagesPlugin = new ChatMessagesPlugin(serviceProvider);
+
+        kernel.ImportPluginFromObject(authorsPlugin, nameof(AuthorsPlugin));
+        kernel.ImportPluginFromObject(chatSessionsPlugin, nameof(ChatSessionsPlugin));
+        kernel.ImportPluginFromObject(chatMessagesPlugin, nameof(ChatMessagesPlugin));
     }
 
     internal IMapper Mapper { get; }

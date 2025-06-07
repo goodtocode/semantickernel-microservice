@@ -2,6 +2,7 @@
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
@@ -15,10 +16,10 @@ public class CreateChatSessionCommand : IRequest<ChatSessionDto>
     public string? Message { get; set; }
 }
 
-public class CreateChatSessionCommandHandler(IChatCompletionService chatService, ISemanticKernelContext context, IMapper mapper) : IRequestHandler<CreateChatSessionCommand, ChatSessionDto>
+public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelContext context, IMapper mapper) : IRequestHandler<CreateChatSessionCommand, ChatSessionDto>
 {
-    private readonly IChatCompletionService _chatService = chatService;
     private readonly IMapper _mapper = mapper;
+    private readonly Kernel _kernel = kernel;
     private readonly ISemanticKernelContext _context = context;
 
     public async Task<ChatSessionDto> Handle(CreateChatSessionCommand request, CancellationToken cancellationToken)
@@ -27,9 +28,10 @@ public class CreateChatSessionCommandHandler(IChatCompletionService chatService,
         GuardAgainstEmptyMessage(request?.Message);
         GuardAgainstIdExsits(_context.ChatSessions, request!.Id);
 
+        var service = _kernel.GetRequiredService<IChatCompletionService>();
         ChatHistory chatHistory = [];
         chatHistory.AddUserMessage(request!.Message!);
-        var response = await _chatService.GetChatMessageContentAsync(chatHistory, null, null, cancellationToken);
+        var response = await service.GetChatMessageContentAsync(chatHistory, null, null, cancellationToken);
 
         var author = await _context.Authors
             .FirstOrDefaultAsync(x => x.Id == request.AuthorId, cancellationToken);

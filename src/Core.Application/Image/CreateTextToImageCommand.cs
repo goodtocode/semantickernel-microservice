@@ -1,8 +1,9 @@
-﻿using System.Text;
-using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.TextToImage;
+using System.Text;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Image;
 
@@ -15,11 +16,11 @@ public class CreateTextToImageCommand : IRequest<TextImageDto>
 }
 
 #pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-public class CreateTextToImageCommandHandler(ITextToImageService imageService, ISemanticKernelContext context, IMapper mapper)
+public class CreateTextToImageCommandHandler(Kernel kernel, ISemanticKernelContext context, IMapper mapper)
     : IRequestHandler<CreateTextToImageCommand, TextImageDto>
 {
-    private readonly ITextToImageService _imageService = imageService;
     private readonly IMapper _mapper = mapper;
+    private readonly Kernel _kernel = kernel;
     private readonly ISemanticKernelContext _context = context;
 
     public async Task<TextImageDto> Handle(CreateTextToImageCommand request, CancellationToken cancellationToken)
@@ -28,7 +29,8 @@ public class CreateTextToImageCommandHandler(ITextToImageService imageService, I
         GuardAgainstEmptyPrompt(request?.Prompt);
         GuardAgainstIdExsits(_context.TextImages, request!.Id);
 
-        var response = await _imageService.GenerateImageAsync(description: request.Prompt, width: request.Width, height: request.Height, cancellationToken: cancellationToken);
+        var service = _kernel.GetRequiredService<ITextToImageService>();
+        var response = await service.GenerateImageAsync(description: request.Prompt, width: request.Width, height: request.Height, cancellationToken: cancellationToken);
         // Handle response containing rather a Uri or a Base64 byte array
         Uri.TryCreate(response, UriKind.Absolute, out var returnUri);
 

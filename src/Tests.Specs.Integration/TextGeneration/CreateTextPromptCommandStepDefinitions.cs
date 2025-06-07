@@ -1,6 +1,7 @@
 using Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Services;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration;
@@ -66,8 +67,7 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
         {
             try
             {
-                var textService = new TextGenerationService(new OpenAIChatCompletionService(optionsOpenAi.ChatCompletionModelId, optionsOpenAi.ApiKey));
-                var handler = new CreateTextPromptCommandHandler(textService, context, Mapper);
+                var handler = new CreateTextPromptCommandHandler(kernel, context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

@@ -1,5 +1,6 @@
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
@@ -63,8 +64,7 @@ public class CreateChatMessageCommandStepDefinitions : TestBase
         {
             try
             {
-                var chatService = new OpenAIChatCompletionService(optionsOpenAi.ChatCompletionModelId, optionsOpenAi.ApiKey);
-                var handler = new CreateChatMessageCommandHandler(chatService, context, Mapper);
+                var handler = new CreateChatMessageCommandHandler(kernel, context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

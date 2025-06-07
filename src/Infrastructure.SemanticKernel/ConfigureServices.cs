@@ -3,14 +3,11 @@ using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AudioToText;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Microsoft.SemanticKernel.Embeddings;
 using Microsoft.SemanticKernel.TextGeneration;
 using Microsoft.SemanticKernel.TextToAudio;
 using Microsoft.SemanticKernel.TextToImage;
@@ -111,7 +108,7 @@ public static class ConfigureServices
             kernel.ImportPluginFromObject(chatMessagesPlugin, nameof(ChatMessagesPlugin));
 
             return kernel;
-        });        
+        });
 
         return services;
     }

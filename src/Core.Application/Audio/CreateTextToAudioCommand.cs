@@ -1,6 +1,7 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.TextToAudio;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Audio;
@@ -13,11 +14,11 @@ public class CreateTextToAudioCommand : IRequest<TextAudioDto>
 }
 
 #pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-public class CreateTextToAudioCommandHandler(ITextToAudioService audioService, ISemanticKernelContext context, IMapper mapper)
+public class CreateTextToAudioCommandHandler(Kernel kernel, ISemanticKernelContext context, IMapper mapper)
     : IRequestHandler<CreateTextToAudioCommand, TextAudioDto>
 {
-    private readonly ITextToAudioService _audioService = audioService;
     private readonly IMapper _mapper = mapper;
+    private readonly Kernel _kernel = kernel;
     private readonly ISemanticKernelContext _context = context;
 
     public async Task<TextAudioDto> Handle(CreateTextToAudioCommand request, CancellationToken cancellationToken)
@@ -26,10 +27,9 @@ public class CreateTextToAudioCommandHandler(ITextToAudioService audioService, I
         GuardAgainstEmptyPrompt(request?.Prompt);
         GuardAgainstIdExsits(_context.TextAudio, request!.Id);
 
-        // Get response
-        var response = await _audioService.GetAudioContentAsync(text: request.Prompt, cancellationToken: cancellationToken);
+        var service = _kernel.GetRequiredService<ITextToAudioService>();
+        var response = await service.GetAudioContentAsync(text: request.Prompt, cancellationToken: cancellationToken);
 
-        // Persist chat session
         var textAudio = TextAudioEntity.Create(request.Id, request.AuthorId, request.Prompt, response.Data.GetValueOrDefault().ToArray(), response.Uri);
         _context.TextAudio.Add(textAudio);
         await _context.SaveChangesAsync(cancellationToken);
