@@ -3,6 +3,7 @@ using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
@@ -49,29 +50,29 @@ public static class ConfigureServices
         // Translate audio to text
         services.AddSingleton<IAudioToTextService>(sp =>
         {
-            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
-            return new OpenAIAudioToTextService(modelId: options.AudioModelId, apiKey: options.ApiKey);
+            var kernel = sp.GetRequiredService<Kernel>();
+            return kernel.GetRequiredService<IAudioToTextService>();
         })
         // Translate audio to text
         .AddSingleton<ITextToAudioService>(sp =>
         {
-            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
-            return new OpenAITextToAudioService(modelId: options.AudioModelId, apiKey: options.ApiKey);
+            var kernel = sp.GetRequiredService<Kernel>();
+            return kernel.GetRequiredService<ITextToAudioService>();
         })
         // Translate text to image
         .AddSingleton<ITextToImageService>(sp =>
         {
-            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
-            return new OpenAITextToImageService(modelId: options.ImageModelId, apiKey: options.ApiKey);
+            var kernel = sp.GetRequiredService<Kernel>();
+            return kernel.GetRequiredService<ITextToImageService>();
         });
 #pragma warning restore SKEXP0001
 #pragma warning restore SKEXP0010
 
         // Chat Completion
         services.AddSingleton<IChatCompletionService>(sp =>
-        {
-            var options = sp.GetRequiredService<IOptions<OpenAIOptions>>().Value;
-            return new OpenAIChatCompletionService(modelId: options.ChatCompletionModelId, apiKey: options.ApiKey);
+        { 
+            var kernel = sp.GetRequiredService<Kernel>();
+            return kernel.GetRequiredService<IChatCompletionService>();
         });
 
         // To Register the Kernel with no plugins: services.AddKernel();
@@ -90,8 +91,12 @@ public static class ConfigureServices
                 .AddOpenAITextToImage(modelId: options.ImageModelId, apiKey: options.ApiKey);
 #pragma warning restore SKEXP0010
 
-            // Logging
-            builder.Services.AddLogging(logging => logging.AddConsole());
+            // Logging  
+            builder.Services.AddLogging(logging =>
+            {
+                logging.SetMinimumLevel(LogLevel.Debug);
+                logging.AddConsole();
+            });
 
             // Memory - ToDo: .WithMemoryStore(new VolatileMemoryStore());
 
