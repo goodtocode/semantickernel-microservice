@@ -280,5 +280,6 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 | 1.0.2   | 2025-Jan-19 | Updated to .NET 9 and SK 1.33             |
 | 1.0.3   | 2025-Feb-09 | Remove projects from File-New Project     |
 | 1.1.0   | 2025-Jun-04 | Blazor copilot-ish UX, AuthorSession      |
+| 1.1.1   | 2025-Jun-07 | Authors, Sessions & Messages Plugins      |
 
 This project is licensed with the [MIT license](https://mit-license.org/).
