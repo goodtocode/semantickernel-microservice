@@ -1,7 +1,5 @@
-using System.Text;
 using Goodtocode.SemanticKernel.Core.Application.Audio;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Audio;
 
@@ -68,10 +66,7 @@ public class CreateTextToAudioCommandStepDefinitions : TestBase
         {
             try
             {
-#pragma warning disable SKEXP0010
-                var audioService = new OpenAITextToAudioService(modelId: optionsOpenAi.AudioModelId, apiKey: optionsOpenAi.ApiKey);
-#pragma warning restore SKEXP0010
-                var handler = new CreateTextToAudioCommandHandler(audioService, context, Mapper);
+                var handler = new CreateTextToAudioCommandHandler(kernel, context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

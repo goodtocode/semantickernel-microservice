@@ -10,8 +10,7 @@ using Goodtocode.SemanticKernel.Presentation.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-if (builder.Environment.EnvironmentName == "Local")
-    builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
+builder.AddLocalEnvironment();
 
 // ToDo: Setup Authentication with Bearer Token
 // Use for B2C
@@ -23,11 +22,12 @@ if (builder.Environment.EnvironmentName == "Local")
 
 builder.Services.AddApplicationServices();
 builder.Services.AddDbContextServices(builder.Configuration);
-builder.Services.AddSemanticKernelServices(builder.Configuration);
+builder.Services.AddSemanticKernelOpenAIServices(builder.Configuration);
 builder.Services.AddWebUIServices();
 builder.Services.AddHealthChecks();
 //AddKeyVaultConfigurationSettings(builder);
 BuildApiVerAndApiExplorer(builder);
+builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 

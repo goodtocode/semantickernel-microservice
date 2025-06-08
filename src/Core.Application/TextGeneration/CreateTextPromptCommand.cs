@@ -1,6 +1,8 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.TextGeneration;
 
 namespace Goodtocode.SemanticKernel.Core.Application.TextGeneration;
@@ -11,11 +13,11 @@ public class CreateTextPromptCommand : IRequest<TextPromptDto>
     public string? Prompt { get; set; }
 }
 
-public class CreateTextPromptCommandHandler(ITextGenerationService textService, ISemanticKernelContext context, IMapper mapper)
+public class CreateTextPromptCommandHandler(Kernel kernel, ISemanticKernelContext context, IMapper mapper)
     : IRequestHandler<CreateTextPromptCommand, TextPromptDto>
-{
-    private readonly ITextGenerationService _textService = textService;
+{    
     private readonly IMapper _mapper = mapper;
+    private readonly Kernel _kernel = kernel;
     private readonly ISemanticKernelContext _context = context;
 
     public async Task<TextPromptDto> Handle(CreateTextPromptCommand request, CancellationToken cancellationToken)
@@ -25,7 +27,12 @@ public class CreateTextPromptCommandHandler(ITextGenerationService textService, 
         GuardAgainstIdExsits(_context.TextPrompts, request!.Id);
 
         // Get response
-        var responses = await _textService.GetTextContentsAsync(request.Prompt!, null, null, cancellationToken);
+        var service = _kernel.GetRequiredService<ITextGenerationService>();
+        var executionSettings = new PromptExecutionSettings
+        {
+            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+        };
+        var responses = await service.GetTextContentsAsync(request.Prompt!, executionSettings, kernel, cancellationToken);
 
         // Persist chat session
         var textPrompt = TextPromptEntity.Create(request.Id, Guid.NewGuid(), request.Prompt!);

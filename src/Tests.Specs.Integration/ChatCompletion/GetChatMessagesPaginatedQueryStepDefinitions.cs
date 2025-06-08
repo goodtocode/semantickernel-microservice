@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;

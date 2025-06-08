@@ -1,6 +1,7 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
@@ -12,9 +13,9 @@ public class CreateChatMessageCommand : IRequest<ChatMessageDto>
     public string? Message { get; set; }
 }
 
-public class CreateChatMessageCommandHandler(IChatCompletionService chatService, ISemanticKernelContext context, IMapper mapper) : IRequestHandler<CreateChatMessageCommand, ChatMessageDto>
+public class CreateChatMessageCommandHandler(Kernel kernel, ISemanticKernelContext context, IMapper mapper) : IRequestHandler<CreateChatMessageCommand, ChatMessageDto>
 {
-    private readonly IChatCompletionService _chatService = chatService;
+    private readonly Kernel _kernel = kernel;
     private readonly IMapper _mapper = mapper;
     private readonly ISemanticKernelContext _context = context;
 
@@ -25,14 +26,19 @@ public class CreateChatMessageCommandHandler(IChatCompletionService chatService,
         GuardAgainstIdExsits(_context.ChatMessages, request!.Id);
 
         var chatSession = _context.ChatSessions.Find(request.ChatSessionId);
+        
         var chatHistory = new ChatHistory();
         foreach (ChatMessageEntity message in chatSession!.Messages)
         {
             chatHistory.AddUserMessage(message.Content);
         }
-
         chatHistory.AddUserMessage(request!.Message!);
-        var response = await _chatService.GetChatMessageContentAsync(chatHistory, null, null, cancellationToken);
+        var service = _kernel.GetRequiredService<IChatCompletionService>();
+        var executionSettings = new PromptExecutionSettings
+        {
+            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+        };
+        var response = await service.GetChatMessageContentAsync(chatHistory, executionSettings, kernel, cancellationToken);
 
         var chatMessage = ChatMessageEntity.Create(Guid.NewGuid(), chatSession.Id, ChatMessageRole.user, request.Message!);
         chatSession.Messages.Add(chatMessage);

@@ -1,5 +1,4 @@
 .session-list {
-    max-height: 400px;
     overflow-y: auto;
     border-radius: 0.25rem;
     background-color: var(--bs-light);

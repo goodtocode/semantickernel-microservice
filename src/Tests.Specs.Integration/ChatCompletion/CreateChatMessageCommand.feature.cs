@@ -158,6 +158,62 @@ this.CreateChatMessage("success", "Success", "", "00000000-0000-0000-0000-000000
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Chat Message: success author plugin")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Chat Message Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createChatMessageCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success author plugin")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success author plugin")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ChatMessageExists", "true")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Please call get_author that Returns the author\'s name for the specified author ID" +
+            ", or \'Author not found\' if no match exists")]
+        public void CreateChatMessage_SuccessAuthorPlugin()
+        {
+#line 7
+this.CreateChatMessage("success author plugin", "Success", "", "00000000-0000-0000-0000-000000000000", "true", "Please call get_author that Returns the author\'s name for the specified author ID" +
+                    ", or \'Author not found\' if no match exists", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Chat Message: success session plugin")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Chat Message Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createChatMessageCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success session plugin")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success session plugin")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ChatMessageExists", "true")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Please call list_sessions that Lists all sessions, optionally by date")]
+        public void CreateChatMessage_SuccessSessionPlugin()
+        {
+#line 7
+this.CreateChatMessage("success session plugin", "Success", "", "00000000-0000-0000-0000-000000000000", "true", "Please call list_sessions that Lists all sessions, optionally by date", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Chat Message: success messages plugin")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Chat Message Command")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createChatMessageCommand")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "success messages plugin")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:def", "success messages plugin")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:response", "Success")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:responseErrors", "")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:id", "00000000-0000-0000-0000-000000000000")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ChatMessageExists", "true")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:message", "Please call list_messages that Lists all sessions, optionally by date")]
+        public void CreateChatMessage_SuccessMessagesPlugin()
+        {
+#line 7
+this.CreateChatMessage("success messages plugin", "Success", "", "00000000-0000-0000-0000-000000000000", "true", "Please call list_messages that Lists all sessions, optionally by date", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Create Chat Message: bad request: empty message")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Create Chat Message Command")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("createChatMessageCommand")]

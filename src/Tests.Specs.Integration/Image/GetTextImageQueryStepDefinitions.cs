@@ -1,4 +1,3 @@
-using System.Text;
 using Goodtocode.SemanticKernel.Core.Application.Image;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
 

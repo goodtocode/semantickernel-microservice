@@ -1,7 +1,5 @@
-using System.Text;
 using Goodtocode.SemanticKernel.Core.Application.Image;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Image;
 
@@ -64,10 +62,7 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
         {
             try
             {
-#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-                var imageService = new OpenAITextToImageService(modelId: optionsOpenAi.ImageModelId, apiKey: optionsOpenAi.ApiKey);
-#pragma warning restore SKEXP0010
-                var handler = new CreateTextToImageCommandHandler(imageService, context, Mapper);
+                var handler = new CreateTextToImageCommandHandler(kernel, context, Mapper);
                 await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }
