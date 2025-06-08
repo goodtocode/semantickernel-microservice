@@ -6,11 +6,9 @@ using System.ComponentModel;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 
-public sealed class ChatSessionsPlugin : IChatSessionsPlugin
+public sealed class ChatSessionsPlugin(IServiceProvider serviceProvider) : IChatSessionsPlugin
 {
-    private readonly IServiceProvider _serviceProvider;
-
-    public ChatSessionsPlugin(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
+    private readonly IServiceProvider _serviceProvider = serviceProvider;
 
     [KernelFunction("list_sessions")]
     [Description("Retrieves a list of recent chat sessions. Optionally, filter results by start and/or end date to narrow the search.")]

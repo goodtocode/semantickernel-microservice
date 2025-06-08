@@ -1,4 +1,5 @@
 ﻿using FluentAssertions.Execution;
+using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
@@ -49,8 +50,15 @@ public abstract class TestBase : IDisposable
             .AddEnvironmentVariables()
             .Build();
 
-        configuration.GetSection(nameof(OpenAI)).Bind(optionsOpenAi);
 
+        // The SK Plugins currently rely on GetRequiredService<ISemanticKernelContext>(), so we need to register it as a scoped service.
+        // This is a workaround to allow the plugins to be registered in the DI container as Singleton which SK memory wants, despite an EF dependency which wants Scoped.
+        var services = new ServiceCollection();
+        services.AddDbContext<SemanticKernelContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+        services.AddScoped<ISemanticKernelContext, SemanticKernelContext>();        
+        var provider = services.BuildServiceProvider();
+
+        configuration.GetSection(nameof(OpenAI)).Bind(optionsOpenAi);
         var builder = Kernel.CreateBuilder();
 #pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         builder.Services
