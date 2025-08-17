@@ -55,7 +55,7 @@
     }
     else
     {
-        <SkeletonList />
+        <SkeletonList Timeout="1000" />
     }
 </div>
 
@@ -64,27 +64,20 @@
     private Guid? editingSessionId;
     private EditSessionModel editModel = new();
     private EditContext? editContext;
-    private string? validationError;
 
     private void StartEditing(ChatSessionModel session)
     {
         editingSessionId = session.Id;
         editModel = new EditSessionModel { Title = session.Title };
         editContext = new EditContext(editModel);
-        validationError = null;
+
     }
 
     private async Task EditSessionTitleAsync(ChatSessionModel session)
     {
-        if (editContext is null)
+        if (editContext is null || !editContext.Validate())
             return;
 
-        validationError = null;
-        if (!editContext.Validate())
-        {
-            validationError = "Title is required.";
-            return;
-        }
         session.Title = editModel!.Title!;
         editingSessionId = null;
         await chatService.RenameSessionAsync(session.Id, session.Title);
@@ -94,7 +87,6 @@
     private void CancelEditing()
     {
         editingSessionId = null;
-        validationError = null;
     }
 
     private async Task SelectSessionAsync(ChatSessionModel selectedSession)

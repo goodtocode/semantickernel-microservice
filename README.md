@@ -33,9 +33,31 @@ Upcoming relases will support more Semantic Kernel and Azure Open AI functionali
 # Getting-Started in 4 Steps
 To get started, follow the steps below:
 1. Install Prerequisites
+	```
+	winget install Microsoft.DotNet.SDK.9 --silent
+	```
+	```
+	dotnet tool install --global dotnet-ef
+	```
 2. Add your Open AI or Azure Open AI key to configuration (via *dotnet user-secrets set* command)
+	```
+	cd src/Presentation.WebAPI
+	dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
+	```
+	```
+	cd ../Tests.Specs.Integration
+	dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
+	```
 3. Create your SQL Server database & schema (via *dotnet ef* command)
+	```
+	cd ../../
+	dotnet ef database update --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernelMicroservice;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
+	```
 4. Run Tests (Tests.Specs.Integration)
+	```
+	cd src/Tests.Specs.Integration
+	dotnet test
+	```
 
 # Install Prerequisites
 You will need the following tools:
@@ -43,10 +65,6 @@ You will need the following tools:
 [Visual Studio Workload IDs](https://learn.microsoft.com/en-us/visualstudio/install/workload-component-id-vs-community?view=vs-2022&preserve-view=true)
 ```
 winget install --id Microsoft.VisualStudio.2022.Community --override "--quiet --add Microsoft.Visualstudio.Workload.Azure --add Microsoft.VisualStudio.Workload.Data --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb"
-```
-## Or VS Code (code .)
-```
-winget install Microsoft.VisualStudioCode --override '/SILENT /mergetasks="!runcode,addcontextmenufiles,addcontextmenufolders"'
 ```
 
 ## .NET SDK
@@ -58,14 +76,6 @@ winget install Microsoft.DotNet.SDK.9 --silent
 Install
 ```
 dotnet tool install --global dotnet-ef
-```
-Update
-```
-dotnet tool update --global dotnet-ef
-```
-Remember to add the following package to appropriate project
-```
-dotnet add package Microsoft.EntityFrameworkCore.Design
 ```
 
 ## SQL Server
@@ -90,8 +100,11 @@ Follow these steps to get your development environment set up:
 **Important:** Do this for both Presentation.WebAPI and Specs.Infrastructure
 ### Azure Open AI
 ```
-cd src/Presentation/WebAPI
-dotnet user-secrets init
+cd src/Presentation.WebAPI
+dotnet user-secrets set "AzureOpenAI:ChatDeploymentName" "gpt-4"
+dotnet user-secrets set "AzureOpenAI:Endpoint" "https://YOUR_ENDPOINT.openai.azure.com/"
+dotnet user-secrets set "AzureOpenAI:ApiKey" "YOUR_API_KEY"
+cd src/Tests.Specs.Integration
 dotnet user-secrets set "AzureOpenAI:ChatDeploymentName" "gpt-4"
 dotnet user-secrets set "AzureOpenAI:Endpoint" "https://YOUR_ENDPOINT.openai.azure.com/"
 dotnet user-secrets set "AzureOpenAI:ApiKey" "YOUR_API_KEY"
@@ -104,13 +117,11 @@ AzureOpenAI__ApiKey
 ```
 
 ### Open AI
-Set API Key in both Presention/WebAPI and Tests/Specs.Integration projects
+Set API Key in both Presention.WebAPI and Tests/Specs.Integration projects
 ```
-cd src/Presentation/WebAPI
-dotnet user-secrets init
+cd src/Presentation.WebAPI
 dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
-cd src/Tests/Specs.Integration
-dotnet user-secrets init
+cd ../Tests.Specs.Integration
 dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
 ```
 Alternately you can set in Environment variables
@@ -148,7 +159,7 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YOUR_SQL_CONNECTI
 	```
 7. When an entity changes, is created or deleted, create a new migration. Suggest doing this each new version.
 	```
-	dotnet ef migrations add v1.0.0.1 --project .\src\Infrastructure\SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation\WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
+	dotnet ef migrations add v1.1.1 --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
 	```
 # Running the Application
 ## Launch the backend
@@ -281,5 +292,6 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 | 1.0.3   | 2025-Feb-09 | Remove projects from File-New Project     |
 | 1.1.0   | 2025-Jun-04 | Blazor copilot-ish UX, AuthorSession      |
 | 1.1.1   | 2025-Jun-07 | Authors, Sessions & Messages Plugins      |
+| 1.1.2   | 2025-Aug-16 | Deprecated specflow      					|
 
 This project is licensed with the [MIT license](https://mit-license.org/).

@@ -13,11 +13,6 @@
         <div class="collapse navbar-collapse d-none d-md-flex" id="navbarNav">
             <ul class="navbar-nav ms-auto flex-row w-100 justify-content-end">
                 <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
                     <NavLink class="nav-link" href="chat">
                         <span class="bi bi-chat-dots-fill-nav-menu" aria-hidden="true"></span> Chat Session
                     </NavLink>
@@ -36,11 +31,6 @@
         </div>
         <div class="mobile-nav d-md-none @(navMenuOpened ? "show" : "")">
             <ul class="navbar-nav flex-column w-100">
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All" @onclick="CloseNavMenu">
-                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-                    </NavLink>
-                </li>
                 <li class="nav-item px-3">
                     <NavLink class="nav-link" href="chat" @onclick="CloseNavMenu">
                         <span class="bi bi-chat-dots-fill-nav-menu" aria-hidden="true"></span> Chat Session

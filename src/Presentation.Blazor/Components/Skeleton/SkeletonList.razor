@@ -1,12 +1,47 @@
 ﻿@namespace Goodtocode.SemanticKernel.Presentation.Blazor.Components.Skeleton
 
-<div class="skeleton-loader">
-    <div class="skeleton-box"></div>
-    <div class="skeleton-box"></div>
-    <div class="skeleton-box"></div>
-</div>
-
+@if (!_isTimeoutReached)
+{
+    <div class="skeleton-loader">
+        <div class="skeleton-box"></div>
+        <div class="skeleton-box"></div>
+        <div class="skeleton-box"></div>
+    </div>
+}
 
 @code {
+    [Parameter]
+    public int Timeout { get; set; } = 0; // Timeout in milliseconds
 
+    private bool _isTimeoutReached = false;
+    private CancellationTokenSource? _cts;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Timeout > 0)
+        {
+            _cts?.Cancel();
+            _cts = new CancellationTokenSource();
+            try
+            {
+                await Task.Delay(Timeout, _cts.Token);
+                _isTimeoutReached = true;
+                StateHasChanged();
+            }
+            catch (TaskCanceledException)
+            {
+                // Ignore cancellation
+            }
+        }
+        else
+        {
+            _isTimeoutReached = false;
+        }
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
 }
