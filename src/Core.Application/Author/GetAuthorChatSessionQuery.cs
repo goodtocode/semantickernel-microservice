@@ -11,22 +11,22 @@ public class GetAuthorChatSessionQuery : IRequest<ChatSessionDto>
     public Guid ChatSessionId { get; set; }
 }
 
-public class GetAuthorChatSessionQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetAuthorChatSessionQuery, ChatSessionDto>
+public class GetAuthorChatSessionQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetAuthorChatSessionQuery, ChatSessionDto>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<ChatSessionDto> Handle(GetAuthorChatSessionQuery request, CancellationToken cancellationToken)
     {
-        var returnData = await _context.ChatSessions.FirstOrDefaultAsync(x => x.Id == request.ChatSessionId && x.AuthorId == request.AuthorId, cancellationToken: cancellationToken);
+        var returnData = await _context.ChatSessions
+            .FirstOrDefaultAsync(x => x.Id == request.ChatSessionId && x.AuthorId == request.AuthorId, cancellationToken: cancellationToken);
         GuardAgainstNotFound(returnData);
 
-        return _mapper.Map<ChatSessionDto>(returnData);
+        return ChatSessionDto.CreateFrom(returnData);
     }
 
     private static void GuardAgainstNotFound(ChatSessionEntity? entity)
     {
-        if (entity == null)
+        if (entity is null)
             throw new CustomNotFoundException("Chat Session Not Found");
     }
 }

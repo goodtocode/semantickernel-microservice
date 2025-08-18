@@ -87,7 +87,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
             if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetTextImagesPaginatedQueryHandler(context, Mapper);
+                    var handler = new GetTextImagesPaginatedQueryHandler(context);
                     _response = await handler.Handle(request, CancellationToken.None);
                     responseType = CommandResponseType.Successful;
                 }

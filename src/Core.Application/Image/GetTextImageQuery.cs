@@ -9,10 +9,9 @@ public class GetTextImageQuery : IRequest<TextImageDto>
     public Guid Id { get; set; }
 }
 
-public class GetTextImageQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetTextImageQuery, TextImageDto>
+public class GetTextImageQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetTextImageQuery, TextImageDto>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<TextImageDto> Handle(GetTextImageQuery request,
                                 CancellationToken cancellationToken)
@@ -20,7 +19,7 @@ public class GetTextImageQueryHandler(ISemanticKernelContext context, IMapper ma
         var textImage = await _context.TextImages.FindAsync([request.Id, cancellationToken], cancellationToken: cancellationToken);
         GuardAgainstNotFound(textImage);
 
-        return _mapper.Map<TextImageDto>(textImage);
+        return TextImageDto.CreateFrom(textImage);
     }
 
     private static void GuardAgainstNotFound(TextImageEntity? textImage)

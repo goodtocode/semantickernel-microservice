@@ -83,7 +83,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetChatSessionsPaginatedQueryHandler(context, Mapper);
+                    var handler = new GetChatSessionsPaginatedQueryHandler(context);
                     _response = await handler.Handle(request, CancellationToken.None);
                     responseType = CommandResponseType.Successful;
                 }

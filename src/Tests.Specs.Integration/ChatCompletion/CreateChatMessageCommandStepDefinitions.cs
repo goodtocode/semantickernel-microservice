@@ -62,7 +62,7 @@ public class CreateChatMessageCommandStepDefinitions : TestBase
         {
             try
             {
-                var handler = new CreateChatMessageCommandHandler(kernel, context, Mapper);
+                var handler = new CreateChatMessageCommandHandler(kernel, context);
                 await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

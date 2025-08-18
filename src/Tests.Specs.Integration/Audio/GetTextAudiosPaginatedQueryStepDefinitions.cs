@@ -95,7 +95,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
             if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetTextAudioPaginatedQueryHandler(context, Mapper);
+                    var handler = new GetTextAudioPaginatedQueryHandler(context);
                     _response = await handler.Handle(request, CancellationToken.None);
                     responseType = CommandResponseType.Successful;
                 }

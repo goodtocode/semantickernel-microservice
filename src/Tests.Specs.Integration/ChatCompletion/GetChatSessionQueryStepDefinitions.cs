@@ -58,7 +58,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetChatSessionQueryHandler(context, Mapper);
+                var handler = new GetChatSessionQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }
@@ -92,6 +92,6 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasACountMatching(string messageCount)
     {
-        _response?.Messages?.Count.Should().Be(int.Parse(messageCount, CultureInfo.InvariantCulture));
+        _response?.Messages?.Count().Should().Be(int.Parse(messageCount, CultureInfo.InvariantCulture));
     }
 }

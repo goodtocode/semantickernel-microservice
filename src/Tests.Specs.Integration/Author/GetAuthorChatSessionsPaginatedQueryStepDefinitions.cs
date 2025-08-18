@@ -1,3 +1,4 @@
+using Goodtocode.SemanticKernel.Core.Application.Author;
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
@@ -96,7 +97,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
             if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetAuthorChatSessionsPaginatedQueryHandler(context, Mapper);
+                    var handler = new GetAuthorChatSessionsPaginatedQueryHandler(context);
                     _response = await handler.Handle(request, CancellationToken.None);
                     responseType = CommandResponseType.Successful;
                 }

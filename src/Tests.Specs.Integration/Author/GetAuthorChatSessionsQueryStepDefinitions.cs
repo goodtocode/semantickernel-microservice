@@ -1,3 +1,4 @@
+using Goodtocode.SemanticKernel.Core.Application.Author;
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
@@ -80,7 +81,7 @@ public class GetAuthorChatSessionsQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetAuthorChatSessionsQueryHandler(context, Mapper);
+                var handler = new GetAuthorChatSessionsQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

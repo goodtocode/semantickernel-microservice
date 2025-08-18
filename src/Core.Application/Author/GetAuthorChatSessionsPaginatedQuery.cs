@@ -1,9 +1,9 @@
-﻿using AutoMapper.QueryableExtensions;
-using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 
-namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
+namespace Goodtocode.SemanticKernel.Core.Application.Author;
 
 public class GetAuthorChatSessionsPaginatedQuery : IRequest<PaginatedList<ChatSessionDto>>
 {
@@ -14,21 +14,20 @@ public class GetAuthorChatSessionsPaginatedQuery : IRequest<PaginatedList<ChatSe
     public int PageSize { get; init; } = 10;
 }
 
-public class GetAuthorChatSessionsPaginatedQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetAuthorChatSessionsPaginatedQuery, PaginatedList<ChatSessionDto>>
+public class GetAuthorChatSessionsPaginatedQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetAuthorChatSessionsPaginatedQuery, PaginatedList<ChatSessionDto>>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<PaginatedList<ChatSessionDto>> Handle(GetAuthorChatSessionsPaginatedQuery request, CancellationToken cancellationToken)
     {
         var returnData = await _context.ChatSessions
-            .OrderByDescending(x => x.Timestamp)
-            .Where(x => x.AuthorId == request.AuthorId
-                    && (request.StartDate == null || x.Timestamp > request.StartDate)
-                    && (request.EndDate == null || x.Timestamp < request.EndDate))
-            .ProjectTo<ChatSessionDto>(_mapper.ConfigurationProvider)
-            .PaginatedListAsync(request.PageNumber, request.PageSize);
+        .OrderByDescending(x => x.Timestamp)
+        .Where(x => (request.StartDate == null || x.Timestamp > request.StartDate)
+            && (request.EndDate == null || x.Timestamp < request.EndDate))
+        .Select(x => ChatSessionDto.CreateFrom(x))
+        .PaginatedListAsync(request.PageNumber, request.PageSize);
 
         return returnData;
+
     }
 }

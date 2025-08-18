@@ -9,10 +9,9 @@ public class GetTextPromptQuery : IRequest<TextPromptDto>
     public Guid Id { get; set; }
 }
 
-public class GetTextPromptQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetTextPromptQuery, TextPromptDto>
+public class GetTextPromptQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetTextPromptQuery, TextPromptDto>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<TextPromptDto> Handle(GetTextPromptQuery request,
                                 CancellationToken cancellationToken)
@@ -20,7 +19,7 @@ public class GetTextPromptQueryHandler(ISemanticKernelContext context, IMapper m
         var textPrompt = await _context.TextPrompts.FindAsync([request.Id, cancellationToken], cancellationToken: cancellationToken);
         GuardAgainstNotFound(textPrompt);
 
-        return _mapper.Map<TextPromptDto>(textPrompt);
+        return TextPromptDto.CreateFrom(textPrompt);
     }
 
     private static void GuardAgainstNotFound(TextPromptEntity? textPrompt)

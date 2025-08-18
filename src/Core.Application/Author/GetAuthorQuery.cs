@@ -9,17 +9,16 @@ public class GetAuthorQuery : IRequest<AuthorDto>
     public Guid AuthorId { get; set; }
 }
 
-public class GetAuthorQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetAuthorQuery, AuthorDto>
+public class GetAuthorQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetAuthorQuery, AuthorDto>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<AuthorDto> Handle(GetAuthorQuery request, CancellationToken cancellationToken)
     {
         var author = await _context.Authors.FindAsync([request.AuthorId, cancellationToken], cancellationToken: cancellationToken);
         GuardAgainstNotFound(author);
 
-        return _mapper.Map<AuthorDto>(author);
+        return AuthorDto.CreateFrom(author);
     }
 
     private static void GuardAgainstNotFound(AuthorEntity? Author)

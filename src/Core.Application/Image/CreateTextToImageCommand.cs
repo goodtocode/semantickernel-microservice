@@ -16,10 +16,9 @@ public class CreateTextToImageCommand : IRequest<TextImageDto>
 }
 
 #pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-public class CreateTextToImageCommandHandler(Kernel kernel, ISemanticKernelContext context, IMapper mapper)
+public class CreateTextToImageCommandHandler(Kernel kernel, ISemanticKernelContext context)
     : IRequestHandler<CreateTextToImageCommand, TextImageDto>
 {
-    private readonly IMapper _mapper = mapper;
     private readonly Kernel _kernel = kernel;
     private readonly ISemanticKernelContext _context = context;
 
@@ -30,14 +29,14 @@ public class CreateTextToImageCommandHandler(Kernel kernel, ISemanticKernelConte
 
         var service = _kernel.GetRequiredService<ITextToImageService>();
         var response = await service.GenerateImageAsync(description: request.Prompt, width: request.Width, height: request.Height, cancellationToken: cancellationToken);
-        // Handle response containing rather a Uri or a Base64 byte array
+        // Handle for response containing either a Uri or a Base64 byte array
         Uri.TryCreate(response, UriKind.Absolute, out var returnUri);
 
         var textImage = TextImageEntity.Create(request.Id, request.Prompt, request.Width, request.Height, Encoding.UTF8.GetBytes(response), returnUri);
         _context.TextImages.Add(textImage);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<TextImageDto>(textImage);
+        return TextImageDto.CreateFrom(textImage);
     }
 
     private static void GuardAgainstEmptyPrompt(string? prompt)

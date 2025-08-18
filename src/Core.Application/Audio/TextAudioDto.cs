@@ -3,7 +3,7 @@ using Goodtocode.SemanticKernel.Core.Domain.Audio;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Audio;
 
-public class TextAudioDto : IMapFrom<TextAudioEntity>
+public class TextAudioDto
 {
     public Guid Id { get; set; } = Guid.Empty;
     public Guid AuthorId { get; set; } = Guid.Empty;
@@ -12,13 +12,17 @@ public class TextAudioDto : IMapFrom<TextAudioEntity>
     public Uri? AudioUrl { get; set; }
     public DateTimeOffset Timestamp { get; set; }
 
-    public void Mapping(Profile profile)
+    public static TextAudioDto CreateFrom(TextAudioEntity? entity)
     {
-        profile.CreateMap<TextAudioEntity, TextAudioDto>()
-            .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-            .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Description))
-            .ForMember(d => d.AudioBytes, opt => opt.MapFrom(s => s.AudioBytes))
-            .ForMember(d => d.AudioUrl, opt => opt.MapFrom(s => s.AudioUrl))
-            .ForMember(d => d.Timestamp, opt => opt.MapFrom(s => s.Timestamp));
+        if (entity == null) return null!;
+        return new TextAudioDto
+        {
+            Id = entity.Id,
+            AuthorId = entity.AuthorId,
+            Description = entity.Description,
+            AudioBytes = entity.AudioBytes,
+            AudioUrl = entity.AudioUrl,
+            Timestamp = entity.Timestamp
+        };
     }
 }

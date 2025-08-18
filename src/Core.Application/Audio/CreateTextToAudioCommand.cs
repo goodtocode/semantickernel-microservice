@@ -2,7 +2,6 @@
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.TextToAudio;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Audio;
@@ -15,10 +14,8 @@ public class CreateTextToAudioCommand : IRequest<TextAudioDto>
 }
 
 #pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-public class CreateTextToAudioCommandHandler(Kernel kernel, ISemanticKernelContext context, IMapper mapper)
-    : IRequestHandler<CreateTextToAudioCommand, TextAudioDto>
+public class CreateTextToAudioCommandHandler(Kernel kernel, ISemanticKernelContext context) : IRequestHandler<CreateTextToAudioCommand, TextAudioDto>
 {
-    private readonly IMapper _mapper = mapper;
     private readonly Kernel _kernel = kernel;
     private readonly ISemanticKernelContext _context = context;
 
@@ -33,26 +30,13 @@ public class CreateTextToAudioCommandHandler(Kernel kernel, ISemanticKernelConte
         {
             FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
         };
-        var response = await service.GetAudioContentAsync(request.Prompt, executionSettings, kernel, cancellationToken);
+        var response = await service.GetAudioContentAsync(request.Prompt, executionSettings, _kernel, cancellationToken);
 
         var textAudio = TextAudioEntity.Create(request.Id, request.AuthorId, request.Prompt, response.Data.GetValueOrDefault().ToArray(), response.Uri);
         _context.TextAudio.Add(textAudio);
         await _context.SaveChangesAsync(cancellationToken);
 
-        // Return session
-        TextAudioDto returnValue;
-        try
-        {
-            returnValue = _mapper.Map<TextAudioDto>(textAudio);
-        }
-        catch (Exception)
-        {
-            throw new CustomValidationException(
-            [
-                new("Id", "Id already exists")
-            ]);
-        }
-        return returnValue;
+        return TextAudioDto.CreateFrom(textAudio);
     }
 
     private static void GuardAgainstMissingAuthor(Guid authorId)

@@ -56,7 +56,7 @@ public class GetTextImageQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetTextImageQueryHandler(context, Mapper);
+                var handler = new GetTextImageQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

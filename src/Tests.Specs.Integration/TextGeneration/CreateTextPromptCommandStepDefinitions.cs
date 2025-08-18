@@ -64,7 +64,7 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
         {
             try
             {
-                var handler = new CreateTextPromptCommandHandler(kernel, context, Mapper);
+                var handler = new CreateTextPromptCommandHandler(kernel, context);
                 await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

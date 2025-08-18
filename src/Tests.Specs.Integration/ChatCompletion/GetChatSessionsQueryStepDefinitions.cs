@@ -67,7 +67,7 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetChatSessionsQueryHandler(context, Mapper);
+                var handler = new GetChatSessionsQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

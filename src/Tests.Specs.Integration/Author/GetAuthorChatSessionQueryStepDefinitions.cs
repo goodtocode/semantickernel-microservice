@@ -61,7 +61,7 @@ public class GetAuthorChatSessionQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetAuthorChatSessionQueryHandler(context, Mapper);
+                var handler = new GetAuthorChatSessionQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

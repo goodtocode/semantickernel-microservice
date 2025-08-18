@@ -62,7 +62,7 @@ public class CreateTextToImageCommandStepDefinitions : TestBase
         {
             try
             {
-                var handler = new CreateTextToImageCommandHandler(kernel, context, Mapper);
+                var handler = new CreateTextToImageCommandHandler(kernel, context);
                 await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

@@ -1,9 +1,8 @@
-﻿using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
-using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+﻿using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
-public class ChatSessionDto : IMapFrom<ChatSessionEntity>
+public class ChatSessionDto
 {
     public Guid Id { get; set; } = Guid.Empty;
     public string Title { get; set; } = string.Empty;
@@ -11,12 +10,16 @@ public class ChatSessionDto : IMapFrom<ChatSessionEntity>
     public DateTimeOffset Timestamp { get; set; }
     public virtual ICollection<ChatMessageDto>? Messages { get; set; }
 
-    public void Mapping(Profile profile)
+    public static ChatSessionDto CreateFrom(ChatSessionEntity? entity)
     {
-        profile.CreateMap<ChatSessionEntity, ChatSessionDto>()
-            .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-            .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title))
-            .ForMember(d => d.Messages, opt => opt.MapFrom(s => s.Messages))
-            .ForMember(d => d.Timestamp, opt => opt.MapFrom(s => s.Timestamp));
+        if (entity == null) return null!;
+        return new ChatSessionDto
+        {
+            Id = entity.Id,
+            Title = entity.Title ?? string.Empty,
+            AuthorId = entity.AuthorId,
+            Timestamp = entity.Timestamp,
+            Messages = entity.Messages?.Select(ChatMessageDto.CreateFrom).ToList()
+        };
     }
 }

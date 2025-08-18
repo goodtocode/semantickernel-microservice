@@ -91,7 +91,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
             if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetTextPromptsPaginatedQueryHandler(context, Mapper);
+                    var handler = new GetTextPromptsPaginatedQueryHandler(context);
                     _response = await handler.Handle(request, CancellationToken.None);
                     responseType = CommandResponseType.Successful;
                 }

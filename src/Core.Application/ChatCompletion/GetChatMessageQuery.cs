@@ -9,10 +9,9 @@ public class GetChatMessageQuery : IRequest<ChatMessageDto>
     public Guid Id { get; set; }
 }
 
-public class GetChatMessageQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetChatMessageQuery, ChatMessageDto>
+public class GetChatMessageQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetChatMessageQuery, ChatMessageDto>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<ChatMessageDto> Handle(GetChatMessageQuery request,
                                 CancellationToken cancellationToken)
@@ -20,7 +19,7 @@ public class GetChatMessageQueryHandler(ISemanticKernelContext context, IMapper 
         var chatMessage = await _context.ChatMessages.FindAsync([request.Id, cancellationToken], cancellationToken: cancellationToken);
         GuardAgainstNotFound(chatMessage);
 
-        return _mapper.Map<ChatMessageDto>(chatMessage);
+        return ChatMessageDto.CreateFrom(chatMessage);
     }
 
     private static void GuardAgainstNotFound(ChatMessageEntity? chatMessage)

@@ -50,7 +50,7 @@ public class GetAuthorQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetAuthorQueryHandler(context, Mapper);
+                var handler = new GetAuthorQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

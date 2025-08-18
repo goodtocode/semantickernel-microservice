@@ -69,7 +69,7 @@ public class GetChatMessagesQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetChatMessagesQueryHandler(context, Mapper);
+                var handler = new GetChatMessagesQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

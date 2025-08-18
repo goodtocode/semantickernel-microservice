@@ -1,5 +1,4 @@
-﻿using AutoMapper.QueryableExtensions;
-using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 
@@ -13,10 +12,9 @@ public class GetTextImagesPaginatedQuery : IRequest<PaginatedList<TextImageDto>>
     public int PageSize { get; init; } = 10;
 }
 
-public class GetTextImagesPaginatedQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetTextImagesPaginatedQuery, PaginatedList<TextImageDto>>
+public class GetTextImagesPaginatedQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetTextImagesPaginatedQuery, PaginatedList<TextImageDto>>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<PaginatedList<TextImageDto>> Handle(GetTextImagesPaginatedQuery request, CancellationToken cancellationToken)
     {
@@ -24,7 +22,7 @@ public class GetTextImagesPaginatedQueryHandler(ISemanticKernelContext context, 
             .OrderByDescending(x => x.Timestamp)
             .Where(x => (request.StartDate == null || x.Timestamp > request.StartDate)
                     && (request.EndDate == null || x.Timestamp < request.EndDate))
-            .ProjectTo<TextImageDto>(_mapper.ConfigurationProvider)
+            .Select(x => TextImageDto.CreateFrom(x))
             .PaginatedListAsync(request.PageNumber, request.PageSize);
 
         return returnData;
