@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.Author;
 
-public class GetAuthorQueryValidator : AbstractValidator<GetAuthorQuery>
+public class GetAuthorQueryValidator : Validator<GetAuthorQuery>
 {
     public GetAuthorQueryValidator()
     {

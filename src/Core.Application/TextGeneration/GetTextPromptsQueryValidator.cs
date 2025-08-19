@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 
-public class GetTextPromptsQueryValidator : AbstractValidator<GetTextPromptsQuery>
+public class GetTextPromptsQueryValidator : Validator<GetTextPromptsQuery>
 {
     public GetTextPromptsQueryValidator()
     {

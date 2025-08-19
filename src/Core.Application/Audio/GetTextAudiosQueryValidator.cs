@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.Audio;
 
-public class GetTextAudiosQueryValidator : AbstractValidator<GetTextAudiosQuery>
+public class GetTextAudiosQueryValidator : Validator<GetTextAudiosQuery>
 {
     public GetTextAudiosQueryValidator()
     {

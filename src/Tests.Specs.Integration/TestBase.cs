@@ -5,6 +5,7 @@ using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 using Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
+using Goodtocode.Validation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

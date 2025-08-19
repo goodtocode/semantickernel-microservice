@@ -2,7 +2,7 @@
 
 namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
-public class GetAuthorChatSessionsQueryValidator : AbstractValidator<GetAuthorChatSessionsQuery>
+public class GetAuthorChatSessionsQueryValidator : Validator<GetAuthorChatSessionsQuery>
 {
     public GetAuthorChatSessionsQueryValidator()
     {

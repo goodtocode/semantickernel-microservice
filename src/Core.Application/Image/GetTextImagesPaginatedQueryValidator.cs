@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.Image;
 
-public class GetTextImagesPaginatedQueryValidator : AbstractValidator<GetTextImagesPaginatedQuery>
+public class GetTextImagesPaginatedQueryValidator : Validator<GetTextImagesPaginatedQuery>
 {
     public GetTextImagesPaginatedQueryValidator()
     {

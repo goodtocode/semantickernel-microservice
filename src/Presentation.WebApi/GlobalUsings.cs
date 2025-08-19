@@ -1,9 +1,10 @@
-﻿global using System.Reflection;
-global using Asp.Versioning;
+﻿global using Asp.Versioning;
 global using Asp.Versioning.ApiExplorer;
+global using Goodtocode.Validation;
 global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.Filters;
 global using Microsoft.Extensions.Options;
 global using Microsoft.OpenApi.Models;
 global using Swashbuckle.AspNetCore.SwaggerGen;
+global using System.Reflection;

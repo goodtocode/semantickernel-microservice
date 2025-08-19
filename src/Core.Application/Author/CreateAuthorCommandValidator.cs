@@ -1,6 +1,8 @@
-﻿namespace Goodtocode.SemanticKernel.Core.Application.Author;
+﻿using Goodtocode.SemanticKernel.Core.Application.Audio;
 
-public class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorCommand>
+namespace Goodtocode.SemanticKernel.Core.Application.Author;
+
+public class CreateAuthorCommandValidator : Validator<CreateAuthorCommand>
 {
     public CreateAuthorCommandValidator()
     {

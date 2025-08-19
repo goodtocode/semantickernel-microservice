@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.Image;
 
-public class CreateTextToImageCommandValidator : AbstractValidator<CreateTextToImageCommand>
+public class CreateTextToImageCommandValidator : Validator<CreateTextToImageCommand>
 {
     public CreateTextToImageCommandValidator()
     {

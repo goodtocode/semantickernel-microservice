@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 
-public class DeleteTextPromptCommandValidator : AbstractValidator<DeleteTextPromptCommand>
+public class DeleteTextPromptCommandValidator : Validator<DeleteTextPromptCommand>
 {
     public DeleteTextPromptCommandValidator()
     {

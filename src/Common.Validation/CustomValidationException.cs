@@ -1,6 +1,4 @@
-﻿using FluentValidation.Results;
-
-namespace Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+﻿namespace Goodtocode.Validation;
 
 public class CustomValidationException : Exception
 {
