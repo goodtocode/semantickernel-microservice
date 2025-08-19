@@ -12,7 +12,7 @@ public class ChatSessionDto
 
     public static ChatSessionDto CreateFrom(ChatSessionEntity? entity)
     {
-        if (entity == null) return null!;
+        if (entity is null) return null!;
         return new ChatSessionDto
         {
             Id = entity.Id,

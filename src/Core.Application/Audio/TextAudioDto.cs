@@ -14,7 +14,7 @@ public class TextAudioDto
 
     public static TextAudioDto CreateFrom(TextAudioEntity? entity)
     {
-        if (entity == null) return null!;
+        if (entity is null) return null!;
         return new TextAudioDto
         {
             Id = entity.Id,

@@ -47,9 +47,9 @@ public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelConte
         var chatSession = ChatSessionEntity.Create(
             request.Id,
             request.AuthorId,
-            title,
-            request.Message!,
+            title,            
             Enum.TryParse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant(), out var role) ? role : ChatMessageRole.assistant,
+            request.Message!,
             response.ToString()
         );
         _context.ChatSessions.Add(chatSession);

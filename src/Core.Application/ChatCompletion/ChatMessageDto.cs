@@ -12,7 +12,7 @@ public class ChatMessageDto
 
     public static ChatMessageDto CreateFrom(ChatMessageEntity? entity)
     {
-        if (entity == null) return null!;
+        if (entity is null) return null!;
         return new ChatMessageDto
         {
             Id = entity.Id,

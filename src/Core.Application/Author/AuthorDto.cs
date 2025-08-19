@@ -13,7 +13,7 @@ public class AuthorDto
 
     public static AuthorDto CreateFrom(AuthorEntity? entity)
     {
-        if (entity == null) return null!;
+        if (entity is null) return null!;
         return new AuthorDto
         {
             Id = entity.Id,

@@ -35,7 +35,7 @@ public class TextImageDto
     public static TextImageDto CreateFrom(TextImageEntity? entity)
     {
 
-        if (entity == null) return null!;
+        if (entity is null) return null!;
         return new TextImageDto
         {
             Id = entity.Id,

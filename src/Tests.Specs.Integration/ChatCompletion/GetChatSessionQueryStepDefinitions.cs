@@ -43,7 +43,7 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            var chatSession = ChatSessionEntity.Create(_id, Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
+            var chatSession = ChatSessionEntity.Create(_id, Guid.NewGuid(), "Test Session", ChatMessageRole.assistant, "First Message", "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }
@@ -92,6 +92,6 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasACountMatching(string messageCount)
     {
-        _response?.Messages?.Count().Should().Be(int.Parse(messageCount, CultureInfo.InvariantCulture));
+        _response?.Messages?.Count.Should().Be(int.Parse(messageCount, CultureInfo.InvariantCulture));
     }
 }

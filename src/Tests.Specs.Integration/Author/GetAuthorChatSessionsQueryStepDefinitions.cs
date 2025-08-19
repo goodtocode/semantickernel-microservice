@@ -64,7 +64,7 @@ public class GetAuthorChatSessionsQueryStepDefinitions : TestBase
             var author = AuthorEntity.Create(_id, "John Doe");
             context.Authors.Add(author);
             await context.SaveChangesAsync(CancellationToken.None);
-            var chatSession = ChatSessionEntity.Create(_id, author.Id, "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
+            var chatSession = ChatSessionEntity.Create(_id, author.Id, "Test Session", ChatMessageRole.assistant, "First Message", "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }

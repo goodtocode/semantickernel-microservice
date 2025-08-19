@@ -21,11 +21,12 @@ public class GetAuthorChatSessionsPaginatedQueryHandler(ISemanticKernelContext c
     public async Task<PaginatedList<ChatSessionDto>> Handle(GetAuthorChatSessionsPaginatedQuery request, CancellationToken cancellationToken)
     {
         var returnData = await _context.ChatSessions
-        .OrderByDescending(x => x.Timestamp)
-        .Where(x => (request.StartDate == null || x.Timestamp > request.StartDate)
-            && (request.EndDate == null || x.Timestamp < request.EndDate))
-        .Select(x => ChatSessionDto.CreateFrom(x))
-        .PaginatedListAsync(request.PageNumber, request.PageSize);
+            .Include(x => x.Messages)
+            .OrderByDescending(x => x.Timestamp)
+            .Where(x => (request.StartDate == null || x.Timestamp > request.StartDate)
+                && (request.EndDate == null || x.Timestamp < request.EndDate))
+            .Select(x => ChatSessionDto.CreateFrom(x))        
+            .PaginatedListAsync(request.PageNumber, request.PageSize);
 
         return returnData;
 

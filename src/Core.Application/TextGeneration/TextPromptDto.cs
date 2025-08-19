@@ -13,7 +13,7 @@ public class TextPromptDto
 
     public static TextPromptDto CreateFrom(TextPromptEntity? entity)
     {
-        if (entity == null) return null!;
+        if (entity is null) return null!;
         return new TextPromptDto
         {
             Id = entity.Id,

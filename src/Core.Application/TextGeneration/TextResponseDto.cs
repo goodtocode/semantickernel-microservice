@@ -12,7 +12,7 @@ public class TextResponseDto
 
     public static TextResponseDto CreateFrom(TextResponseEntity entity)
     {
-        if (entity == null) return null!;
+        if (entity is null) return null!;
         return new TextResponseDto
         {
             Id = entity.Id,
