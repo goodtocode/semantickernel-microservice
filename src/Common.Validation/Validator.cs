@@ -26,14 +26,7 @@ public abstract class Validator<T> : IValidator<T>
 
     public async Task<ValidationResult> ValidateAsync(T instance, CancellationToken cancellationToken = default)
     {
-        var failures = new List<ValidationFailure>();
-        foreach (var rule in _rules)
-        {
-            var failure = await Task.Run(() => rule(instance), cancellationToken);
-            if (failure != null)
-                failures.Add(failure);
-        }
-        return new ValidationResult(failures);
+        return await Task.Run(() => Validate(instance), cancellationToken);
     }
 
     public void ValidateAndThrow(T instance)

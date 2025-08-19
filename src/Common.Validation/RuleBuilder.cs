@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Globalization;
+using System.Linq.Expressions;
 
 namespace Goodtocode.Validation;
 
@@ -23,7 +24,21 @@ public class RuleBuilder<T, TProp>
             if (_condition != null && !_condition(instance)) return null;
 
             var value = _selector.Compile()(instance);
-            var isValid = value != null && !string.IsNullOrWhiteSpace(value.ToString());
+
+            bool isValid = value switch
+            {
+                null => false,
+                Guid guid => guid != Guid.Empty,
+                string str => !string.IsNullOrWhiteSpace(str),
+                int i => i != 0,
+                long l => l != 0L,
+                double d => d != 0.0,
+                decimal m => m != 0m,
+                DateTime dt => dt != DateTime.MinValue,
+                Enum e => Convert.ToInt32(e, CultureInfo.InvariantCulture) != 0,
+                _ => true
+            };
+
             return isValid ? null : new ValidationFailure(_propertyName, errorMessage ?? $"{_propertyName} must not be empty");
         });
         return this;
