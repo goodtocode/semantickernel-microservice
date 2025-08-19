@@ -60,7 +60,7 @@ public class CreateAuthorCommandStepDefinitions : TestBase
         {
             try
             {
-                var handler = new CreateAuthorCommandHandler(context, Mapper);
+                var handler = new CreateAuthorCommandHandler(context);
                 await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

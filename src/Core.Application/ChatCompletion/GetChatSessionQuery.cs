@@ -9,10 +9,9 @@ public class GetChatSessionQuery : IRequest<ChatSessionDto>
     public Guid Id { get; set; }
 }
 
-public class GetChatSessionQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetChatSessionQuery, ChatSessionDto>
+public class GetChatSessionQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetChatSessionQuery, ChatSessionDto>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<ChatSessionDto> Handle(GetChatSessionQuery request,
                                 CancellationToken cancellationToken)
@@ -20,7 +19,7 @@ public class GetChatSessionQueryHandler(ISemanticKernelContext context, IMapper 
         var chatSession = await _context.ChatSessions.FindAsync([request.Id, cancellationToken], cancellationToken: cancellationToken);
         GuardAgainstNotFound(chatSession);
 
-        return _mapper.Map<ChatSessionDto>(chatSession);
+        return ChatSessionDto.CreateFrom(chatSession);
     }
 
     private static void GuardAgainstNotFound(ChatSessionEntity? chatSession)

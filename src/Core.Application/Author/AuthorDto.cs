@@ -3,7 +3,7 @@ using Goodtocode.SemanticKernel.Core.Domain.Author;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Author;
 
-public class AuthorDto : IMapFrom<AuthorEntity>
+public class AuthorDto
 {
     public Guid Id { get; set; } = Guid.Empty;
     public string Name { get; set; } = string.Empty;
@@ -11,13 +11,16 @@ public class AuthorDto : IMapFrom<AuthorEntity>
     public DateTime? ModifiedOn { get; private set; }
     public DateTime? DeletedOn { get; private set; }
 
-    public void Mapping(Profile profile)
+    public static AuthorDto CreateFrom(AuthorEntity? entity)
     {
-        profile.CreateMap<AuthorEntity, AuthorDto>()
-            .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-            .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Name))
-            .ForMember(d => d.CreatedOn, opt => opt.MapFrom(s => s.CreatedOn))
-            .ForMember(d => d.ModifiedOn, opt => opt.MapFrom(s => s.ModifiedOn))
-            .ForMember(d => d.DeletedOn, opt => opt.MapFrom(s => s.DeletedOn));
+        if (entity is null) return null!;
+        return new AuthorDto
+        {
+            Id = entity.Id,
+            Name = entity.Name ?? string.Empty,
+            CreatedOn = entity.CreatedOn,
+            ModifiedOn = entity.ModifiedOn,
+            DeletedOn = entity.DeletedOn
+        };
     }
 }

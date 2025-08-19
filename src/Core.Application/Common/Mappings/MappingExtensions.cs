@@ -1,5 +1,4 @@
-﻿using AutoMapper.QueryableExtensions;
-using Goodtocode.SemanticKernel.Core.Application.Common.Models;
+﻿using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 
@@ -11,7 +10,4 @@ public static class MappingExtensions
         var paginatedList = new PaginatedList<TDestination>(paginatedItems, 0, pageNumber, pageSize);
         return paginatedList.CreateAsync(queryable.AsNoTracking(), pageNumber, pageSize);
     }
-
-    public static Task<List<TDestination>> ProjectToListAsync<TDestination>(this IQueryable queryable, IConfigurationProvider configuration) where TDestination : class
-        => queryable.ProjectTo<TDestination>(configuration).AsNoTracking().ToListAsync();
 }

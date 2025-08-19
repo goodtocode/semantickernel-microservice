@@ -13,7 +13,7 @@ public class ChatSessionEntity : DomainEntity<ChatSessionEntity>
     public virtual ICollection<ChatMessageEntity> Messages { get; set; } = [];
     public virtual AuthorEntity? Author { get; set; }
 
-    public static ChatSessionEntity Create(Guid id, Guid authorId, string? title, string initialMessage, ChatMessageRole responseRole, string responseMessage)
+    public static ChatSessionEntity Create(Guid id, Guid authorId, string? title, ChatMessageRole responseRole, string initialMessage, string responseMessage)
     {
         var session = new ChatSessionEntity
         {

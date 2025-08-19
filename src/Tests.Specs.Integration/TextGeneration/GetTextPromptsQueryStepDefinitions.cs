@@ -75,7 +75,7 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetTextPromptsQueryHandler(context, Mapper);
+                var handler = new GetTextPromptsQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

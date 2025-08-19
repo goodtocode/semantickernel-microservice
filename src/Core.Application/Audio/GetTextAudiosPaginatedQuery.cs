@@ -1,5 +1,4 @@
-﻿using AutoMapper.QueryableExtensions;
-using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 
@@ -13,10 +12,9 @@ public class GetTextAudioPaginatedQuery : IRequest<PaginatedList<TextAudioDto>>
     public int PageSize { get; init; } = 10;
 }
 
-public class GetTextAudioPaginatedQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetTextAudioPaginatedQuery, PaginatedList<TextAudioDto>>
+public class GetTextAudioPaginatedQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetTextAudioPaginatedQuery, PaginatedList<TextAudioDto>>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<PaginatedList<TextAudioDto>> Handle(GetTextAudioPaginatedQuery request, CancellationToken cancellationToken)
     {
@@ -24,7 +22,7 @@ public class GetTextAudioPaginatedQueryHandler(ISemanticKernelContext context, I
             .OrderByDescending(x => x.Timestamp)
             .Where(x => (request.StartDate == null || x.Timestamp > request.StartDate)
                     && (request.EndDate == null || x.Timestamp < request.EndDate))
-            .ProjectTo<TextAudioDto>(_mapper.ConfigurationProvider)
+            .Select(x => TextAudioDto.CreateFrom(x))
             .PaginatedListAsync(request.PageNumber, request.PageSize);
 
         return returnData;

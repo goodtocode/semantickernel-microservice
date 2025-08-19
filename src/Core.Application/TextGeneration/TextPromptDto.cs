@@ -3,7 +3,7 @@ using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 
 namespace Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 
-public class TextPromptDto : IMapFrom<TextPromptEntity>
+public class TextPromptDto
 {
     public Guid Id { get; set; } = Guid.Empty;
     public Guid AuthorId { get; set; } = Guid.Empty;
@@ -11,12 +11,18 @@ public class TextPromptDto : IMapFrom<TextPromptEntity>
     public DateTimeOffset Timestamp { get; set; }
     public virtual ICollection<TextResponseDto>? Responses { get; set; }
 
-    public void Mapping(Profile profile)
+    public static TextPromptDto CreateFrom(TextPromptEntity? entity)
     {
-        profile.CreateMap<TextPromptEntity, TextPromptDto>()
-            .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-            .ForMember(d => d.Prompt, opt => opt.MapFrom(s => s.Prompt))
-            .ForMember(d => d.Responses, opt => opt.MapFrom(s => s.TextResponses))
-            .ForMember(d => d.Timestamp, opt => opt.MapFrom(s => s.Timestamp));
+        if (entity is null) return null!;
+        return new TextPromptDto
+        {
+            Id = entity.Id,
+            AuthorId = entity.AuthorId,
+            Prompt = entity.Prompt,
+            Timestamp = entity.Timestamp,
+            Responses = entity.TextResponses?
+                .Select(TextResponseDto.CreateFrom)
+                .ToList()
+        };
     }
 }

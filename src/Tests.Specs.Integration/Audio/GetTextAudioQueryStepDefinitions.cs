@@ -55,7 +55,7 @@ public class GetTextAudioQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetTextAudioQueryHandler(context, Mapper);
+                var handler = new GetTextAudioQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

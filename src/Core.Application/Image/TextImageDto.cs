@@ -3,7 +3,7 @@ using Goodtocode.SemanticKernel.Core.Domain.Image;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Image;
 
-public class TextImageDto : IMapFrom<TextImageEntity>
+public class TextImageDto
 {
     private int _width = 1024;
     private int _height = 1024;
@@ -32,15 +32,20 @@ public class TextImageDto : IMapFrom<TextImageEntity>
     }
     public DateTimeOffset Timestamp { get; set; }
 
-    public void Mapping(Profile profile)
+    public static TextImageDto CreateFrom(TextImageEntity? entity)
     {
-        profile.CreateMap<TextImageEntity, TextImageDto>()
-            .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id))
-            .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Description))
-            .ForMember(d => d.ImageBytes, opt => opt.MapFrom(s => s.ImageBytes))
-            .ForMember(d => d.ImageUrl, opt => opt.MapFrom(s => s.ImageUrl))
-            .ForMember(d => d.Width, opt => opt.MapFrom(s => s.Width))
-            .ForMember(d => d.Height, opt => opt.MapFrom(s => s.Height))
-            .ForMember(d => d.Timestamp, opt => opt.MapFrom(s => s.Timestamp));
+
+        if (entity is null) return null!;
+        return new TextImageDto
+        {
+            Id = entity.Id,
+            AuthorId = entity.AuthorId,
+            Description = entity.Description,
+            ImageBytes = entity.ImageBytes,
+            ImageUrl = entity.ImageUrl,
+            Width = entity.Width,
+            Height = entity.Height,
+            Timestamp = entity.Timestamp
+        };
     }
 }

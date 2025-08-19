@@ -36,7 +36,7 @@ public class GetChatMessageQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
+            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", ChatMessageRole.assistant, "First Message", "First Response");
             chatSession.Messages.Add(ChatMessageEntity.Create(_id, _chatSessionId, ChatMessageRole.user, "Test Message Content"));
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
@@ -52,7 +52,7 @@ public class GetChatMessageQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetChatMessageQueryHandler(context, Mapper);
+                var handler = new GetChatMessageQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

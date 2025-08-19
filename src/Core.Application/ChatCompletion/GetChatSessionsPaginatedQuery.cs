@@ -1,5 +1,4 @@
-﻿using AutoMapper.QueryableExtensions;
-using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 
@@ -13,10 +12,9 @@ public class GetChatSessionsPaginatedQuery : IRequest<PaginatedList<ChatSessionD
     public int PageSize { get; init; } = 10;
 }
 
-public class GetChatSessionsPaginatedQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetChatSessionsPaginatedQuery, PaginatedList<ChatSessionDto>>
+public class GetChatSessionsPaginatedQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetChatSessionsPaginatedQuery, PaginatedList<ChatSessionDto>>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<PaginatedList<ChatSessionDto>> Handle(GetChatSessionsPaginatedQuery request, CancellationToken cancellationToken)
     {
@@ -24,7 +22,7 @@ public class GetChatSessionsPaginatedQueryHandler(ISemanticKernelContext context
             .OrderByDescending(x => x.Timestamp)
             .Where(x => (request.StartDate == null || x.Timestamp > request.StartDate)
                     && (request.EndDate == null || x.Timestamp < request.EndDate))
-            .ProjectTo<ChatSessionDto>(_mapper.ConfigurationProvider)
+            .Select(x => ChatSessionDto.CreateFrom(x))
             .PaginatedListAsync(request.PageNumber, request.PageSize);
 
         return returnData;

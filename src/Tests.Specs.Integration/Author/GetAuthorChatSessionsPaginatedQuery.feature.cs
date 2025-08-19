@@ -122,6 +122,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("getAuthorChatSessionsPaginatedQuery")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("success no date range", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "", "", "true", "true", "1", "10", null)]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("success with date range", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "2024-06-01T11:21:00Z", "2034-06-03T11:21:00Z", "true", "true", "1", "10", null)]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("success with date range", "Success", "", "9c5f2b35-b380-44f8-8c71-c24a43b3fe63", "2025-07-19T11:21:00Z", "2034-06-03T11:21:00Z", "true", "true", "1", "10", null)]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("success empty results", "Success", "", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "", "", "false", "false", "1", "10", null)]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("bad request page number zero", "BadRequest", "PageNumber", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "", "", "false", "false", "0", "10", null)]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("bad request page size zero", "BadRequest", "PageSize", "038d8e7f-f18f-4a8e-8b3c-3b6a6889fed9", "", "", "false", "false", "1", "0", null)]

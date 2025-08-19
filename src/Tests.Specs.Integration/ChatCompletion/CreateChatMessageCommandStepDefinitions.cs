@@ -42,7 +42,7 @@ public class CreateChatMessageCommandStepDefinitions : TestBase
         // Setup the database if want to test existing records
         if (_exists)
         {
-            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
+            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", ChatMessageRole.assistant, "First Message", "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }
@@ -62,7 +62,7 @@ public class CreateChatMessageCommandStepDefinitions : TestBase
         {
             try
             {
-                var handler = new CreateChatMessageCommandHandler(kernel, context, Mapper);
+                var handler = new CreateChatMessageCommandHandler(kernel, context);
                 await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

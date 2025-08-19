@@ -65,7 +65,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         {
             if (_exists)
             {
-                var chatSession = ChatSessionEntity.Create(Guid.NewGuid(), Guid.NewGuid(), "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
+                var chatSession = ChatSessionEntity.Create(Guid.NewGuid(), Guid.NewGuid(), "Test Session", ChatMessageRole.assistant, "First Message", "First Response");
                 context.ChatSessions.Add(chatSession);
                 await context.SaveChangesAsync(CancellationToken.None);
             }
@@ -83,7 +83,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
             if (validationResponse.IsValid)
                 try
                 {
-                    var handler = new GetChatSessionsPaginatedQueryHandler(context, Mapper);
+                    var handler = new GetChatSessionsPaginatedQueryHandler(context);
                     _response = await handler.Handle(request, CancellationToken.None);
                     responseType = CommandResponseType.Successful;
                 }

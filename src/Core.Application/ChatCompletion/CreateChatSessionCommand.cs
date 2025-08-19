@@ -16,9 +16,8 @@ public class CreateChatSessionCommand : IRequest<ChatSessionDto>
     public string? Message { get; set; }
 }
 
-public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelContext context, IMapper mapper) : IRequestHandler<CreateChatSessionCommand, ChatSessionDto>
+public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelContext context) : IRequestHandler<CreateChatSessionCommand, ChatSessionDto>
 {
-    private readonly IMapper _mapper = mapper;
     private readonly Kernel _kernel = kernel;
     private readonly ISemanticKernelContext _context = context;
 
@@ -35,7 +34,7 @@ public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelConte
         {
             FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
         };
-        var response = await service.GetChatMessageContentAsync(chatHistory, executionSettings, kernel, cancellationToken);
+        var response = await service.GetChatMessageContentAsync(chatHistory, executionSettings, _kernel, cancellationToken);
 
         var author = await _context.Authors
             .FirstOrDefaultAsync(x => x.Id == request.AuthorId, cancellationToken);
@@ -48,15 +47,15 @@ public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelConte
         var chatSession = ChatSessionEntity.Create(
             request.Id,
             request.AuthorId,
-            title,
-            request.Message!,
+            title,            
             Enum.TryParse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant(), out var role) ? role : ChatMessageRole.assistant,
+            request.Message!,
             response.ToString()
         );
         _context.ChatSessions.Add(chatSession);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<ChatSessionDto>(chatSession);
+        return ChatSessionDto.CreateFrom(chatSession);
     }
 
     private static void GuardAgainstMissingAuthor(Guid authorId)

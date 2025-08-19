@@ -45,7 +45,7 @@ public class GetAuthorChatSessionQueryStepDefinitions : TestBase
     {
         if (_exists)
         {
-            var chatSession = ChatSessionEntity.Create(_chatSessionid, _id, "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
+            var chatSession = ChatSessionEntity.Create(_chatSessionid, _id, "Test Session", ChatMessageRole.assistant, "First Message", "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }
@@ -61,7 +61,7 @@ public class GetAuthorChatSessionQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetAuthorChatSessionQueryHandler(context, Mapper);
+                var handler = new GetAuthorChatSessionQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

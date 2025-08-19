@@ -35,9 +35,6 @@ public abstract class TestBase : IDisposable
 
     public TestBase()
     {
-        Mapper = new MapperConfiguration(cfg => { cfg.AddProfile<MappingProfile>(); })
-            .CreateMapper();
-
         context = new SemanticKernelContext(new DbContextOptionsBuilder<SemanticKernelContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options);
 
@@ -82,8 +79,6 @@ public abstract class TestBase : IDisposable
         kernel.ImportPluginFromObject(chatSessionsPlugin, nameof(ChatSessionsPlugin));
         kernel.ImportPluginFromObject(chatMessagesPlugin, nameof(ChatMessagesPlugin));
     }
-
-    internal IMapper Mapper { get; }
 
     internal CommandResponseType HandleAssignResponseType
         (Exception e)

@@ -66,7 +66,7 @@ public class CreateTextToAudioCommandStepDefinitions : TestBase
         {
             try
             {
-                var handler = new CreateTextToAudioCommandHandler(kernel, context, Mapper);
+                var handler = new CreateTextToAudioCommandHandler(kernel, context);
                 await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

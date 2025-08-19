@@ -1,3 +1,4 @@
+using Goodtocode.SemanticKernel.Core.Application.Author;
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
@@ -63,7 +64,7 @@ public class GetAuthorChatSessionsQueryStepDefinitions : TestBase
             var author = AuthorEntity.Create(_id, "John Doe");
             context.Authors.Add(author);
             await context.SaveChangesAsync(CancellationToken.None);
-            var chatSession = ChatSessionEntity.Create(_id, author.Id, "Test Session", "First Message", ChatMessageRole.assistant, "First Response");
+            var chatSession = ChatSessionEntity.Create(_id, author.Id, "Test Session", ChatMessageRole.assistant, "First Message", "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }
@@ -80,7 +81,7 @@ public class GetAuthorChatSessionsQueryStepDefinitions : TestBase
         if (validationResponse.IsValid)
             try
             {
-                var handler = new GetAuthorChatSessionsQueryHandler(context, Mapper);
+                var handler = new GetAuthorChatSessionsQueryHandler(context);
                 _response = await handler.Handle(request, CancellationToken.None);
                 responseType = CommandResponseType.Successful;
             }

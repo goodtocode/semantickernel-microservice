@@ -9,10 +9,9 @@ public class GetTextAudioQuery : IRequest<TextAudioDto>
     public Guid Id { get; set; }
 }
 
-public class GetTextAudioQueryHandler(ISemanticKernelContext context, IMapper mapper) : IRequestHandler<GetTextAudioQuery, TextAudioDto>
+public class GetTextAudioQueryHandler(ISemanticKernelContext context) : IRequestHandler<GetTextAudioQuery, TextAudioDto>
 {
     private readonly ISemanticKernelContext _context = context;
-    private readonly IMapper _mapper = mapper;
 
     public async Task<TextAudioDto> Handle(GetTextAudioQuery request,
                                 CancellationToken cancellationToken)
@@ -20,7 +19,7 @@ public class GetTextAudioQueryHandler(ISemanticKernelContext context, IMapper ma
         var textAudio = await _context.TextAudio.FindAsync([request.Id, cancellationToken], cancellationToken: cancellationToken);
         GuardAgainstNotFound(textAudio);
 
-        return _mapper.Map<TextAudioDto>(textAudio);
+        return TextAudioDto.CreateFrom(textAudio);
     }
 
     private static void GuardAgainstNotFound(TextAudioEntity? textAudio)

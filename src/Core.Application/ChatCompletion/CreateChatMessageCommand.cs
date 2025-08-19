@@ -13,10 +13,9 @@ public class CreateChatMessageCommand : IRequest<ChatMessageDto>
     public string? Message { get; set; }
 }
 
-public class CreateChatMessageCommandHandler(Kernel kernel, ISemanticKernelContext context, IMapper mapper) : IRequestHandler<CreateChatMessageCommand, ChatMessageDto>
+public class CreateChatMessageCommandHandler(Kernel kernel, ISemanticKernelContext context) : IRequestHandler<CreateChatMessageCommand, ChatMessageDto>
 {
     private readonly Kernel _kernel = kernel;
-    private readonly IMapper _mapper = mapper;
     private readonly ISemanticKernelContext _context = context;
 
     public async Task<ChatMessageDto> Handle(CreateChatMessageCommand request, CancellationToken cancellationToken)
@@ -38,7 +37,7 @@ public class CreateChatMessageCommandHandler(Kernel kernel, ISemanticKernelConte
         {
             FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
         };
-        var response = await service.GetChatMessageContentAsync(chatHistory, executionSettings, kernel, cancellationToken);
+        var response = await service.GetChatMessageContentAsync(chatHistory, executionSettings, _kernel, cancellationToken);
 
         var chatMessage = ChatMessageEntity.Create(Guid.NewGuid(), chatSession.Id, ChatMessageRole.user, request.Message!);
         chatSession.Messages.Add(chatMessage);
@@ -53,7 +52,7 @@ public class CreateChatMessageCommandHandler(Kernel kernel, ISemanticKernelConte
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<ChatMessageDto>(chatMessage);
+        return ChatMessageDto.CreateFrom(chatMessage);
     }
 
     private static void GuardAgainstSessionNotFound(DbSet<ChatSessionEntity> dbSet, Guid sessionId)
