@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.Author;
 
-public class UpdateAuthorCommandValidator : AbstractValidator<UpdateAuthorCommand>
+public class UpdateAuthorCommandValidator : Validator<UpdateAuthorCommand>
 {
     public UpdateAuthorCommandValidator()
     {

@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.Image;
 
-public class DeleteTextImageCommandValidator : AbstractValidator<DeleteTextImageCommand>
+public class DeleteTextImageCommandValidator : Validator<DeleteTextImageCommand>
 {
     public DeleteTextImageCommandValidator()
     {

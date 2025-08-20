@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.Audio;
 
-public class CreateTextToAudioCommandValidator : AbstractValidator<CreateTextToAudioCommand>
+public class CreateTextToAudioCommandValidator : Validator<CreateTextToAudioCommand>
 {
     public CreateTextToAudioCommandValidator()
     {

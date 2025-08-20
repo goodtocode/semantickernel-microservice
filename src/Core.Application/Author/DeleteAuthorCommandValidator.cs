@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.Author;
 
-public class DeleteAuthorCommandValidator : AbstractValidator<DeleteAuthorCommand>
+public class DeleteAuthorCommandValidator : Validator<DeleteAuthorCommand>
 {
     public DeleteAuthorCommandValidator()
     {

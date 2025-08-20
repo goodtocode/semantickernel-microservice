@@ -1,4 +1,5 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+using Goodtocode.Validation;
 
 namespace Goodtocode.SemanticKernel.Presentation.WebApi.Common;
 

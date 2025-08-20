@@ -92,7 +92,6 @@ public static class ConfigureServices
             builder.Services.AddLogging(logging =>
             {
                 logging.SetMinimumLevel(LogLevel.Debug);
-                logging.AddConsole();
             });
 
             // Memory - ToDo: .WithMemoryStore(new VolatileMemoryStore());

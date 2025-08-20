@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
-public class DeleteChatSessionCommandValidator : AbstractValidator<DeleteChatSessionCommand>
+public class DeleteChatSessionCommandValidator : Validator<DeleteChatSessionCommand>
 {
     public DeleteChatSessionCommandValidator()
     {

@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
-public class GetChatSessionsPaginatedQueryValidator : AbstractValidator<GetChatSessionsPaginatedQuery>
+public class GetChatSessionsPaginatedQueryValidator : Validator<GetChatSessionsPaginatedQuery>
 {
     public GetChatSessionsPaginatedQueryValidator()
     {

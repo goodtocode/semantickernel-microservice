@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.Audio;
 
-public class DeleteTextAudioCommandValidator : AbstractValidator<DeleteTextAudioCommand>
+public class DeleteTextAudioCommandValidator : Validator<DeleteTextAudioCommand>
 {
     public DeleteTextAudioCommandValidator()
     {

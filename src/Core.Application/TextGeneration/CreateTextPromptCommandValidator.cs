@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.TextGeneration;
 
-public class CreateTextPromptCommandValidator : AbstractValidator<CreateTextPromptCommand>
+public class CreateTextPromptCommandValidator : Validator<CreateTextPromptCommand>
 {
     public CreateTextPromptCommandValidator()
     {

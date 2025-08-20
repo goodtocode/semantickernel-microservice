@@ -1,6 +1,6 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
-public class UpdateChatSessionCommandValidator : AbstractValidator<UpdateChatSessionCommand>
+public class UpdateChatSessionCommandValidator : Validator<UpdateChatSessionCommand>
 {
     public UpdateChatSessionCommandValidator()
     {
