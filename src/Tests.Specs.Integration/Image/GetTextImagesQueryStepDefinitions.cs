@@ -22,20 +22,20 @@ public class GetTextImagesQueryStepDefinitions : TestBase
     [Given(@"Text Image exist ""([^""]*)""")]
     public void GivenTextImagesExist(string exists)
     {
-        bool.TryParse(exists, out _exists).Should().BeTrue();
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
     }
 
     [Given(@"text image within the date range exists ""([^""]*)""")]
     public void GivenTextImagesWithinTheDateRangeExists(string withinDateRangeExists)
     {
-        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
+        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).ShouldBeTrue();
     }
 
     [Given(@"I have a start date ""([^""]*)""")]
     public void GivenIHaveAStartDate(string startDate)
     {
         if (string.IsNullOrWhiteSpace(startDate)) return;
-        DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+        DateTime.TryParse(startDate, out _startDate).ShouldBeTrue();
         _startDate = DateTime.UtcNow.AddMinutes(_withinDateRangeExists ? -1 : 1); //Handle for desired not-found scenarios
     }
 
@@ -43,7 +43,7 @@ public class GetTextImagesQueryStepDefinitions : TestBase
     public void GivenIHaveAEndDate(string endDate)
     {
         if (string.IsNullOrWhiteSpace(endDate)) return;
-        DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
+        DateTime.TryParse(endDate, out _endDate).ShouldBeTrue();
     }
 
     [When(@"I get the text image")]
@@ -98,26 +98,26 @@ public class GetTextImagesQueryStepDefinitions : TestBase
     [Then(@"The response has a collection of text image")]
     public void ThenTheResponseHasACollectionOfTextImages()
     {
-        _response?.Count.Should().Be(_withinDateRangeExists == false ? 0 : _response.Count);
+        _response?.Count.ShouldBe(_withinDateRangeExists == false ? 0 : _response.Count);
     }
 
     [Then(@"Each text image has a Key")]
     public void ThenEachTextImageHasAKey()
     {
-        _response?.FirstOrDefault(x => x.Id == default).Should().BeNull();
+        _response?.FirstOrDefault(x => x.Id == default).ShouldBeNull();
     }
 
     [Then(@"Each text image has a Date greater than start date")]
     public void ThenEachTextImageHasADateGreaterThanStartDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
+            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
     }
 
     [Then(@"Each text image has a Date less than end date")]
     public void ThenEachTextImageHasADateLessThanEndDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
+            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
     }
 }

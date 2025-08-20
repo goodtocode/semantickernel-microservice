@@ -19,13 +19,13 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
         [Given(@"I have a text audio id""([^""]*)""")]
         public void GivenIHaveATextAudioKey(string id)
         {
-            Guid.TryParse(id, out _id).Should().BeTrue();
+            Guid.TryParse(id, out _id).ShouldBeTrue();
         }
 
         [Given(@"The text audio exists ""([^""]*)""")]
         public void GivenThetextAudioExists(string exists)
         {
-            bool.TryParse(exists, out _exists).Should().BeTrue();
+            bool.TryParse(exists, out _exists).ShouldBeTrue();
         }
 
         [When(@"I delete the text audio")]

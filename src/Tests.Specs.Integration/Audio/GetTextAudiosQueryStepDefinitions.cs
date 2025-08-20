@@ -22,20 +22,20 @@ public class GetTextAudiosQueryStepDefinitions : TestBase
     [Given(@"Text Audio exist ""([^""]*)""")]
     public void GivenTextAudioExist(string exists)
     {
-        bool.TryParse(exists, out _exists).Should().BeTrue();
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
     }
 
     [Given(@"text audio within the date range exists ""([^""]*)""")]
     public void GivenTextAudioWithinTheDateRangeExists(string withinDateRangeExists)
     {
-        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
+        bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).ShouldBeTrue();
     }
 
     [Given(@"I have a start date ""([^""]*)""")]
     public void GivenIHaveAStartDate(string startDate)
     {
         if (string.IsNullOrWhiteSpace(startDate)) return;
-        DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+        DateTime.TryParse(startDate, out _startDate).ShouldBeTrue();
         _startDate = DateTime.UtcNow.AddMinutes(_withinDateRangeExists ? -1 : 1); //Handle for desired not-found scenarios
     }
 
@@ -43,7 +43,7 @@ public class GetTextAudiosQueryStepDefinitions : TestBase
     public void GivenIHaveAEndDate(string endDate)
     {
         if (string.IsNullOrWhiteSpace(endDate)) return;
-        DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
+        DateTime.TryParse(endDate, out _endDate).ShouldBeTrue();
     }
 
     [When(@"I get the text audio")]
@@ -105,26 +105,26 @@ public class GetTextAudiosQueryStepDefinitions : TestBase
     [Then(@"The response has a collection of text audio")]
     public void ThenTheResponseHasACollectionOfTextAudio()
     {
-        _response?.Count.Should().Be(_withinDateRangeExists == false ? 0 : _response.Count);
+        _response?.Count.ShouldBe(_withinDateRangeExists == false ? 0 : _response.Count);
     }
 
     [Then(@"Each text audio has a Key")]
     public void ThenEachTextAudioHasAKey()
     {
-        _response?.FirstOrDefault(x => x.Id == default).Should().BeNull();
+        _response?.FirstOrDefault(x => x.Id == default).ShouldBeNull();
     }
 
     [Then(@"Each text audio has a Date greater than start date")]
     public void ThenEachTextAudioHasADateGreaterThanStartDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
+            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
     }
 
     [Then(@"Each text audio has a Date less than end date")]
     public void ThenEachTextAudioHasADateLessThanEndDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
+            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
     }
 }

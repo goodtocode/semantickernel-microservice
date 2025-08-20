@@ -19,13 +19,13 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Author
         [Given(@"I have a Author id ""([^""]*)""")]
         public void GivenIHaveAAuthorId(string id)
         {
-            Guid.TryParse(id, out _id).Should().BeTrue();
+            Guid.TryParse(id, out _id).ShouldBeTrue();
         }
 
         [Given(@"the Author exists ""([^""]*)""")]
         public void GivenTheAuthorExists(string exists)
         {
-            bool.TryParse(exists, out _exists).Should().BeTrue();
+            bool.TryParse(exists, out _exists).ShouldBeTrue();
         }
 
         [When(@"I update the Author")]

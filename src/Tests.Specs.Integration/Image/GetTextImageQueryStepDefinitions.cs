@@ -21,13 +21,13 @@ public class GetTextImageQueryStepDefinitions : TestBase
     public void GivenIHaveATextImageKey(string textPromptKey)
     {
         if (string.IsNullOrWhiteSpace(textPromptKey)) return;
-        Guid.TryParse(textPromptKey, out _id).Should().BeTrue();
+        Guid.TryParse(textPromptKey, out _id).ShouldBeTrue();
     }
 
     [Given(@"I the text image exists ""([^""]*)""")]
     public void GivenIThetextImageExists(string exists)
     {
-        bool.TryParse(exists, out _exists).Should().BeTrue();
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
     }
 
     [When(@"I get a text image")]
@@ -84,6 +84,6 @@ public class GetTextImageQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
         if (responseType != CommandResponseType.Successful) return;
-        _response?.Id.Should().NotBeEmpty();
+        _response?.Id.ShouldNotBeEmpty();
     }
 }

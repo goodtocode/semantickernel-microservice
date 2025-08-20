@@ -32,7 +32,7 @@ public class CreateAuthorCommandStepDefinitions : TestBase
     [Given(@"The Author exists ""([^""]*)""")]
     public void GivenTheAuthorExists(string exists)
     {
-        bool.TryParse(exists, out _exists).Should().BeTrue();
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
     }
 
     [When(@"I create a author")]

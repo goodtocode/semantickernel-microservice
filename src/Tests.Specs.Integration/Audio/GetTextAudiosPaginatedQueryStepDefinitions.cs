@@ -25,14 +25,14 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
         [Given(@"Text Audio exist ""([^""]*)""")]
         public void GivenTextAudioExist(string exists)
         {
-            bool.TryParse(exists, out _exists).Should().BeTrue();
+            bool.TryParse(exists, out _exists).ShouldBeTrue();
         }
 
         [Given(@"I have a start date ""([^""]*)""")]
         public void GivenIHaveAStartDate(string startDate)
         {
             if (string.IsNullOrWhiteSpace(startDate)) return;
-            DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+            DateTime.TryParse(startDate, out _startDate).ShouldBeTrue();
             _startDate = _withinDateRangeExists ? _startDate : _startDate.AddMinutes(1); //Handle for desired not-found scenarios
         }
 
@@ -40,25 +40,25 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
         public void GivenIHaveAEndDate(string endDate)
         {
             if (string.IsNullOrWhiteSpace(endDate)) return;
-            DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
+            DateTime.TryParse(endDate, out _endDate).ShouldBeTrue();
         }
 
         [Given(@"text audio within the date range exists ""([^""]*)""")]
         public void GivenTextAudioWithinTheDateRangeExists(string withinDateRangeExists)
         {
-            bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
+            bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).ShouldBeTrue();
         }
 
         [Given(@"I have a page number ""([^""]*)""")]
         public void GivenIHaveAPageNumber(string pageNumber)
         {
-            int.TryParse(pageNumber, out _pageNumber).Should().BeTrue();
+            int.TryParse(pageNumber, out _pageNumber).ShouldBeTrue();
         }
 
         [Given(@"I have a page size ""([^""]*)""")]
         public void GivenIHaveAPageSize(string pageSize)
         {
-            int.TryParse(pageSize, out _pageSize).Should().BeTrue(); ;
+            int.TryParse(pageSize, out _pageSize).ShouldBeTrue(); ;
         }
 
         [When(@"I get the text audio paginated")]
@@ -123,28 +123,28 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
         public void ThenTheResponseHasACollectionOfTextAudio()
         {
             if (responseType != CommandResponseType.Successful) return;
-            _response?.TotalCount.Should().Be(_withinDateRangeExists == false ? 0 : _response.TotalCount);
+            _response?.TotalCount.ShouldBe(_withinDateRangeExists == false ? 0 : _response.TotalCount);
         }
 
         [Then(@"Each text audio has a Key")]
         public void ThenEachTextAudioHasAKey()
         {
             if (responseType != CommandResponseType.Successful) return;
-            _response?.Items.FirstOrDefault(x => x.Id == default).Should().BeNull();
+            _response?.Items.FirstOrDefault(x => x.Id == default).ShouldBeNull();
         }
 
         [Then(@"Each text audio has a Date greater than start date")]
         public void ThenEachTextAudioHasADateGreaterThanStartDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
+                _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
         }
 
         [Then(@"Each text audio has a Date less than end date")]
         public void ThenEachTextAudioHasADateLessThanEndDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
+                _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
         }
 
         [Then(@"The response has a Page Number")]

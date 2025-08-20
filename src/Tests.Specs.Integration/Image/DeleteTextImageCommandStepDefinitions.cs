@@ -19,13 +19,13 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
         [Given(@"I have a text image id""([^""]*)""")]
         public void GivenIHaveATextImageKey(string id)
         {
-            Guid.TryParse(id, out _id).Should().BeTrue();
+            Guid.TryParse(id, out _id).ShouldBeTrue();
         }
 
         [Given(@"The text image exists ""([^""]*)""")]
         public void GivenThetextImageExists(string exists)
         {
-            bool.TryParse(exists, out _exists).Should().BeTrue();
+            bool.TryParse(exists, out _exists).ShouldBeTrue();
         }
 
         [When(@"I delete the text image")]

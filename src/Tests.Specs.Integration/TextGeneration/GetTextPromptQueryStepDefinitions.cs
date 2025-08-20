@@ -21,13 +21,13 @@ public class GetTextPromptQueryStepDefinitions : TestBase
     public void GivenIHaveATextPromptKey(string textPromptKey)
     {
         if (string.IsNullOrWhiteSpace(textPromptKey)) return;
-        Guid.TryParse(textPromptKey, out _id).Should().BeTrue();
+        Guid.TryParse(textPromptKey, out _id).ShouldBeTrue();
     }
 
     [Given(@"I the text prompt exists ""([^""]*)""")]
     public void GivenITheTextPromptExists(string exists)
     {
-        bool.TryParse(exists, out _exists).Should().BeTrue();
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
     }
 
     [When(@"I get a text prompt")]
@@ -82,6 +82,6 @@ public class GetTextPromptQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
         if (responseType != CommandResponseType.Successful) return;
-        _response?.Id.Should().NotBeEmpty();
+        _response?.Id.ShouldNotBeEmpty();
     }
 }
