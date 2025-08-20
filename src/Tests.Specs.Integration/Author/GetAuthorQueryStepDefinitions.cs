@@ -21,13 +21,13 @@ public class GetAuthorQueryStepDefinitions : TestBase
     public void GivenIHaveAAuthorId(string authorId)
     {
         if (string.IsNullOrWhiteSpace(authorId)) return;
-        Guid.TryParse(authorId, out _id).Should().BeTrue();
+        Guid.TryParse(authorId, out _id).ShouldBeTrue();
     }
 
     [Given(@"I the Author exists ""([^""]*)""")]
     public void GivenITheAuthorExists(string exists)
     {
-        bool.TryParse(exists, out _exists).Should().BeTrue();
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
     }
 
     [When(@"I get a Author")]
@@ -78,6 +78,6 @@ public class GetAuthorQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
         if (responseType != CommandResponseType.Successful) return;
-        _response?.Id.Should().NotBeEmpty();
+        _response?.Id.ShouldNotBeEmpty();
     }
 }

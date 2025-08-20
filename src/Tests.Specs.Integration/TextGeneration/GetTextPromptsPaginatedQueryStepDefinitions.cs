@@ -25,39 +25,39 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
         [Given(@"Text Prompt exist ""([^""]*)""")]
         public void GivenTextPromptsExist(string exists)
         {
-            bool.TryParse(exists, out _exists).Should().BeTrue();
+            bool.TryParse(exists, out _exists).ShouldBeTrue();
         }
 
         [Given(@"I have a start date ""([^""]*)""")]
         public void GivenIHaveAStartDate(string startDate)
         {
             if (string.IsNullOrWhiteSpace(startDate)) return;
-            DateTime.TryParse(startDate, out _startDate).Should().BeTrue();
+            DateTime.TryParse(startDate, out _startDate).ShouldBeTrue();
         }
 
         [Given(@"I have a end date ""([^""]*)""")]
         public void GivenIHaveAEndDate(string endDate)
         {
             if (string.IsNullOrWhiteSpace(endDate)) return;
-            DateTime.TryParse(endDate, out _endDate).Should().BeTrue();
+            DateTime.TryParse(endDate, out _endDate).ShouldBeTrue();
         }
 
         [Given(@"text prompt within the date range exists ""([^""]*)""")]
         public void GivenTextPromptsWithinTheDateRangeExists(string withinDateRangeExists)
         {
-            bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).Should().BeTrue();
+            bool.TryParse(withinDateRangeExists, out _withinDateRangeExists).ShouldBeTrue();
         }
 
         [Given(@"I have a page number ""([^""]*)""")]
         public void GivenIHaveAPageNumber(string pageNumber)
         {
-            int.TryParse(pageNumber, out _pageNumber).Should().BeTrue();
+            int.TryParse(pageNumber, out _pageNumber).ShouldBeTrue();
         }
 
         [Given(@"I have a page size ""([^""]*)""")]
         public void GivenIHaveAPageSize(string pageSize)
         {
-            int.TryParse(pageSize, out _pageSize).Should().BeTrue(); ;
+            int.TryParse(pageSize, out _pageSize).ShouldBeTrue(); ;
         }
 
         [When(@"I get the text prompt paginated")]
@@ -119,28 +119,28 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
         public void ThenTheResponseHasACollectionOfTextPrompts()
         {
             if (responseType != CommandResponseType.Successful) return;
-            _response?.TotalCount.Should().Be(_withinDateRangeExists == false ? 0 : _response.TotalCount);
+            _response?.TotalCount.ShouldBe(_withinDateRangeExists == false ? 0 : _response.TotalCount);
         }
 
         [Then(@"Each text prompt has a Key")]
         public void ThenEachTextPromptHasAKey()
         {
             if (responseType != CommandResponseType.Successful) return;
-            _response?.Items.FirstOrDefault(x => x.Id == default).Should().BeNull();
+            _response?.Items.FirstOrDefault(x => x.Id == default).ShouldBeNull();
         }
 
         [Then(@"Each text prompt has a Date greater than start date")]
         public void ThenEachTextPromptHasADateGreaterThanStartDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).Should().NotBeNull();
+                _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
         }
 
         [Then(@"Each text prompt has a Date less than end date")]
         public void ThenEachTextPromptHasADateLessThanEndDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).Should().NotBeNull();
+                _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
         }
 
         [Then(@"The response has a Page Number")]

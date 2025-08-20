@@ -1,11 +1,8 @@
-﻿using FluentAssertions.Execution;
-using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
-using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 using Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
-using Goodtocode.Validation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -109,15 +106,15 @@ public abstract class TestBase : IDisposable
             case "Success":
                 using (new AssertionScope())
                 {
-                    responseType.Should().Be(CommandResponseType.Successful);
-                    exception?.Should().BeNull("An exception was thrown: {0}. Inner exception: {1}", exception.Message, exception.InnerException?.Message);
+                    responseType.ShouldBe(CommandResponseType.Successful);
+                    exception.ShouldBeNull($"An exception was thrown: {exception?.Message}. Inner exception: {exception?.InnerException?.Message}");
                 }
                 break;
             case "BadRequest":
-                responseType.Should().Be(CommandResponseType.BadRequest);
+                responseType.ShouldBe(CommandResponseType.BadRequest);
                 break;
             case "NotFound":
-                responseType.Should().Be(CommandResponseType.NotFound);
+                responseType.ShouldBe(CommandResponseType.NotFound);
                 break;
         }
     }
@@ -135,7 +132,7 @@ public abstract class TestBase : IDisposable
             var hasCommandValidatorErrors = validationResponse.Errors.Any(x => x.PropertyName == field.Trim());
             var hasCommandErrors = commandErrors.Any(x => x.Key == field.Trim());
             var hasErrorMatch = hasCommandErrors || hasCommandValidatorErrors;
-            hasErrorMatch.Should().BeTrue();
+            hasErrorMatch.ShouldBeTrue();
         }
     }
 

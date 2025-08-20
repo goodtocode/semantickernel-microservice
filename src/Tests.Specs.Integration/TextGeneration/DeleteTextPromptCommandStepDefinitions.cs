@@ -19,13 +19,13 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
         [Given(@"I have a text prompt id""([^""]*)""")]
         public void GivenIHaveATextPromptKey(string id)
         {
-            Guid.TryParse(id, out _id).Should().BeTrue();
+            Guid.TryParse(id, out _id).ShouldBeTrue();
         }
 
         [Given(@"The text prompt exists ""([^""]*)""")]
         public void GivenTheTextPromptExists(string exists)
         {
-            bool.TryParse(exists, out _exists).Should().BeTrue();
+            bool.TryParse(exists, out _exists).ShouldBeTrue();
         }
 
         [When(@"I delete the text prompt")]

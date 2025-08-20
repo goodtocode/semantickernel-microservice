@@ -22,13 +22,13 @@ public class GetChatMessageQueryStepDefinitions : TestBase
     public void GivenIHaveAChatMessageId(string ChatMessageKey)
     {
         if (string.IsNullOrWhiteSpace(ChatMessageKey)) return;
-        Guid.TryParse(ChatMessageKey, out _id).Should().BeTrue();
+        Guid.TryParse(ChatMessageKey, out _id).ShouldBeTrue();
     }
 
     [Given(@"The Chat Message exists ""([^""]*)""")]
     public void GivenITheChatMessageExists(string exists)
     {
-        bool.TryParse(exists, out _exists).Should().BeTrue();
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
     }
 
     [When(@"I get a Chat Message")]
@@ -80,12 +80,12 @@ public class GetChatMessageQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAId()
     {
         if (responseType != CommandResponseType.Successful) return;
-        _response?.Id.Should().NotBeEmpty();
+        _response?.Id.ShouldNotBeEmpty();
     }
 
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasACountMatching(string messageContent)
     {
-        _response?.Content?.Should().Be(messageContent);
+        _response?.Content?.ShouldBe(messageContent);
     }
 }

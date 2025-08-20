@@ -24,20 +24,20 @@ public class GetAuthorChatSessionQueryStepDefinitions : TestBase
     public void GivenIHaveAAuthorId(string id)
     {
         if (string.IsNullOrWhiteSpace(id)) return;
-        Guid.TryParse(id, out _id).Should().BeTrue();
+        Guid.TryParse(id, out _id).ShouldBeTrue();
     }
 
     [Given(@"I have a chat session id ""([^""]*)""")]
     public void GivenIHaveAChatSessionId(string chatSessionId)
     {
         if (string.IsNullOrWhiteSpace(chatSessionId)) return;
-        Guid.TryParse(chatSessionId, out _chatSessionid).Should().BeTrue();
+        Guid.TryParse(chatSessionId, out _chatSessionid).ShouldBeTrue();
     }
 
     [Given(@"I the chat session exists ""([^""]*)""")]
     public void GivenITheChatSessionExists(string exists)
     {
-        bool.TryParse(exists, out _exists).Should().BeTrue();
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
     }
 
     [When(@"I get a chat session")]
@@ -89,6 +89,6 @@ public class GetAuthorChatSessionQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAId()
     {
         if (responseType != CommandResponseType.Successful) return;
-        _response?.Id.Should().NotBeEmpty();
+        _response?.Id.ShouldNotBeEmpty();
     }
 }

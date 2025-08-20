@@ -23,13 +23,13 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     public void GivenIHaveAChatSessionId(string chatSessionKey)
     {
         if (string.IsNullOrWhiteSpace(chatSessionKey)) return;
-        Guid.TryParse(chatSessionKey, out _id).Should().BeTrue();
+        Guid.TryParse(chatSessionKey, out _id).ShouldBeTrue();
     }
 
     [Given(@"I the chat session exists ""([^""]*)""")]
     public void GivenITheChatSessionExists(string exists)
     {
-        bool.TryParse(exists, out _exists).Should().BeTrue();
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
     }
 
     [Given(@"I have a expected chat session count ""([^""]*)""")]
@@ -86,12 +86,12 @@ public class GetChatSessionQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAId()
     {
         if (responseType != CommandResponseType.Successful) return;
-        _response?.Id.Should().NotBeEmpty();
+        _response?.Id.ShouldNotBeEmpty();
     }
 
     [Then(@"If the response is successful the response has a count matching ""([^""]*)""")]
     public void ThenIfTheResponseIsSuccessfulTheResponseHasACountMatching(string messageCount)
     {
-        _response?.Messages?.Count.Should().Be(int.Parse(messageCount, CultureInfo.InvariantCulture));
+        _response?.Messages?.Count.ShouldBe(int.Parse(messageCount, CultureInfo.InvariantCulture));
     }
 }

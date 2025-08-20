@@ -16,18 +16,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<SpecFlowObsoleteCodeBehindFiles Remove="Author\CreateChatSessionCommand.feature.cs" />
-		<SpecFlowObsoleteCodeBehindFiles Remove="Author\DeleteChatSessionCommand.feature.cs" />
-		<SpecFlowObsoleteCodeBehindFiles Remove="Author\GetChatSessionQuery.feature.cs" />
-		<SpecFlowObsoleteCodeBehindFiles Remove="Author\UpdateChatSessionCommand.feature.cs" />
-		<SpecFlowObsoleteCodeBehindFiles Remove="Audio\CreateTextToImageCommand.feature.cs" />
-		<SpecFlowObsoleteCodeBehindFiles Remove="Audio\DeleteTextImageCommand.feature.cs" />
-		<SpecFlowObsoleteCodeBehindFiles Remove="Audio\GetTextImageQuery.feature.cs" />
-		<SpecFlowObsoleteCodeBehindFiles Remove="Audio\GetTextImagesPaginatedQuery.feature.cs" />
-		<SpecFlowObsoleteCodeBehindFiles Remove="Audio\GetTextImagesQuery.feature.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Include="appsettings.test.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
@@ -36,7 +24,6 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.8" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-		<PackageReference Include="FluentAssertions" Version="8.0.0" />
 		<PackageReference Include="Moq" Version="4.20.72" />
 		<PackageReference Include="MSTest.TestAdapter" Version="3.10.2" />
 		<PackageReference Include="MSTest.TestFramework" Version="3.10.2" />
@@ -44,101 +31,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Common.Assertion\Common.Assertion.csproj" />
 		<ProjectReference Include="..\Core.Application\Core.Application.csproj" />
 		<ProjectReference Include="..\Infrastructure.SemanticKernel\Infrastructure.SemanticKernel.csproj" />
 		<ProjectReference Include="..\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj" />
-	</ItemGroup>
-
-
-	<ItemGroup>
-		<SpecFlowFeatureFiles Update="Author\CreateAuthorCommand.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Author\DeleteAuthorCommand.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Author\GetAuthorQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Author\GetAuthorChatSessionsPaginatedQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Author\GetAuthorChatSessionsQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Author\UpdateAuthorCommand.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Audio\CreateTextToAudioCommand.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Audio\DeleteTextAudioCommand.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Audio\GetTextAudioQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Audio\GetTextAudioPaginatedQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Audio\GetTextAudioQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="ChatCompletion\GetChatMessageQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Image\CreateTextToImageCommand.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Image\DeleteTextImageCommand.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Image\GetTextImageQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Image\GetTextImagesPaginatedQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="Image\GetTextImagesQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="TextGeneration\CreateTextPromptCommand.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="TextGeneration\DeleteTextPromptCommand.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="TextGeneration\GetTextPromptQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="TextGeneration\GetTextPromptsPaginatedQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
-		<SpecFlowFeatureFiles Update="TextGeneration\GetTextPromptsQuery.feature">
-			<Visible>$(UsingMicrosoftNETSdk)</Visible>
-			<CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
-		</SpecFlowFeatureFiles>
 	</ItemGroup>
 
 </Project>

@@ -21,13 +21,13 @@ public class GetTextAudioQueryStepDefinitions : TestBase
     public void GivenIHaveATextAudioKey(string textPromptKey)
     {
         if (string.IsNullOrWhiteSpace(textPromptKey)) return;
-        Guid.TryParse(textPromptKey, out _id).Should().BeTrue();
+        Guid.TryParse(textPromptKey, out _id).ShouldBeTrue();
     }
 
     [Given(@"I the text audio exists ""([^""]*)""")]
     public void GivenIThetextAudioExists(string exists)
     {
-        bool.TryParse(exists, out _exists).Should().BeTrue();
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
     }
 
     [When(@"I get a text audio")]
@@ -83,6 +83,6 @@ public class GetTextAudioQueryStepDefinitions : TestBase
     public void ThenIfTheResponseIsSuccessfulTheResponseHasAKey()
     {
         if (responseType != CommandResponseType.Successful) return;
-        _response?.Id.Should().NotBeEmpty();
+        _response?.Id.ShouldNotBeEmpty();
     }
 }

@@ -19,13 +19,13 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         [Given(@"I have a chat session id ""([^""]*)""")]
         public void GivenIHaveAChatSessionId(string id)
         {
-            Guid.TryParse(id, out _id).Should().BeTrue();
+            Guid.TryParse(id, out _id).ShouldBeTrue();
         }
 
         [Given(@"the chat session exists ""([^""]*)""")]
         public void GivenTheChatSessionExists(string exists)
         {
-            bool.TryParse(exists, out _exists).Should().BeTrue();
+            bool.TryParse(exists, out _exists).ShouldBeTrue();
         }
 
         [When(@"I update the chat session")]
