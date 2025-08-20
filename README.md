@@ -260,12 +260,6 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 # Technologies
 * [ASP.NET .Net](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
 * [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)
-* [MediatR](https://github.com/jbogard/MediatR)
-* [AutoMapper](https://automapper.org/)
-* [Specflow](https://specflow.org/)
-* [FluentValidation](https://fluentvalidation.net/)
-* [FluentAssertions](https://fluentassertions.com/)
-* [Moq](https://github.com/moq)
 
 # Semantic Kernel
 * [GitHub](https://github.com/microsoft/semantic-kernel.git)
@@ -276,7 +270,6 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 ## Additional Technologies References
 * AspNetCore.HealthChecks.UI
 * Entity Framework Core
-* FluentValidation.AspNetCore
 * Microsoft.AspNetCore.App
 * Microsoft.AspNetCore.Cors
 * Swashbuckle.AspNetCore.SwaggerGen
