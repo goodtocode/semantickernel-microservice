@@ -6,11 +6,11 @@ public class CustomUnhandledExceptionBehavior<TRequest, TResponse>(ILogger<TRequ
 {
     private readonly ILogger<TRequest> logger = logger;
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestDelegateInvoker<TResponse> nextInvoker, CancellationToken cancellationToken)
     {
         try
         {
-            return await next();
+            return await nextInvoker();
         }
         catch (Exception ex)
         {

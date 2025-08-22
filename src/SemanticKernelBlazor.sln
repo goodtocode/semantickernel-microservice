@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Specs.Integration", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Assertion", "Common.Assertion\Common.Assertion.csproj", "{00EE3C09-5FF1-5C41-D208-8FAF8FAC0FA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Mediator", "Common.Mediator\Common.Mediator.csproj", "{E0D2AA75-816A-0D0A-CF16-A99086DE0A23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{00EE3C09-5FF1-5C41-D208-8FAF8FAC0FA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00EE3C09-5FF1-5C41-D208-8FAF8FAC0FA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00EE3C09-5FF1-5C41-D208-8FAF8FAC0FA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0D2AA75-816A-0D0A-CF16-A99086DE0A23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0D2AA75-816A-0D0A-CF16-A99086DE0A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0D2AA75-816A-0D0A-CF16-A99086DE0A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0D2AA75-816A-0D0A-CF16-A99086DE0A23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

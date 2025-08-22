@@ -11,7 +11,6 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="MediatR" Version="12.4.1" />
 		<PackageReference Include="CSharpFunctionalExtensions" Version="3.6.0" />
 	</ItemGroup>
 	

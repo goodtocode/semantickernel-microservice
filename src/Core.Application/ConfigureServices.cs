@@ -7,13 +7,26 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddMediatR(cfg =>
+        var handlerTypes = Assembly.GetExecutingAssembly()
+            .GetTypes()
+            .Where(t => t.GetInterfaces().Any(i =>
+                i.IsGenericType &&
+                i.GetGenericTypeDefinition() == typeof(IRequestHandler<,>)));
+
+        foreach (var handlerType in handlerTypes)
         {
-            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CustomUnhandledExceptionBehavior<,>));
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CustomValidationBehavior<,>));
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CustomPerformanceBehavior<,>));
-        });
+            var interfaceType = handlerType.GetInterfaces().First(i =>
+                i.IsGenericType &&
+                i.GetGenericTypeDefinition() == typeof(IRequestHandler<,>));
+            services.AddTransient(interfaceType, handlerType);
+        }
+
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CustomUnhandledExceptionBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CustomValidationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CustomPerformanceBehavior<,>));
+
+        services.AddTransient<IRequestDispatcher, RequestDispatcher>();
+        services.AddTransient<ISender, Sender>();
 
         return services;
     }

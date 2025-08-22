@@ -1,6 +1,5 @@
 ﻿using Goodtocode.Domain.Types.DomainEntity;
 using Goodtocode.SemanticKernel.Core.Domain.Author;
-using MediatR;
 
 namespace Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 

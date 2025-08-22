@@ -9,16 +9,16 @@ public class CustomPerformanceBehavior<TRequest, TResponse>(
     private readonly Stopwatch _timer = new();
     private readonly ILogger<TRequest> _logger = logger;
 
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public Task<TResponse> Handle(TRequest request, RequestDelegateInvoker<TResponse> nextInvoker, CancellationToken cancellationToken)
     {
-        return Handle(request, next, _logger, cancellationToken);
+        return Handle(request, nextInvoker, _logger, cancellationToken);
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, ILogger logger, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestDelegateInvoker<TResponse> nextInvoker, ILogger logger, CancellationToken cancellationToken)
     {
         _timer.Start();
 
-        var response = await next();
+        var response = await nextInvoker();
 
         _timer.Stop();
 
