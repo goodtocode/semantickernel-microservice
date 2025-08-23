@@ -32,14 +32,18 @@ Upcoming relases will support more Semantic Kernel and Azure Open AI functionali
 
 # Getting-Started in 4 Steps
 To get started, follow the steps below:
-1. Install Prerequisites
+1. Clone this repository
+	```
+	git clone https://github.com/goodtocode/semantickernel-microservice.git
+	```
+2. Install Prerequisites
 	```
 	winget install Microsoft.DotNet.SDK.9 --silent
 	```
 	```
 	dotnet tool install --global dotnet-ef
 	```
-2. Add your Open AI or Azure Open AI key to configuration (via *dotnet user-secrets set* command)
+3. Add your Open AI or Azure Open AI key to configuration (via *dotnet user-secrets set* command)
 	```
 	cd src/Presentation.WebAPI
 	dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
@@ -48,15 +52,20 @@ To get started, follow the steps below:
 	cd ../Tests.Specs.Integration
 	dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
 	```
-3. Create your SQL Server database & schema (via *dotnet ef* command)
+4. Create your SQL Server database & schema (via *dotnet ef* command)
 	```
 	cd ../../
 	dotnet ef database update --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernelMicroservice;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
 	```
-4. Run Tests (Tests.Specs.Integration)
+5. Run Tests (Tests.Specs.Integration)
 	```
 	cd src/Tests.Specs.Integration
 	dotnet test
+	```
+6. Run Blazor Web Chat Client (Presentation.Blazor) and Web API (Presentation.WebApi)
+	```
+	dotnet run --project Presentation.WebApi/Presentation.WebApi.csproj --launch-profile "Local"
+	dotnet run --project Presentation.Blazor/Presentation.Blazor.csproj --launch-profile "Local"
 	```
 
 # Install Prerequisites

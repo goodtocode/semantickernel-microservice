@@ -31,7 +31,7 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Local")
+if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
 {
     app.UseSwagger();
     UseSwaggerUiConfigs();
