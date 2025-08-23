@@ -288,6 +288,6 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 | 1.1.2   | 2025-Aug-16 | Deprecated Specflow,Automapper			|
 | 1.1.5   | 2025-Aug-18 | Deprecated FluentValidation/Assertions	|
 | 1.1.6   | 2025-Aug-19 | Fixed blazor copilot chat runtime error	|
-| 1.1.7   | 2025-Aug-21 | Deprecated MediatR						|
+| 1.1.7   | 2025-Aug-22 | Deprecated MediatR						|
 
 This project is licensed with the [MIT license](https://mit-license.org/).
