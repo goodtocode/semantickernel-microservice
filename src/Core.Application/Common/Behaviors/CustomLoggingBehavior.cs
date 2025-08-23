@@ -1,5 +1,4 @@
-﻿using MediatR.Pipeline;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviors;
 

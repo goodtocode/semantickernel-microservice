@@ -24,7 +24,7 @@ builder.Services.AddApplicationInsightsTelemetry(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
 {
     app.UseDeveloperExceptionPage();
 }
@@ -32,6 +32,7 @@ else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseHsts(); // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    // ToDo: Add CSP Header
 }
 
 app.UseHttpsRedirection();

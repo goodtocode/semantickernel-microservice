@@ -10,7 +10,7 @@ public class CustomValidationBehavior<TRequest, TResponse>(
 
     public async Task<TResponse> Handle(
         TRequest request,
-        RequestHandlerDelegate<TResponse> next,
+        RequestDelegateInvoker<TResponse> nextInvoker,
         CancellationToken cancellationToken)
     {
         foreach (var validator in _validators)
@@ -18,6 +18,6 @@ public class CustomValidationBehavior<TRequest, TResponse>(
             validator.ValidateAndThrow(request);
         }
 
-        return await next();
+        return await nextInvoker();
     }
 }

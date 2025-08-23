@@ -16,7 +16,6 @@ public class CreateAuthorCommandHandler(ISemanticKernelContext context) : IReque
 
     public async Task<AuthorDto> Handle(CreateAuthorCommand request, CancellationToken cancellationToken)
     {
-
         GuardAgainstEmptyName(request?.Name);
         GuardAgainstIdExsits(_context.Authors, request!.Id);
 

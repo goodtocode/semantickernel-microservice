@@ -1,7 +1,7 @@
 ﻿global using Asp.Versioning;
 global using Asp.Versioning.ApiExplorer;
+global using Goodtocode.Mediator;
 global using Goodtocode.Validation;
-global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.Filters;
 global using Microsoft.Extensions.Options;

@@ -6,8 +6,9 @@
 		<Version>1.0.0</Version>
 		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>	  <UserSecretsId>c2325466-9b0d-494a-984a-11ad18457d3f</UserSecretsId>
-  </PropertyGroup>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>c2325466-9b0d-494a-984a-11ad18457d3f</UserSecretsId>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Azure.Identity" Version="1.15.0" />

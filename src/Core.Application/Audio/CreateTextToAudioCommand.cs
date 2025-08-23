@@ -1,5 +1,4 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
-using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.TextToAudio;
