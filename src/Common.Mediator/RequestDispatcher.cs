@@ -11,8 +11,8 @@ public class RequestDispatcher(IServiceProvider serviceProvider) : IRequestDispa
         var handlerType = typeof(IRequestHandler<>).MakeGenericType(requestType);
         var handler = serviceProvider.GetRequiredService(handlerType);
 
-        var behaviorType = typeof(IPipelineBehavior<,>).MakeGenericType(requestType);
-        var behaviors = serviceProvider.GetServices(behaviorType).ToList();
+        var behaviorType = typeof(IPipelineBehavior<>).MakeGenericType(requestType);
+        var behaviors = serviceProvider.GetServices(behaviorType)?.ToList() ?? [];
 
         RequestDelegateInvoker handlerDelegate = () =>
             ((dynamic)handler).Handle((dynamic)request, cancellationToken);
@@ -20,7 +20,8 @@ public class RequestDispatcher(IServiceProvider serviceProvider) : IRequestDispa
         foreach (var behavior in behaviors.AsEnumerable().Reverse())
         {
             var next = handlerDelegate;
-            handlerDelegate = () => ((dynamic)behavior).Handle((dynamic)request, next, cancellationToken);
+            handlerDelegate = () => ((dynamic)behavior)?.Handle((dynamic)request, next, cancellationToken)
+                ?? throw new InvalidOperationException("Pipeline behavior is null.");
         }
 
         await handlerDelegate();
@@ -33,7 +34,7 @@ public class RequestDispatcher(IServiceProvider serviceProvider) : IRequestDispa
         var handler = serviceProvider.GetRequiredService(handlerType);
 
         var behaviorType = typeof(IPipelineBehavior<,>).MakeGenericType(requestType, typeof(TResponse));
-        var behaviors = serviceProvider.GetServices(behaviorType).ToList();
+        var behaviors = serviceProvider.GetServices(behaviorType)?.ToList() ?? [];
 
         RequestDelegateInvoker<TResponse> handlerDelegate = () =>
             ((dynamic)handler).Handle((dynamic)request, cancellationToken);
@@ -41,7 +42,8 @@ public class RequestDispatcher(IServiceProvider serviceProvider) : IRequestDispa
         foreach (var behavior in behaviors.AsEnumerable().Reverse())
         {
             var next = handlerDelegate;
-            handlerDelegate = () => ((dynamic)behavior).Handle((dynamic)request, next, cancellationToken);
+            handlerDelegate = () => ((dynamic)behavior)?.Handle((dynamic)request, next, cancellationToken)
+                ?? throw new InvalidOperationException("Pipeline behavior is null.");
         }
 
         return await handlerDelegate();

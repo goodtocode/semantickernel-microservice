@@ -21,3 +21,25 @@ public class CustomValidationBehavior<TRequest, TResponse>(
         return await nextInvoker();
     }
 }
+
+public class CustomValidationBehavior<TRequest>(
+    IEnumerable<IValidator<TRequest>> validators)
+    : IPipelineBehavior<TRequest>
+    where TRequest : notnull
+{
+    private readonly IEnumerable<IValidator<TRequest>> _validators = validators;
+
+    public Task Handle(
+        TRequest request,
+        RequestDelegateInvoker nextInvoker,
+        CancellationToken cancellationToken)
+    {
+        foreach (var validator in _validators)
+        {
+            validator.ValidateAndThrow(request);
+        }
+
+        // Return the Task from nextInvoker to ensure asynchronous execution and resolve CS1998
+        return nextInvoker();
+    }
+}

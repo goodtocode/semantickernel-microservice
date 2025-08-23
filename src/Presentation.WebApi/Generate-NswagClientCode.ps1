@@ -47,4 +47,4 @@ else {
 }
 
 dotnet tool install nswag.consolecore --local
-nswag run Generate-NswagClientCode.json
+dotnet nswag run Generate-NswagClientCode.json
