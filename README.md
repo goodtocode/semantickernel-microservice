@@ -7,7 +7,9 @@
 
 [![.github/workflows/gtc-rg-semkernel-api-ci-cd.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api-ci-cd.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api-ci-cd.yml)
 
-Simple Semantic Kernel CRUD Microservice solution that demonstrates the most basic use cases of the Microsoft Semantic Kernel in a Clean Architecture C# Microservice. This microservice allows you to persist the following Azure Open AI services to SQL Server, so you can replay messages and maintain history of your interaction with AI. 
+Semantic Kernel Quick-start is a .NET Web API CRUD Microservice solution with Blazor Copilot-ish Chat client that demonstrates the most basic use cases of the Microsoft Semantic Kernel in a Clean Architecture C# Microservice. This microservice allows you to persist the following Azure Open AI services to SQL Server, so you can replay messages and maintain history of your interaction with AI. 
+
+![Semantic Kernel Quick-start Blazor](./docs/SemanticKernel-Quick-start-Blazor-Side-by-Side.png)
 
 Semantic Kernel is an SDK that integrates Large Language Models (LLMs) like OpenAI, Azure OpenAI, and Hugging Face with conventional programming languages like C#, Python, and Java. Semantic Kernel allows developers to define plugins that can be chained together in just a few lines of code.
 
