@@ -10,7 +10,7 @@ public class CustomLoggingBehavior<TRequest>(ILogger<TRequest> logger) : IReques
     {
         var requestName = typeof(TRequest).Name;
 
-        await Task.Run(() => _logger.LogInformation("Request: {Name} {@Request}",
-            requestName, request), cancellationToken);
+        await Task.Run(() => _logger.LogInformation("Request: {Name}",
+            requestName), cancellationToken);
     }
 }

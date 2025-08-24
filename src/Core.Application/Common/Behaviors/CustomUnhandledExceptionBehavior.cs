@@ -17,7 +17,29 @@ public class CustomUnhandledExceptionBehavior<TRequest, TResponse>(ILogger<TRequ
             var requestName = typeof(TRequest).Name;
 
             await Task.Run(()
-                => logger.LogError(ex, "Request: Unhandled Exception for Request {Name} {@Request}", requestName, request), cancellationToken);
+                => logger.LogError(ex, "Request: Unhandled Exception for Request {Name}", requestName), cancellationToken);
+
+            throw;
+        }
+    }
+}
+
+public class CustomUnhandledExceptionBehavior<TRequest>(ILogger<TRequest> logger) : IPipelineBehavior<TRequest> where TRequest : notnull
+{
+    private readonly ILogger<TRequest> logger = logger;
+
+    public async Task Handle(TRequest request, RequestDelegateInvoker nextInvoker, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await nextInvoker();
+        }
+        catch (Exception ex)
+        {
+            var requestName = typeof(TRequest).Name;
+
+            await Task.Run(()
+                => logger.LogError(ex, "Request: Unhandled Exception for Request {Name}", requestName), cancellationToken);
 
             throw;
         }
