@@ -28,7 +28,7 @@ public class CustomPerformanceBehavior<TRequest, TResponse>(
         {
             var requestName = typeof(TRequest).Name;
             await Task.Run(() =>
-                logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}", requestName, elapsedMilliseconds, request), cancellationToken);
+                logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds)", requestName, elapsedMilliseconds), cancellationToken);
         }
 
         return response;
@@ -60,7 +60,7 @@ public class CustomPerformanceBehavior<TRequest>(
         {
             var requestName = typeof(TRequest).Name;
             await Task.Run(() =>
-                logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}", requestName, elapsedMilliseconds, request), cancellationToken);
+                logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds)", requestName, elapsedMilliseconds), cancellationToken);
         }
     }
 }

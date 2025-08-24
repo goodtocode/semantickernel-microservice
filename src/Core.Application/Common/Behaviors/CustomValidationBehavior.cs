@@ -39,7 +39,6 @@ public class CustomValidationBehavior<TRequest>(
             validator.ValidateAndThrow(request);
         }
 
-        // Return the Task from nextInvoker to ensure asynchronous execution and resolve CS1998
         return nextInvoker();
     }
 }
