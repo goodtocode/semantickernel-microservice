@@ -10,12 +10,12 @@ builder.AddLocalEnvironment();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddPresentationWebApiServices(builder.Configuration);
+builder.Services.AddBackEndApi(builder.Configuration);
+
+builder.Services.AddBlazorServices();
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IChatService, ChatService>();
+
 
 builder.Services.AddApplicationInsightsTelemetry(options =>
 {

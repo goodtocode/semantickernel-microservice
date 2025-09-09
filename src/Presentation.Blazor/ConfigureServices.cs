@@ -1,4 +1,6 @@
 ﻿using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -19,7 +21,14 @@ public static class ConfigureServices
         }
     }
 
-    public static IServiceCollection AddPresentationWebApiServices(this IServiceCollection services,
+    public static void AddBlazorServices(this IServiceCollection services)
+    {
+        services.AddScoped<ILocalStorageService, LocalStorageService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IChatService, ChatService>();
+    }
+
+    public static IServiceCollection AddBackEndApi(this IServiceCollection services,
         IConfiguration configuration)
     {
         services.AddOptions<WebApiOptions>()
