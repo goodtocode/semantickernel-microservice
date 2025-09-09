@@ -1,7 +1,6 @@
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Goodtocode.SemanticKernel.Presentation.Blazor;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Components;
-using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services;
-using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,14 +9,13 @@ builder.AddLocalEnvironment();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddPresentationWebApiServices(builder.Configuration);
+builder.Services.AddBackEndApi(builder.Configuration);
+
+builder.Services.AddBlazorServices();
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IChatService, ChatService>();
 
-builder.Services.AddApplicationInsightsTelemetry(options =>
+builder.Services.AddOpenTelemetry().UseAzureMonitor(options =>
 {
     options.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
 });

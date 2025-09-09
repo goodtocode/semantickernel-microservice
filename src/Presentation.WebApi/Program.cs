@@ -1,5 +1,6 @@
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Azure.Security.KeyVault.Secrets;
 using Goodtocode.SemanticKernel.Core.Application;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel;
@@ -27,7 +28,11 @@ builder.Services.AddWebUIServices();
 builder.Services.AddHealthChecks();
 //AddKeyVaultConfigurationSettings(builder);
 BuildApiVerAndApiExplorer(builder);
-builder.Services.AddApplicationInsightsTelemetry();
+
+builder.Services.AddOpenTelemetry().UseAzureMonitor(options =>
+{
+    options.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
+});
 
 var app = builder.Build();
 

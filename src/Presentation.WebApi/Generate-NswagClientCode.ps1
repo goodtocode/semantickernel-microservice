@@ -29,7 +29,7 @@ if (!(Test-Path -Path "$SwaggerJsonPath/$ApiVersion")) {
     New-Item -ItemType Directory -Path "$SwaggerJsonPath/$ApiVersion" | Out-Null
 }
 
-$swashVersion = "8.1.2"
+$swashVersion = "9.0.4"
 
 dotnet add package Swashbuckle.AspNetCore --version $swashVersion
 dotnet restore
