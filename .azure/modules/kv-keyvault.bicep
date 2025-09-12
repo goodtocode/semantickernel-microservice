@@ -3,7 +3,6 @@ param location string
 param sku string 
 param tenantId string 
 param tags object = {}
-param accessPolicies array = []
 
 resource kvResource 'Microsoft.KeyVault/vaults@2023-07-01' = {
   name: name
@@ -19,7 +18,7 @@ resource kvResource 'Microsoft.KeyVault/vaults@2023-07-01' = {
       name: sku
       family: 'A'
     }    
-    accessPolicies: accessPolicies == [] ? null : accessPolicies
+    enableRbacAuthorization: true
     networkAcls: {
       defaultAction: 'Allow'
       bypass: 'AzureServices'

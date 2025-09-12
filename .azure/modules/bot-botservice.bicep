@@ -30,7 +30,7 @@ resource keyVaultName 'Microsoft.KeyVault/vaults@2023-07-01' = {
       family: 'A'
       name: 'standard'
     }
-    accessPolicies: []
+    enableRbacAuthorization: true
     enabledForTemplateDeployment: true
   }
 }
