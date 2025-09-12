@@ -1,5 +1,5 @@
 param name string
-param tags object
+param tags object = {}
 param password string
 param keyVaultId string
 param keyVaultSecretName string
@@ -14,7 +14,7 @@ var location = resourceGroup().location
 resource name_resource 'Microsoft.Web/certificates@2023-12-01' = {
   name: name
   location: location
-  tags: tags
+  tags: empty(tags) ? null : tags
   properties: {
     hostNames: [
       hostnames

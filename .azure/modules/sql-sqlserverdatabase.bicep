@@ -3,7 +3,7 @@
 @maxLength(60)
 param name string
 param location string = resourceGroup().location
-param tags object
+param tags object = {}
 @minLength(1)
 @maxLength(60)
 param adminLogin string
@@ -30,7 +30,7 @@ param maxSizeBytes int = 1073741824
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
   name: name
   location: location
-  tags: tags
+  tags: empty(tags) ? null : tags
   properties: {
     administratorLogin: adminLogin
     administratorLoginPassword: adminPassword

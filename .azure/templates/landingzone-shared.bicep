@@ -1,7 +1,7 @@
 targetScope='resourceGroup'
 
 // Common
-param tags object 
+param tags object
 param location string
 // Workspace
 param workName string
@@ -11,17 +11,17 @@ param planName string
 param planSku string 
 
 module workModule '../modules/work-loganalyticsworkspace.bicep' = {
-  name: 'logAnalyticsWorkspaceName'
+  name: 'workModuleName'
   params: {
     name: workName
     location: location
-    tags: tags    
+    tags: tags   
     sku: workSku
   }
 }
 
 module planModule '../modules/plan-appserviceplan.bicep' = {
-  name: 'appservicename'
+  name: 'planModuleName'
   params: {
     name: planName
     sku: planSku

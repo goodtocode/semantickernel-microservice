@@ -1,12 +1,12 @@
 param location string
-param tags object
+param tags object = {}
 param name string 
 param sku string 
 
 resource stResource 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: name
   location: location
-  tags: tags
+  tags: empty(tags) ? null : tags
   sku: {
     name: sku
   }

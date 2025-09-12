@@ -1,6 +1,6 @@
 param name string 
 param location string 
-param tags object
+param tags object = {}
 @allowed(['Development', 'QA', 'Staging', 'Production'])
 param environment string = 'Development'
 param appiKey string
@@ -15,7 +15,7 @@ resource webAppResource 'Microsoft.Web/sites@2023-12-01' = {
   name: name
   location: location
   kind: kind
-  tags: tags
+  tags: empty(tags) ? null : tags
   properties: {
     serverFarmId: planId
     siteConfig: {

@@ -1,6 +1,6 @@
 param name string
 param location string
-param tags object
+param tags object = {}
 param planId string
 param stName string
 param stSubscriptionId string = subscription().subscriptionId
@@ -38,7 +38,7 @@ resource functionapp 'Microsoft.Web/sites@2023-12-01' = {
   name: name 
   kind: 'functionapp'
   location: location
-  tags: tags
+  tags: empty(tags) ? null : tags
   properties: {
     serverFarmId: planId
     siteConfig: {

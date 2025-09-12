@@ -4,7 +4,7 @@ param name string
 
 param location string = resourceGroup().location
 
-param tags object
+param tags object = {}
 
 @minLength(1)
 @maxLength(60)
@@ -24,7 +24,7 @@ var nameLower = toLower(name)
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
   name: nameLower
   location: location  
-  tags: tags  
+  tags: empty(tags) ? null : tags  
   properties: {
     administratorLogin: adminLogin
     administratorLoginPassword: adminPassword

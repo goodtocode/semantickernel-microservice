@@ -92,7 +92,7 @@ module sqlModule '../modules/sql-sqlserverdatabase.bicep' = {
   params:{
     name: sqlName
     location: location    
-    tags: tags    
+    tags: tags
     adminLogin: sqlAdminUser
     adminPassword: sqlAdminPassword
     sqldbName: sqldbName

@@ -22,7 +22,7 @@ param branch string = 'main'
 resource name_resource 'Microsoft.Web/staticSites@2022-09-01' = {
   name: name
   location: location
-  tags: tags
+  tags: empty(tags) ? null : tags
   sku: {
     tier: sku
     name: sku

@@ -2,13 +2,13 @@
 param name string 
 param location string 
 param sku string 
-param tags object
+param tags object = {}
 
 resource planResource 'Microsoft.Web/serverfarms@2023-01-01' = {
   name: name
   kind:'Windows'
   location: location
-  tags: tags
+  tags: empty(tags) ? null : tags
   properties: {
     reserved: false    
   }

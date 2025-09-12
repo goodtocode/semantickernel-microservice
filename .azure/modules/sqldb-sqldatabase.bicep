@@ -2,7 +2,7 @@
 @maxLength(60)
 param name string
 param location string = resourceGroup().location
-param tags object
+param tags object = {}
 @description('Sku for the database')
 @allowed([
   'Basic'
@@ -18,7 +18,7 @@ param sqlName string
 resource sqlDatabase 'Microsoft.Sql/servers/databases@2023-08-01-preview' = {
   name: '${sqlName}/${name}'
   location: location
-  tags: tags
+  tags: empty(tags) ? null : tags
   sku: {
     name: sku
     tier: sku // (e.g., Basic, GeneralPurpose, BusinessCritical)
