@@ -10,18 +10,11 @@ public static class ConfigureServices
     public static IServiceCollection AddDbContextServices(this IServiceCollection services,
         IConfiguration configuration)
     {
-        if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-        {
-            services.AddDbContext<SemanticKernelContext>(options =>
-                options.UseInMemoryDatabase("DefaultConnection").UseLazyLoadingProxies());
-        }
-        else
-        {
-            services.AddDbContext<SemanticKernelContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                        builder => builder.MigrationsAssembly(typeof(SemanticKernelContext).Assembly.FullName))
-                    .UseLazyLoadingProxies());
-        }
+
+        services.AddDbContext<SemanticKernelContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                    builder => builder.MigrationsAssembly(typeof(SemanticKernelContext).Assembly.FullName))
+                .UseLazyLoadingProxies());
 
         services.AddScoped<ISemanticKernelContext, SemanticKernelContext>();
         services.AddScoped<SemanticKernelContextInitializer>();
