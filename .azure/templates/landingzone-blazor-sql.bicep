@@ -1,7 +1,6 @@
 targetScope='resourceGroup'
 
 // Common
-param tenantId string = tenant().tenantId
 param location string = resourceGroup().location
 param sharedSubscriptionId string = subscription().subscriptionId
 param sharedResourceGroupName string
@@ -9,20 +8,12 @@ param environmentApp string
 param tags object
 // Azure Monitor
 param appiName string 
-param Application_Type string 
-param Flow_Type string 
-// Key Vault
-param kvName string 
-param kvSku string 
 // Storage Account
 param stName string 
 param stSku string 
 // App Service
 param planName string 
-param appName string 
-// workspace
-param workName string
-// Sql Server
+param webName string 
 // Sql Server
 param sqlName string 
 param sqlAdminUser string
@@ -30,34 +21,6 @@ param sqlAdminUser string
 param sqlAdminPassword string
 param sqldbName string
 param sqldbSku string
-
-resource workResource 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
-  name: workName 
-  scope: resourceGroup(sharedSubscriptionId, sharedResourceGroupName)
-}
-
-module appiModule '../modules/appi-applicationinsights.bicep' = {
-  name: 'appiModuleName'
-  params:{
-    location: location
-    tags: tags
-    name: appiName
-    Application_Type: Application_Type
-    Flow_Type: Flow_Type
-    workResourceId: workResource.id
-  }
-}
-
-module kvModule '../modules/kv-keyvault.bicep'= {
-   name:'kvModuleName'
-   params:{
-    location: location
-    tags: tags
-    name: kvName
-    sku: kvSku
-    tenantId: tenantId
-   }
-}
 
 module stModule '../modules/st-storageaccount.bicep' = {
   name:'stModuleName'
@@ -69,20 +32,25 @@ module stModule '../modules/st-storageaccount.bicep' = {
   }
 }
 
+resource appiResource 'Microsoft.Insights/components@2020-02-02' existing = {
+  name: appiName 
+  scope: resourceGroup(sharedSubscriptionId, sharedResourceGroupName)
+}
+
 resource planResource 'Microsoft.Web/serverfarms@2023-01-01' existing = {
   name: planName 
   scope: resourceGroup(sharedSubscriptionId, sharedResourceGroupName)
 }
 
-module apiModule '../modules/api-appservice.bicep' = {
-  name: 'apiModuleName'
+module webModule '../modules/web-webapp.bicep' = {
+  name: 'webModuleName'
   params:{
-    name: appName
+    name: webName
     location: location    
     tags: tags
     environment: environmentApp
-    appiKey:appiModule.outputs.InstrumentationKey
-    appiConnection:appiModule.outputs.Connectionstring
+    appiKey:appiResource.properties.InstrumentationKey
+    appiConnection:appiResource.properties.ConnectionString
     planId: planResource.id  
   }
 }

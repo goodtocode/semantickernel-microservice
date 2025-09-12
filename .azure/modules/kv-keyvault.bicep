@@ -1,7 +1,4 @@
-@description('Name of the Key Vault. (kv)')
-@minLength(3)
-@maxLength(24)
-param name string
+param name string 
 
 param location string 
 
@@ -10,6 +7,8 @@ param sku string
 param tenantId string 
 
 param tags object
+
+param accessPolicies array = []
 
 resource kvResource 'Microsoft.KeyVault/vaults@2023-07-01' = {
   name: name
@@ -21,11 +20,11 @@ resource kvResource 'Microsoft.KeyVault/vaults@2023-07-01' = {
     enabledForTemplateDeployment: true
     tenantId: tenantId
     publicNetworkAccess:'Enabled'
-    accessPolicies: []
     sku: {
       name: sku
       family: 'A'
     }
+    accessPolicies: accessPolicies
     networkAcls: {
       defaultAction: 'Allow'
       bypass: 'AzureServices'

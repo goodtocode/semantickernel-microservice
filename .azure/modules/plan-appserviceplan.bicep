@@ -4,7 +4,7 @@ param location string
 param sku string 
 param tags object
 
-resource planResource 'Microsoft.Web/serverfarms@2023-12-01' = {
+resource planResource 'Microsoft.Web/serverfarms@2023-01-01' = {
   name: name
   kind:'Windows'
   location: location

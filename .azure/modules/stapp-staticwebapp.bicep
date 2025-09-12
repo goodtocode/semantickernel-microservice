@@ -13,7 +13,13 @@ param sku string = 'Free'
 @description('Tags to add to the resources')
 param tags object = {}
 
-resource name_resource 'Microsoft.Web/staticSites@2023-12-01' = {
+@description('Git Repository URL')
+param repositoryUrl string
+
+@description('Git Branch')
+param branch string = 'main'
+
+resource name_resource 'Microsoft.Web/staticSites@2022-09-01' = {
   name: name
   location: location
   tags: tags
@@ -21,4 +27,9 @@ resource name_resource 'Microsoft.Web/staticSites@2023-12-01' = {
     tier: sku
     name: sku
   }
+  properties: {
+    repositoryUrl: repositoryUrl
+    branch: branch
+  }
 }
+

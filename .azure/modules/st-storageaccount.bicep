@@ -1,10 +1,6 @@
-@description('Name of the Storage Account. (st)')
-@minLength(3)
-@maxLength(24)
-param name string
-
 param location string
 param tags object
+param name string 
 param sku string 
 
 resource stResource 'Microsoft.Storage/storageAccounts@2023-01-01' = {

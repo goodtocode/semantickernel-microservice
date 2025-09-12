@@ -1,14 +1,13 @@
 using '../templates/landingzone-appservice.bicep'
 // Common
 var organizationName = 'gtc'
-var productName = 'semkernel'
-var subscriptionName = 'devtest'
+var productName = 'PRODUCT'
 var environmentIac = 'dev'
 param environmentApp = 'Development'
 param location = 'West US 2'
 param tags = { Environment: environmentIac, CostCenter: '0000' }
 // Workspace
-param sharedResourceGroupName = '${organizationName}-rg-${subscriptionName}-shared-${environmentIac}-001'
+param sharedResourceGroupName = '${organizationName}-rg-shared-${environmentIac}-001'
 param workName = 'work-shared-${environmentIac}-001'
 
 // Azure Monitor
@@ -21,7 +20,7 @@ param stName = 'st${productName}${environmentIac}001'
 param stSku = 'Standard_LRS'
 
 // Key Vault
-param kvName = 'kv-${productName}-${environmentIac}-002'
+param kvName = 'kv-${productName}-${environmentIac}-001'
 param kvSku = 'standard'
 
 // App Service
