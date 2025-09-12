@@ -1,16 +1,17 @@
 param name string
 param location string
 param sku string
-param tags object
+param tags object = {}
 
 resource workResource 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   name: name
   location: location
-  tags: tags
+  tags: empty(tags) ? null : tags
   properties: {
     sku: {
       name: sku
     }
+    retentionInDays: 30
   }
 }
 

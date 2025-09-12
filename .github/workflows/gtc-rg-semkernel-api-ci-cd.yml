@@ -7,12 +7,18 @@ on:
     paths:
       - .github/workflows/gtc-rg-semkernel-api-ci-cd.yml
       - src/**
+      - .github/workflows/gtc-rg-semkernel-iac.yml
+      - .azure/**/*.bicep
+      - .azure/**/*.bicepparams
   push:
     branches:
-    - main
+      - main
     paths:
-    - .github/workflows/gtc-rg-semkernel-api-ci-cd.yml
-    - src/**
+      - .github/workflows/gtc-rg-semkernel-api-ci-cd.yml
+      - src/**
+      - .github/workflows/gtc-rg-semkernel-iac.yml
+      - .azure/**/*.bicep
+      - .azure/**/*.bicepparams
   workflow_dispatch:
     inputs:
       environment:

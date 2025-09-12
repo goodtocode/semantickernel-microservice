@@ -27,7 +27,7 @@ resource name_appcsKeys 'Microsoft.AppConfiguration/configurationStores/keyValue
   properties: {
     value: appcsValues[i]
     contentType: contentType
-    tags: tags
+    tags: empty(tags) ? null : tags
   }
 }]
 
