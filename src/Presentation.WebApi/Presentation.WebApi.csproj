@@ -7,7 +7,6 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<DocumentationFile>Goodtocode.SemanticKernel.Presentation.WebApi.xml</DocumentationFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<UserSecretsId>bf5b92ab-f3fe-4af6-b299-583240397247</UserSecretsId>
 	</PropertyGroup>
