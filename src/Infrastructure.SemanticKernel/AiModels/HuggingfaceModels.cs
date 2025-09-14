@@ -1,4 +1,4 @@
-﻿namespace Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.Enums;
+﻿namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.AiModels;
 
 public struct HuggingfaceModels
 {

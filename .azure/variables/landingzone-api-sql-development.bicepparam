@@ -1,4 +1,4 @@
-using '../templates/landingzone-appservicesql.bicep'
+using '../templates/landingzone-api-sql.bicep'
 // Common
 var organizationName = 'gtc'
 var productName = 'semkernel'

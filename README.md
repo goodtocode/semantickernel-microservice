@@ -66,8 +66,9 @@ To get started, follow the steps below:
 	```
 6. Run Blazor Web Chat Client (Presentation.Blazor) and Web API (Presentation.WebApi)
 	```
-	dotnet run --project Presentation.WebApi/Presentation.WebApi.csproj --launch-profile "Local"
-	dotnet run --project Presentation.Blazor/Presentation.Blazor.csproj --launch-profile "Local"
+	cd ../
+	dotnet run --project Presentation.WebApi/Presentation.WebApi.csproj
+	dotnet run --project Presentation.Blazor/Presentation.Blazor.csproj
 	```
 
 # Install Prerequisites

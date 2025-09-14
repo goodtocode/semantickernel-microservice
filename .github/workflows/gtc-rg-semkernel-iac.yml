@@ -1,3 +1,5 @@
+name: IaC what-if and Deploy
+
 on:
   push:
     branches-ignore:
@@ -34,8 +36,8 @@ env:
   PRODUCT_RG_LOCATION: "westus2"
   PRODUCT_RG_NAME: "gtc-rg-devtest-semkernel-dev-001"
   KEYVAULT_NAME: "kv-semkernel-dev-002"
-  PRODUCT_BICEP_TEMPLATE: ".azure/templates/landingzone-appservicesql.bicep"
-  PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-appservicesql-development.bicepparam"
+  PRODUCT_BICEP_TEMPLATE: ".azure/templates/landingzone-api-sql.bicep"
+  PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-api-sql-development.bicepparam"
 
 permissions:
   id-token: write
