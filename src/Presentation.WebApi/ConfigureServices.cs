@@ -10,6 +10,16 @@ namespace Goodtocode.SemanticKernel.Presentation.WebApi;
 public static class ConfigureServices
 {
     /// <summary>
+    /// Determines if the current environment is "Local".
+    /// </summary>
+    /// <param name="environment">The web host environment.</param>
+    /// <returns>True if the environment is "Local"; otherwise, false.</returns>
+    public static bool IsLocal(this IWebHostEnvironment environment)
+    {
+        return environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
     /// Add Local Environment Configuration to mirror Development
     /// </summary>
     /// <param name="builder"></param>

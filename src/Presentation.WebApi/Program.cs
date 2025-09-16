@@ -35,7 +35,7 @@ builder.Services.AddOpenTelemetry().UseAzureMonitor(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
+if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
 {
     app.UseSwagger();
     UseSwaggerUiConfigs();
