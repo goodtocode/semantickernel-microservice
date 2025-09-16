@@ -26,7 +26,6 @@ builder.Services.AddDbContextServices(builder.Configuration);
 builder.Services.AddSemanticKernelOpenAIServices(builder.Configuration);
 builder.Services.AddWebUIServices();
 builder.Services.AddHealthChecks();
-//AddKeyVaultConfigurationSettings(builder);
 BuildApiVerAndApiExplorer(builder);
 
 builder.Services.AddOpenTelemetry().UseAzureMonitor(options =>
@@ -84,15 +83,4 @@ void BuildApiVerAndApiExplorer(WebApplicationBuilder webApplicationBuilder)
         setup.GroupNameFormat = "'v'VVV";
         setup.SubstituteApiVersionInUrl = true;
     });
-}
-
-void AddKeyVaultConfigurationSettings(WebApplicationBuilder appBuilder)
-{
-    if (!appBuilder.Configuration.GetValue<bool>("KeyVault:UseKeyVault")) return;
-
-    var azureKeyVaultEndpoint = appBuilder.Configuration["KeyVault:Endpoint"];
-    if (azureKeyVaultEndpoint == null) return;
-    var credential = new DefaultAzureCredential();
-    var secretClient = new SecretClient(new Uri(azureKeyVaultEndpoint), credential);
-    appBuilder.Configuration.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());
 }
