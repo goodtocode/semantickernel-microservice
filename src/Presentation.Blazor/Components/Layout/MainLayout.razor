@@ -1,19 +1,38 @@
 ﻿@namespace Goodtocode.SemanticKernel.Presentation.Blazor.Components.Layout
 
 @inherits LayoutComponentBase
+@inject NavigationManager Navigation
 
-<div class="page">
-    <NavMenu />        
+<NavMenu />
+<ErrorBoundary @ref="errorBoundaryRef">
+    <ChildContent>
+        <div class="page">
+            <main>
+                <article class="content">
+                    @Body
+                </article>
+            </main>
+        </div>
+    </ChildContent>
+    <ErrorContent Context="ex">
+        <div class="error-dialog-backdrop">
+            <div class="error-dialog">
+                <div class="alert alert-danger mb-3">
+                    Oops! Something went wrong.<br />
+                    @ex.Message
+                </div>
+                <button class="btn btn-sm btn-primary" @onclick="OnRecoverAndNavigate">Go Home</button>
+            </div>
+        </div>
+    </ErrorContent>
+</ErrorBoundary>
 
-    <main>
-        <article class="content">
-            @Body
-        </article>
-    </main>
-</div>
+@code {
+    private ErrorBoundary? errorBoundaryRef;
 
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
-</div>
+    private void OnRecoverAndNavigate()
+    {
+        errorBoundaryRef?.Recover();
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+}

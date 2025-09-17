@@ -9,7 +9,10 @@ namespace Goodtocode.SemanticKernel.Presentation.Blazor;
 
 public static class ConfigureServices
 {
-
+    public static bool IsLocal(this IWebHostEnvironment environment)
+    {
+        return environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase);
+    }
     public static void AddLocalEnvironment(this WebApplicationBuilder builder)
     {
         if (builder.Environment.IsEnvironment("Local"))
