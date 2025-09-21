@@ -196,41 +196,44 @@ Note: The AZURE_SECRETS method uses: az ad sp create-for-rbac --name "COMPANY-SU
 
 [New-AzureGitHubFederation.ps1](https://github.com/goodtocode/cloud-admin/blob/main/scripts/cybersecurity/Azure-GitHub-Federation/New-AzureGitHubFederation.ps1)
 ```
-Install-Module Az #-Force #Force will update the module if it is already installed
+# Install required modules
+Install-Module Az.Accounts,Az.Resources -Scope CurrentUser -Force
 
+# Login to Azure
 Connect-AzAccount -SubscriptionId $SubscriptionId -UseDeviceAuthentication
-```
-```
-# Create a new Azure AD App Registration application and service principal
-$existingAppRegistration = Get-AzADApplication -Filter "displayName eq '$PrincipalName'"
-if (-not $existingAppRegistration) {
-    New-AzADApplication -DisplayName $PrincipalName
+
+# Get App Registration object (Application object)
+$app = Get-AzADApplication -DisplayName $PrincipalName
+if (-not $app) {
+    $app = New-AzADApplication -DisplayName $PrincipalName
 }
-$clientId = (Get-AzADApplication -DisplayName $PrincipalName).AppId
+Write-Host "App Registration (Client) Id: $($app.AppId)"
+$clientId = $app.AppId
+$appObjectId = $app.Id
 
-New-AzADServicePrincipal -ApplicationId $clientId
-$objectId = (Get-AzADServicePrincipal -DisplayName $PrincipalName).Id
+# Create Service Principal and assign role
+$sp = Get-AzADServicePrincipal -DisplayName $PrincipalName
+if (-not $sp) {
+    $sp = New-AzADServicePrincipal -ApplicationId $clientId
+}
+Write-Host "Service Principal Id: $($sp.Id)"
+$spObjectId = $sp.Id
+New-AzRoleAssignment -ObjectId $spObjectId -RoleDefinitionName Contributor -Scope "/subscriptions/$SubscriptionId"
 
-New-AzRoleAssignment -ObjectId $objectId -RoleDefinitionName Contributor -Scope "/subscriptions/$SubscriptionId"
-$clientId = (Get-AzADApplication -DisplayName $PrincipalName).AppId
 $tenantId = (Get-AzContext).Subscription.TenantId
-```
-```
+
 # Create new App Registration Federated Credentials for the GitHub operations
-$subjectRepo = $subjectRepo = "repo:" + $Organization + "/" + $Repository + ":environment:" + $Environment
-
-New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-repo" -Subject "$subjectRepo"
+$subjectRepo = "repo:" + $Organization + "/" + $Repository + ":environment:" + $Environment
+New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-repo" -Subject "$subjectRepo"
 $subjectRepoMain = "repo:" + $Organization + "/" + $Repository + ":ref:refs/heads/main"
-
-New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-main" -Subject "$subjectRepoMain"
+New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-main" -Subject "$subjectRepoMain"
 $subjectRepoPR = "repo:" + $Organization + "/" + $Repository + ":pull_request"
+New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-PR" -Subject "$subjectRepoPR"
 
-New-AzADAppFederatedCredential -ApplicationObjectId $objectId -Audience api://AzureADTokenExchange -Issuer 'https://token.actions.githubusercontent.com' -Name "$PrincipalName-PR" -Subject "$subjectRepoPR"
+Write-Host "AZURE_TENANT_ID: $tenantId"
+Write-Host "AZURE_SUBSCRIPTION_ID: $SubscriptionId"
+Write-Host "AZURE_CLIENT_ID: $clientId"
 ```
-In GitHub repo environment: Add the az login secrets: 
-- AZURE_CLIENT_ID
-- AZURE_TENANT_ID
-- AZURE_SUBSCRIPTION_ID
 
 ## Azure DevOps Pipelines (.azure-devops folder)
 Azure DevOps pipelines require an Azure Service Connection to authenticate and deploy resources to Azure.
@@ -265,7 +268,7 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 - SM: Use SM for long-term memory, chatbots, question-answering systems, and information retrieval.
 
 # Contact
-* [GitHub Repo](https://www.github.com/goodtocode/templates)
+* [GitHub Repo](https://www.github.com/goodtocode/semantickernel-microservice)
 * [@goodtocode](https://www.twitter.com/goodtocode)
 * [github.com/goodtocode](https://www.github.com/goodtocode)
 
