@@ -29,6 +29,7 @@ on:
         description: 'Running mode'  
 
 permissions:
+  actions: read
   id-token: write
   contents: read
   security-events: write
