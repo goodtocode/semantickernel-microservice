@@ -125,10 +125,6 @@ jobs:
           path: ${{ env.SRC_PATH }}/TestResults/Reports/**/index.html
         if: ${{ always() }}
 
-      - name: Print Coverage Summary
-        run: cat ${{ env.SRC_PATH }}/TestResults/Reports/**/index.html
-        shell: bash
-
       - name: Perform CodeQL Analysis 
         uses: github/codeql-action/analyze@v3
 
@@ -231,10 +227,6 @@ jobs:
           name: coverage-report-${{ matrix.DOTNET_VERSION }}
           path: ${{ env.SRC_PATH }}/TestResults/Reports/**/index.html
         if: ${{ always() }}
-
-      - name: Print Coverage Summary
-        run: cat ${{ env.SRC_PATH }}/TestResults/Reports/**/index.html
-        shell: bash
 
       - name: Perform CodeQL Analysis 
         uses: github/codeql-action/analyze@v3
