@@ -19,7 +19,7 @@ Param(
     )
 )
 ####################################################################################
-Set-ExecutionPolicy Unrestricted -Scope Process -Force
+if ($IsWindows) {Set-ExecutionPolicy Unrestricted -Scope Process -Force}
 $VerbosePreference = 'SilentlyContinue' # 'Continue'
 ####################################################################################
 
@@ -50,7 +50,7 @@ foreach ($project in $testProjects) {
 
 # Generate HTML report
 if ($ProdPackagesOnly) {
-    
+    $assemblyFilters = ($ProductionAssemblies | ForEach-Object { "+$_" }) -join ";"
     $assemblyFilters = ($ProductionAssemblies | ForEach-Object { "+$_" }) -join ";"
     & reportgenerator -reports:"$coverageOutputPath/**/coverage.cobertura.xml" -targetdir:$reportOutputPath -reporttypes:Html -assemblyfilters:$assemblyFilters
 }
