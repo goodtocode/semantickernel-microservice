@@ -35,7 +35,7 @@ public sealed class ChatMessagesPlugin(IServiceProvider serviceProvider) : IChat
 
     [KernelFunction("get_messages")]
     [Description("Retrieves all messages from a specific chat session.")]
-    public async Task<IEnumerable<string>> GetChatMessagesAsync(string sessionId,
+    public async Task<IEnumerable<string>> GetChatMessagesAsync(Guid sessionId,
         CancellationToken cancellationToken = default)
     {
         // Get ISemanticKernelContext directly instead of constructor DI to allow this plugin to be registered via AddSingleton() and not scoped due to EF.
@@ -43,7 +43,7 @@ public sealed class ChatMessagesPlugin(IServiceProvider serviceProvider) : IChat
         var context = scope.ServiceProvider.GetRequiredService<ISemanticKernelContext>();
 
         var messages = await context.ChatMessages
-        .Where(x => x.ChatSessionId.ToString() == sessionId)
+        .Where(x => x.ChatSessionId == sessionId)
             .ToListAsync(cancellationToken);
 
         return messages.Select(m => $"{m.ChatSessionId}: {m.Timestamp} - {m.Role}: {m.Content}");

@@ -1,4 +1,5 @@
-﻿using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
+﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Services;
 using Microsoft.Extensions.Configuration;

@@ -1,7 +1,7 @@
-﻿namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
+﻿namespace Goodtocode.SemanticKernel.Core.Application.Abstractions;
 
 public interface IChatMessagesPlugin
 {
     Task<IEnumerable<string>> ListRecentMessagesAsync(DateTime? startDate, DateTime? endDate, CancellationToken cancellationToken);
-    Task<IEnumerable<string>> GetChatMessagesAsync(string sessionId, CancellationToken cancellationToken);
+    Task<IEnumerable<string>> GetChatMessagesAsync(Guid sessionId, CancellationToken cancellationToken);
 }
