@@ -37,7 +37,7 @@ public sealed class ChatSessionsPlugin(IServiceProvider serviceProvider) : IChat
 
     [KernelFunction("change_title")]
     [Description("Changes the title on this chat session.")]
-    public async Task<string> UpdateChatSessionTitleAsync(string sessionId, string newTitle,
+    public async Task<string> UpdateChatSessionTitleAsync(Guid sessionId, string newTitle,
         CancellationToken cancellationToken = default)
     {
         // Get ISemanticKernelContext directly instead of constructor DI to allow this plugin to be registered via AddSingleton() and not scoped due to EF.
@@ -45,7 +45,7 @@ public sealed class ChatSessionsPlugin(IServiceProvider serviceProvider) : IChat
         var context = scope.ServiceProvider.GetRequiredService<ISemanticKernelContext>();
 
         var chatSession = await context.ChatSessions
-            .FirstOrDefaultAsync(x => x.Id.ToString() == sessionId, cancellationToken: cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == sessionId, cancellationToken: cancellationToken);
         chatSession!.Title = newTitle;
         context.ChatSessions.Update(chatSession);
         await context.SaveChangesAsync(cancellationToken);
