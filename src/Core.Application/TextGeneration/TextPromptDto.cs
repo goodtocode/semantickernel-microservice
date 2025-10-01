@@ -9,7 +9,7 @@ public class TextPromptDto
     public Guid AuthorId { get; set; } = Guid.Empty;
     public string Prompt { get; set; } = string.Empty;
     public DateTimeOffset Timestamp { get; set; }
-    public virtual ICollection<TextResponseDto>? Responses { get; set; }
+    public ICollection<TextResponseDto>? Responses { get; set; }
 
     public static TextPromptDto CreateFrom(TextPromptEntity? entity)
     {
