@@ -8,7 +8,7 @@ public class ChatSessionDto
     public string Title { get; set; } = string.Empty;
     public Guid AuthorId { get; set; } = Guid.Empty;
     public DateTimeOffset Timestamp { get; set; }
-    public virtual ICollection<ChatMessageDto>? Messages { get; set; }
+    public ICollection<ChatMessageDto>? Messages { get; set; }
 
     public static ChatSessionDto CreateFrom(ChatSessionEntity? entity)
     {

@@ -1,6 +1,7 @@
 ﻿namespace Goodtocode.SemanticKernel.Core.Application.Abstractions;
 
-public interface IAuthorsPlugin
+public interface IAuthorsPlugin : ISemanticPluginCompatible
 {
-    Task<IAuthorResponse> GetAuthorNameAsync(Guid authorId, CancellationToken cancellationToken);
+    Task<IAuthorResponse> GetAuthorByIdAsync(Guid authorId, CancellationToken cancellationToken);
+    Task<ICollection<IAuthorResponse>> GetAuthorsByNameAsync(string name, CancellationToken cancellationToken);
 }
