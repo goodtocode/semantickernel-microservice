@@ -10,7 +10,7 @@
 ####################################################################################
 
 Param(
-    [string]$TestProjectFilter = 'Tests.*.csproj',    
+    [string]$TestProjectFilter = '*.Specs.*.csproj',    
     [switch]$ProdPackagesOnly = $false,    
     [string[]]$ProductionAssemblies = @(
         "Goodtocode.SemanticKernel.Core.Application",
@@ -34,13 +34,20 @@ $reportOutputPath = Join-Path $scriptPath "TestResults\Reports\$timestamp"
 New-Item -ItemType Directory -Force -Path $coverageOutputPath
 New-Item -ItemType Directory -Force -Path $reportOutputPath 
 
-# Find tests for projects with 'Tests.*.csproj'
+$solutionFile = Get-ChildItem -Path $scriptPath -Filter *.sln -Recurse | Select-Object -First 1
+if ($null -eq $solutionFile) {
+    Write-Host "No solution file found. Exiting."
+    exit 1
+}
+Write-Host "Building solution: $($solutionFile.FullName)"
+dotnet build $solutionFile.FullName
+
 $testProjects = Get-ChildItem $scriptPath -Filter $TestProjectFilter -Recurse
 Write-Host "Found $($testProjects.Count) test projects."
 foreach ($project in $testProjects) {
     $testProjectPath = $project.FullName
     Write-Host "Running tests for project: $($testProjectPath)"
-
+    dotnet test $testProjectPath --no-build
     $buildOutput = Join-Path -Path $project.Directory.FullName -ChildPath "bin\Debug\net9.0\$($project.BaseName).dll"
     $coverageFile = Join-Path $coverageOutputPath "coverage.cobertura.xml"
     Write-Host "Analyzing code coverage for: $buildOutput"
@@ -48,7 +55,6 @@ foreach ($project in $testProjects) {
 
 }
 
-# Generate HTML report
 if ($ProdPackagesOnly) {
     $assemblyFilters = ($ProductionAssemblies | ForEach-Object { "+$_" }) -join ";"
     $assemblyFilters = ($ProductionAssemblies | ForEach-Object { "+$_" }) -join ";"
