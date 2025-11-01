@@ -12,9 +12,7 @@
 param (
     [string]$SwaggerJsonPath = 'swagger',
     [string]$ApiAssembly = 'bin\Debug\net9.0\Goodtocode.SemanticKernel.Presentation.WebApi.dll',
-    [string]$ApiVersion = 'v1',
-    [string]$ClientPathFile = '../Presentation.Blazor/Clients/WebApiClient.g.cs',
-    [string]$ClientNamespace = 'Goodtocode.SemanticKernel.Presentation.WebApi.Client'
+    [string]$ApiVersion = 'v1'
 )
 ####################################################################################
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
