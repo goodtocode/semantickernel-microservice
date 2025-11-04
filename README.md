@@ -32,7 +32,7 @@ Upcoming relases will support more Semantic Kernel and Azure Open AI functionali
 * Assistants: Create and manage virtual assistants that can handle complex tasks and interactions.
 * Semantic Search: Perform searches based on the meaning of the text rather than just keywords, improving search relevance.
 
-# Getting-Started in 4 Steps
+# Quick-Start Steps
 To get started, follow the steps below:
 1. Clone this repository
 	```
@@ -47,7 +47,7 @@ To get started, follow the steps below:
 	```
 3. Add your Open AI or Azure Open AI key to configuration (via *dotnet user-secrets set* command)
 	```
-	cd src/Presentation.WebAPI
+	cd src/Presentation.WebApi
 	dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
 	```
 	```
@@ -70,6 +70,7 @@ To get started, follow the steps below:
 	dotnet run --project Presentation.WebApi/Presentation.WebApi.csproj
 	dotnet run --project Presentation.Blazor/Presentation.Blazor.csproj
 	```
+	# Note: By default, Presentation.WebApi runs on http://localhost:7777 and Presentation.Blazor runs on http://localhost:5000 unless configured otherwise.
 
 # Install Prerequisites
 You will need the following tools:
@@ -109,14 +110,14 @@ Follow these steps to get your development environment set up:
 	```	
   
 ## Setup Azure Open AI or Open AI configuration
-**Important:** Do this for both Presentation.WebAPI and Specs.Infrastructure
+**Important:** Do this for both Presentation.WebApi and Tests.Specs.Integration
 ### Azure Open AI
 ```
-cd src/Presentation.WebAPI
+cd src/Presentation.WebApi
 dotnet user-secrets set "AzureOpenAI:ChatDeploymentName" "gpt-4"
 dotnet user-secrets set "AzureOpenAI:Endpoint" "https://YOUR_ENDPOINT.openai.azure.com/"
 dotnet user-secrets set "AzureOpenAI:ApiKey" "YOUR_API_KEY"
-cd src/Tests.Specs.Integration
+cd ../Tests.Specs.Integration
 dotnet user-secrets set "AzureOpenAI:ChatDeploymentName" "gpt-4"
 dotnet user-secrets set "AzureOpenAI:Endpoint" "https://YOUR_ENDPOINT.openai.azure.com/"
 dotnet user-secrets set "AzureOpenAI:ApiKey" "YOUR_API_KEY"
@@ -129,9 +130,9 @@ AzureOpenAI__ApiKey
 ```
 
 ### Open AI
-Set API Key in both Presention.WebAPI and Tests/Specs.Integration projects
+Set API Key in both Presentation.WebApi and Tests.Specs.Integration projects
 ```
-cd src/Presentation.WebAPI
+cd src/Presentation.WebApi
 dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
 cd ../Tests.Specs.Integration
 dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
@@ -177,7 +178,7 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YOUR_SQL_CONNECTI
 ## Launch the backend
 Right-click Presentation.WebApi and select Set as Default Project
 ```
-dotnet run Presentation.WebApi.csproj
+dotnet run --project src/Presentation.WebApi/Presentation.WebApi.csproj
 ```
 
 ## Open http://localhost:7777/swagger/index.html 
@@ -292,18 +293,19 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 
 # Version History
 
-| Version | Date        | Release Notes                             |
-|---------|-------------|-------------------------------------------|
-| 1.0.0   | 2024-Aug-05 | Initial WebAPI Release                    |
-| 1.0.1   | 2024-Oct-27 | Updated Azure IaC ESA/CAF Standards       |
-| 1.0.2   | 2025-Jan-19 | Updated to .NET 9 and SK 1.33             |
-| 1.0.3   | 2025-Feb-09 | Remove projects from File-New Project     |
-| 1.1.0   | 2025-Jun-04 | Blazor copilot-ish UX, AuthorSession      |
-| 1.1.1   | 2025-Jun-07 | Authors, Sessions & Messages Plugins      |
-| 1.1.2   | 2025-Aug-16 | Deprecated Specflow,Automapper			|
-| 1.1.5   | 2025-Aug-18 | Deprecated FluentValidation/Assertions	|
-| 1.1.6   | 2025-Aug-19 | Fixed blazor copilot chat runtime error	|
-| 1.1.7   | 2025-Aug-22 | Deprecated MediatR						|
-| 1.1.8   | 2025-Aug-23 | Updated docs. Fixed runtime message post	|
+| Version | Date        | Release Notes                                                    |
+|---------|-------------|------------------------------------------------------------------|
+| 1.0.0   | 2024-Aug-05 | Initial WebAPI Release                                           |
+| 1.0.1   | 2024-Oct-27 | Updated Azure IaC ESA/CAF Standards                              |
+| 1.0.2   | 2025-Jan-19 | Updated to .NET 9 and SK 1.33                                    |
+| 1.0.3   | 2025-Feb-09 | Remove projects from File-New Project                            |
+| 1.1.0   | 2025-Jun-04 | Blazor copilot-ish UX, AuthorSession                             |
+| 1.1.1   | 2025-Jun-07 | Authors, Sessions & Messages Plugins                             |
+| 1.1.2   | 2025-Aug-16 | Deprecated Specflow, Automapper (removed from solution)          |
+| 1.1.5   | 2025-Aug-18 | Deprecated FluentValidation/Assertions (removed from solution)   |
+| 1.1.6   | 2025-Aug-19 | Fixed blazor copilot chat runtime error                          |
+| 1.1.7   | 2025-Aug-22 | Deprecated MediatR (removed from solution)                      |
+| 1.1.8   | 2025-Aug-23 | Updated docs. Fixed runtime message post                         |
+| 1.1.9   | 2025-Oct-31 | Added build/test precursor, plugin compatibility, improved code coverage |
 
 This project is licensed with the [MIT license](https://mit-license.org/).
