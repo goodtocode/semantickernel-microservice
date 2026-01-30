@@ -5,7 +5,7 @@ on:
     branches-ignore:
       - main
     paths:
-      - .github/workflows/gtc-semker-iac.yml
+      - .github/workflows/gtc-semker-standalone-iac.yml
       - .azure/**/*.bicep
       - .azure/**/*.bicepparams
   pull_request:
@@ -13,7 +13,7 @@ on:
     branches:
       - main
     paths:
-      - .github/workflows/gtc-semker-iac.yml
+      - .github/workflows/gtc-semker-standalone-iac.yml
       - .azure/**/*.bicep
       - .azure/**/*.bicepparams
   workflow_dispatch:
@@ -29,14 +29,10 @@ on:
 
 env:
   DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
-  SPOKE_MGMT_RG_NAME: "gtc-spokemgmt-dev-wus2-001-rg"
-  SPOKE_MGMT_RG_LOCATION: "westus2"
-  SPOKE_BICEP_TEMPLATE: ".azure/templates/platform-spoke-mgmt.bicep"
-  SPOKE_BICEP_PARAMETERS: ".azure/variables/platform-spoke-mgmt-dev.bicepparam"
   PRODUCT_RG_NAME: "gtc-semker-dev-wus2-001-rg"
   PRODUCT_RG_LOCATION: "westus2"
-  PRODUCT_BICEP_TEMPLATE: ".azure/templates/landingzone-web-api-sql.bicep"
-  PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-web-api-sql-dev.bicepparam"
+  PRODUCT_BICEP_TEMPLATE: ".azure/templates/landingzone-standalone-web-api-sql.bicep"
+  PRODUCT_BICEP_PARAMETERS: ".azure/variables/landingzone-standalone-web-api-sql-dev.bicepparam"
 
 permissions:
   id-token: write
