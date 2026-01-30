@@ -1,6 +1,6 @@
-using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
 {
@@ -125,14 +125,14 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion
         public void ThenEachChatSessionHasADateGreaterThanStartDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
+                _response?.Items.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).ShouldNotBeNull();
         }
 
         [Then(@"Each chat session has a Date less than end date")]
         public void ThenEachChatSessionHasADateLessThanEndDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
+                _response?.Items.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).ShouldNotBeNull();
         }
 
         [Then(@"The response has a Page Number")]

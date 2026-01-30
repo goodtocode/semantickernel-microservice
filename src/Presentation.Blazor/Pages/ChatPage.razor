@@ -1,0 +1,120 @@
+﻿@page "/chat"
+
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Components
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@inject IChatService chatService
+
+<PageTitle>Semantic Kernel Chat Session</PageTitle>
+
+<FluentGrid Spacing="0" OnBreakpointEnter="OnBreakpointEnterHandler" Justify="JustifyContent.FlexStart">
+    <FluentGridItem xs="12" sm="6" md="3">        
+        <FluentStack Orientation="sessionListOrientation" VerticalGap="sessionListVerticalGap" HorizontalGap="sessionListHorizontalGap" 
+            Style="padding-inline-start:8px; padding-top:8px;" Wrap="wrapSessions">
+            <NewChatSessionButton OnNewSessionPressed="HandleNewSessionPressed" Style="flex:0 0 auto; white-space:nowrap; min-width:max-content;" />
+            <FluentSpacer />
+            @if (sessionListOrientation == Orientation.Vertical)
+            {
+                <ChatSessionList @ref="chatSessionListRef"
+                                 Sessions="chatSessions"
+                                 OnSessionSelected="HandleSessionSelected" />
+            }
+            else
+            {
+                <ChatSessionScroll @ref="chatSessionScrollRef"
+                                   Sessions="chatSessions"
+                                   OnSessionSelected="HandleSessionSelected" />
+            }
+        </FluentStack>
+    </FluentGridItem>
+    <FluentGridItem xs="12" sm="12" md="9" Style="@chatContentStyle">
+        <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Stretch">
+            <H1Label>What can I help you with?</H1Label>
+            <ChatMessageList Messages="chatSessions.ActiveSession?.Messages" />
+            <FluentSpacer />
+            @if (sessionListOrientation == Orientation.Vertical)
+            {                
+                <NewChatMessageCard Sessions="chatSessions"
+                                     OnSessionCreated="HandleSessionCreated"
+                                     OnMessageSubmitted="HandleMessageSubmitted" />
+            }
+            else
+            {
+                <NewChatMessageInput Sessions="chatSessions"
+                                     OnSessionCreated="HandleSessionCreated"
+                                     OnMessageSubmitted="HandleMessageSubmitted" />
+
+            }
+        </FluentStack>
+    </FluentGridItem>
+</FluentGrid>
+
+@code {
+    private ChatSessionsModel chatSessions = new ChatSessionsModel();
+    private ChatSessionList? chatSessionListRef;
+    private ChatSessionScroll? chatSessionScrollRef;
+    private Orientation sessionListOrientation = Orientation.Vertical;
+    private int sessionListVerticalGap;
+    private int sessionListHorizontalGap;
+    private bool wrapSessions = false;
+    private string chatContentStyle = "max-width:50vw;";
+
+    protected override async Task OnInitializedAsync()
+    {
+        chatSessions = new ChatSessionsModel();
+        chatSessions.AddRange(await chatService.GetChatSessionsAsync());
+        StateHasChanged();
+    }
+
+    private void HandleNewSessionPressed()
+    {
+        chatSessionListRef?.ClearSelection();
+        chatSessionScrollRef?.ClearSelection();
+        chatSessions.ClearActive();
+        StateHasChanged();
+    }
+
+    private void HandleSessionCreated(ChatSessionModel chatSession)
+    {
+        chatSessions.Add(chatSession);
+        chatSessions.SetActive(chatSession);
+        StateHasChanged();
+    }
+
+    private void HandleSessionSelected(ChatSessionModel chatSession)
+    {
+        chatSessions.ClearActive();
+        chatSessions.SetActive(chatSession);
+        StateHasChanged();
+    }
+
+    private async Task HandleMessageSubmitted()
+    {
+        chatSessions.RefreshItem(await chatService.GetChatSessionAsync(chatSessions?.ActiveSession?.Id ?? Guid.Empty));
+        StateHasChanged();
+    }
+
+    private void OnBreakpointEnterHandler(GridItemSize size)
+    {
+        wrapSessions = size == GridItemSize.Xs ? true : false;
+        if (size == GridItemSize.Xs || size == GridItemSize.Sm)
+        {
+            sessionListOrientation = Orientation.Horizontal;
+            sessionListVerticalGap = 0;
+            sessionListHorizontalGap = 8;
+            chatContentStyle = "";
+        }
+        else
+        {
+            sessionListOrientation = Orientation.Vertical;
+            sessionListVerticalGap = 8;
+            sessionListHorizontalGap = 0;
+            chatContentStyle = "max-width:50vw;";
+        }
+        StateHasChanged();
+    }
+}

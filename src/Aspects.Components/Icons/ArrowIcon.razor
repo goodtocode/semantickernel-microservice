@@ -1,0 +1,15 @@
+﻿<svg class="di-icon-arrow" width="@Size" height="@Size" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="@PathData" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
+
+@code {
+    [Parameter] public string Direction { get; set; } = "right";
+    [Parameter] public string Size { get; set; } = "1em";
+
+    private string PathData => Direction switch
+    {
+        "left" => "M12 8H4M8 12l-4-4 4-4",
+        "right" => "M4 8h8M8 4l4 4-4 4",
+        _ => "M4 8h8M8 4l4 4-4 4"
+    };
+}

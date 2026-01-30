@@ -1,0 +1,27 @@
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+
+@inject IJSRuntime JSRuntime
+
+<FluentStack Orientation="Orientation.Vertical" VerticalAlignment="VerticalAlignment.Top" VerticalGap="8">
+    @foreach (var message in Messages ?? Enumerable.Empty<ChatMessageModel>())
+    {
+        var isUser = IsUserMessage(message);
+        <FluentStack HorizontalAlignment="@(isUser ? HorizontalAlignment.End : HorizontalAlignment.Start)">
+            <FluentCard Appearance="CardAppearance.Filled" Style="@(isUser ? "background:var(--accent-fill-rest); color: var(--fill-color); width: 70%;" : "")">
+                @message.Content
+            </FluentCard>
+
+        </FluentStack>
+    }
+</FluentStack>
+
+
+@code {
+    [Parameter]
+    public IEnumerable<ChatMessageModel> Messages { get; set; } = new List<ChatMessageModel>();
+
+    private bool IsUserMessage(ChatMessageModel message) =>
+        message?.Role?.ToLowerInvariant() == "user";
+}

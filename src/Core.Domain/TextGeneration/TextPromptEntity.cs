@@ -1,5 +1,5 @@
-﻿using Goodtocode.Domain.Types.DomainEntity;
-using Goodtocode.SemanticKernel.Core.Domain.Author;
+﻿using Goodtocode.Domain.Entities;
+using Goodtocode.SemanticKernel.Core.Domain.Actor;
 
 namespace Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 
@@ -7,17 +7,16 @@ public class TextPromptEntity : DomainEntity<TextPromptEntity>
 {
     protected TextPromptEntity() { }
 
-    public Guid AuthorId { get; set; } = Guid.Empty;
-    public string Prompt { get; set; } = string.Empty;
-    public virtual ICollection<TextResponseEntity> TextResponses { get; set; } = [];
-    public virtual AuthorEntity? Author { get; set; }
+    public Guid ActorId { get; private set; } = Guid.Empty;
+    public string Prompt { get; private set; } = string.Empty;
+    public virtual ActorEntity? Actor { get; private set; }
 
     public static TextPromptEntity Create(Guid id, Guid authorId, string prompt)
     {
         return new TextPromptEntity
         {
             Id = id == Guid.Empty ? Guid.NewGuid() : id,
-            AuthorId = authorId,
+            ActorId = authorId,
             Prompt = prompt,
             Timestamp = DateTime.UtcNow
         };

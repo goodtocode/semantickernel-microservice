@@ -57,7 +57,7 @@ To get started, follow the steps below:
 4. Create your SQL Server database & schema (via *dotnet ef* command)
 	```
 	cd ../../
-	dotnet ef database update --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernelMicroservice;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
+	dotnet ef database update --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernel;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
 	```
 5. Run Tests (Tests.Specs.Integration)
 	```
@@ -156,7 +156,7 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YOUR_SQL_CONNECTI
 3. (Optional) If you have an existing database, scaffold current entities into your project
 	
 	```
-	dotnet ef dbcontext scaffold "Data Source=localhost;Initial Catalog=semantickernelmicroservice;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -t WeatherForecastView -c WeatherChannelContext -f -o WebApi
+	dotnet ef dbcontext scaffold "Data Source=localhost;Initial Catalog=SemanticKernel;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -t WeatherForecastView -c WeatherChannelContext -f -o WebApi
 	```
 
 4. Create an initial migration
@@ -168,7 +168,7 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YOUR_SQL_CONNECTI
 6. When ready to deploy new entities and configurations
    
 	```	
-	dotnet ef database update --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernelMicroservice;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
+	dotnet ef database update --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernel;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
 	```
 7. When an entity changes, is created or deleted, create a new migration. Suggest doing this each new version.
 	```
@@ -274,6 +274,7 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 * [github.com/goodtocode](https://www.github.com/goodtocode)
 
 # Technologies
+* [ASP.NET Core Fluent UI](https://www.fluentui-blazor.net/)
 * [ASP.NET .Net](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
 * [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)
 
@@ -288,6 +289,7 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 * Entity Framework Core
 * Microsoft.AspNetCore.App
 * Microsoft.AspNetCore.Cors
+* Microsoft.Aspnetcore.Fluentui
 * Swashbuckle.AspNetCore.SwaggerGen
 * Swashbuckle.AspNetCore.SwaggerUI
 
@@ -307,5 +309,6 @@ The key differences between Entity Framework (EF) and Semantic Kernel memory:
 | 1.1.7   | 2025-Aug-22 | Deprecated MediatR (removed from solution)                      |
 | 1.1.8   | 2025-Aug-23 | Updated docs. Fixed runtime message post                         |
 | 1.1.9   | 2025-Oct-31 | Added build/test precursor, plugin compatibility, improved code coverage |
+| 2.0.0   | 2026-Feb-02 | Blazor Fluent UI (Microsoft.Aspnetcore.FluentUI) fluentui-blazor.net |
 
 This project is licensed with the [MIT license](https://mit-license.org/).

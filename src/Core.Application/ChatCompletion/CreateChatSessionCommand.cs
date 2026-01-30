@@ -1,6 +1,6 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
-using Goodtocode.SemanticKernel.Core.Domain.Author;
+using Goodtocode.SemanticKernel.Core.Domain.Actor;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
@@ -10,8 +10,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 public class CreateChatSessionCommand : IRequest<ChatSessionDto>
 {
     public Guid Id { get; set; }
-    public Guid AuthorId { get; set; }
-    public string? AuthorName { get; set; }
+    public Guid ActorId { get; set; }
     public string? Title { get; set; }
     public string? Message { get; set; }
 }
@@ -23,9 +22,9 @@ public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelConte
 
     public async Task<ChatSessionDto> Handle(CreateChatSessionCommand request, CancellationToken cancellationToken)
     {
-        GuardAgainstMissingAuthor(request.AuthorId);
+        GuardAgainstEmtpyActorId(request.ActorId);
         GuardAgainstEmptyMessage(request?.Message);
-        GuardAgainstIdExsits(_context.ChatSessions, request!.Id);
+        GuardAgainstIdExists(_context.ChatSessions, request!.Id);
 
         var service = _kernel.GetRequiredService<IChatCompletionService>();
         ChatHistory chatHistory = [];
@@ -36,18 +35,15 @@ public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelConte
         };
         var response = await service.GetChatMessageContentAsync(chatHistory, executionSettings, _kernel, cancellationToken);
 
-        var author = await _context.Authors
-            .FirstOrDefaultAsync(x => x.Id == request.AuthorId, cancellationToken);
-        if (author == null)
-        {
-            author = AuthorEntity.Create(request.AuthorId, request?.AuthorName);
-            _context.Authors.Add(author);
-        }
+        var actor = await _context.Actors
+            .FirstOrDefaultAsync(x => x.OwnerId == request.ActorId, cancellationToken);
+        GuardAgainstActorNotFound(actor);
+
         var title = request!.Title ?? $"{request!.Message![..(request.Message!.Length >= 25 ? 25 : request.Message!.Length)]}";
         var chatSession = ChatSessionEntity.Create(
             request.Id,
-            request.AuthorId,
-            title,            
+            actor!.Id,
+            title,
             Enum.TryParse<ChatMessageRole>(response.Role.ToString().ToLowerInvariant(), out var role) ? role : ChatMessageRole.assistant,
             request.Message!,
             response.ToString()
@@ -58,12 +54,21 @@ public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelConte
         return ChatSessionDto.CreateFrom(chatSession);
     }
 
-    private static void GuardAgainstMissingAuthor(Guid authorId)
+    private static void GuardAgainstActorNotFound(ActorEntity? actor)
     {
-        if (authorId == Guid.Empty)
+        if (actor == null)
             throw new CustomValidationException(
             [
-                new("AuthorId", "AuthorId required for sessions")
+                new("ActorId", "ActorId required for sessions")
+            ]);
+    }
+
+    private static void GuardAgainstEmtpyActorId(Guid actorId)
+    {
+        if (actorId == Guid.Empty)
+            throw new CustomValidationException(
+            [
+                new("ActorId", "ActorId required for sessions")
             ]);
     }
 
@@ -76,12 +81,9 @@ public class CreateChatSessionCommandHandler(Kernel kernel, ISemanticKernelConte
             ]);
     }
 
-    private static void GuardAgainstIdExsits(DbSet<ChatSessionEntity> dbSet, Guid id)
+    private static void GuardAgainstIdExists(DbSet<ChatSessionEntity> dbSet, Guid id)
     {
         if (dbSet.Any(x => x.Id == id))
-            throw new CustomValidationException(
-            [
-                new("Id", "Id already exists")
-            ]);
+            throw new CustomConflictException("Id already exists");
     }
 }

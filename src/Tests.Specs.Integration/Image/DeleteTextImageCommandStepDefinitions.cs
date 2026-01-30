@@ -1,4 +1,4 @@
-using Goodtocode.SemanticKernel.Core.Application.Image;
+using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.Image;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Image

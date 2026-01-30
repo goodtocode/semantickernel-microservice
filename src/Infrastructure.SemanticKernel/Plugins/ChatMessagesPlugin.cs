@@ -6,8 +6,7 @@ using System.ComponentModel;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 
-public sealed class ChatMessagesPlugin(IServiceProvider serviceProvider)
-    : IChatMessagesPlugin, ISemanticPluginCompatible
+public sealed class ChatMessagesPlugin(IServiceProvider serviceProvider) : IChatMessagesPlugin
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
@@ -25,10 +24,10 @@ public sealed class ChatMessagesPlugin(IServiceProvider serviceProvider)
     {
         _currentFunctionName = "list_messages";
         _currentParameters = new()
-    {
-        { "startDate", startDate ?? DateTime.UtcNow.AddDays(-7) },
-        { "endDate", endDate  ?? DateTime.UtcNow.AddSeconds(1)}
-    };
+        {
+            { "startDate", startDate ?? DateTime.UtcNow.AddDays(-7) },
+            { "endDate", endDate  ?? DateTime.UtcNow.AddSeconds(1)}
+        };
 
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ISemanticKernelContext>();

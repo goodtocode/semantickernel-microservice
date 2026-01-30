@@ -129,14 +129,14 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Image
         public void ThenEachTextImageHasADateGreaterThanStartDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
+                _response?.Items.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).ShouldNotBeNull();
         }
 
         [Then(@"Each text image has a Date less than end date")]
         public void ThenEachTextImageHasADateLessThanEndDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
+                _response?.Items.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).ShouldNotBeNull();
         }
 
         [Then(@"The response has a Page Number")]

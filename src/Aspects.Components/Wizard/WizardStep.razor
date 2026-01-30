@@ -1,0 +1,27 @@
+﻿@inherits ComponentBase
+
+@if (IsActiveStep())
+{
+    <div class="wizard-step">
+        @ChildContent
+    </div>
+}
+
+@code {
+    [CascadingParameter] public required WizardLayout.WizardContext Wizard { get; set; }
+    [Parameter] public required string Title { get; set; }
+    [Parameter] public required RenderFragment ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Wizard?.RegisterStep(this);
+    }
+
+    private bool IsActiveStep()
+    {
+        if (Wizard?.Steps == null)
+            return false;
+        int thisIndex = Wizard.Steps.ToList().IndexOf(this);
+        return Wizard.CurrentStep == thisIndex;
+    }
+}

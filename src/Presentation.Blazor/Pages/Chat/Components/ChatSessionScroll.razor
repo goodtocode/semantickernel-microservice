@@ -1,0 +1,85 @@
+@using Cannery.Aspects.Components.Skeleton
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services
+
+@inject IChatService chatService
+
+@if (Sessions?.Any() == true)
+{    
+    <FluentHorizontalScroll>
+        @foreach (var session in Sessions)
+        {
+            <FluentCard @onclick="() => SelectSession(session)" Style="@(selectedSession?.Id == session.Id ? "border: 2px solid #0078D4;" : "border: none;")">
+                @if (editingSessionId == session.Id)
+                {
+                    <ChatSessionEditForm Title="@session.Title"
+                                         OnSave="(title) => EditSessionTitleAsync(session, title)"
+                                         OnCancel="CancelEditing" />
+                }
+                else
+                {
+                    <FluentStack Orientation="Orientation.Horizontal">
+                        <FluentLabel Style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px;">
+                            @session.Title
+                        </FluentLabel>
+                        @if (selectedSession?.Id == session.Id)
+                        {
+                            <FluentIcon Value="(new Icons.Regular.Size24.MoreVertical())"
+                                        OnClick="() => StartEditing(session)" />
+                        }
+                    </FluentStack>
+                }
+            </FluentCard>
+        }
+    </FluentHorizontalScroll>
+}
+else
+{
+    <SkeletonList Timeout="3000" />
+}
+
+@code {
+    [Parameter] public IEnumerable<ChatSessionModel>? Sessions { get; set; }
+    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }
+    [Parameter] public EventCallback<ChatSessionModel> OnRenameSession { get; set; }
+
+    private Guid? editingSessionId;
+    private EditSessionModel editModel = new();
+    private EditContext? editContext;
+    private ChatSessionModel? selectedSession;
+
+    private async Task SelectSession(ChatSessionModel session)
+    {
+        selectedSession = session;
+        await OnSessionSelected.InvokeAsync(session);
+    }
+
+    private void StartEditing(ChatSessionModel session)
+    {
+        editingSessionId = session.Id;
+        editModel = new EditSessionModel { Title = session.Title };
+        editContext = new EditContext(editModel);
+    }
+
+    private async Task EditSessionTitleAsync(ChatSessionModel session, string title)
+    {
+        session.Title = title;
+        editingSessionId = null;
+        await chatService.RenameSessionAsync(session.Id, title);
+        await OnRenameSession.InvokeAsync(session);
+    }
+
+    private void CancelEditing() => editingSessionId = null;
+
+    public void ClearSelection()
+    {
+        selectedSession = null;
+        StateHasChanged();
+    }
+
+    public class EditSessionModel
+    {
+        [Required(ErrorMessage = "Title is required.")]
+        public string? Title { get; set; }
+    }
+}

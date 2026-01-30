@@ -1,5 +1,5 @@
-using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 
@@ -107,13 +107,13 @@ public class GetChatSessionsQueryStepDefinitions : TestBase
     public void ThenEachChatSessionHasADateGreaterThanStartDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
+            _response?.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).ShouldNotBeNull();
     }
 
     [Then(@"Each chat session has a Date less than end date")]
     public void ThenEachChatSessionHasADateLessThanEndDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
+            _response?.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).ShouldNotBeNull();
     }
 }

@@ -1,0 +1,20 @@
+﻿@page "/wizard-example"
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Web
+
+<PageTitle>Your wizard of steps</PageTitle>
+
+<WizardLayout @ref="wizardLayout">    
+    <WizardStep Title="Step 1 - Basics">
+        <p>Put your step 1 component here. Feel free to bind.</p>
+    </WizardStep>
+    <WizardStep Title="Step 2 - More Info">
+        <p>Put your step 2 component here. Feel free to bind.</p>
+    </WizardStep>
+</WizardLayout>
+
+@code {
+    private WizardLayout? wizardLayout;
+
+}

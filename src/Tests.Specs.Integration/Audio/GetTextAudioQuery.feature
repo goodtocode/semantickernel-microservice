@@ -1,6 +1,6 @@
 ﻿@getTextAudioQuery
 Feature: Get Text Audio Query
-As a author
+As a actor
 When I select an existing text audio
 I can see the text audio responses
 

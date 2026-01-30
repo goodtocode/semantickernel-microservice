@@ -11,8 +11,10 @@
 
 param (
     [string]$SwaggerJsonPath = 'swagger',
-    [string]$ApiAssembly = 'bin\Debug\net9.0\Goodtocode.SemanticKernel.Presentation.WebApi.dll',
-    [string]$ApiVersion = 'v1'
+    [string]$ApiAssembly = 'bin\Debug\net10.0\Goodtocode.SemanticKernel.Presentation.WebApi.dll',
+    [string]$ApiVersion = 'v1',
+    [string]$ClientPathFile = '../Presentation.Blazor/Clients/BackendApiClient.g.cs',
+    [string]$ClientNamespace = 'Goodtocode.SemanticKernel.Presentation.WebApi.Client'
 )
 ####################################################################################
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
@@ -27,7 +29,7 @@ if (!(Test-Path -Path "$SwaggerJsonPath/$ApiVersion")) {
     New-Item -ItemType Directory -Path "$SwaggerJsonPath/$ApiVersion" | Out-Null
 }
 
-$swashVersion = "9.0.4"
+$swashVersion = "10.1.0"
 
 dotnet add package Swashbuckle.AspNetCore --version $swashVersion
 dotnet restore

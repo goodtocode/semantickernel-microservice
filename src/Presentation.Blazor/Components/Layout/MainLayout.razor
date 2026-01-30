@@ -1,38 +1,92 @@
-﻿@namespace Goodtocode.SemanticKernel.Presentation.Blazor.Components.Layout
+﻿@using Cannery.Aspects.Components.Auth.Components
+@using Cannery.Aspects.Components.Auth.Routing
+@using Cannery.Aspects.Components.Auth.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.Identity.Web
 
 @inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager Navigation
+@inject IUserSyncService UserSyncService
 
-<NavMenu />
-<ErrorBoundary @ref="errorBoundaryRef">
-    <ChildContent>
-        <div class="page">
-            <main>
-                <article class="content">
+<FluentMainLayout NavMenuTitle="Navigation Menu">
+    <Header>
+        <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Left" Wrap="false">
+            <FluentNavLink Href="/">
+                <img src="img/goodtocode-logo.png" alt="Cloud in a Can" />
+            </FluentNavLink>
+            <FluentNavLink Href="/">
+                Semantic Kernel
+            </FluentNavLink>
+        </FluentStack>
+        <UserProfile />
+    </Header>
+    <Body>
+        <FluentBodyContent>            
+            <ErrorBoundary @ref="errorBoundaryRef">
+                <ChildContent>
                     @Body
-                </article>
-            </main>
-        </div>
-    </ChildContent>
-    <ErrorContent Context="ex">
-        <div class="error-dialog-backdrop">
-            <div class="error-dialog">
-                <div class="alert alert-danger mb-3">
-                    Oops! Something went wrong.<br />
-                    @ex.Message
-                </div>
-                <button class="btn btn-sm btn-primary" @onclick="OnRecoverAndNavigate">Go Home</button>
-            </div>
-        </div>
-    </ErrorContent>
-</ErrorBoundary>
+                    <FluentMenuProvider />
+                    <FluentDialogProvider />
+                </ChildContent>
+                <ErrorContent Context="ex">
+                    <FluentDialog Modal="true">
+                        <FluentCard>
+                            <H3Label>
+                                Oops! Something went wrong.
+                            </H3Label>
+                            <PLabel>
+                                @ex.Message
+                            </PLabel>
+                            <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.Center">
+                                <FluentButton Appearance="Appearance.Accent" OnClick="@(() => OnRecoverAndNavigate(ex))">
+                                    Go Home
+                                </FluentButton>
+                            </FluentStack>
+                        </FluentCard>
+                    </FluentDialog>
+                </ErrorContent>
+            </ErrorBoundary>
+        </FluentBodyContent>
+    </Body>
+    <NavMenuContent>
+        <FluentNavLink Href="/" Icon="@(new Icons.Regular.Size24.Home())">Home</FluentNavLink>
+        <FluentNavLink Href="chat" Icon="@(new Icons.Regular.Size24.Chat())" Match="NavLinkMatch.All">
+            Chat Session
+        </FluentNavLink>
+    </NavMenuContent>
+</FluentMainLayout>
 
 @code {
     private ErrorBoundary? errorBoundaryRef;
 
-    private void OnRecoverAndNavigate()
+    private void OnRecoverAndNavigate(Exception ex)
     {
         errorBoundaryRef?.Recover();
         Navigation.NavigateTo("/", forceLoad: true);
+    }
+
+    private bool _synced = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender && !_synced)
+            {
+                var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+                var user = authState.User;
+
+                if (user.Identity?.IsAuthenticated == true)
+                {
+                    await UserSyncService.SyncUserAsync(user);
+                    _synced = true;
+                }
+            }
+        }
+        catch (MicrosoftIdentityWebChallengeUserException)
+        {
+            Navigation.NavigateTo(RouteConstants.SignIn, forceLoad: true);
+        }
     }
 }

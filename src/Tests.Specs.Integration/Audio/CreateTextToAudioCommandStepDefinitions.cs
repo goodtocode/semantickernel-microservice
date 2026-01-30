@@ -55,7 +55,7 @@ public class CreateTextToAudioCommandStepDefinitions : TestBase
         var request = new CreateTextToAudioCommand()
         {
             Id = _id,
-            AuthorId = Guid.NewGuid(),
+            ActorId = Guid.NewGuid(),
             Prompt = _prompt
         };
 

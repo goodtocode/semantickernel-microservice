@@ -1,14 +1,43 @@
+
+@description('The name of the Azure Function App. Must be 1-60 characters, using only alphanumeric characters and hyphens.')
+@minLength(1)
+@maxLength(60)
 param name string
+
+@description('The Azure region where the Function App will be deployed.')
 param location string
+
+@description('Tags to apply to the Function App resource.')
 param tags object = {}
+
+@description('The resource ID of the App Service Plan.')
+@minLength(1)
 param planId string
+
+@description('The name of the Storage Account for the Function App.')
+@minLength(3)
+@maxLength(24)
 param stName string
+
+@description('The subscription ID for the Storage Account. Defaults to the current subscription.')
 param stSubscriptionId string = subscription().subscriptionId
+
+@description('The resource group name for the Storage Account. Defaults to the current resource group.')
 param stResourceGroupName string = resourceGroup().name
+
+@description('The Application Insights instrumentation key for the Function App.')
+@minLength(1)
 param appiKey string
+
+@description('The Application Insights connection string for the Function App.')
+@minLength(1)
 param appiConnection string
+
+@description('Whether to use a 32-bit worker process. Default is true.')
 param use32BitWorkerProcess bool = true
 
+
+@description('The environment for the Function App. Allowed values: Development, QA, Staging, Production.')
 @allowed([
   'Development'
   'QA'
@@ -17,6 +46,8 @@ param use32BitWorkerProcess bool = true
 ])
 param environmentApp string
 
+
+@description('The runtime for the Function App. Allowed values: dotnet, python, dotnet-isolated. Default is dotnet.')
 @allowed([
   'dotnet'
   'python'
@@ -24,6 +55,8 @@ param environmentApp string
 ])
 param funcRuntime string = 'dotnet'
 
+
+@description('The version of the Azure Functions runtime. Allowed values: 1, 2, 3, 4. Default is 4.')
 @allowed([
   1
   2
@@ -32,6 +65,8 @@ param funcRuntime string = 'dotnet'
 ])
 param funcVersion int = 4
 
+
+@description('Whether the Function App is always on. Default is false.')
 param alwaysOn bool = false
 
 resource functionapp 'Microsoft.Web/sites@2023-12-01' = {

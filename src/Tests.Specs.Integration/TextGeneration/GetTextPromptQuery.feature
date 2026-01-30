@@ -1,6 +1,6 @@
 ﻿@getTextPromptQuery
 Feature: Get Text Prompt Query
-As a author
+As a actor
 When I select an existing text prompt
 I can see the text prompt responses
 

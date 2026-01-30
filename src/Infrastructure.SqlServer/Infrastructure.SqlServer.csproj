@@ -3,21 +3,21 @@
 		<RootNamespace>Goodtocode.SemanticKernel.Infrastructure.SqlServer</RootNamespace>
 		<AssemblyName>Goodtocode.SemanticKernel.Infrastructure.SqlServer</AssemblyName>
 		<Version>1.0.0</Version>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.8" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.8" />
-		<PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
-		<PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.2" />		
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="10.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2" />
+		<PackageReference Include="System.ServiceModel.Primitives" Version="10.0.652802" />
 	</ItemGroup>
 
 	<ItemGroup>

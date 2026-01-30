@@ -21,10 +21,6 @@ public class ChatSessionsConfig : IEntityTypeConfiguration<ChatSessionEntity>
             .ValueGeneratedOnAdd();
         builder.Ignore(x => x.PartitionKey);
         builder
-            .HasOne(a => a.Author)
-            .WithMany(a => a.ChatSessions)
-            .HasForeignKey(a => a.AuthorId);
-        builder
             .HasMany(cs => cs.Messages)
             .WithOne(cm => cm.ChatSession)
             .HasForeignKey(cm => cm.ChatSessionId);

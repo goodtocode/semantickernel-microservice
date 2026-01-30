@@ -4,7 +4,7 @@
 		<RootNamespace>Goodtocode.SemanticKernel.Specs.Integration</RootNamespace>
 		<AssemblyName>Goodtocode.SemanticKernel.Specs.Integration</AssemblyName>
 		<Version>1.0.0</Version>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
@@ -12,6 +12,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="Actor\GetActorQueryStepDefinitions.cs~RFd5e051.TMP" />
 		<None Remove="appsettings.test.json" />
 	</ItemGroup>
 
@@ -22,16 +23,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.8" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+		<PackageReference Include="Goodtocode.Assertion" Version="1.1.30" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.2" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
 		<PackageReference Include="Moq" Version="4.20.72" />
-		<PackageReference Include="MSTest.TestAdapter" Version="3.10.4" />
-		<PackageReference Include="MSTest.TestFramework" Version="3.10.4" />
-		<PackageReference Include="Reqnroll.MsTest" Version="3.0.2" />
+		<PackageReference Include="MSTest.TestAdapter" Version="4.0.2" />
+		<PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
+		<PackageReference Include="Reqnroll.MsTest" Version="3.3.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Common.Assertion\Common.Assertion.csproj" />
 		<ProjectReference Include="..\Core.Application\Core.Application.csproj" />
 		<ProjectReference Include="..\Infrastructure.SemanticKernel\Infrastructure.SemanticKernel.csproj" />
 		<ProjectReference Include="..\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj" />

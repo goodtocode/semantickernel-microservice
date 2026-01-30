@@ -1,5 +1,5 @@
 {
-  "runtime": "Net90",
+  "runtime": "Net100",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
@@ -44,7 +44,7 @@
       "useRequestAndResponseSerializationSettings": false,
       "serializeTypeInformation": false,
       "queryNullValue": "",
-      "className": "WebApiClient",
+      "className": "BackendApiClient",
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "additionalNamespaceUsages": [],
       "additionalContractNamespaceUsages": [],
@@ -93,7 +93,7 @@
       "templateDirectory": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../Presentation.Blazor/Clients/WebApiClient.g.cs",
+      "output": "../Presentation.Blazor/Clients/BackendApiClient.g.cs",
       "newLineBehavior": "Auto"
     }
   }

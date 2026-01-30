@@ -5,6 +5,7 @@
 
 # Documentation
 *.Presentation.WebApi.xml
+[Ss]wagger/
 swagger.json
 .config/
 

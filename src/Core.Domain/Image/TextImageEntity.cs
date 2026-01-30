@@ -1,5 +1,5 @@
-﻿using Goodtocode.Domain.Types.DomainEntity;
-using Goodtocode.SemanticKernel.Core.Domain.Author;
+﻿using Goodtocode.Domain.Entities;
+using Goodtocode.SemanticKernel.Core.Domain.Actor;
 
 namespace Goodtocode.SemanticKernel.Core.Domain.Image;
 
@@ -10,10 +10,10 @@ public class TextImageEntity : DomainEntity<TextImageEntity>
 
     protected TextImageEntity() { }
 
-    public Guid AuthorId { get; set; } = Guid.Empty;
-    public string Description { get; set; } = string.Empty;
-    public ReadOnlyMemory<byte>? ImageBytes { get; set; }
-    public Uri? ImageUrl { get; set; }
+    public Guid ActorId { get; private set; } = Guid.Empty;
+    public string Description { get; private set; } = string.Empty;
+    public ReadOnlyMemory<byte>? ImageBytes { get; private set; }
+    public Uri? ImageUrl { get; private set; }
     public int Height
     {
         get => _height;
@@ -32,7 +32,7 @@ public class TextImageEntity : DomainEntity<TextImageEntity>
             _ => throw new ArgumentOutOfRangeException("Width", "Must be 1024.")
         };
     }
-    public virtual AuthorEntity? Author { get; set; }
+    public virtual ActorEntity? Actor { get; set; }
 
     public static TextImageEntity Create(
         Guid id,
@@ -41,7 +41,7 @@ public class TextImageEntity : DomainEntity<TextImageEntity>
         int height,
         ReadOnlyMemory<byte>? imageBytes)
     {
-        return TextImageEntity.Create(id, description, width, height, imageBytes, null);
+        return Create(id, description, width, height, imageBytes, null);
     }
 
     public static TextImageEntity Create(
@@ -51,7 +51,7 @@ public class TextImageEntity : DomainEntity<TextImageEntity>
         int height,
         Uri? imageUrl)
     {
-        return TextImageEntity.Create(id, description, width, height, null, imageUrl);
+        return Create(id, description, width, height, null, imageUrl);
     }
 
     public static TextImageEntity Create(

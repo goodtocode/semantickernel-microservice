@@ -1,0 +1,10 @@
+﻿@inject NavigationManager Navigation
+
+<FluentLabel Typo="Typography.H3">Redirecting to sign-in...</FluentLabel>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Navigation.NavigateTo(RouteConstants.SignIn, forceLoad: true);
+    }
+}

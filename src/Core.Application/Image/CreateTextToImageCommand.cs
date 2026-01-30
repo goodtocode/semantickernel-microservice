@@ -25,7 +25,7 @@ public class CreateTextToImageCommandHandler(Kernel kernel, ISemanticKernelConte
     public async Task<TextImageDto> Handle(CreateTextToImageCommand request, CancellationToken cancellationToken)
     {
         GuardAgainstEmptyPrompt(request?.Prompt);
-        GuardAgainstIdExsits(_context.TextImages, request!.Id);
+        GuardAgainstIdExists(_context.TextImages, request!.Id);
 
         var service = _kernel.GetRequiredService<ITextToImageService>();
         var response = await service.GenerateImageAsync(description: request.Prompt, width: request.Width, height: request.Height, cancellationToken: cancellationToken);
@@ -48,13 +48,10 @@ public class CreateTextToImageCommandHandler(Kernel kernel, ISemanticKernelConte
             ]);
     }
 
-    private static void GuardAgainstIdExsits(DbSet<TextImageEntity> dbSet, Guid id)
+    private static void GuardAgainstIdExists(DbSet<TextImageEntity> dbSet, Guid id)
     {
         if (dbSet.Any(x => x.Id == id))
-            throw new CustomValidationException(
-            [
-                new("Id", "Id already exists")
-            ]);
+            throw new CustomConflictException("Id already exists");
     }
 }
 #pragma warning restore SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

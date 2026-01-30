@@ -1,5 +1,6 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+using Goodtocode.SemanticKernel.Core.Domain.Auth;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Options;
 using Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 using Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence;
@@ -18,6 +19,7 @@ public abstract class TestBase : IDisposable
         Successful,
         BadRequest,
         NotFound,
+        Conflict,
         Error
     }
 
@@ -30,6 +32,8 @@ public abstract class TestBase : IDisposable
     internal IConfiguration configuration;
     internal Kernel kernel = new();
     internal OpenAIOptions optionsOpenAi = new();
+    internal UserEntity userInfo = UserEntity.Create(firstName: "John", lastName: "Doe", email: "john.doe@goodtocode.com", 
+                                                    ownerId: Guid.NewGuid(), tenantId: Guid.NewGuid(), roles: ["Admin"]);
 
     public TestBase()
     {
@@ -45,14 +49,12 @@ public abstract class TestBase : IDisposable
             .AddEnvironmentVariables()
             .Build();
 
-
-        // The SK Plugins currently rely on GetRequiredService<ISemanticKernelContext>(), so we need to register it as a scoped service.
+        // The SK Plugins currently rely on GetRequiredService<IDigitalInsightsContext>(), so we need to register it as a scoped service.
         // This is a workaround to allow the plugins to be registered in the DI container as Singleton which SK memory wants, despite an EF dependency which wants Scoped.
         var services = new ServiceCollection();
         services.AddDbContext<SemanticKernelContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
         services.AddScoped<ISemanticKernelContext, SemanticKernelContext>();        
         var provider = services.BuildServiceProvider();
-
         configuration.GetSection(nameof(OpenAI)).Bind(optionsOpenAi);
         var builder = Kernel.CreateBuilder();
 #pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
@@ -69,11 +71,11 @@ public abstract class TestBase : IDisposable
         kernel = builder.Build();
 
         var serviceProvider = builder.Services.BuildServiceProvider();
-        var authorsPlugin = new AuthorsPlugin(serviceProvider);
+        var authorsPlugin = new ActorsPlugin(serviceProvider);
         var chatSessionsPlugin = new ChatSessionsPlugin(serviceProvider);
         var chatMessagesPlugin = new ChatMessagesPlugin(serviceProvider);
 
-        kernel.ImportPluginFromObject(authorsPlugin, nameof(AuthorsPlugin));
+        kernel.ImportPluginFromObject(authorsPlugin, nameof(ActorsPlugin));
         kernel.ImportPluginFromObject(chatSessionsPlugin, nameof(ChatSessionsPlugin));
         kernel.ImportPluginFromObject(chatMessagesPlugin, nameof(ChatMessagesPlugin));
     }
@@ -90,6 +92,9 @@ public abstract class TestBase : IDisposable
                 break;
             case CustomNotFoundException:
                 responseType = CommandResponseType.NotFound;
+                break;
+            case CustomConflictException:
+                responseType = CommandResponseType.Conflict;
                 break;
             default:
                 responseType = CommandResponseType.Error;

@@ -1,0 +1,50 @@
+﻿@if (!_isTimeoutReached)
+{
+    <FluentSpacer />
+    <FluentStack Orientation="Orientation.Vertical" Class="@Class" Style="@Style">
+        <FluentSkeleton Shape="SkeletonShape.Rect" Shimmer="true" Width="100%" Height="35px" />
+        <FluentSkeleton Shape="SkeletonShape.Rect" Shimmer="true" Width="100%" Height="35px" />
+        <FluentSkeleton Shape="SkeletonShape.Rect" Shimmer="true" Width="100%" Height="35px" />
+    </FluentStack>
+}
+
+@code {
+    [Parameter]
+    public int Timeout { get; set; } = 0;
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+    [Parameter]
+    public string Style { get; set; } = string.Empty;
+
+    private bool _isTimeoutReached = false;
+    private CancellationTokenSource? _cts;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Timeout > 0)
+        {
+            _cts?.Cancel();
+            _cts = new CancellationTokenSource();
+            try
+            {
+                await Task.Delay(Timeout, _cts.Token);
+                _isTimeoutReached = true;
+                StateHasChanged();
+            }
+            catch (TaskCanceledException)
+            {
+                // Ignore cancellation
+            }
+        }
+        else
+        {
+            _isTimeoutReached = false;
+        }
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+}

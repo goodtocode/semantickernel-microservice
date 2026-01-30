@@ -111,13 +111,13 @@ public class GetTextImagesQueryStepDefinitions : TestBase
     public void ThenEachTextImageHasADateGreaterThanStartDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
+            _response?.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).ShouldNotBeNull();
     }
 
     [Then(@"Each text image has a Date less than end date")]
     public void ThenEachTextImageHasADateLessThanEndDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
+            _response?.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).ShouldNotBeNull();
     }
 }

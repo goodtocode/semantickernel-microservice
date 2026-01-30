@@ -1,4 +1,5 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
+using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.TextToAudio;
@@ -8,7 +9,7 @@ namespace Goodtocode.SemanticKernel.Core.Application.Audio;
 public class CreateTextToAudioCommand : IRequest<TextAudioDto>
 {
     public Guid Id { get; set; }
-    public Guid AuthorId { get; set; }
+    public Guid ActorId { get; set; }
     public string Prompt { get; set; } = string.Empty;
 }
 
@@ -20,9 +21,9 @@ public class CreateTextToAudioCommandHandler(Kernel kernel, ISemanticKernelConte
 
     public async Task<TextAudioDto> Handle(CreateTextToAudioCommand request, CancellationToken cancellationToken)
     {
-        GuardAgainstMissingAuthor(request.AuthorId);
+        GuardAgainstMissingActor(request.ActorId);
         GuardAgainstEmptyPrompt(request?.Prompt);
-        GuardAgainstIdExsits(_context.TextAudio, request!.Id);
+        GuardAgainstIdExists(_context.TextAudio, request!.Id);
 
         var service = _kernel.GetRequiredService<ITextToAudioService>();
         var executionSettings = new PromptExecutionSettings
@@ -31,19 +32,19 @@ public class CreateTextToAudioCommandHandler(Kernel kernel, ISemanticKernelConte
         };
         var response = await service.GetAudioContentAsync(request.Prompt, executionSettings, _kernel, cancellationToken);
 
-        var textAudio = TextAudioEntity.Create(request.Id, request.AuthorId, request.Prompt, response.Data.GetValueOrDefault().ToArray(), response.Uri);
+        var textAudio = TextAudioEntity.Create(request.Id, request.ActorId, request.Prompt, response.Data.GetValueOrDefault().ToArray(), response.Uri);
         _context.TextAudio.Add(textAudio);
         await _context.SaveChangesAsync(cancellationToken);
 
         return TextAudioDto.CreateFrom(textAudio);
     }
 
-    private static void GuardAgainstMissingAuthor(Guid authorId)
+    private static void GuardAgainstMissingActor(Guid actorId)
     {
-        if (authorId == Guid.Empty)
+        if (actorId == Guid.Empty)
             throw new CustomValidationException(
             [
-                new("AuthorId", "AuthorId required for sessions")
+                new("ActorId", "ActorId required for sessions")
             ]);
     }
 
@@ -56,13 +57,10 @@ public class CreateTextToAudioCommandHandler(Kernel kernel, ISemanticKernelConte
             ]);
     }
 
-    private static void GuardAgainstIdExsits(DbSet<TextAudioEntity> dbSet, Guid id)
+    private static void GuardAgainstIdExists(DbSet<TextAudioEntity> dbSet, Guid id)
     {
         if (dbSet.Any(x => x.Id == id))
-            throw new CustomValidationException(
-            [
-                new("Id", "Id already exists")
-            ]);
+            throw new CustomConflictException("Id already exists");
     }
 }
 #pragma warning restore SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

@@ -38,19 +38,14 @@ public class CreateTextPromptCommandStepDefinitions : TestBase
     [When(@"I create a text prompt with the prompt")]
     public async Task WhenICreateATextPromptWithTheprompt()
     {
-        // Setup the database if want to test existing records
         if (_exists)
         {
             var textPrompt = TextPromptEntity.Create(_id, Guid.Empty, _prompt);
-            textPrompt.TextResponses =
-                 [
-                     TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Fantastic story here.")
-                 ];
+            context.TextResponses.Add(TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Fantastic story here."));
             context.TextPrompts.Add(textPrompt);
             await context.SaveChangesAsync(CancellationToken.None);
         }
 
-        // Test command
         var request = new CreateTextPromptCommand()
         {
             Id = _id,

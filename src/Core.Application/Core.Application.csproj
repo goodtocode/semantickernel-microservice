@@ -4,19 +4,18 @@
 		<RootNamespace>Goodtocode.SemanticKernel.Core.Application</RootNamespace>
 		<AssemblyName>Goodtocode.SemanticKernel.Core.Application</AssemblyName>
 		<Version>1.0.0</Version>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>		
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
-		<PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.64.0" />
-		<PackageReference Include="System.Text.Json" Version="9.0.8" />
+		<PackageReference Include="Goodtocode.Mediator" Version="1.1.5" />
+		<PackageReference Include="Goodtocode.Validation" Version="1.1.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
+		<PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.69.0" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Common.Mediator\Common.Mediator.csproj" />
-	  <ProjectReference Include="..\Common.Validation\Common.Validation.csproj" />
 	  <ProjectReference Include="..\Core.Domain\Core.Domain.csproj" />
 	</ItemGroup>
 </Project>

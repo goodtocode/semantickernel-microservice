@@ -1,4 +1,5 @@
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Domain.Actor;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
@@ -11,6 +12,7 @@ public class CreateChatMessageCommandStepDefinitions : TestBase
     private Guid _id;
     private readonly Guid _chatSessionId = Guid.NewGuid();
     private bool _exists;
+    private readonly TestUserInfo _userInfo = new();
 
     [Given(@"I have a def ""([^""]*)""")]
     public void GivenIHaveADef(string def)
@@ -42,7 +44,10 @@ public class CreateChatMessageCommandStepDefinitions : TestBase
         // Setup the database if want to test existing records
         if (_exists)
         {
-            var chatSession = ChatSessionEntity.Create(_chatSessionId, Guid.NewGuid(), "Test Session", ChatMessageRole.assistant, "First Message", "First Response");
+            var actor = ActorEntity.Create(_userInfo);
+            context.Actors.Add(actor);
+            await context.SaveChangesAsync(CancellationToken.None);
+            var chatSession = ChatSessionEntity.Create(_chatSessionId, actor.Id, "Test Session", ChatMessageRole.assistant, "First Message", "First Response");
             context.ChatSessions.Add(chatSession);
             await context.SaveChangesAsync(CancellationToken.None);
         }
@@ -52,7 +57,8 @@ public class CreateChatMessageCommandStepDefinitions : TestBase
         {
             Id = _id,
             ChatSessionId = _chatSessionId,
-            Message = _message
+            Message = _message,
+            UserInfo = _userInfo
         };
 
         var validator = new CreateChatMessageCommandValidator();

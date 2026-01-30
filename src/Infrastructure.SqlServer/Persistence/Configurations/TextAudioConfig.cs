@@ -1,8 +1,4 @@
 ﻿using Goodtocode.SemanticKernel.Core.Domain.Audio;
-using Goodtocode.SemanticKernel.Core.Domain.Author;
-using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
-using Goodtocode.SemanticKernel.Core.Domain.Image;
-using Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Persistence.Configurations;
 
@@ -24,10 +20,6 @@ public class TextAudioConfig : IEntityTypeConfiguration<TextAudioEntity>
         builder.Property(x => x.Id)
             .ValueGeneratedOnAdd();
         builder.Ignore(x => x.PartitionKey);
-        builder
-            .HasOne(a => a.Author)
-            .WithMany(a => a.TextAudio)
-            .HasForeignKey(a => a.AuthorId);
         builder.Property(x => x.AudioBytes)
             .HasColumnType(ColumnTypes.VarbinaryMax)
             .HasConversion(

@@ -68,10 +68,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
                 for (int i = 0; i < 2; i++)
                 {
                     var textPrompt = TextPromptEntity.Create(Guid.NewGuid(), Guid.Empty, "Tell me a bedtime story");
-                    textPrompt.TextResponses =
-                        [
-                            TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time...")
-                        ];
+                    context.TextResponses.Add(TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time..."));
                     context.TextPrompts.Add(textPrompt);
                 }
                 ;
@@ -133,14 +130,14 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
         public void ThenEachTextPromptHasADateGreaterThanStartDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
+                _response?.Items.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).ShouldNotBeNull();
         }
 
         [Then(@"Each text prompt has a Date less than end date")]
         public void ThenEachTextPromptHasADateLessThanEndDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
+                _response?.Items.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).ShouldNotBeNull();
         }
 
         [Then(@"The response has a Page Number")]

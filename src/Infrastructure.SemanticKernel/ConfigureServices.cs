@@ -36,7 +36,7 @@ public static class ConfigureServices
             .ValidateOnStart();
 
         // Plugins
-        services.AddSingleton<IAuthorsPlugin, AuthorsPlugin>();
+        services.AddSingleton<IActorsPlugin, ActorsPlugin>();
         services.AddSingleton<IChatSessionsPlugin, ChatSessionsPlugin>();
         services.AddSingleton<IChatMessagesPlugin, ChatMessagesPlugin>();
 
@@ -99,11 +99,11 @@ public static class ConfigureServices
 
             var kernel = builder.Build();
 
-            var authorsPlugin = sp.GetRequiredService<IAuthorsPlugin>();
+            var authorsPlugin = sp.GetRequiredService<IActorsPlugin>();
             var chatSessionsPlugin = sp.GetRequiredService<IChatSessionsPlugin>();
             var chatMessagesPlugin = sp.GetRequiredService<IChatMessagesPlugin>();
 
-            kernel.ImportPluginFromObject(authorsPlugin, nameof(AuthorsPlugin));
+            kernel.ImportPluginFromObject(authorsPlugin, nameof(ActorsPlugin));
             kernel.ImportPluginFromObject(chatSessionsPlugin, nameof(ChatSessionsPlugin));
             kernel.ImportPluginFromObject(chatMessagesPlugin, nameof(ChatMessagesPlugin));
 
