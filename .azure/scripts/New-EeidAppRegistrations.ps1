@@ -9,7 +9,9 @@ param(
 	[string]$WebProjectPath = "../../src/Presentation.Blazor",
 	[string]$ApiAppRegistrationName = "api-semker-dev",
 	[string]$ApiProjectPath = "../../src/Presentation.WebApi",
-	[string]$DotNetVersion = "10"
+	[string]$DotNetVersion = "10",
+	[string]$WebRedirectUri = "https://localhost:7175/signin-oidc",
+	[string]$WebLogoutUri = "https://localhost:7175/signout-callback-oidc"
 )
 
 # Step 1: Install prerequisites (az cli, dotnet sdk, modules)
@@ -76,33 +78,43 @@ if (-not $apiApp) {
 		--query "appId" -o tsv
 	$apiAppId = $apiApp
 	Write-Host "Created API app registration with appId: $apiAppId"
-	# Add permission scopes
+	# Add permission scopes and capture their IDs
+	$scopeIdMap = @{}
 	$scopes = @(
-		@{name="digitalinsights.admin"; adminConsentDisplayName="Admin digital insights"; adminConsentDescription="Allows the app to administrate digital insights features, templates, connectors for a signed-in user's digital insights"; userConsentDisplayName="Admin your digital insights"; userConsentDescription="Allows the app to administrate digital insights features, templates, connectors for a digital insights"},
-		@{name="activity.execute"; adminConsentDisplayName="Execute feature activity triggers"; adminConsentDescription="Allows the app to execute a feature activity for digital assets"; userConsentDisplayName="Execute a feature"; userConsentDescription="Allows the app to execute a feature activity for your digital assets"},
-		@{name="features.read"; adminConsentDisplayName="View feature configuration and results"; adminConsentDescription="Allows the app to view the signed-in user's feature configuration and results"; userConsentDisplayName="Read your features"; userConsentDescription="Allows the app to read your enrolled features"},
-		@{name="assets.read"; adminConsentDisplayName="Read assets"; adminConsentDescription="Allows the app to read asset profiles and metadata"; userConsentDisplayName="Read your Assets"; userConsentDescription="Allows the app to read your asset profiles and metadata"},
-		@{name="features.enroll"; adminConsentDisplayName="Enrolls features and write their setups"; adminConsentDescription="Allows enrollment of features, data sources and configurations."; userConsentDisplayName="Enroll any feature"; userConsentDescription="Allows app to eny any features"},
-		@{name="analytics.read"; adminConsentDisplayName="Read analytics"; adminConsentDescription="Allows the app to read analytics for your digital assets"; userConsentDisplayName="Read your digital assets analytics"; userConsentDescription="Allows the app to read analytics for your digital assets"},
-		@{name="assets.write"; adminConsentDisplayName="Read/Write assets"; adminConsentDescription="Allows the app to read and write to the signed in user's digital assets."; userConsentDisplayName="Read/Write your digital assets"; userConsentDescription="Allows the app to read/write your digital assets."}
+		@{name="assets.read"; adminConsentDisplayName="Read assets"; adminConsentDescription="Allows the app to view asset data."; userConsentDisplayName="Read your assets"; userConsentDescription="Allows the app to view your assets."},
+		@{name="assets.write"; adminConsentDisplayName="Edit assets"; adminConsentDescription="Allows the app to create or update asset data."; userConsentDisplayName="Edit your assets"; userConsentDescription="Allows the app to create or update your assets."},
+		@{name="assets.delete"; adminConsentDisplayName="Delete assets"; adminConsentDescription="Allows the app to delete asset data."; userConsentDisplayName="Delete your assets"; userConsentDescription="Allows the app to delete your assets."}
 	)
 	foreach ($scope in $scopes) {
-		az ad app permission add --id $apiAppId --api $apiAppId --scope $scope.name --admin-consent-display-name $scope.adminConsentDisplayName --admin-consent-description $scope.adminConsentDescription --user-consent-display-name $scope.userConsentDisplayName --user-consent-description $scope.userConsentDescription
+		$scopeResult = az ad app permission add --id $apiAppId --api $apiAppId --scope $scope.name --admin-consent-display-name $scope.adminConsentDisplayName --admin-consent-description $scope.adminConsentDescription --user-consent-display-name $scope.userConsentDisplayName --user-consent-description $scope.userConsentDescription --query "id" -o tsv
+		$scopeIdMap[$scope.name] = $scopeResult
 	}
 	# Add app roles
 	$roles = @(
-		@{value="AnalyticsReader"; displayName="Analytics Readers"; description="Analytic Readers can view analytics from discovery"},
-		@{value="DiscoveryExecuter"; displayName="Discovery Executers"; description="Discover Executer start a discovery process"},
-		@{value="FeatureManager"; displayName="Feature Managers"; description="Feature Manager can alter definitions for features and data sources."}
+		@{value="AssetViewer"; displayName="Asset Viewer"; description="Can view assets only."},
+		@{value="AssetEditor"; displayName="Asset Editor"; description="Can view and edit assets."},
+		@{value="AssetAdmin"; displayName="Asset Admin"; description="Can view, edit, and delete assets."}
 	)
 	foreach ($role in $roles) {
 		az ad app update --id $apiAppId --app-roles "[{\"allowedMemberTypes\":[\"User\"],\"description\":\"$($role.description)\",\"displayName\":\"$($role.displayName)\",\"isEnabled\":true,\"origin\":\"Application\",\"value\":\"$($role.value)\"}]"
 	}
+	# Query the app registration to get all scope IDs
+	$apiAppObj = az ad app show --id $apiAppId | ConvertFrom-Json
+	$apiScopes = @{}
+	foreach ($scope in $apiAppObj.api.oauth2PermissionScopes) {
+		$apiScopes[$scope.value] = $scope.id
+	}
 } else {
 	Write-Host "API app registration $ApiAppRegistrationName already exists."
+	$apiAppId = $apiApp.appId
+	$apiAppObj = az ad app show --id $apiAppId | ConvertFrom-Json
+	$apiScopes = @{}
+	foreach ($scope in $apiAppObj.api.oauth2PermissionScopes) {
+		$apiScopes[$scope.value] = $scope.id
+	}
 }
 
-# Step 4: Write API EEID values to Presentation.WebApi via dotnet user-secrets
+# Step 4: Write API EEID values to $ApiProjectPath via dotnet user-secrets
 Write-Host "Setting EntraExternalId values for $ApiProjectPath"
 Push-Location $ApiProjectPath
 dotnet user-secrets init
@@ -117,35 +129,52 @@ Write-Host "Checking for Web app registration: $WebAppRegistrationName..."
 $webApp = az ad app list --display-name $WebAppRegistrationName --query "[0]" -o json | ConvertFrom-Json
 if (-not $webApp) {
 	Write-Host "Web app registration not found. Creating..."
-	$webApp = az ad app create --display-name $WebAppRegistrationName \
-		--sign-in-audience AzureADMyOrg \
-		--web-redirect-uris "https://localhost:7175/signin-oidc" \
-		--web-logout-url "https://localhost:7175/signout-callback-oidc" \
-		--web-implicit-grant true false \
-		--required-resource-access '[{"resourceAppId":"$($apiApp.appId)","resourceAccess":[{"id":"402f77af-bdd3-47c5-8099-5d6c74f53749","type":"Scope"},{"id":"d64bfa41-ba81-4ef1-9169-57aa151a86bd","type":"Scope"},{"id":"086556f6-1051-4992-a29a-c91009af0d6e","type":"Scope"},{"id":"c72c07cb-c9e7-4330-8824-04579ae87e84","type":"Scope"},{"id":"ac540b65-7a26-445d-9bb6-9667d0903ad1","type":"Scope"},{"id":"f5ba6a75-8d09-4791-bfd2-ed58faf7a11d","type":"Scope"},{"id":"43d8d1d6-c30b-4528-bf25-e57a14939561","type":"Scope"}]},{"resourceAppId":"00000003-0000-0000-c000-000000000000","resourceAccess":[{"id":"64a6cdd6-aab1-4aaf-94b8-3cc8405e90d0","type":"Scope"},{"id":"14dad69e-099b-42c9-810b-d002981feec1","type":"Scope"},{"id":"e1fe6dd8-ba31-4d61-89e7-88639da4683d","type":"Scope"}]}]' \
+	$apiResourceAccess = @()
+	foreach ($scopeName in $apiScopes.Keys) {
+		$apiResourceAccess += @{ id = $apiScopes[$scopeName]; type = "Scope" }
+	}
+	$requiredResourceAccess = @(
+		@{ resourceAppId = $apiAppId; resourceAccess = $apiResourceAccess },
+		@{ resourceAppId = "00000003-0000-0000-c000-000000000000"; resourceAccess = @(
+			@{ id = "64a6cdd6-aab1-4aaf-94b8-3cc8405e90d0"; type = "Scope" },
+			@{ id = "14dad69e-099b-42c9-810b-d002981feec1"; type = "Scope" },
+			@{ id = "e1fe6dd8-ba31-4d61-89e7-88639da4683d"; type = "Scope" }
+		) }
+	) | ConvertTo-Json -Compress
+	$webApp = az ad app create --display-name $WebAppRegistrationName `
+		--sign-in-audience AzureADMyOrg `
+		--web-redirect-uris $WebRedirectUri `
+		--web-logout-url $WebLogoutUri `
+		--web-implicit-grant true false `
+		--required-resource-access $requiredResourceAccess `
 		--query "appId" -o tsv
 	$webAppId = $webApp
 	Write-Host "Created Web app registration with appId: $webAppId"
 	# Add app role
-	az ad app update --id $webAppId --app-roles '[{"allowedMemberTypes":["User"],"description":"Admins have the ability to alter root setups that affect all tenants","displayName":"Multi-tenant Admins","isEnabled":true,"origin":"Application","value":"DigitalInsights.Admin"}]'
+	az ad app update --id $webAppId --app-roles '[{"allowedMemberTypes":["User"],"description":"Admins have the ability to alter root setups that affect all tenants","displayName":"Multi-tenant Admins","isEnabled":true,"origin":"Application","value":"admin"}]'
 	# Add optional claims for idToken
 	$claims = @("ctry","email","upn","ipaddr","family_name","given_name","preferred_username")
 	foreach ($claim in $claims) {
 		az ad app update --id $webAppId --optional-claims-id-token "[{\"name\":\"$claim\",\"essential\":false}]"
 	}
 	# Create client secret
-	$webSecret = az ad app credential reset --id $webAppId --display-name "blazor-dev-$(Get-Date -Format yyyy)" --years 2 --query "secretText" -o tsv
+	$webSecret = az ad app credential reset --id $webAppId --display-name "$WebAppRegistrationName-$(Get-Date -Format yyyy)" --years 2 --query "secretText" -o tsv
 	Write-Host "Created client secret for Web app registration."
 	# Set permissions for Web app to use API as downstream OBO
 	# (Pre-authorize Web app in API app registration)
-	az ad app update --id $apiApp.appId --pre-authorized-applications "[{\"appId\":\"$webAppId\",\"permissionIds\":[\"402f77af-bdd3-47c5-8099-5d6c74f53749\",\"d64bfa41-ba81-4ef1-9169-57aa151a86bd\",\"086556f6-1051-4992-a29a-c91009af0d6e\",\"c72c07cb-c9e7-4330-8824-04579ae87e84\",\"ac540b65-7a26-445d-9bb6-9667d0903ad1\",\"f5ba6a75-8d09-4791-bfd2-ed58faf7a11d\",\"43d8d1d6-c30b-4528-bf25-e57a14939561\"]}]"
+	$permissionIds = @()
+	foreach ($scopeName in $apiScopes.Keys) {
+		$permissionIds += $apiScopes[$scopeName]
+	}
+	$preAuthApps = @(@{ appId = $webAppId; permissionIds = $permissionIds }) | ConvertTo-Json -Compress
+	az ad app update --id $apiAppId --pre-authorized-applications $preAuthApps
 	Write-Host "Pre-authorized Web app in API app registration."
 } else {
 	Write-Host "Web app registration $WebAppRegistrationName already exists."
 }
 
-# Step 6: Write Web EEID values to Presentation.Blazor via dotnet user-secrets
-Write-Host "Setting EntraExternalId values for Presentation.Blazor..."
+# Step 6: Write Web EEID values to $WebProjectPath via dotnet user-secrets
+Write-Host "Setting EntraExternalId values for $WebProjectPath"
 Push-Location $WebProjectPath
 dotnet user-secrets init
 dotnet user-secrets set "EntraExternalId:Instance" $EeIdInstanceUrl
