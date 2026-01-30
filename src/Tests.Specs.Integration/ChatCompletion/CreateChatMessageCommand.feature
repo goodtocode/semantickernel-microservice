@@ -16,7 +16,7 @@ Scenario: Create Chat Message
 Examples:
 	| def                        | response   | responseErrors | id                                   | ChatMessageExists | message                                                                                                                     |
 	| success                    | Success    |                | 00000000-0000-0000-0000-000000000000 | true              | Hello, I am interested in an interactive Chat Message.                                                                      |
-	| success author plugin      | Success    |                | 00000000-0000-0000-0000-000000000000 | true              | Please call get_author that Returns the author's name for the specified author ID, or 'Author not found' if no match exists |
+	| success actor plugin      | Success    |                | 00000000-0000-0000-0000-000000000000 | true              | Please call get_author that Returns the actor's name for the specified actor ID, or 'Actor not found' if no match exists |
 	| success session plugin     | Success    |                | 00000000-0000-0000-0000-000000000000 | true              | Please call list_sessions that Lists all sessions, optionally by date                                                       |
 	| success messages plugin    | Success    |                | 00000000-0000-0000-0000-000000000000 | true              | Please call list_messages that Lists all sessions, optionally by date                                                       |
 	| bad request: empty message | BadRequest | Message        | 00000000-0000-0000-0000-000000000000 | false             |                                                                                                                             |

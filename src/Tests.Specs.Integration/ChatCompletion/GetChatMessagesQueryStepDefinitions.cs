@@ -1,6 +1,5 @@
-using System.Security.Cryptography;
-using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
 
@@ -109,13 +108,13 @@ public class GetChatMessagesQueryStepDefinitions : TestBase
     public void ThenEachChatMessageHasADateGreaterThanStartDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
+            _response?.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).ShouldNotBeNull();
     }
 
     [Then(@"Each Chat Message has a Date less than end date")]
     public void ThenEachChatMessageHasADateLessThanEndDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
+            _response?.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).ShouldNotBeNull();
     }
 }

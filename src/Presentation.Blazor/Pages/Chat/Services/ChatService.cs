@@ -1,6 +1,7 @@
-﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models;
+﻿using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
-using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
+using Cannery.Aspects.Components.Auth;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models;
 
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services;
 
@@ -13,23 +14,27 @@ public interface IChatService
     Task<ChatMessageModel> SendMessageAsync(Guid chatSessionId, string newMessage);
 }
 
-public class ChatService(WebApiClient client, IUserService userUtilityService) : IChatService
+public class ChatService(BackendApiClient client, IUserClaimsInfo userInfo) : ApiService, IChatService
 {
-    private readonly WebApiClient _client = client;
-    private readonly IUserService _userService = userUtilityService;
+    private readonly BackendApiClient _apiClient = client;
+    private readonly IUserClaimsInfo _userInfo = userInfo;
 
     public async Task<List<ChatSessionModel>> GetChatSessionsAsync()
     {
-        var userId = await _userService.GetUserIdAsync();
-        var response = await _client.GetAuthorChatSessionsPaginatedQueryAsync(userId, DateTime.UtcNow.AddDays(-30), DateTime.UtcNow, 1, 20).ConfigureAwait(false);
+        var response = await HandleApiException(() => _apiClient.GetMyChatSessionsPaginatedAsync(
+            DateTime.UtcNow.AddDays(-30),
+            DateTime.UtcNow,
+            1,
+            20
+        ));
 
         return ChatSessionModel.Create(response.Items);
     }
 
     public async Task<ChatSessionModel> GetChatSessionAsync(Guid chatSessionId)
     {
-        var userId = await _userService.GetUserIdAsync();
-        var response = await _client.GetAuthorChatSessionQueryAsync(userId, chatSessionId).ConfigureAwait(false);
+        var response = await HandleApiException(() => _apiClient.GetMyChatSessionAsync(
+            chatSessionId));
 
         return ChatSessionModel.Create(response);
     }
@@ -38,24 +43,28 @@ public class ChatService(WebApiClient client, IUserService userUtilityService) :
     {
         var command = new CreateChatSessionCommand
         {
-            AuthorId = await _userService.GetUserIdAsync(),
+            ActorId = _userInfo.ObjectId,
             Message = firstMessage
         };
-        var response = await _client.CreateChatSessionCommandAsync(command).ConfigureAwait(false);
+        var response = await HandleApiException(() => _apiClient.CreateChatSessionCommandAsync(command));
 
         return ChatSessionModel.Create(response);
     }
 
     public async Task RenameSessionAsync(Guid chatSessionId, string newTitle)
     {
-        await _client.PatchChatSessionCommandAsync(chatSessionId, new PatchChatSessionCommand { Id = chatSessionId, Title = newTitle }).ConfigureAwait(false);
+        await HandleApiException(() => _apiClient.PatchChatSessionCommandAsync(chatSessionId, new PatchChatSessionCommand { Id = chatSessionId, Title = newTitle }));
     }
 
     public async Task<ChatMessageModel> SendMessageAsync(Guid chatSessionId, string newMessage)
     {
-        var response = await _client.CreateChatMessageCommandAsync(new CreateChatMessageCommand { ChatSessionId = chatSessionId, Message = newMessage }).ConfigureAwait(false);
+        var response = await HandleApiException(() => _apiClient.CreateChatMessageCommandAsync(
+            new CreateChatMessageCommand
+            {
+                ChatSessionId = chatSessionId,
+                Message = newMessage
+            }));
 
         return ChatMessageModel.Create(response);
     }
 }
-

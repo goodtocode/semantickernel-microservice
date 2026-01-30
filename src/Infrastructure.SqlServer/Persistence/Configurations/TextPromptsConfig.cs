@@ -20,13 +20,5 @@ public class TextPromptsConfig : IEntityTypeConfiguration<TextPromptEntity>
         builder.Property(x => x.Id)
             .ValueGeneratedOnAdd();
         builder.Ignore(x => x.PartitionKey);
-        builder
-            .HasOne(a => a.Author)
-            .WithMany(a => a.TextPrompts)
-            .HasForeignKey(a => a.AuthorId);
-        builder
-            .HasMany(cs => cs.TextResponses)
-            .WithOne(cm => cm.TextPrompt)
-            .HasForeignKey(cm => cm.TextPromptId);
     }
 }

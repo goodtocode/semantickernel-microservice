@@ -1,5 +1,5 @@
-﻿using Goodtocode.Domain.Types.DomainEntity;
-using Goodtocode.SemanticKernel.Core.Domain.Author;
+﻿using Goodtocode.Domain.Entities;
+using Goodtocode.SemanticKernel.Core.Domain.Actor;
 
 namespace Goodtocode.SemanticKernel.Core.Domain.Audio;
 
@@ -9,9 +9,9 @@ public class TextAudioEntity : DomainEntity<TextAudioEntity>
 
     protected TextAudioEntity() { }
 
-    public Guid AuthorId { get; set; } = Guid.Empty;
+    public Guid ActorId { get; private set; } = Guid.Empty;
 
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; private set; } = string.Empty;
 
     public ReadOnlyMemory<byte>? AudioBytes
     {
@@ -19,17 +19,17 @@ public class TextAudioEntity : DomainEntity<TextAudioEntity>
         set => _audioBytes = value.HasValue ? value.Value.ToArray() : null;
     }
 
-    public Uri? AudioUrl { get; set; }
+    public Uri? AudioUrl { get; private set; }
 
-    public virtual AuthorEntity Author { get; set; } = default!;
+    public virtual ActorEntity Actor { get; private set; } = default!;
     public static TextAudioEntity Create(Guid id, Guid authorId, string description, ReadOnlyMemory<byte>? audioBytes)
     {
-        return TextAudioEntity.Create(id, authorId, description, audioBytes, null);
+        return Create(id, authorId, description, audioBytes, null);
     }
 
     public static TextAudioEntity Create(Guid id, Guid authorId, string description, Uri? audioUrl)
     {
-        return TextAudioEntity.Create(id, authorId, description, null, audioUrl);
+        return Create(id, authorId, description, null, audioUrl);
     }
 
     public static TextAudioEntity Create(Guid id, Guid authorId, string description, ReadOnlyMemory<byte>? audioBytes, Uri? audioUrl)
@@ -37,7 +37,7 @@ public class TextAudioEntity : DomainEntity<TextAudioEntity>
         return new TextAudioEntity
         {
             Id = id == Guid.Empty ? Guid.NewGuid() : id,
-            AuthorId = authorId,
+            ActorId = authorId,
             Description = description,
             AudioBytes = audioBytes,
             AudioUrl = audioUrl,

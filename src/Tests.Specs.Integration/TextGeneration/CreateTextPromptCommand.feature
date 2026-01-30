@@ -1,6 +1,6 @@
 ﻿@createTextPromptCommand
 Feature: Create Text Prompt Command
-As a author
+As a actor
 When I start a new text prompt and enter an initial prompt
 Then I should see the text prompt created with the initial response
 

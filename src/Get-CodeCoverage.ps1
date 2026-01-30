@@ -10,12 +10,12 @@
 ####################################################################################
 
 Param(
-    [string]$TestProjectFilter = '*.Specs.*.csproj',    
+    [string]$TestProjectFilter = 'Tests.*.csproj',    
     [switch]$ProdPackagesOnly = $false,    
     [string[]]$ProductionAssemblies = @(
-        "Goodtocode.SemanticKernel.Core.Application",
-        "Goodtocode.SemanticKernel.Presentation.WebApi",
-        "Goodtocode.SemanticKernel.Presentation.Blazor"
+        "Cannery.Insights.Core.Application",
+        "Cannery.Insights.Presentation.WebApi",
+        "Cannery.Insights.Presentation.Blazor"
     )
 )
 ####################################################################################
@@ -34,20 +34,13 @@ $reportOutputPath = Join-Path $scriptPath "TestResults\Reports\$timestamp"
 New-Item -ItemType Directory -Force -Path $coverageOutputPath
 New-Item -ItemType Directory -Force -Path $reportOutputPath 
 
-$solutionFile = Get-ChildItem -Path $scriptPath -Filter *.sln -Recurse | Select-Object -First 1
-if ($null -eq $solutionFile) {
-    Write-Host "No solution file found. Exiting."
-    exit 1
-}
-Write-Host "Building solution: $($solutionFile.FullName)"
-dotnet build $solutionFile.FullName
-
+# Find tests for projects with 'Tests.*.csproj'
 $testProjects = Get-ChildItem $scriptPath -Filter $TestProjectFilter -Recurse
 Write-Host "Found $($testProjects.Count) test projects."
 foreach ($project in $testProjects) {
     $testProjectPath = $project.FullName
     Write-Host "Running tests for project: $($testProjectPath)"
-    dotnet test $testProjectPath --no-build
+
     $buildOutput = Join-Path -Path $project.Directory.FullName -ChildPath "bin\Debug\net9.0\$($project.BaseName).dll"
     $coverageFile = Join-Path $coverageOutputPath "coverage.cobertura.xml"
     Write-Host "Analyzing code coverage for: $buildOutput"
@@ -55,6 +48,7 @@ foreach ($project in $testProjects) {
 
 }
 
+# Generate HTML report
 if ($ProdPackagesOnly) {
     $assemblyFilters = ($ProductionAssemblies | ForEach-Object { "+$_" }) -join ";"
     $assemblyFilters = ($ProductionAssemblies | ForEach-Object { "+$_" }) -join ";"

@@ -1,5 +1,4 @@
-﻿using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
-using Goodtocode.SemanticKernel.Core.Domain.Image;
+﻿using Goodtocode.SemanticKernel.Core.Domain.Image;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Image;
 
@@ -8,7 +7,7 @@ public class TextImageDto
     private int _width = 1024;
     private int _height = 1024;
     public Guid Id { get; set; } = Guid.Empty;
-    public Guid AuthorId { get; set; } = Guid.Empty;
+    public Guid ActorId { get; set; } = Guid.Empty;
     public string Description { get; set; } = string.Empty;
     public ReadOnlyMemory<byte>? ImageBytes { get; set; }
     public Uri? ImageUrl { get; set; }
@@ -39,7 +38,7 @@ public class TextImageDto
         return new TextImageDto
         {
             Id = entity.Id,
-            AuthorId = entity.AuthorId,
+            ActorId = entity.ActorId,
             Description = entity.Description,
             ImageBytes = entity.ImageBytes,
             ImageUrl = entity.ImageUrl,

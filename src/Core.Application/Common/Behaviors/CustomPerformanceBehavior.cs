@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Common.Behaviors;
 
@@ -9,12 +9,7 @@ public class CustomPerformanceBehavior<TRequest, TResponse>(
     private readonly Stopwatch _timer = new();
     private readonly ILogger<TRequest> _logger = logger;
 
-    public Task<TResponse> Handle(TRequest request, RequestDelegateInvoker<TResponse> nextInvoker, CancellationToken cancellationToken)
-    {
-        return Handle(request, nextInvoker, _logger, cancellationToken);
-    }
-
-    public async Task<TResponse> Handle(TRequest request, RequestDelegateInvoker<TResponse> nextInvoker, ILogger logger, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestDelegateInvoker<TResponse> nextInvoker, CancellationToken cancellationToken)
     {
         _timer.Start();
 
@@ -27,8 +22,7 @@ public class CustomPerformanceBehavior<TRequest, TResponse>(
         if (elapsedMilliseconds > 500)
         {
             var requestName = typeof(TRequest).Name;
-            await Task.Run(() =>
-                logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds)", requestName, elapsedMilliseconds), cancellationToken);
+            await Task.Run(() => _logger.LogLongRunningRequest(requestName, elapsedMilliseconds), cancellationToken);
         }
 
         return response;
@@ -41,12 +35,7 @@ public class CustomPerformanceBehavior<TRequest>(
     private readonly Stopwatch _timer = new();
     private readonly ILogger<TRequest> _logger = logger;
 
-    public Task Handle(TRequest request, RequestDelegateInvoker nextInvoker, CancellationToken cancellationToken)
-    {
-        return Handle(request, nextInvoker, _logger, cancellationToken);
-    }
-
-    public async Task Handle(TRequest request, RequestDelegateInvoker nextInvoker, ILogger logger, CancellationToken cancellationToken)
+    public async Task Handle(TRequest request, RequestDelegateInvoker nextInvoker, CancellationToken cancellationToken)
     {
         _timer.Start();
 
@@ -59,8 +48,7 @@ public class CustomPerformanceBehavior<TRequest>(
         if (elapsedMilliseconds > 500)
         {
             var requestName = typeof(TRequest).Name;
-            await Task.Run(() =>
-                logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds)", requestName, elapsedMilliseconds), cancellationToken);
+            await Task.Run(() => _logger.LogLongRunningRequest(requestName, elapsedMilliseconds), cancellationToken);
         }
     }
 }

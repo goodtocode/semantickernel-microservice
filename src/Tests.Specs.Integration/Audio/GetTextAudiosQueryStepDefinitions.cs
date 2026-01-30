@@ -118,13 +118,13 @@ public class GetTextAudiosQueryStepDefinitions : TestBase
     public void ThenEachTextAudioHasADateGreaterThanStartDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
+            _response?.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).ShouldNotBeNull();
     }
 
     [Then(@"Each text audio has a Date less than end date")]
     public void ThenEachTextAudioHasADateLessThanEndDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
+            _response?.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).ShouldNotBeNull();
     }
 }

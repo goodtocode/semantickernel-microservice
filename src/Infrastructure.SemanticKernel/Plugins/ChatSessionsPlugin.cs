@@ -6,14 +6,7 @@ using System.ComponentModel;
 
 namespace Goodtocode.SemanticKernel.Infrastructure.SemanticKernel.Plugins;
 
-public interface ISemanticPluginCompatible
-{
-    string PluginName { get; }
-    string FunctionName { get; }
-    Dictionary<string, object> Parameters { get; }
-}
-
-public sealed class ChatSessionsPlugin(IServiceProvider serviceProvider) : IChatSessionsPlugin, ISemanticPluginCompatible
+public sealed class ChatSessionsPlugin(IServiceProvider serviceProvider) : IChatSessionsPlugin
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
@@ -22,7 +15,7 @@ public sealed class ChatSessionsPlugin(IServiceProvider serviceProvider) : IChat
     public Dictionary<string, object> Parameters => _currentParameters;
 
     private string _currentFunctionName = string.Empty;
-    private Dictionary<string, object> _currentParameters = new();
+    private Dictionary<string, object> _currentParameters = [];
 
     [KernelFunction("list_sessions")]
     [Description("Retrieves a list of recent chat sessions. Optionally, filter results by start and/or end date to narrow the search.")]
@@ -74,10 +67,10 @@ public sealed class ChatSessionsPlugin(IServiceProvider serviceProvider) : IChat
             return $"Session {sessionId} not found.";
         }
 
-        chatSession.Title = newTitle;
+        chatSession.Update(newTitle);
         context.ChatSessions.Update(chatSession);
         await context.SaveChangesAsync(cancellationToken);
 
-        return $"{chatSession.Id}: {chatSession.Timestamp} - {chatSession.Title}: {chatSession.Author?.Name}";
+        return $"{chatSession.Id}: {chatSession.Timestamp} - {chatSession.Title}: {chatSession.Actor?.FirstName} {chatSession.Actor?.LastName}";
     }
 }

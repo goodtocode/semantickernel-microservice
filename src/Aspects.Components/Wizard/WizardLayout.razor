@@ -1,0 +1,101 @@
+﻿@using System.Collections.ObjectModel
+@using Cannery.Aspects.Components.Icons
+
+<CascadingValue Value="this.Context">
+    <div class="wizard-layout">
+        @if (ShowBreadcrumbs)
+        {
+            <nav class="wizard-breadcrumbs">
+                @foreach (var (step, idx) in Steps.Select((s, i) => (s, i)))
+                {
+                    <span class="breadcrumb @(idx == CurrentStepIndex ? "active" : "")" onclick="@(() => GoToStep(idx))">@step.Title</span>
+                    @if (idx < Steps.Count - 1)
+                    {
+                        <span class="breadcrumb"> &gt; </span>
+                    }
+                }
+            </nav>
+        }
+        
+        @if (Steps.Count > 0 && CurrentStepIndex < Steps.Count)
+        {
+            @Steps[CurrentStepIndex].ChildContent
+        }
+        else
+        {
+            @ChildContent
+        }
+
+        <div class="wizard-nav">
+            <button onclick="@Back" disabled="@IsFirstStep" title="Back" aria-label="Back">
+                <ArrowIcon Direction="left" Size="2em" />
+            </button>
+            <button onclick="@Next" disabled="@IsLastStep" title="Next" aria-label="Next">
+                <ArrowIcon Direction="right" Size="2em" />
+            </button>            
+        </div>
+    </div>
+</CascadingValue>
+
+@code {
+    [Parameter] public required RenderFragment ChildContent { get; set; }
+    [Parameter] public bool ShowBreadcrumbs { get; set; } = true;
+
+    internal List<WizardStep> Steps { get; set; } = new();
+    internal int CurrentStepIndex { get; set; } = 0;
+
+    public bool IsFirstStep => CurrentStepIndex == 0;
+    public bool IsLastStep => CurrentStepIndex >= Steps.Count - 1;
+
+    public void RegisterStep(WizardStep step)
+    {
+        if (!Steps.Contains(step))
+        {
+            Steps.Add(step);
+            StateHasChanged();
+        }
+    }
+
+    public void Next()
+    {
+        if (!IsLastStep)
+        {
+            CurrentStepIndex++;
+            StateHasChanged();
+        }
+    }
+
+    public void Back()
+    {
+        if (!IsFirstStep)
+        {
+            CurrentStepIndex--;
+            StateHasChanged();
+        }
+    }
+
+    public void GoToStep(int index)
+    {
+        if (index >= 0 && index < Steps.Count)
+        {
+            CurrentStepIndex = index;
+            StateHasChanged();
+        }
+    }
+
+    public bool IsActiveStep(WizardStep step) => Steps.IndexOf(step) == CurrentStepIndex;
+
+    public WizardContext Context => new(this);
+
+    public class WizardContext
+    {
+        private readonly WizardLayout _layout;
+        public WizardContext(WizardLayout layout) => _layout = layout;
+        public void RegisterStep(WizardStep step) => _layout.RegisterStep(step);
+        public void Next() => _layout.Next();
+        public void Back() => _layout.Back();
+        public int CurrentStep => _layout.CurrentStepIndex;
+        public IReadOnlyList<WizardStep> Steps => _layout.Steps.AsReadOnly();
+        public void GoToStep(int index) => _layout.GoToStep(index);
+    }
+}

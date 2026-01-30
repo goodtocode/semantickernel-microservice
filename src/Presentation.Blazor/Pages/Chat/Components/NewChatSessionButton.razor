@@ -1,0 +1,17 @@
+
+<FluentButton Title=@Title Appearance="Appearance.Accent" OnClick="NewSessionAsync" Class=@Class Style=@Style>
+    @Title
+</FluentButton>
+
+@code
+{
+    [Parameter] public EventCallback OnNewSessionPressed { get; set; }
+    [Parameter] public string? Title { get; set; } = "New Chat";
+    [Parameter] public string? Style { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    private async Task NewSessionAsync()
+    {
+        await OnNewSessionPressed.InvokeAsync();
+    }
+}

@@ -1,5 +1,5 @@
-using Goodtocode.SemanticKernel.Core.Application.Audio;
 using Goodtocode.SemanticKernel.Core.Application.Common.Models;
+using Goodtocode.SemanticKernel.Core.Application.Audio;
 using Goodtocode.SemanticKernel.Core.Domain.Audio;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
@@ -137,14 +137,14 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.Audio
         public void ThenEachTextAudioHasADateGreaterThanStartDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
+                _response?.Items.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).ShouldNotBeNull();
         }
 
         [Then(@"Each text audio has a Date less than end date")]
         public void ThenEachTextAudioHasADateLessThanEndDate()
         {
             if (responseType == CommandResponseType.Successful && _withinDateRangeExists)
-                _response?.Items.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
+                _response?.Items.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).ShouldNotBeNull();
         }
 
         [Then(@"The response has a Page Number")]

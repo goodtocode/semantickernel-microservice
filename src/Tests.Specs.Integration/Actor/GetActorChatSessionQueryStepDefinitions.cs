@@ -1,0 +1,96 @@
+using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Domain.Actor;
+using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
+
+namespace Goodtocode.SemanticKernel.Specs.Integration.Actor;
+
+[Binding]
+[Scope(Tag = "getAuthorChatSessionQuery")]
+public class GetActorChatSessionQueryStepDefinitions : TestBase
+{
+    private Guid _id;
+    private Guid _chatSessionid;
+    private bool _exists;
+    private ChatSessionDto? _response;
+
+    [Given(@"I have a definition ""([^""]*)""")]
+    public void GivenIHaveADefinition(string def)
+    {
+        base.def = def;
+    }
+
+    [Given(@"I have a actor id ""([^""]*)""")]
+    public void GivenIHaveAAuthorId(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id)) return;
+        Guid.TryParse(id, out _id).ShouldBeTrue();
+    }
+
+    [Given(@"I have a chat session id ""([^""]*)""")]
+    public void GivenIHaveAChatSessionId(string chatSessionId)
+    {
+        if (string.IsNullOrWhiteSpace(chatSessionId)) return;
+        Guid.TryParse(chatSessionId, out _chatSessionid).ShouldBeTrue();
+    }
+
+    [Given(@"I the chat session exists ""([^""]*)""")]
+    public void GivenITheChatSessionExists(string exists)
+    {
+        bool.TryParse(exists, out _exists).ShouldBeTrue();
+    }
+
+    [When(@"I get a chat session")]
+    public async Task WhenIGetAChatSession()
+    {
+        if (_exists)
+        {
+            var actor = ActorEntity.Create(_id, userInfo.OwnerId, Guid.NewGuid(), "John", "Doe", "jdoe@goodtocode.com");
+            context.Actors.Add(actor);
+            await context.SaveChangesAsync(CancellationToken.None);
+            var chatSession = ChatSessionEntity.Create(_chatSessionid, _id, "Test Session", ChatMessageRole.assistant, "First Message", "First Response");
+            context.ChatSessions.Add(chatSession);
+            await context.SaveChangesAsync(CancellationToken.None);
+        }
+
+        var request = new GetMyChatSessionQuery()
+        {
+            ChatSessionId = _chatSessionid,
+            UserInfo = userInfo
+        };
+
+        var validator = new GetMyChatSessionQueryValidator();
+        validationResponse = validator.Validate(request);
+        if (validationResponse.IsValid)
+            try
+            {
+                var handler = new GetAuthorChatSessionByOwnerIdQueryHandler(context);
+                _response = await handler.Handle(request, CancellationToken.None);
+                responseType = CommandResponseType.Successful;
+            }
+            catch (Exception e)
+            {
+                responseType = HandleAssignResponseType(e);
+            }
+        else
+            responseType = CommandResponseType.BadRequest;
+    }
+
+    [Then(@"The response is ""([^""]*)""")]
+    public void ThenTheResponseIs(string response)
+    {
+        HandleHasResponseType(response);
+    }
+
+    [Then(@"If the response has validation issues I see the ""([^""]*)"" in the response")]
+    public void ThenIfTheResponseHasValidationIssuesISeeTheInTheResponse(string expectedErrors)
+    {
+        HandleExpectedValidationErrorsAssertions(expectedErrors);
+    }
+
+    [Then(@"If the response is successful the response has a Id")]
+    public void ThenIfTheResponseIsSuccessfulTheResponseHasAId()
+    {
+        if (responseType != CommandResponseType.Successful) return;
+        _response?.Id.ShouldNotBeEmpty();
+    }
+}

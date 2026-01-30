@@ -51,10 +51,6 @@ resource name_resource 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
     }
     customSubDomainName: name
   }
-  dependsOn: [
-    azureSearchName
-    resourceId('microsoft.insights/components/', appiName)
-  ]
 }
 
 resource azureSearchName 'Microsoft.Search/searchServices@2023-11-01' = {

@@ -1,6 +1,7 @@
 ﻿using Goodtocode.SemanticKernel.Presentation.WebApi.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.OpenApi;
 
 namespace Goodtocode.SemanticKernel.Presentation.WebApi;
 
@@ -25,7 +26,7 @@ public static class ConfigureServices
     /// <param name="builder"></param>
     public static void AddLocalEnvironment(this WebApplicationBuilder builder)
     {
-        if (builder.Environment.IsEnvironment("Local"))
+        if (builder.Environment.IsLocal())
         {
             builder.Configuration
                 .AddUserSecrets(Assembly.GetExecutingAssembly())
@@ -47,7 +48,7 @@ public static class ConfigureServices
                     new ProducesDefaultResponseTypeAttribute());
 
                 // ToDo: Setup Authentication with Bearer Token
-                // setupAction.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
+                setupAction.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
                 setupAction.Filters.Add<ApiExceptionFilterAttribute>();
             })
             .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
@@ -55,6 +56,7 @@ public static class ConfigureServices
         services.AddEndpointsApiExplorer();
 
         services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+
         services.AddCors(c =>
         {
             c.AddPolicy("AllowOrigin",
@@ -68,30 +70,18 @@ public static class ConfigureServices
 
         services.AddSwaggerGen(setupAction =>
         {
-            // ToDo: Setup Authentication with Bearer Token
-            //setupAction.AddSecurityDefinition("Bearer",
-            //    new OpenApiSecurityScheme
-            //    {
-            //        Description = "JWT Authorization header using the Bearer scheme.",
-            //        Type = SecuritySchemeType.Http,
-            //        Scheme = "bearer"
-            //    });
-
-            //setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
-            //{
-            //    {
-            //        new OpenApiSecurityScheme
-            //        {
-            //            Reference = new OpenApiReference {Id = "Bearer", Type = ReferenceType.SecurityScheme}
-            //        },
-            //        new List<string>()
-            //    }
-            //});
+            setupAction.AddSecurityDefinition("Bearer",
+                new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme.",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer"
+                });
 
             setupAction.MapType<decimal>(() =>
                 new OpenApiSchema
                 {
-                    Type = "number",
+                    Type = JsonSchemaType.Number,
                     Format = "decimal"
                 });
         });
@@ -140,18 +130,18 @@ public static class ConfigureServices
         {
             var info = new OpenApiInfo
             {
-                Title = $"SemanticKernelMicroservice Service ({Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")})",
+                Title = $"Semantic Kernel Service ({Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")})",
                 Version = description.ApiVersion.ToString(),
-                Description = $"An API to interact with the SemanticKernelMicroservice",
+                Description = $"An API to interact with the Semantic Kernel",
                 Contact = new OpenApiContact
                 {
-                    //Email = "",
-                    //Name = ""
+                    Email = "developers@cloudinacan.com",
+                    Name = "Cloud in a Can"
                 },
                 License = new OpenApiLicense
                 {
-                    Name = "MIT License",
-                    Url = new Uri("https://opensource.org/licenses/MIT")
+                    Name = "Proprietary License",
+                    Url = new Uri("https://cloudinacan.com/licenses/ClosedSource")
                 }
             };
 

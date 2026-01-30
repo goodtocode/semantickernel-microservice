@@ -1,0 +1,103 @@
+@using Cannery.Aspects.Components.Skeleton
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services
+
+@inject IChatService chatService
+
+@if (Sessions?.Any() == true)
+{
+    <FluentTreeView Items="SessionTreeItems"
+                    SelectedItemChanged="OnTreeSessionSelected"
+                    SelectedItem="@selectedTreeItem" >
+        <ItemTemplate Context="item">
+            @{
+                var sessionItem = (ChatSessionTreeViewItem)item;
+                var session = sessionItem.Session;
+                var isSelected = (selectedTreeItem is ChatSessionTreeViewItem selected)
+                && (item is ChatSessionTreeViewItem current)
+                && selected.Session.Id == current.Session.Id;
+            }
+            @if (editingSessionId == session.Id)
+            {
+                <ChatSessionEditForm Title="@session.Title"
+                                     OnSave="(title) => EditSessionTitleAsync(session, title)"
+                                     OnCancel="CancelEditing" />
+            }
+            else if (isSelected)
+            {
+                <FluentStack Orientation="Orientation.Horizontal">
+                    <FluentLabel>
+                        @sessionItem.Text
+                    </FluentLabel>
+                    <FluentIcon Value="(new Icons.Regular.Size24.MoreVertical())"
+                                OnClick="() => StartEditing(session)" />
+                </FluentStack>
+            }
+            else
+            {             
+                @sessionItem.Text
+            }
+        </ItemTemplate>
+    </FluentTreeView>
+}
+else
+{
+    <SkeletonList Timeout="3000" />
+}
+
+@code {
+    [Parameter] public IEnumerable<ChatSessionModel>? Sessions { get; set; }
+    [Parameter] public EventCallback<ChatSessionModel> OnSessionSelected { get; set; }
+    [Parameter] public EventCallback<ChatSessionModel> OnRenameSession { get; set; }
+
+    private IEnumerable<ITreeViewItem>? _sessionTreeItemsCache;
+
+    private IEnumerable<ITreeViewItem> SessionTreeItems
+        => _sessionTreeItemsCache ??= Sessions?.Select(ChatSessionTreeViewItem.CreateFrom).Cast<ITreeViewItem>().ToList()
+           ?? Enumerable.Empty<ITreeViewItem>();
+
+    private Guid? editingSessionId;
+    private EditSessionModel editModel = new();
+    private EditContext? editContext;
+    private ITreeViewItem? selectedTreeItem;
+
+    private async Task OnTreeSessionSelected(object? selectedItem)
+    {
+        selectedTreeItem = selectedItem as ITreeViewItem;
+        if (selectedTreeItem is ChatSessionTreeViewItem item)
+        {
+            await OnSessionSelected.InvokeAsync(item.Session);
+        }
+    }
+
+    private void StartEditing(ChatSessionModel session)
+    {
+        editingSessionId = session.Id;
+        editModel = new EditSessionModel { Title = session.Title };
+        editContext = new EditContext(editModel);
+    }
+
+    private async Task EditSessionTitleAsync(ChatSessionModel session, string title)
+    {
+        session.Title = title;
+        editingSessionId = null;
+        await chatService.RenameSessionAsync(session.Id, title);
+        await OnRenameSession.InvokeAsync(session);
+    }
+
+    private void CancelEditing() => editingSessionId = null;
+
+    public void ClearSelection()
+    {
+        selectedTreeItem = null;
+        StateHasChanged();
+    }
+
+    protected override void OnParametersSet() => _sessionTreeItemsCache = null;
+
+    public class EditSessionModel
+    {
+        [Required(ErrorMessage = "Title is required.")]
+        public string? Title { get; set; }
+    }
+}

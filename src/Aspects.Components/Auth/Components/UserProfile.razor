@@ -1,0 +1,78 @@
+﻿@using Cannery.Aspects.Components.Auth.Routing
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+
+<AuthorizeView>
+    <Authorized>
+        <FluentProfileMenu Image="@GetUserImageUrl()"
+                           Status="@PresenceStatus.Available"
+                           HeaderLabel="@UserDisplayName"
+                           Initials="@(GetInitials(UserDisplayName))"
+                           FullName="@UserDisplayName"
+                           PopoverStyle="min-width: 330px;">
+            <HeaderTemplate>
+                <FluentStack HorizontalAlignment="HorizontalAlignment.SpaceBetween" Style="max-width:90%;">
+                    <FluentMenuItem OnClick="@ViewAccount" Style="background: transparent !important;">
+                        <FluentIcon Value="@(new Icons.Regular.Size24.Settings())" />
+                    </FluentMenuItem>
+                    <FluentMenuItem OnClick="@SignOut">
+                        Sign out
+                    </FluentMenuItem>
+                </FluentStack>
+            </HeaderTemplate>
+            <FooterTemplate />
+        </FluentProfileMenu>
+    </Authorized>
+    <NotAuthorized>
+        <FluentNavLink Href="@RouteConstants.SignIn">
+            Sign In
+        </FluentNavLink>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private string? UserDisplayName;
+    private string? UserImageUrl;
+    private const string DefaultImageUrl = "img/goodtocode-logo.png";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            UserDisplayName = user.FindFirst("name")?.Value;
+            UserImageUrl = user.FindFirst("picture")?.Value;
+        }
+    }
+
+    private string GetUserImageUrl()
+    {
+        return string.IsNullOrWhiteSpace(UserImageUrl) ? DefaultImageUrl : UserImageUrl;
+    }
+
+    private void SignOut()
+    {
+        Navigation.NavigateTo(RouteConstants.SignOut, forceLoad: true);
+    }
+
+    private void ViewAccount()
+    {
+        Navigation.NavigateTo(RouteConstants.Account, forceLoad: true);
+    }
+
+    private string GetInitials(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return string.Empty;
+
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 1)
+            return parts[0].Substring(0, 1).ToUpperInvariant();
+
+        return string.Concat(parts[0][0], parts[^1][0]).ToUpperInvariant();
+    }
+}

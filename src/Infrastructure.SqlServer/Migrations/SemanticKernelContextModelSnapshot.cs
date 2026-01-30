@@ -17,7 +17,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.5")
+                .HasAnnotation("ProductVersion", "10.0.2")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -25,10 +25,66 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.Actor.ActorEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("NVARCHAR(200)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("NVARCHAR(200)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("NVARCHAR(200)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("UNIQUEIDENTIFIER");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("UNIQUEIDENTIFIER");
+
+                    b.Property<DateTimeOffset>("Timestamp")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Id"), false);
+
+                    b.HasIndex("Timestamp")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Timestamp"));
+
+                    b.HasIndex("TenantId", "OwnerId")
+                        .IsUnique();
+
+                    b.ToTable("Actors", (string)null);
+                });
+
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.Audio.TextAudioEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ActorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<byte[]>("AudioBytes")
@@ -36,9 +92,6 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 
                     b.Property<string>("AudioUrl")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -60,7 +113,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("ActorId");
 
                     b.HasIndex("Id")
                         .IsUnique();
@@ -73,44 +126,6 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Timestamp"));
 
                     b.ToTable("TextAudio", (string)null);
-                });
-
-            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("NVARCHAR(200)");
-
-                    b.Property<DateTimeOffset>("Timestamp")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Id"), false);
-
-                    b.HasIndex("Timestamp")
-                        .IsUnique();
-
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Timestamp"));
-
-                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.ChatMessageEntity", b =>
@@ -166,7 +181,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AuthorId")
+                    b.Property<Guid>("ActorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
@@ -188,7 +203,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("ActorId");
 
                     b.HasIndex("Id")
                         .IsUnique();
@@ -209,7 +224,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AuthorId")
+                    b.Property<Guid>("ActorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
@@ -244,7 +259,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("ActorId");
 
                     b.HasIndex("Id")
                         .IsUnique();
@@ -265,7 +280,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AuthorId")
+                    b.Property<Guid>("ActorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
@@ -288,7 +303,7 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("ActorId");
 
                     b.HasIndex("Id")
                         .IsUnique();
@@ -349,13 +364,13 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.Audio.TextAudioEntity", b =>
                 {
-                    b.HasOne("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", "Author")
-                        .WithMany("TextAudio")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("Goodtocode.SemanticKernel.Core.Domain.Actor.ActorEntity", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
+                    b.Navigation("Actor");
                 });
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.ChatMessageEntity", b =>
@@ -371,41 +386,41 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.ChatSessionEntity", b =>
                 {
-                    b.HasOne("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", "Author")
-                        .WithMany("ChatSessions")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("Goodtocode.SemanticKernel.Core.Domain.Actor.ActorEntity", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
+                    b.Navigation("Actor");
                 });
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.Image.TextImageEntity", b =>
                 {
-                    b.HasOne("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", "Author")
-                        .WithMany("TextImages")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("Goodtocode.SemanticKernel.Core.Domain.Actor.ActorEntity", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
+                    b.Navigation("Actor");
                 });
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.TextGeneration.TextPromptEntity", b =>
                 {
-                    b.HasOne("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", "Author")
-                        .WithMany("TextPrompts")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("Goodtocode.SemanticKernel.Core.Domain.Actor.ActorEntity", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
+                    b.Navigation("Actor");
                 });
 
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.TextGeneration.TextResponseEntity", b =>
                 {
                     b.HasOne("Goodtocode.SemanticKernel.Core.Domain.TextGeneration.TextPromptEntity", "TextPrompt")
-                        .WithMany("TextResponses")
+                        .WithMany()
                         .HasForeignKey("TextPromptId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -413,25 +428,9 @@ namespace Goodtocode.SemanticKernel.Infrastructure.SqlServer.Migrations
                     b.Navigation("TextPrompt");
                 });
 
-            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.Author.AuthorEntity", b =>
-                {
-                    b.Navigation("ChatSessions");
-
-                    b.Navigation("TextAudio");
-
-                    b.Navigation("TextImages");
-
-                    b.Navigation("TextPrompts");
-                });
-
             modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.ChatCompletion.ChatSessionEntity", b =>
                 {
                     b.Navigation("Messages");
-                });
-
-            modelBuilder.Entity("Goodtocode.SemanticKernel.Core.Domain.TextGeneration.TextPromptEntity", b =>
-                {
-                    b.Navigation("TextResponses");
                 });
 #pragma warning restore 612, 618
         }

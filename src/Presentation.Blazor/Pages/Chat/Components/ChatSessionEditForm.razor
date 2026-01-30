@@ -1,0 +1,42 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+
+<EditForm FormName="ChatSessionEdit" EditContext="editContext" OnValidSubmit="HandleValidSubmit">
+    <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.Left" HorizontalGap="0">
+        <FluentTextField @bind-Value="editModel.Title"
+                         Label=""
+                         Required="true"
+                         Autofocus="true" />
+        <FluentButton Type="ButtonType.Submit" IconStart="new Icons.Regular.Size24.Save()" OnClick="() => OnSave.InvokeAsync(editModel.Title!)"></FluentButton>
+        <FluentButton Type="ButtonType.Button" IconStart="new Icons.Regular.Size24.Dismiss()" OnClick="() => OnCancel.InvokeAsync(null)"></FluentButton>
+    </FluentStack>
+    <ValidationSummary/>
+</EditForm>
+
+@code {
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public EventCallback<string> OnSave { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    private EditSessionModel editModel = new();
+    private EditContext? editContext;
+
+    protected override void OnParametersSet()
+    {
+        editModel = new EditSessionModel { Title = Title };
+        editContext = new EditContext(editModel);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (editContext is null || !editContext.Validate())
+            return;
+        await OnSave.InvokeAsync(editModel.Title!);
+    }
+
+    public class EditSessionModel
+    {
+        [Required(ErrorMessage = "Title is required.")]
+        public string? Title { get; set; }
+    }
+}

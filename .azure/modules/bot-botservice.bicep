@@ -1,28 +1,41 @@
+
+@description('The name of the Bot Service resource. Must be 2-64 characters, using only letters, numbers, and hyphens, starting and ending with a letter or number.')
+@minLength(2)
+@maxLength(64)
 param name string
 
+
+@description('The SKU (pricing tier) for the Bot Service. Allowed values: F0 (Free), S1 (Standard). Default is S1.')
 @allowed([
   'F0'
   'S1'
 ])
 param sku string = 'S1'
+
+@description('The Microsoft App ID for the Bot Service. Must be a valid GUID.')
+@minLength(1)
 param msAppId string
+
+@description('The Microsoft App password/secret value for the Bot Service. Required for authentication.')
+@minLength(1)
 param msAppValue string
+
+@description('The display name for the Bot Service. Optional, defaults to the resource name if not provided.')
+@maxLength(64)
 param displayName string = ''
-param resourceTags object = {
-  'Microsoft.BotService/botServices': {}
-}
+
+@description('Tags to apply to the Bot Service resource.')
+param tags object = {}
 
 var location = resourceGroup().location
 var uniqueSuffix = toLower(substring(uniqueString(resourceGroup().id, 'Microsoft.BotService/bots', name), 0, 6))
-var botDisplayName = (empty(displayName) ? name : displayName)
-var keyVaultName_var = 'kv-${name}'
+var botDisplayName = empty(displayName) ? name : displayName
+var kvName = 'kv-${name}'
 var appPasswordSecret = 'bot-${replace(name, '_', '-')}-pwd-${uniqueSuffix}'
-var appPasswordSecretId = keyVaultName_appPasswordSecret.id
-var empty = {}
-var botTags = (contains(resourceTags, 'Microsoft.BotService/botServices') ? resourceTags.Microsoft.BotService / botServices : empty)
+var appPasswordSecretId = empty(msAppValue) ? '' : keyVaultName_appPasswordSecret.id
 
 resource keyVaultName 'Microsoft.KeyVault/vaults@2023-07-01' = {
-  name: keyVaultName_var
+  name: kvName
   location: location
   properties: {
     tenantId: subscription().tenantId
@@ -30,18 +43,20 @@ resource keyVaultName 'Microsoft.KeyVault/vaults@2023-07-01' = {
       family: 'A'
       name: 'standard'
     }
-    enableRbacAuthorization: true
+    accessPolicies: []
     enabledForTemplateDeployment: true
   }
 }
 
+
 resource keyVaultName_appPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (!empty(msAppValue)) {
   parent: keyVaultName
-  name: '${appPasswordSecret}'
+  name: appPasswordSecret
   properties: {
     value: msAppValue
   }
 }
+
 
 resource name_resource 'Microsoft.BotService/botServices@2022-09-15' = {
   name: name
@@ -50,25 +65,12 @@ resource name_resource 'Microsoft.BotService/botServices@2022-09-15' = {
   sku: {
     name: sku
   }
-  tags: botTags
+  tags: tags
   properties: {
     displayName: botDisplayName
     msaAppId: msAppId
     openWithHint: 'bfcomposer://'
     appPasswordHint: appPasswordSecretId
+    endpoint: 'https://REPLACE-WITH-YOUR-BOT-ENDPOINT/api/messages'
   }
-  dependsOn: []
-}
-
-resource keyVaultName_appPasswordSecret_Microsoft_Resources_provisioned_for 'Microsoft.KeyVault/vaults/secrets/providers/links@2018-02-01' = {
-  name: '${keyVaultName_var}/${appPasswordSecret}/Microsoft.Resources/provisioned-for'
-  location: location
-  properties: {
-    targetId: resourceId('Microsoft.BotService/bots', name)
-    sourceId: appPasswordSecretId
-  }
-  dependsOn: [
-    keyVaultName
-    name_resource
-  ]
 }

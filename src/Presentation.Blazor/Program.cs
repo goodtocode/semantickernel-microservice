@@ -1,6 +1,9 @@
 using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Cannery.Aspects.Components.Auth.Routing;
 using Goodtocode.SemanticKernel.Presentation.Blazor;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Components;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,16 +12,24 @@ builder.AddLocalEnvironment();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddBackEndApi(builder.Configuration);
+builder.Services.AddFluentUIComponents();
 
-builder.Services.AddBlazorServices();
+builder.Services.AddUserClaimsSyncService();
 
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddAuthenticationForDownstream(builder.Configuration);
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddOpenTelemetry().UseAzureMonitor(options =>
 {
     options.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
 });
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddBackendApi(builder.Configuration);
+
+builder.Services.AddFrontendServices();
 
 var app = builder.Build();
 
@@ -33,12 +44,23 @@ else
     // ToDo: Add CSP Header
 }
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseHttpsRedirection();
 
 app.UseAntiforgery();
 
 app.MapStaticAssets();
+
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.MapGroup("/authentication").MapSignInSignOut();
 
 app.Run();

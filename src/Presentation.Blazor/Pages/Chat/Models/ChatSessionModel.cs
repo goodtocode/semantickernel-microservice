@@ -11,7 +11,7 @@ public class ChatSessionModel : INotifyPropertyChanged
         {
             Id = dto.Id,
             Title = dto.Title,
-            AuthorId = dto.AuthorId,
+            ActorId = dto.ActorId,
             Timestamp = dto.Timestamp,
             IsSelected = false,
             Messages = [.. dto.Messages.Select(m => new ChatMessageModel
@@ -30,7 +30,7 @@ public class ChatSessionModel : INotifyPropertyChanged
         {
             Id = chatSession.Id,
             Title = chatSession.Title,
-            AuthorId = chatSession.AuthorId,
+            ActorId = chatSession.ActorId,
             Timestamp = chatSession.Timestamp,
             IsSelected = false,
             Messages = [.. chatSession.Messages.Select(m => new ChatMessageModel
@@ -45,7 +45,7 @@ public class ChatSessionModel : INotifyPropertyChanged
 
     public Guid Id { get; set; } = Guid.Empty;
     public string Title { get; set; } = string.Empty;
-    public Guid AuthorId { get; set; } = Guid.Empty;
+    public Guid ActorId { get; set; } = Guid.Empty;
     public DateTimeOffset Timestamp { get; set; }
     public virtual ICollection<ChatMessageModel>? Messages { get; set; }
 

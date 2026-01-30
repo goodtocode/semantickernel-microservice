@@ -1,5 +1,4 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
-using Goodtocode.Validation;
 
 namespace Goodtocode.SemanticKernel.Presentation.WebApi.Common;
 
@@ -23,7 +22,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             {typeof(CustomValidationException), HandleValidationException},
             {typeof(CustomNotFoundException), HandleNotFoundException},
             {typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException},
-            {typeof(CustomForbiddenAccessException), HandleForbiddenAccessException}
+            {typeof(CustomForbiddenAccessException), HandleForbiddenAccessException},
+            {typeof(CustomConflictException), HandleConflictException}
         };
     }
 
@@ -127,6 +127,26 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.Result = new ObjectResult(details)
         {
             StatusCode = StatusCodes.Status403Forbidden
+        };
+
+        context.ExceptionHandled = true;
+    }
+
+    private void HandleConflictException(ExceptionContext context)
+    {
+        var exception = context.Exception as CustomConflictException;
+
+        var details = new ProblemDetails
+        {
+            Status = StatusCodes.Status409Conflict,
+            Title = "Conflict",
+            Detail = exception?.Message ?? string.Empty,
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.8"
+        };
+
+        context.Result = new ObjectResult(details)
+        {
+            StatusCode = StatusCodes.Status409Conflict
         };
 
         context.ExceptionHandled = true;

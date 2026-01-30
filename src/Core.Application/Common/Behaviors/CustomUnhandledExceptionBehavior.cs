@@ -15,10 +15,7 @@ public class CustomUnhandledExceptionBehavior<TRequest, TResponse>(ILogger<TRequ
         catch (Exception ex)
         {
             var requestName = typeof(TRequest).Name;
-
-            await Task.Run(()
-                => logger.LogError(ex, "Request: Unhandled Exception for Request {Name}", requestName), cancellationToken);
-
+            await Task.Run(() => logger.LogUnhandledException(ex, requestName), cancellationToken);
             throw;
         }
     }
@@ -37,10 +34,7 @@ public class CustomUnhandledExceptionBehavior<TRequest>(ILogger<TRequest> logger
         catch (Exception ex)
         {
             var requestName = typeof(TRequest).Name;
-
-            await Task.Run(()
-                => logger.LogError(ex, "Request: Unhandled Exception for Request {Name}", requestName), cancellationToken);
-
+            await Task.Run(() => logger.LogUnhandledException(ex, requestName), cancellationToken);
             throw;
         }
     }

@@ -54,10 +54,7 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
             for (int i = 0; i < 2; i++)
             {
                 var textPrompt = TextPromptEntity.Create(Guid.NewGuid(), Guid.Empty, "Tell me a bedtime story");
-                textPrompt.TextResponses =
-                    [
-                        TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time...")
-                    ];
+                context.TextResponses.Add(TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time..."));
                 context.TextPrompts.Add(textPrompt);
             }
             ;
@@ -115,13 +112,13 @@ public class GetTextPromptsQueryStepDefinitions : TestBase
     public void ThenEachTextPromptHasADateGreaterThanStartDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_startDate == default || x.Timestamp > _startDate)).ShouldNotBeNull();
+            _response?.FirstOrDefault(x => _startDate == default || x.Timestamp > _startDate).ShouldNotBeNull();
     }
 
     [Then(@"Each text prompt has a Date less than end date")]
     public void ThenEachTextPromptHasADateLessThanEndDate()
     {
         if (_withinDateRangeExists)
-            _response?.FirstOrDefault(x => (_endDate == default || x.Timestamp < _endDate)).ShouldNotBeNull();
+            _response?.FirstOrDefault(x => _endDate == default || x.Timestamp < _endDate).ShouldNotBeNull();
     }
 }

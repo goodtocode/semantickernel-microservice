@@ -1,6 +1,6 @@
 ﻿@createTextToAudioCommand
 Feature: Create Text To Audio Command
-As a author
+As a actor
 When I start a new text audio and enter an initial prompt
 Then I should see the text audio created with the initial response
 

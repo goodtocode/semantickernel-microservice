@@ -1,14 +1,14 @@
-using Goodtocode.Domain.Types.DomainEntity;
+using Goodtocode.Domain.Entities;
 
 namespace Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
 public class ChatMessageEntity : DomainEntity<ChatMessageEntity>, IDomainEntity<ChatMessageEntity>
 {
     protected ChatMessageEntity() { }
-    public Guid ChatSessionId { get; set; }
-    public ChatMessageRole Role { get; set; }
-    public string Content { get; set; } = string.Empty;
-    public virtual ChatSessionEntity? ChatSession { get; set; }
+    public Guid ChatSessionId { get; private set; }
+    public ChatMessageRole Role { get; private set; }
+    public string Content { get; private set; } = string.Empty;
+    public virtual ChatSessionEntity? ChatSession { get; private set; }
     public static ChatMessageEntity Create(Guid id, Guid chatSessionId, ChatMessageRole role, string content)
     {
         return new ChatMessageEntity

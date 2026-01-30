@@ -1,0 +1,31 @@
+﻿@using Cannery.Aspects.Components.Auth.Routing
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.FluentUI.AspNetCore.Components
+
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+
+<AuthorizeView>
+    <Authorized>        
+        <FluentNavLink Href="" OnClick="@SignOut" Icon="@(new Icons.Regular.Size24.SignOut())">
+            Sign Out
+        </FluentNavLink>
+    </Authorized>
+    <NotAuthorized>
+        <FluentNavLink Href="" OnClick="@SignIn" Icon="@(new Icons.Regular.Size24.SignOut())">
+            Sign In
+        </FluentNavLink>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private void SignIn()
+    {
+        Navigation.NavigateTo(RouteConstants.SignIn, forceLoad: true);
+    }
+
+    private void SignOut()
+    {
+        Navigation.NavigateTo(RouteConstants.SignOut, forceLoad: true);
+    }
+}

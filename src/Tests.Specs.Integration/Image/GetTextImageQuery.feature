@@ -1,6 +1,6 @@
 ﻿@getTextImageQuery
 Feature: Get Text Image Query
-As a author
+As a actor
 When I select an existing text image
 I can see the text image responses
 

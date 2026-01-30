@@ -1,4 +1,4 @@
-﻿using Goodtocode.Domain.Types.DomainEntity;
+﻿using Goodtocode.Domain.Entities;
 
 namespace Goodtocode.SemanticKernel.Core.Domain.TextGeneration;
 
@@ -6,9 +6,9 @@ public class TextResponseEntity : DomainEntity<TextResponseEntity>
 {
     protected TextResponseEntity() { }
 
-    public Guid TextPromptId { get; set; } = Guid.Empty;
-    public string Response { get; set; } = string.Empty;
-    public virtual TextPromptEntity? TextPrompt { get; set; }
+    public Guid TextPromptId { get; private set; } = Guid.Empty;
+    public string Response { get; private set; } = string.Empty;
+    public virtual TextPromptEntity? TextPrompt { get; private set; }
 
     public static TextResponseEntity Create(Guid id, Guid textPromptId, string response)
     {

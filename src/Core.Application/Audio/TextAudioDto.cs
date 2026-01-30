@@ -1,12 +1,11 @@
-﻿using Goodtocode.SemanticKernel.Core.Application.Common.Mappings;
-using Goodtocode.SemanticKernel.Core.Domain.Audio;
+﻿using Goodtocode.SemanticKernel.Core.Domain.Audio;
 
 namespace Goodtocode.SemanticKernel.Core.Application.Audio;
 
 public class TextAudioDto
 {
     public Guid Id { get; set; } = Guid.Empty;
-    public Guid AuthorId { get; set; } = Guid.Empty;
+    public Guid ActorId { get; set; } = Guid.Empty;
     public string Description { get; set; } = string.Empty;
     public ReadOnlyMemory<byte>? AudioBytes { get; set; }
     public Uri? AudioUrl { get; set; }
@@ -18,7 +17,7 @@ public class TextAudioDto
         return new TextAudioDto
         {
             Id = entity.Id,
-            AuthorId = entity.AuthorId,
+            ActorId = entity.ActorId,
             Description = entity.Description,
             AudioBytes = entity.AudioBytes,
             AudioUrl = entity.AudioUrl,

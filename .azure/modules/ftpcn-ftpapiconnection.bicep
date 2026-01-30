@@ -1,25 +1,45 @@
+
+@description('The name of the FTP API Connection. Must be 1-80 characters, using only alphanumeric characters and hyphens. Default is azureblob.')
+@minLength(1)
+@maxLength(80)
 param name string = 'azureblob'
+
+@description('The address of the FTP server.')
+@minLength(1)
+@maxLength(255)
 param ftpServerAddress string
-param ftpServerPort string
+
+@description('The port of the FTP server. Default is 21.')
+@minLength(1)
+@maxLength(5)
+param ftpServerPort string = '21'
+
+@description('The username for the FTP server.')
+@minLength(1)
+@maxLength(128)
 param ftpUsername string
+
+@description('The password for the FTP server.')
+@minLength(1)
+@maxLength(128)
+@secure()
 param ftpPassword string
 
-var locationShortName = toLower(replace(resourceGroup().location, ' ', ''))
-var nameLower_var = toLower(replace(replace(name, '-', ''), ' ', ''))
-var ftpIsSsl = 'true'
-var ftpIsBinaryTransport = 'true'
-var acceptAnySshHostKey = 'true'
+@description('Tags to apply to the FTP API Connection resource.')
+param tags object = {}
 
-resource nameLower 'Microsoft.Web/connections@2016-06-01' = {
-  name: nameLower_var
+var locationShortName = toLower(replace(resourceGroup().location, ' ', ''))
+var nameLower = toLower(replace(replace(name, '-', ''), ' ', ''))
+
+resource connection 'Microsoft.Web/connections@2016-06-01' = {
+  name: nameLower
   location: locationShortName
-  kind: 'V1'
-  scale: null
+  tags: tags
   properties: {
     displayName: name
     customParameterValues: {}
     api: {
-      name: '${nameLower_var}sftpwithssh'
+      name: '${nameLower}sftpwithssh'
       displayName: 'SFTP - SSH'
       description: 'SFTP (SSH File Transfer Protocol) is a network protocol that provides file access, file transfer, and file management over any reliable data stream. It was designed by the Internet Engineering Task Force (IETF) as an extension of the Secure Shell protocol (SSH) version 2.0 to provide secure file transfer capabilities.'
       iconUri: 'https://connectoricons-prod.azureedge.net/releases/v1.0.1518/1.0.1518.2564/sftpwithssh/icon.png'
@@ -32,8 +52,6 @@ resource nameLower 'Microsoft.Web/connections@2016-06-01' = {
       userName: ftpUsername
       password: ftpPassword
       serverPort: ftpServerPort
-      isssl: false
-      disableCertificateValidation: true
     }
   }
   dependsOn: []

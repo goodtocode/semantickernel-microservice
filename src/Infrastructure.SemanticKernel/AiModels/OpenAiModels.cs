@@ -4,10 +4,8 @@ public struct OpenAiModels
 {
     public struct ChatCompletion
     {
-        public const string ChatGpt4 = "gpt-4.1";
-        public const string ChatGpt4o = "gpt-4o";
-        public const string ChatGpt4oMini = "gpt-4.1-mini";
-        public const string ChatGpt4oNano = "gpt-4.1-nano";
+        public const string ChatGpt4 = "gpt-4";
+        public const string ChatGpt4Turbo = "gpt-4-turbo";
         public const string ChatGpt35Turbo = "gpt-3.5-turbo";
     }
     public struct TextGeneration
@@ -31,7 +29,6 @@ public struct OpenAiModels
     public struct Audio
     {
         public const string TextToSpeech1 = "tts-1";
-        public const string TextToSpeech1HD = "tts-1-hd";
         public const string Whisper1 = "whisper-1";
         public const string Whisper2 = "whisper-2";
     }

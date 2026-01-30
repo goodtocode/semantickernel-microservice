@@ -21,7 +21,7 @@ public class PatchChatSessionCommandHandler(ISemanticKernelContext context) : IR
         GuardAgainstNotFound(chatSession);
         GuardAgainstEmptyTitle(request.Title);
 
-        chatSession!.Title = request.Title;
+        chatSession!.Update(request.Title);
 
         _context.ChatSessions.Update(chatSession);
         await _context.SaveChangesAsync(cancellationToken);

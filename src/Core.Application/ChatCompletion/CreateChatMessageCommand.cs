@@ -1,16 +1,18 @@
 ﻿using Goodtocode.SemanticKernel.Core.Application.Abstractions;
 using Goodtocode.SemanticKernel.Core.Application.Common.Exceptions;
+using Goodtocode.SemanticKernel.Core.Domain.Auth;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
 
-public class CreateChatMessageCommand : IRequest<ChatMessageDto>
+public class CreateChatMessageCommand : IRequest<ChatMessageDto>, IUserInfoRequest
 {
     public Guid Id { get; set; }
     public Guid ChatSessionId { get; set; }
     public string? Message { get; set; }
+    public IUserEntity? UserInfo { get; set; }
 }
 
 public class CreateChatMessageCommandHandler(Kernel kernel, ISemanticKernelContext context) : IRequestHandler<CreateChatMessageCommand, ChatMessageDto>
@@ -22,7 +24,9 @@ public class CreateChatMessageCommandHandler(Kernel kernel, ISemanticKernelConte
     {
         GuardAgainstSessionNotFound(_context.ChatSessions, request!.ChatSessionId);
         GuardAgainstEmptyMessage(request?.Message);
-        GuardAgainstIdExsits(_context.ChatMessages, request!.Id);
+        GuardAgainstIdExists(_context.ChatMessages, request!.Id);
+        GuardAgainstEmptyUser(request?.UserInfo);
+        GuardAgainstUnauthorizedUser(_context.ChatSessions, request!.UserInfo!);
 
         var chatSession = _context.ChatSessions.Find(request.ChatSessionId);
         
@@ -73,12 +77,28 @@ public class CreateChatMessageCommandHandler(Kernel kernel, ISemanticKernelConte
             ]);
     }
 
-    private static void GuardAgainstIdExsits(DbSet<ChatMessageEntity> dbSet, Guid id)
+    private static void GuardAgainstIdExists(DbSet<ChatMessageEntity> dbSet, Guid id)
     {
         if (dbSet.Any(x => x.Id == id))
+            throw new CustomConflictException("Id already exists");
+    }
+
+    private static void GuardAgainstEmptyUser(IUserEntity? userInfo)
+    {
+        if (userInfo == null || userInfo.OwnerId == Guid.Empty || userInfo.TenantId == Guid.Empty)
             throw new CustomValidationException(
             [
-                new("Id", "Id already exists")
+                new("UserInfo", "User information is required to create a chat message")
+            ]);
+    }
+
+    private static void GuardAgainstUnauthorizedUser(DbSet<ChatSessionEntity> dbSet, IUserEntity userInfo)
+    {
+        bool isAuthorized = dbSet.Any(x => x.Actor != null && x.Actor.OwnerId == userInfo.OwnerId);
+        if (!isAuthorized)
+            throw new CustomValidationException(
+            [
+                new("UserInfo", "User is not authorized to create a chat message in this session")
             ]);
     }
 }

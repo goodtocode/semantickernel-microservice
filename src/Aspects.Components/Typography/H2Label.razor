@@ -1,0 +1,17 @@
+﻿<FluentLabel Typo="Typography.H2" Class="@Class" Style="@Style">
+    @ChildContent
+</FluentLabel>
+
+<style>
+    .h2-label {
+        line-height: 1.20;
+        margin-top: 0.15em !important;
+        margin-bottom: 0.25em !important;
+    }
+</style>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; } = "h2-label";
+    [Parameter] public string? Style { get; set; } = string.Empty;
+}

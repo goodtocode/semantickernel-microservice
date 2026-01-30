@@ -20,10 +20,6 @@ public class TextImagesConfig : IEntityTypeConfiguration<TextImageEntity>
         builder.Property(x => x.Id)
             .ValueGeneratedOnAdd();
         builder.Ignore(x => x.PartitionKey);
-        builder
-            .HasOne(a => a.Author)
-            .WithMany(a => a.TextImages)
-            .HasForeignKey(a => a.AuthorId);
         builder.Property(x => x.ImageBytes)
             .HasColumnType(ColumnTypes.VarbinaryMax)
             .HasConversion(

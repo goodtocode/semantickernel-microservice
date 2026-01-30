@@ -39,10 +39,7 @@ namespace Goodtocode.SemanticKernel.Specs.Integration.TextGeneration
             if (_exists)
             {
                 var textPrompt = TextPromptEntity.Create(_id, Guid.Empty, "Tell me a bedtime story");
-                textPrompt.TextResponses =
-                    [
-                        TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time...")
-                    ];
+                context.TextResponses.Add(TextResponseEntity.Create(Guid.Empty, textPrompt.Id, "Once upon a time..."));
                 context.TextPrompts.Add(textPrompt);
                 await context.SaveChangesAsync(CancellationToken.None);
             }

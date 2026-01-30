@@ -1,0 +1,12 @@
+﻿@using Cannery.Aspects.Components.Auth.Routing
+
+@inject NavigationManager Navigation
+
+<FluentLabel Typo="Typography.H3">Signing out...</FluentLabel>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Navigation.NavigateTo(RouteConstants.SignOut, forceLoad: true);
+    }
+}

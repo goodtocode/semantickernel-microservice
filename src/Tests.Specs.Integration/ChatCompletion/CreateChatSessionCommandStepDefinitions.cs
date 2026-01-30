@@ -1,4 +1,5 @@
 using Goodtocode.SemanticKernel.Core.Application.ChatCompletion;
+using Goodtocode.SemanticKernel.Core.Domain.Actor;
 using Goodtocode.SemanticKernel.Core.Domain.ChatCompletion;
 
 namespace Goodtocode.SemanticKernel.Specs.Integration.ChatCompletion;
@@ -40,19 +41,21 @@ public class CreateChatSessionCommandStepDefinitions : TestBase
     public async Task WhenICreateAChatSessionWithTheMessage()
     {
         // Setup the database if want to test existing records
+        var actor = ActorEntity.Create(_authorId, _authorId, Guid.NewGuid(), "Test", "Actor", "actor@goodtocode.com");
+        context.Actors.Add(actor);        
         if (_exists)
         {
             var chatSession = ChatSessionEntity.Create(_id, _authorId, "Test Session", ChatMessageRole.assistant, _message, "First Response");
-            context.ChatSessions.Add(chatSession);
-            await context.SaveChangesAsync(CancellationToken.None);
+            context.ChatSessions.Add(chatSession);            
         }
+        await context.SaveChangesAsync(CancellationToken.None);
 
         // Test command
         var request = new CreateChatSessionCommand()
         {
             Id = _id,
             Title = def,
-            AuthorId = _authorId,
+            ActorId = _authorId,
             Message = _message
         };
 

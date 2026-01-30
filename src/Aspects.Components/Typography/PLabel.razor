@@ -1,0 +1,18 @@
+﻿<FluentLabel Typo="Typography.Body" Class="@Class" Style="@Style">
+    @ChildContent
+</FluentLabel>
+
+<style>
+    .p-label {
+        font-weight: normal;
+        line-height: 1.1;
+        margin-top: 0.05em !important;
+        margin-bottom: 0.1em !important;
+    }
+</style>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; } = "p-label";
+    [Parameter] public string? Style { get; set; } = string.Empty;
+}
