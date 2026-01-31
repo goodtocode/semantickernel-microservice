@@ -1,3 +1,19 @@
+# ============================================================================
+# Script Name:   Set-ApiAppUserSecrets.ps1
+# Description:   Reads an existing API App Registration and sets .NET user-secrets.
+# -----------------------------------------------------------------------------
+# Example CLI Usage:
+#   pwsh -File ./Set-ApiAppUserSecrets.ps1 `
+#       -TenantId "<your-tenant-id>" `
+#       -ApiAppRegistrationName "myproduct-api-dev-001" `
+#       -ApiProjectPath "../../src/Presentation.WebApi"
+# -----------------------------------------------------------------------------
+# Notes:
+#   - Requires Azure PowerShell modules (Az.Accounts, Microsoft.Graph.Applications)
+#   - Ensure you are authenticated: Connect-AzAccount
+#   - This script does NOT create or modify app registrations.
+# ============================================================================
+
 param(
     [string]$TenantId,
     [string]$ApiAppRegistrationName,

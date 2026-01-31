@@ -1,3 +1,19 @@
+# ============================================================================
+# Script Name:   Set-WebAppUserSecrets.ps1
+# Description:   Reads an existing Web App Registration and sets .NET user-secrets.
+# -----------------------------------------------------------------------------
+# Example CLI Usage:
+#   pwsh -File ./Set-WebAppUserSecrets.ps1 `
+#       -TenantId "<your-tenant-id>" `
+#       -WebAppRegistrationName "myproduct-web-dev-001" `
+#       -WebProjectPath "../../src/Presentation.Blazor"
+# -----------------------------------------------------------------------------
+# Notes:
+#   - Requires Azure PowerShell modules (Az.Accounts, Microsoft.Graph.Applications)
+#   - Ensure you are authenticated: Connect-AzAccount
+#   - This script does NOT create or modify app registrations.
+# ============================================================================
+
 param(
     [string]$TenantId,
     [string]$WebAppRegistrationName,
