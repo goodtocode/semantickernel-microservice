@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Web;
 
-namespace Goodtocode.Aspects.Components.Auth.Middleware;
+namespace Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth.Middleware;
 
 public class DownstreamApiAccessTokenProvider(IHttpContextAccessor httpContextAccessor, ITokenAcquisition tokenAcquisition, IConfiguration configuration) : IAccessTokenProvider
 {

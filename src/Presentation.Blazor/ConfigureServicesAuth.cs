@@ -1,5 +1,5 @@
-﻿using Goodtocode.Aspects.Components.Auth.Middleware;
-using Goodtocode.Aspects.Components.Auth.Services;
+﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth.Middleware;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth.Services;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Options;
 using Goodtocode.SecuredHttpClient.Middleware;
 using Goodtocode.SecuredHttpClient.Options;
