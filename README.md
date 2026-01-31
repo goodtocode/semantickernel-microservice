@@ -45,6 +45,20 @@ To get started, follow the steps below:
 	```
 	dotnet tool install --global dotnet-ef
 	```
+3. **Configure Entra External ID (EEID) Authentication**
+
+	 This project now uses Entra External ID (EEID) authentication. You must create two Entra app registrations (Web and API) and configure all required EEID settings. Use the provided script to automate this process:
+
+	 ```powershell
+	 ./.azure/scripts/entra/New-EntraAppRegistrations.ps1 -EntraInstanceUrl https://<YOUR-ENTRA_EXTERNAL_ID-TENANT-NAME>.ciamlogin.com -TenantId <YOUR-ENTRA_EXTERNAL_ID-TENANT-ID> -WebAppRegistrationName semker-web-dev-001 -ApiAppRegistrationName semker-api-dev-001 -WebProjectPath "./src/Presentation.Blazor" -ApiProjectPath "./src/Presentation.WebApi"
+	 ```
+
+	 - The script will set all required EEID configuration values via `dotnet user-secrets set` in the respective project folders.
+	 - You will be prompted to open the Azure Portal and grant admin consent for permissions twice (once for the API app and once for the Web app).
+	 - After completion, the script will output a summary table with all relevant IDs (TenantId, Instance, AppIds, ObjectIds, Redirect URIs, etc.) for your reference.
+
+	 See the **Authentication** section below for more details.
+
 3. Add your Open AI or Azure Open AI key to configuration (via *dotnet user-secrets set* command)
 	```
 	cd src/Presentation.WebApi
@@ -95,6 +109,29 @@ dotnet tool install --global dotnet-ef
 Visual Studio installs SQL Express. If you want full-featured SQL Server, install the SQL Server Developer Edition or above.
 
 [SQL Server Developer Edition or above](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+
+# Authentication (Entra External ID)
+
+This project uses Entra External ID (EEID) for authentication. You must:
+
+1. Run the provided script to create and configure the required Entra app registrations for both the Web and API projects (see Quick-Start Step 3 above).
+2. The script will automatically set all necessary EEID configuration values in each project's user-secrets store.
+3. If you need to manually review or update these values, check the user-secrets for each project:
+	 - `src/Presentation.Blazor` (Web)
+	 - `src/Presentation.WebApi` (API)
+
+**EEID configuration values include:**
+	- Entra Instance URL
+	- Tenant ID
+	- Client IDs for Web and API
+	- Client secrets (if applicable)
+	- Redirect URIs
+	- API scopes
+
+**Note:**
+- You must use the correct Entra instance and tenant for your environment.
+- The app registration names and GUIDs in the script are examples—replace them with your own values.
+- For more details on Entra External ID, see [Microsoft Entra External ID documentation](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/).
 
 # Configure API Key and Connection String
 Follow these steps to get your development environment set up:
@@ -174,6 +211,7 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YOUR_SQL_CONNECTI
 	```
 	dotnet ef migrations add v1.1.1 --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
 	```
+
 # Running the Application
 ## Launch the backend
 Right-click Presentation.WebApi and select Set as Default Project
