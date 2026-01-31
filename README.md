@@ -1,11 +1,11 @@
-# Semantic Kernel C# Microservice Quick-Start
-**Azure Bicep Infrastucture**
+# Semantic Kernel C# Quick-Start
+**Azure Bicep Infrastucture as Standalone Landing Zone**
 
-[![.github/workflows/gtc-rg-semkernel-iac.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-iac.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-iac.yml)
+[![Landing Zone IaC](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-semker-standalone-iac.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-semker-standalone-iac.yml)
 
-**Clean Architecture C# Microservice**
+**Clean Architecture C# Blazor Microapp and Web API Microservice**
 
-[![.github/workflows/gtc-rg-semkernel-api-ci-cd.yml](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api-ci-cd.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-rg-semkernel-api-ci-cd.yml)
+[![Web & API & SQL CI/CD](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-semker-standalone-web-api-sql.yml/badge.svg)](https://github.com/goodtocode/semantickernel-microservice/actions/workflows/gtc-semker-standalone-web-api-sql.yml)
 
 Semantic Kernel Quick-start is a .NET Web API CRUD Microservice solution with Blazor Copilot-ish Chat client that demonstrates the most basic use cases of the Microsoft Semantic Kernel in a Clean Architecture C# Microservice. This microservice allows you to persist the following Azure Open AI services to SQL Server, so you can replay messages and maintain history of your interaction with AI. 
 
@@ -40,12 +40,55 @@ To get started, follow the steps below:
 	```
 2. Install Prerequisites
 	```
-	winget install Microsoft.DotNet.SDK.9 --silent
+	winget install Microsoft.DotNet.SDK.10 --silent
 	```
 	```
 	dotnet tool install --global dotnet-ef
 	```
-3. Add your Open AI or Azure Open AI key to configuration (via *dotnet user-secrets set* command)
+3. **Configure Entra External ID (EEID) Authentication**
+
+	**IMPORTANT:** This product depends on Entra External ID. This means you must have an EEID tenant or create one at https://portal.azure.com. An empty tenant will work. Please remember to create a break-glass user as a backup in cse you get locked out. 
+	
+	Configure EEID authentication using one of the following methods:
+	1. If you do not have app registrations, run `New-EntraAppRegistrations.ps1` to create both Web and API app registrations and set all user-secrets (admin consent required).
+	```
+	pwsh -File ./.azure/scripts/entra/New-EntraAppRegistrations.ps1 -EntraInstanceUrl "https://your-tenant-name.ciamlogin.com" -TenantId "<your-tenant-id>" -WebAppRegistrationName "myproduct-web-dev-001" -ApiAppRegistrationName "myproduct-api-dev-001" -WebProjectPath "../../src/Presentation.Blazor" -ApiProjectPath "../../src/Presentation.WebApi"
+	```
+
+	2. **OR** Run `Set-WebAppUserSecrets.ps1` and `Set-ApiAppUserSecrets.ps1` to set user-secrets from your account.
+	```
+	pwsh -File ./.azure/scripts/entra/Set-ApiAppUserSecrets.ps1 -TenantId "<your-tenant-id>" -ApiAppRegistrationName "myproduct-api-dev-001" -ApiProjectPath "../../src/Presentation.WebApi"
+	```
+	```
+	pwsh -File ./.azure/scripts/entra/Set-WebAppUserSecrets.ps1 -TenantId "<your-tenant-id>" -WebAppRegistrationName "myproduct-web-dev-001" -WebProjectPath "../../src/Presentation.Blazor"
+	```
+
+	3. **OR** Manually set the required values using `dotnet user-secrets set` (or appsettings.local.json, not recommended for secrets).
+	```
+	cd src/Presentation.WebApi
+	dotnet user-secrets init
+	dotnet user-secrets set "EntraExternalId:Instance" "https://your-tenant-name.ciamlogin.com"
+	dotnet user-secrets set "EntraExternalId:TenantId" "<your-tenant-id>"
+	dotnet user-secrets set "EntraExternalId:ClientId" "<api-app-client-id>"
+	dotnet user-secrets set "EntraExternalId:ValidateAuthority" "true"
+	```
+
+	```
+	cd src/Presentation.WebApi
+	dotnet user-secrets init
+	dotnet user-secrets set "BackEndApi:ClientId" "<api-app-client-id>"
+	dotnet user-secrets set "EntraExternalId:Instance" "https://your-tenant-name.ciamlogin.com"
+	dotnet user-secrets set "EntraExternalId:TenantId" "<your-tenant-id>"
+	dotnet user-secrets set "EntraExternalId:ClientId" "<web-app-client-id>"
+	dotnet user-secrets set "EntraExternalId:ValidateAuthority" "true"
+	dotnet user-secrets set "EntraExternalId:ClientSecret" "<web-app-client-secret>"
+
+	cd ../../
+	```
+
+	See the **Authentication** section below for details and examples.
+
+4. Add your Open AI or Azure Open AI key to configuration (via *dotnet user-secrets set* command)
 	```
 	cd src/Presentation.WebApi
 	dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
@@ -54,23 +97,23 @@ To get started, follow the steps below:
 	cd ../Tests.Specs.Integration
 	dotnet user-secrets set "OpenAI:ApiKey" "YOUR_API_KEY"
 	```
-4. Create your SQL Server database & schema (via *dotnet ef* command)
+5. Create your SQL Server database & schema (via *dotnet ef* command)
 	```
 	cd ../../
 	dotnet ef database update --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext --connection "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SemanticKernel;Min Pool Size=3;MultipleActiveResultSets=True;Trusted_Connection=Yes;TrustServerCertificate=True;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"
 	```
-5. Run Tests (Tests.Specs.Integration)
+6. Run Tests (Tests.Specs.Integration)
 	```
 	cd src/Tests.Specs.Integration
 	dotnet test
 	```
-6. Run Blazor Web Chat Client (Presentation.Blazor) and Web API (Presentation.WebApi)
+7. Run Blazor Web Chat Client (Presentation.Blazor) and Web API (Presentation.WebApi)
 	```
 	cd ../
 	dotnet run --project Presentation.WebApi/Presentation.WebApi.csproj
 	dotnet run --project Presentation.Blazor/Presentation.Blazor.csproj
 	```
-	# Note: By default, Presentation.WebApi runs on http://localhost:7777 and Presentation.Blazor runs on http://localhost:5000 unless configured otherwise.
+	**Note:** By default, Presentation.WebApi runs on https://localhost:6075 and Presentation.Blazor runs on https://localhost:7175 unless configured otherwise.
 
 # Install Prerequisites
 You will need the following tools:
@@ -82,7 +125,7 @@ winget install --id Microsoft.VisualStudio.2022.Community --override "--quiet --
 
 ## .NET SDK
 ```
-winget install Microsoft.DotNet.SDK.9 --silent
+winget install Microsoft.DotNet.SDK.10 --silent
 ```
 
 ## dotnet ef cli
@@ -95,6 +138,80 @@ dotnet tool install --global dotnet-ef
 Visual Studio installs SQL Express. If you want full-featured SQL Server, install the SQL Server Developer Edition or above.
 
 [SQL Server Developer Edition or above](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+
+
+
+# Authentication (Entra External ID)
+
+This project uses Entra External ID (EEID) for authentication. You only need to complete ONE of the following methods (they are alternatives, not cumulative). **The preferred approach is to use the script to create both app registrations, as this will configure all required claims, roles, and scopes custom to this quick-start.**
+
+**1. Create both app registrations and configure automatically (recommended for most users):**
+
+If you do not have app registrations, run the script below to create both Web and API app registrations and set all user-secrets (admin consent required):
+
+```
+pwsh -File ./.azure/scripts/entra/New-EntraAppRegistrations.ps1 -EntraInstanceUrl "https://your-tenant-name.ciamlogin.com" -TenantId "<your-tenant-id>" -WebAppRegistrationName "myproduct-web-dev-001" -ApiAppRegistrationName "myproduct-api-dev-001" -WebProjectPath "../../src/Presentation.Blazor" -ApiProjectPath "../../src/Presentation.WebApi"
+```
+
+You will be prompted to grant admin consent in the Azure Portal twice (once for each app registration: Web and API). Look for a console message like this for each app:
+
+```
+ACTION REQUIRED: Grant admin consent for Web app permissions in the Azure Portal:
+Open the following URL in your browser:
+https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/~/Permissions/appId/<API or WEB APPID>/isMSAApp~/false
+Then click 'Grant admin consent for ...' in the API permissions blade.
+```
+The script will output a summary table with all relevant IDs (TenantId, Instance, AppIds, ObjectIds, Redirect URIs, etc.) for your reference.
+
+**2. OR: Use existing app registrations and configure .NET secrets:**
+
+If you already have app registrations, run the following scripts to set user-secrets from your account:
+
+```
+pwsh -File ./.azure/scripts/entra/Set-ApiAppUserSecrets.ps1 -TenantId "<your-tenant-id>" -ApiAppRegistrationName "myproduct-api-dev-001" -ApiProjectPath "../../src/Presentation.WebApi"
+```
+```
+pwsh -File ./.azure/scripts/entra/Set-WebAppUserSecrets.ps1 -TenantId "<your-tenant-id>" -WebAppRegistrationName "myproduct-web-dev-001" -WebProjectPath "../../src/Presentation.Blazor"
+```
+
+**3. OR: Configure everything manually:**
+
+Set the required values using `dotnet user-secrets set` (or appsettings.local.json, not recommended for secrets):
+
+```
+cd src/Presentation.WebApi
+dotnet user-secrets init
+dotnet user-secrets set "EntraExternalId:Instance" "https://your-tenant-name.ciamlogin.com"
+dotnet user-secrets set "EntraExternalId:TenantId" "<your-tenant-id>"
+dotnet user-secrets set "EntraExternalId:ClientId" "<api-app-client-id>"
+dotnet user-secrets set "EntraExternalId:ValidateAuthority" "true"
+```
+
+```
+cd src/Presentation.WebApi
+dotnet user-secrets init
+dotnet user-secrets set "BackEndApi:ClientId" "<api-app-client-id>"
+dotnet user-secrets set "EntraExternalId:Instance" "https://your-tenant-name.ciamlogin.com"
+dotnet user-secrets set "EntraExternalId:TenantId" "<your-tenant-id>"
+dotnet user-secrets set "EntraExternalId:ClientId" "<web-app-client-id>"
+dotnet user-secrets set "EntraExternalId:ValidateAuthority" "true"
+dotnet user-secrets set "EntraExternalId:ClientSecret" "<web-app-client-secret>"
+
+cd ../../
+```
+
+**EEID configuration values include:**
+	- Entra Instance URL
+	- Tenant ID
+	- Client IDs for Web and API
+	- Client secrets (if applicable)
+	- Redirect URIs
+	- API scopes
+
+**Note:**
+- You must use the correct Entra instance and tenant for your environment.
+- The app registration names and GUIDs in the script are examples—replace them with your own values.
+- For more details on Entra External ID, see [Microsoft Entra External ID documentation](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/).
 
 # Configure API Key and Connection String
 Follow these steps to get your development environment set up:
@@ -174,6 +291,7 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "YOUR_SQL_CONNECTI
 	```
 	dotnet ef migrations add v1.1.1 --project .\src\Infrastructure.SqlServer\Infrastructure.SqlServer.csproj --startup-project .\src\Presentation.WebApi\Presentation.WebApi.csproj --context SemanticKernelContext
 	```
+
 # Running the Application
 ## Launch the backend
 Right-click Presentation.WebApi and select Set as Default Project

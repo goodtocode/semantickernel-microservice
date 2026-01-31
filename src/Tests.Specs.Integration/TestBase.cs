@@ -49,7 +49,7 @@ public abstract class TestBase : IDisposable
             .AddEnvironmentVariables()
             .Build();
 
-        // The SK Plugins currently rely on GetRequiredService<IDigitalInsightsContext>(), so we need to register it as a scoped service.
+        // The SK Plugins currently rely on GetRequiredService<ISemanticKernelContext>(), so we need to register it as a scoped service.
         // This is a workaround to allow the plugins to be registered in the DI container as Singleton which SK memory wants, despite an EF dependency which wants Scoped.
         var services = new ServiceCollection();
         services.AddDbContext<SemanticKernelContext>(options => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
