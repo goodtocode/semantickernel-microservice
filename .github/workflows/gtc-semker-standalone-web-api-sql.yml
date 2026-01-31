@@ -61,8 +61,8 @@ jobs:
       INFRA_DBCONTEXT: 'SemanticKernelContext'
       RUNTIME_ENV: "Development"
       CONFIGURATION: "Release"
-      VERSION_MAJOR: '1'
-      VERSION_MINOR: '1'
+      VERSION_MAJOR: '2'
+      VERSION_MINOR: '0'
 
     steps:
       - name: checkout
