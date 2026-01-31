@@ -1,4 +1,4 @@
-﻿namespace Cannery.Aspects.Components.Auth.Routing;
+﻿namespace Goodtocode.Aspects.Components.Auth.Routing;
 
 public partial struct RouteConstants
 {

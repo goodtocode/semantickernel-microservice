@@ -1,4 +1,4 @@
-﻿namespace Cannery.Aspects.Components.Auth;
+﻿namespace Goodtocode.Aspects.Components.Auth;
 
 /// <summary>
 /// Represents a user's information, including identifiers, personal details, and contact information.

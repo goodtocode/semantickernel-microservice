@@ -1,5 +1,5 @@
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using Cannery.Aspects.Components.Auth.Routing;
+using Goodtocode.Aspects.Components.Auth.Routing;
 using Goodtocode.SemanticKernel.Presentation.Blazor;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Components;
 using Microsoft.AspNetCore.HttpOverrides;

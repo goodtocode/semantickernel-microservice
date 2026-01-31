@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Cannery.Aspects.Components.Auth.Routing;
+namespace Goodtocode.Aspects.Components.Auth.Routing;
 
 public static class LoginLogoutEndpointRouteBuilderExtensions
 {

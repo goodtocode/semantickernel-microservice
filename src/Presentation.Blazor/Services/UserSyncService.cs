@@ -1,8 +1,8 @@
 ﻿using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 using System.Security.Authentication;
 using System.Security.Claims;
-using Cannery.Aspects.Components.Auth.Services;
-using Cannery.Aspects.Components.Auth;
+using Goodtocode.Aspects.Components.Auth.Services;
+using Goodtocode.Aspects.Components.Auth;
 
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Services;
 

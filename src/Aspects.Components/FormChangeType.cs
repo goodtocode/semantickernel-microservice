@@ -1,4 +1,4 @@
-﻿namespace Cannery.Aspects.Components;
+﻿namespace Goodtocode.Aspects.Components;
 
 public enum FormChangeType
 {
