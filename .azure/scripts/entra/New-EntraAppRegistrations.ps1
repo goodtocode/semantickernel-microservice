@@ -433,6 +433,7 @@ $webApp = $webReg
 
 # Step 6: Write Web EEID values to $WebProjectPath via dotnet user-secrets
 $webSecrets = @{
+	"BackEndApi:ClientId"          		= $apiApp.AppId
 	"EntraExternalId:Instance"          = $EntraInstanceUrl
 	"EntraExternalId:TenantId"          = $TenantId
 	"EntraExternalId:ClientId"          = $webApp.AppId
