@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 
-namespace Cannery.Aspects.Components.Auth.Middleware;
+namespace Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth.Middleware;
 
 public class MsGraphAccessTokenProvider(IHttpContextAccessor httpContextAccessor) : IAccessTokenProvider
 {

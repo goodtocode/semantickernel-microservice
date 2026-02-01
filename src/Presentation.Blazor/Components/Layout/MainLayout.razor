@@ -1,6 +1,6 @@
-﻿@using Cannery.Aspects.Components.Auth.Components
-@using Cannery.Aspects.Components.Auth.Routing
-@using Cannery.Aspects.Components.Auth.Services
+﻿@using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth.Components
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth.Routing
+@using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth.Services
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.Identity.Web
 
@@ -13,10 +13,10 @@
     <Header>
         <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Left" Wrap="false">
             <FluentNavLink Href="/">
-                <img src="img/goodtocode-logo.png" alt="Cloud in a Can" style="max-height:70px;" />
+                <img src="img/goodtocode-logo.png" alt="Cloud in a Can" style="max-height:70px; background:rgba(255,255,255,0.03);" />
             </FluentNavLink>
             <FluentNavLink Href="/">
-                Semantic Kernel
+                Semantic Kernel Quick-start
             </FluentNavLink>
         </FluentStack>
         <UserProfile />

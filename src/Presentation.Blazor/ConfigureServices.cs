@@ -1,5 +1,5 @@
-﻿using Cannery.Aspects.Components.Auth;
-using Cannery.Aspects.Components.Auth.Services;
+﻿using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth.Services;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Options;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Services;

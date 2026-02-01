@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Cannery.Aspects.Components.Auth;
+namespace Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth;
 
 /// <summary>
 /// User information implementation that retrieves data from the current HTTP context.

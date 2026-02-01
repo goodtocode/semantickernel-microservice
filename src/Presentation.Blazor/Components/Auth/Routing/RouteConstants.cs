@@ -1,4 +1,4 @@
-﻿namespace Cannery.Aspects.Components.Auth.Routing;
+﻿namespace Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth.Routing;
 
 public partial struct RouteConstants
 {

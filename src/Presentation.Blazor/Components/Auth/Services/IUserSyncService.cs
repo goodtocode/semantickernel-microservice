@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Cannery.Aspects.Components.Auth.Services;
+namespace Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth.Services;
 
 public interface IUserSyncService
 {

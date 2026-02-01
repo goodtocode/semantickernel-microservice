@@ -1,6 +1,6 @@
 ﻿using Goodtocode.SemanticKernel.Presentation.WebApi.Client;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Services;
-using Cannery.Aspects.Components.Auth;
+using Goodtocode.SemanticKernel.Presentation.Blazor.Components.Auth;
 using Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Models;
 
 namespace Goodtocode.SemanticKernel.Presentation.Blazor.Pages.Chat.Services;
