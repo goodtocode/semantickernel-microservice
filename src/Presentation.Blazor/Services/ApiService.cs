@@ -42,7 +42,11 @@ public abstract class ApiService
             {
                 foreach (var property in errorsElement.EnumerateObject())
                 {
-                    result[property.Name] = [.. property.Value.EnumerateArray().Select(e => e.GetString())];
+                    result[property.Name] = property.Value
+                        .EnumerateArray()
+                        .Select(e => e.GetString())
+                        .Where(s => s != null)
+                        .ToList()!;
                 }
             }
         }
